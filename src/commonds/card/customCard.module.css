@@ -1,0 +1,14 @@
+.cardBodyContainer{
+    display: flex;
+    width: 650px;
+    justify-content: space-between;
+    align-items: center;
+}
+#headerCompra{
+    background-color: #E1E3F5;
+    color: #3C3C3C;
+}
+#headerVenta{
+    background-color: #E1F5EC;
+    color: #3C3C3C;
+}

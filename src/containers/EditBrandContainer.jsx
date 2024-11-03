@@ -1,0 +1,36 @@
+import React, { useEffect } from "react";
+import EditBrandComponent from "../components/editBrandComponent/EditBrandComponent";
+import { useForm } from "react-hook-form";
+import { getSupplierRequest } from "../redux/supplier";
+import { useDispatch, useSelector } from "react-redux";
+import { updateBrandRequest } from "../redux/brand";
+
+function EditBrandContainer(props) {
+  const brand = props.brands[props.index];
+  const methods = useForm();
+  const dispatch = useDispatch();
+  const suppliers = useSelector((state) => state.supplier);
+  const loading = useSelector((state) => state.brand).loading;
+  const editBrand = (data) => {
+    data.brandId = brand.id;
+    dispatch(updateBrandRequest(data)).then(() => {
+      props.closeModal();
+    });
+  };
+
+  useEffect(() => {
+    dispatch(getSupplierRequest());
+  }, []);
+  return (
+    <EditBrandComponent
+      {...props}
+      brand={brand}
+      loading={loading}
+      methods={methods}
+      handleSubmit={editBrand}
+      suppliers={suppliers.data}
+    />
+  );
+}
+
+export default EditBrandContainer;
