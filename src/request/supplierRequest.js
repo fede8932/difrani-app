@@ -7,7 +7,9 @@ export const suplierRegister = async (datos) => {
     dataSup.altura = Number(dataSup.altura);
     dataSup.codigoPostal = Number(dataSup.codigoPostal);
     dataSup.codigoPostal = Number(dataSup.codigoPostal);
-    const { data } = await axios.post(`${apiUrl}/api/supplier`, dataSup);
+    const { data } = await axios.post(`${apiUrl}/api/supplier`, dataSup, {
+      withCredentials: true,
+    });
     const dataRep = {
       supplierId: data,
       name: name,
