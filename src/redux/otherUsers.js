@@ -1,18 +1,18 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import * as otherRequest from "../request/otherUsersRequest";
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import * as otherRequest from '../request/otherUsersRequest';
 const sellerState = {
   loading: false,
   data: [],
-  error: "",
+  error: '',
 };
 
 export const createOtherUsersRequest = createAsyncThunk(
-  "CREATE_OTHER_USER",
+  'CREATE_OTHER_USER',
   otherRequest.createUser
 );
 
 const otherSlice = createSlice({
-  name: "otherUsers",
+  name: 'otherUsers',
   initialState: sellerState,
   extraReducers: {
     [createOtherUsersRequest.pending]: (state, action) => {

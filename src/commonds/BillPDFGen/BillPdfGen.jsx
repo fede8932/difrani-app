@@ -1,5 +1,5 @@
-import React from "react";
-import styles from "./billPdfGen.module.css";
+import React from 'react';
+import styles from './billPdfGen.module.css';
 
 const BillPdfGen = ({
   numeroComprobante,

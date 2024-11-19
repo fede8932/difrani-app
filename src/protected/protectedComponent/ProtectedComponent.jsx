@@ -1,5 +1,5 @@
-import react from "react";
-import { useSelector } from "react-redux";
+import react from 'react';
+import { useSelector } from 'react-redux';
 
 function ProtectedComponent(props) {
   const { listAccesss, children } = props; // array con los id de roles permitidos

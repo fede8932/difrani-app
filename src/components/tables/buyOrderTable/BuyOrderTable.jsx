@@ -1,28 +1,29 @@
-import { AgGridReact } from "ag-grid-react";
-import "ag-grid-community/styles/ag-grid.css";
-import "ag-grid-community/styles/ag-theme-quartz.css";
-import React, { useEffect, useMemo, useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { AgGridReact } from 'ag-grid-react';
+import 'ag-grid-community/styles/ag-grid.css';
+import 'ag-grid-community/styles/ag-theme-quartz.css';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   convertirFechaISOaDDMMYYYY,
+  numberToString,
   redondearADosDecimales,
-} from "../../../utils";
-import { Label, Pagination, Popup, Select } from "semantic-ui-react";
-import styles from "./comitionsTable.module.css";
+} from '../../../utils';
+import { Label, Pagination, Popup, Select } from 'semantic-ui-react';
+import styles from './comitionsTable.module.css';
 import {
   resetFilterBuyOrder,
   setFilterBuyOrder,
-} from "../../../redux/filtersBuyOrder";
+} from '../../../redux/filtersBuyOrder';
 import {
   resetOrderState,
   searchBuyOrderRequest,
-} from "../../../redux/searchOrders";
-import ProtectedComponent from "../../../protected/protectedComponent/ProtectedComponent";
-import ActionModalContainer from "../../../containers/ActionModalContainer";
-import { printBillRequest } from "../../../request/orderRequest";
-import { QRCode } from "antd";
-import { billHtml } from "../../../templates/bill";
-import filtersBuyOrder from "../../../redux/filtersBuyOrder";
+} from '../../../redux/searchOrders';
+import ProtectedComponent from '../../../protected/protectedComponent/ProtectedComponent';
+import ActionModalContainer from '../../../containers/ActionModalContainer';
+import { printBillRequest } from '../../../request/orderRequest';
+import { QRCode } from 'antd';
+import { billHtml } from '../../../templates/bill';
+import filtersBuyOrder from '../../../redux/filtersBuyOrder';
 
 const CustomActionComp = ({
   data,
@@ -41,10 +42,10 @@ const CustomActionComp = ({
     // console.log(order);
 
     // Abrir una nueva ventana
-    const nuevaVentana = window.open("", "", "width=900,height=1250");
+    const nuevaVentana = window.open('', '', 'width=900,height=1250');
 
     // Crear un contenedor en la ventana nueva
-    const container = nuevaVentana.document.createElement("div");
+    const container = nuevaVentana.document.createElement('div');
     nuevaVentana.document.body.appendChild(container);
 
     // Asignar la plantilla HTML al contenedor
@@ -53,7 +54,7 @@ const CustomActionComp = ({
       order,
       codigoQR
     );
-    nuevaVentana.addEventListener("afterprint", () => {
+    nuevaVentana.addEventListener('afterprint', () => {
       nuevaVentana.close(); // Cierra la ventana después de imprimir
     });
     // Imprimir la ventana
@@ -62,7 +63,7 @@ const CustomActionComp = ({
 
   return (
     <div className={styles.buttonContainer}>
-      <div style={{ marginTop: "2px" }}>
+      <div style={{ marginTop: '2px' }}>
         <ActionModalContainer
           size="xl"
           selectedId={data.id}
@@ -78,10 +79,10 @@ const CustomActionComp = ({
       <Popup
         trigger={
           <button
-            style={{ margin: "1px 0px 0px 7px" }}
+            style={{ margin: '1px 0px 0px 7px' }}
             className={styles.iconButton}
             disabled={
-              data.status == "Open" || data.status == "Confirm" ? false : true
+              data.status == 'Open' || data.status == 'Confirm' ? false : true
             }
             onClick={() => {
               setOrder(data.id, data.clientId);
@@ -90,7 +91,7 @@ const CustomActionComp = ({
           >
             <i
               className={`fa-regular fa-pen-to-square fa-lg ${
-                data.status == "Open" || data.status == "Confirm"
+                data.status == 'Open' || data.status == 'Confirm'
                   ? styles.blueIcon
                   : styles.greyIcon
               }`}
@@ -103,11 +104,11 @@ const CustomActionComp = ({
         <Popup
           trigger={
             <button
-              style={{ margin: "1px 0px 0px 7px" }}
+              style={{ margin: '1px 0px 0px 7px' }}
               className={styles.iconButton}
-              disabled={data.status == "Open" ? false : true}
+              disabled={data.status == 'Open' ? false : true}
               onClick={() => {
-                if (data.status == "Open") {
+                if (data.status == 'Open') {
                   deleteOrder(data.id);
                 } else {
                   cancelOrder(data.id);
@@ -117,7 +118,7 @@ const CustomActionComp = ({
             >
               <i
                 className={`fa-solid fa-xmark fa-xl ${
-                  data.status == "Open" ? styles.redIcon : styles.greyIcon
+                  data.status == 'Open' ? styles.redIcon : styles.greyIcon
                 }`}
               ></i>
             </button>
@@ -141,9 +142,9 @@ const HeaderInput = (props) => {
   };
   const onInputChange = (e) => {
     const value = e.target.value;
-    dispatch(setFilterBuyOrder({ name: "page", value: 1 }));
+    dispatch(setFilterBuyOrder({ name: 'page', value: 1 }));
     dispatch(setFilterBuyOrder({ name, value }));
-    if (value == "") {
+    if (value == '') {
       setInp(false);
     }
   };
@@ -162,10 +163,10 @@ const HeaderInput = (props) => {
 
   useEffect(() => {
     if (inp) {
-      document.addEventListener("mousedown", handleClickOutside);
+      document.addEventListener('mousedown', handleClickOutside);
     }
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [filtersBuyOrder, inp]);
 
@@ -188,126 +189,125 @@ function BuyOrderTable(props) {
 
   let columnInitialState = [
     {
-      headerName: "Fecha",
+      headerName: 'Fecha',
       valueGetter: (params) => convertirFechaISOaDDMMYYYY(params.data.date),
       flex: 1,
       filterParams: {
-        filterOptions: ["contains"], // Solo opción 'contains'
+        filterOptions: ['contains'], // Solo opción 'contains'
         suppressFilterButton: true, // Ocultar el botón del menú del filtro
       },
     },
     {
-      headerName: "Número",
-      field: "numero",
-      headerComponent: () => <HeaderInput title="Número" name={"number"} />,
+      headerName: 'Número',
+      field: 'numero',
+      headerComponent: () => <HeaderInput title="Número" name={'number'} />,
       valueGetter: (params) => params.data.numero,
       flex: 2,
       filterParams: {
-        filterOptions: ["contains"], // Solo opción 'contains'
+        filterOptions: ['contains'], // Solo opción 'contains'
         suppressFilterButton: true, // Ocultar el botón del menú del filtro
       },
     },
     {
-      headerName: "Proveedor",
-      headerComponent: () => <HeaderInput title="Proveedor" name={"client"} />,
+      headerName: 'Proveedor',
+      headerComponent: () => <HeaderInput title="Proveedor" name={'client'} />,
       valueGetter: (params) => params.data.supplier?.razonSocial,
       flex: 2,
       filterParams: {
-        filterOptions: ["contains"], // Solo opción 'contains'
+        filterOptions: ['contains'], // Solo opción 'contains'
         suppressFilterButton: true, // Ocultar el botón del menú del filtro
       },
     },
     {
-      headerName: "SubTotal",
-      valueGetter: (params) =>
-        `$ ${redondearADosDecimales(params.data.subTotal)}`,
+      headerName: 'SubTotal',
+      valueGetter: (params) => `$ ${numberToString(params.data.subTotal)}`,
       filter: false,
       flex: 1,
       sortable: false,
     },
     {
-      headerName: "Total (c/IVA)",
-      valueGetter: (params) => `$ ${redondearADosDecimales(params.data.total)}`,
+      headerName: 'Total (c/IVA)',
+      valueGetter: (params) => `$ ${numberToString(params.data.total)}`,
       filter: false,
       flex: 1,
     },
     {
-      headerName: "Estado",
+      headerName: 'Estado',
       cellRenderer: (params) => (
         <div className={styles.statusCell}>
-          {params.data.status == "Open" ? (
+          {params.data.status == 'Open' ? (
             <Label
               color="yellow"
               style={{
-                width: "75px",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
+                width: '75px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
               }}
             >
               Abierta
             </Label>
           ) : null}
-          {params.data.status == "Confirm" ? (
+          {params.data.status == 'Confirm' ? (
             <Label
               color="green"
               style={{
-                width: "75px",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
+                width: '75px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
               }}
             >
               Confirmada
             </Label>
           ) : null}
-          {params.data.status == "Ajusted" ? (
+          {params.data.status == 'Ajusted' ? (
             <Label
               color="teal"
               style={{
-                width: "75px",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
+                width: '75px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
               }}
             >
               Ajustada
             </Label>
           ) : null}
-          {params.data.status == "Cancel" ? (
+          {params.data.status == 'Cancel' ? (
             <Label
               color="red"
               style={{
-                width: "75px",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
+                width: '75px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
               }}
             >
               Cancelada
             </Label>
           ) : null}
-          {params.data.status == "Recived" ? (
+          {params.data.status == 'Recived' ? (
             <Label
               color="blue"
               style={{
-                width: "75px",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
+                width: '75px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
               }}
             >
               Recibido
             </Label>
           ) : null}
-          {params.data.status == "Sent" ? (
+          {params.data.status == 'Sent' ? (
             <Label
               color="teal"
               style={{
-                width: "75px",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
+                width: '75px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
               }}
             >
               Facturado
@@ -319,16 +319,16 @@ function BuyOrderTable(props) {
       flex: 1,
     },
     {
-      headerName: "Orden de control",
+      headerName: 'Orden de control',
       valueGetter: (params) => params.data.controlOrder?.id,
       flex: 2,
       filterParams: {
-        filterOptions: ["contains"], // Solo opción 'contains'
+        filterOptions: ['contains'], // Solo opción 'contains'
         suppressFilterButton: true, // Ocultar el botón del menú del filtro
       },
     },
     {
-      headerName: "Acciones",
+      headerName: 'Acciones',
       cellRenderer: (params) => (
         <CustomActionComp
           data={params.data}
@@ -359,10 +359,10 @@ function BuyOrderTable(props) {
   const filterBuyOrder = useSelector((state) => state.filterBuyOrder);
 
   const selectChange = (e, d) => {
-    dispatch(setFilterBuyOrder({ name: "pageSize", value: d.value }));
+    dispatch(setFilterBuyOrder({ name: 'pageSize', value: d.value }));
   };
   const changePage = (e, d) => {
-    dispatch(setFilterBuyOrder({ name: "page", value: d.activePage }));
+    dispatch(setFilterBuyOrder({ name: 'page', value: d.activePage }));
   };
 
   useEffect(() => {
@@ -380,8 +380,8 @@ function BuyOrderTable(props) {
 
   return (
     <div
-      className={"ag-theme-quartz"}
-      style={{ height: 600, marginTop: "-20px" }}
+      className={'ag-theme-quartz'}
+      style={{ height: 600, marginTop: '-20px' }}
     >
       <AgGridReact
         rowData={data.list}
@@ -391,7 +391,7 @@ function BuyOrderTable(props) {
       <div className={styles.paginationContainer}>
         <span>{`Se encontraron ${data.totalPages} páginas con ${data.totalRows} resultados.`}</span>
         <div className={styles.pagination}>
-          <div style={{ marginRight: "10px" }}>
+          <div style={{ marginRight: '10px' }}>
             <Select
               width="10px"
               defaultValue={filterBuyOrder.pageSize}

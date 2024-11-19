@@ -1,50 +1,50 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import * as productRequest from "../request/productRequest";
-import * as equivalencesRequest from "../request/equivalencesRequest";
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import * as productRequest from '../request/productRequest';
+import * as equivalencesRequest from '../request/equivalencesRequest';
 const userState = {
   loading: false,
   product: null,
   products: { list: [], totalRows: 0, totalPages: 0 },
   selects: [],
-  error: "",
+  error: '',
   equivalence: null,
   equivalencesProducts: [],
 };
 
 export const getProductListRequest = createAsyncThunk(
-  "LIST_EQ_PROD",
+  'LIST_EQ_PROD',
   productRequest.searchProducts
 );
 
 export const getProductRequest = createAsyncThunk(
-  "EQUIV_PRODUCTO",
+  'EQUIV_PRODUCTO',
   productRequest.getProductId
 );
 
 export const getEquivalenceByProductId = createAsyncThunk(
-  "LIST_EQUIV",
+  'LIST_EQUIV',
   equivalencesRequest.getEquivalennceByProductId
 );
 
 export const createEquivalenceRequest = createAsyncThunk(
-  "CREATE_EQUIV",
+  'CREATE_EQUIV',
   equivalencesRequest.createEquivalence
 );
 
 export const editDescriptionRequest = createAsyncThunk(
-  "EDIT_DESC_EQUIV",
+  'EDIT_DESC_EQUIV',
   equivalencesRequest.editDescriptionEquivalence
 );
 
 export const reemplaceEquivRequest = createAsyncThunk(
-  "EDIT_EQUIV",
+  'EDIT_EQUIV',
   equivalencesRequest.editEquivalence
 );
 
-export const toggleMarcRec = createAsyncThunk("TOGGLE_MARC_PROD", (id) => id);
+export const toggleMarcRec = createAsyncThunk('TOGGLE_MARC_PROD', (id) => id);
 
 const equivalencesSlice = createSlice({
-  name: "esquivalences",
+  name: 'esquivalences',
   initialState: userState,
   reducers: {
     resetEquivState(state, action) {
@@ -52,7 +52,7 @@ const equivalencesSlice = createSlice({
       state.product = null;
       state.products = { list: [], totalRows: 0, totalPages: 0 };
       state.selects = [];
-      state.error = "";
+      state.error = '';
       state.equivalence = null;
       state.equivalencesProducts = [];
     },
@@ -74,7 +74,7 @@ const equivalencesSlice = createSlice({
     },
     [createEquivalenceRequest.fulfilled]: (state, action) => {
       let equivalence = action.payload;
-      state.error = "";
+      state.error = '';
       const prodInEquiv = equivalence.products;
       equivalence.products = [];
       state.loading = false;
@@ -89,7 +89,7 @@ const equivalencesSlice = createSlice({
       state.error = action.error.message;
     },
     [getProductRequest.fulfilled]: (state, action) => {
-      state.error = "";
+      state.error = '';
       let selects = [];
       selects.push(action.payload);
       state.loading = false;
@@ -104,7 +104,7 @@ const equivalencesSlice = createSlice({
       state.error = action.error.message;
     },
     [getProductListRequest.fulfilled]: (state, action) => {
-      state.error = "";
+      state.error = '';
       let listData = action.payload;
       let selected = state.selects;
       const prod = state.product;
@@ -126,7 +126,7 @@ const equivalencesSlice = createSlice({
       state.products = listData;
     },
     [toggleMarcRec.fulfilled]: (state, action) => {
-      state.error = "";
+      state.error = '';
       const id = action.payload;
       if (id == state.product?.id) return;
       let selected = state.selects;
@@ -158,7 +158,7 @@ const equivalencesSlice = createSlice({
       state.error = action.error.message;
     },
     [getEquivalenceByProductId.fulfilled]: (state, action) => {
-      state.error = "";
+      state.error = '';
       let equivalence = action.payload;
       const prodInEquiv = equivalence.products;
       equivalence.products = [];
@@ -181,7 +181,7 @@ const equivalencesSlice = createSlice({
         return pe;
       });
       equivalence.products = [];
-      state.error = "";
+      state.error = '';
       state.equivalence = equivalence;
       state.equivalencesProducts = prodInEquiv;
       state.loading = false;

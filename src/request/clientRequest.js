@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios';
 const apiUrl = import.meta.env.VITE_API_URL;
 
 export const clientRegister = async (datos) => {
@@ -24,7 +24,7 @@ export const clientRegister = async (datos) => {
     return client.data;
   } catch (error) {
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     throw error;
   }
@@ -45,7 +45,7 @@ export const getClients = async (idReq) => {
     return arrayClients;
   } catch (error) {
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     throw error;
   }
@@ -59,7 +59,7 @@ export const getAllClients = async () => {
     return data;
   } catch (error) {
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     throw error;
   }
@@ -75,7 +75,7 @@ export const getClientsByData = async (dataSearch) => {
     return data;
   } catch (error) {
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     throw error;
   }
@@ -90,7 +90,7 @@ export const getClientByData = async (dataSearch) => {
     return data;
   } catch (error) {
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     throw error;
   }
@@ -107,7 +107,7 @@ export const updateClientById = async (dataUpdate) => {
     return data;
   } catch (error) {
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     throw error;
   }
@@ -121,7 +121,7 @@ export const getAllClientByData = async (text) => {
     return data;
   } catch (error) {
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     throw error;
   }
@@ -135,7 +135,7 @@ export const getClientById = async (id) => {
     return data;
   } catch (error) {
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     throw error;
   }
@@ -151,7 +151,7 @@ export const getPickingOrder = async (filterData) => {
     return data;
   } catch (error) {
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     throw error;
   }
@@ -167,7 +167,7 @@ export const searchPickingOrder = async (filterData) => {
     return data;
   } catch (error) {
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     throw error;
   }
@@ -181,7 +181,7 @@ export const selectPickingOrder = async (id) => {
     return data;
   } catch (error) {
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     throw error;
   }
@@ -198,7 +198,7 @@ export const updatePickingOrder = async (sendData) => {
     return { id: data };
   } catch (error) {
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     throw error;
   }
@@ -214,7 +214,7 @@ export const updatePrintPickingOrder = async (id) => {
     return { id: data };
   } catch (error) {
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     throw error;
   }

@@ -1,6 +1,6 @@
-import React from "react";
-import styles from "./dashbord.module.css";
-import DashboardContainer from "../../containers/DashboardContainer";
+import React from 'react';
+import styles from './dashbord.module.css';
+import DashboardContainer from '../../containers/DashboardContainer';
 
 function Dashbord() {
   return (

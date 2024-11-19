@@ -1,15 +1,15 @@
-import { useForm } from "react-hook-form";
-import EditProduct from "../components/editProduct/EditProduct";
-import { useDispatch, useSelector } from "react-redux";
+import { useForm } from 'react-hook-form';
+import EditProduct from '../components/editProduct/EditProduct';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   getProductIdRequest,
   resetSelectProduct,
-} from "../redux/selectProduct";
-import { useEffect, useState } from "react";
+} from '../redux/selectProduct';
+import { useEffect, useState } from 'react';
 import {
   searchProductsExtraRequest,
   updateProductRequest,
-} from "../redux/product";
+} from '../redux/product';
 
 function EditProductContainer(props) {
   const filterProducts = useSelector((state) => state.filterProduct);

@@ -1,9 +1,9 @@
-import React from "react";
-import styles from "./billModalView.module.css";
-import { useSelector } from "react-redux";
-import { getBillType } from "../../utils";
-import { MovTypeEnum } from "../../enum/MovEnum";
-import BillDetailTable from "../../commonds/billDetailTable/BillDetailTable";
+import React from 'react';
+import styles from './billModalView.module.css';
+import { useSelector } from 'react-redux';
+import { getBillType } from '../../utils';
+import { MovTypeEnum } from '../../enum/MovEnum';
+import BillDetailTable from '../../commonds/billDetailTable/BillDetailTable';
 
 function BillModalViewComponent(props) {
   const { data } = useSelector((state) => state.selectBill);
@@ -30,12 +30,12 @@ function BillModalViewComponent(props) {
       <div className={styles.tableContainer}>
         <BillDetailTable
           columns={[
-            { title: "Código", width: "10%" },
-            { title: "Descripción", width: "50%" },
-            { title: "Marca", width: "10%" },
-            { title: "Precio", width: "10%" },
-            { title: "Cantidad", width: "10%" },
-            { title: "Total", width: "10%" },
+            { title: 'Código', width: '10%' },
+            { title: 'Descripción', width: '50%' },
+            { title: 'Marca', width: '10%' },
+            { title: 'Precio', width: '10%' },
+            { title: 'Cantidad', width: '10%' },
+            { title: 'Total', width: '10%' },
           ]}
           color="teal"
           data={sendDate}

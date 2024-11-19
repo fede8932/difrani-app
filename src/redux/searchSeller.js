@@ -1,31 +1,31 @@
-import { createSlice, createAsyncThunk, current } from "@reduxjs/toolkit";
-import * as sellerRequest from "../request/sellerRequest";
-import * as userRequest from "../request/userRequest";
+import { createSlice, createAsyncThunk, current } from '@reduxjs/toolkit';
+import * as sellerRequest from '../request/sellerRequest';
+import * as userRequest from '../request/userRequest';
 
 const sellerState = {
   loading: false,
   data: { sellers: [] },
-  error: "",
+  error: '',
 };
 export const getSellersByTextRequest = createAsyncThunk(
-  "GET_SELLERS",
+  'GET_SELLERS',
   sellerRequest.getSellersByText
 );
 export const UpdateSellersRequest = createAsyncThunk(
-  "UPDATE_SELLER",
+  'UPDATE_SELLER',
   sellerRequest.updateSellerById
 );
 export const UpdateStatusSellerRequest = createAsyncThunk(
-  "UPDATE_STATUS_SELLER",
+  'UPDATE_STATUS_SELLER',
   userRequest.updateUserStatusRequest
 );
 export const ResetStatusSellerRequest = createAsyncThunk(
-  "RESET_STATUS_SELLER",
+  'RESET_STATUS_SELLER',
   () => sellerState
 );
 
 const sellersSlice = createSlice({
-  name: "sellerS",
+  name: 'sellerS',
   initialState: sellerState,
   extraReducers: {
     [getSellersByTextRequest.pending]: (state, action) => {

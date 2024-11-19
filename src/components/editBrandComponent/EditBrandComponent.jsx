@@ -1,10 +1,10 @@
-import React from "react";
-import styles from "./editBrand.module.css";
-import { FormProvider } from "react-hook-form";
-import CustomInput from "../../commonds/putInput/CustomInput";
-import CustomSelect from "../../commonds/select/CustomSelect";
-import { Button, Spinner } from "react-bootstrap";
-import { convertirPorcentajeANumero } from "../../utils";
+import React from 'react';
+import styles from './editBrand.module.css';
+import { FormProvider } from 'react-hook-form';
+import CustomInput from '../../commonds/putInput/CustomInput';
+import CustomSelect from '../../commonds/select/CustomSelect';
+import { Button, Spinner } from 'react-bootstrap';
+import { convertirPorcentajeANumero } from '../../utils';
 
 function EditBrandComponent(props) {
   const { brand, methods, handleSubmit, suppliers, loading } = props;
@@ -56,21 +56,21 @@ function EditBrandComponent(props) {
             name="seFactura"
             validate={{ required: true }}
             arrayOptions={[
-              { value: true, text: "Facturar" },
-              { value: false, text: "No facturar" },
+              { value: true, text: 'Facturar' },
+              { value: false, text: 'No facturar' },
             ]}
           />
           <Button
             onClick={methods.handleSubmit(handleSubmit)}
             style={{
-              width: "100%",
-              backgroundColor: "#673ab7",
-              border: "1px solid #673ab7",
-              height: "40px",
+              width: '100%',
+              backgroundColor: '#673ab7',
+              border: '1px solid #673ab7',
+              height: '40px',
             }}
           >
             {!loading ? (
-              "Actualizar"
+              'Actualizar'
             ) : (
               <Spinner animation="border" variant="light" size="sm" />
             )}

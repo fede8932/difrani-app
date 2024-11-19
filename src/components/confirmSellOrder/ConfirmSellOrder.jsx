@@ -1,10 +1,10 @@
-import React, { useState } from "react";
-import styles from "./confirmSellOrder.module.css";
-import { FormProvider } from "react-hook-form";
-import CustomSelect from "../../commonds/select/CustomSelect";
-import CustomInput from "../../commonds/input/CustomInput";
-import { Button } from "react-bootstrap";
-import { dateConverter } from "../../utils";
+import React, { useState } from 'react';
+import styles from './confirmSellOrder.module.css';
+import { FormProvider } from 'react-hook-form';
+import CustomSelect from '../../commonds/select/CustomSelect';
+import CustomInput from '../../commonds/input/CustomInput';
+import { Button } from 'react-bootstrap';
+import { dateConverter } from '../../utils';
 
 function ConfirmSellOrder(props) {
   const { methods, order, onSubmit } = props;
@@ -12,31 +12,31 @@ function ConfirmSellOrder(props) {
   return (
     <div className={styles.facContainer}>
       <div className={styles.dataContainer}>
-        <span style={{ width: "33%" }}>
-          Fecha:{" "}
+        <span style={{ width: '33%' }}>
+          Fecha:{' '}
           <span className={styles.datosSpan}>{dateConverter(new Date())}</span>
         </span>
         <span
-          style={{ width: "33%", display: "flex", justifyContent: "center" }}
+          style={{ width: '33%', display: 'flex', justifyContent: 'center' }}
         >
           CUIT: <span className={styles.datosSpan}>{order.client.cuit}</span>
         </span>
-        <span style={{ width: "33%", display: "flex", justifyContent: "end" }}>
-          Razon Social:{" "}
+        <span style={{ width: '33%', display: 'flex', justifyContent: 'end' }}>
+          Razon Social:{' '}
           <span className={styles.datosSpan}>{order.client.razonSocial}</span>
         </span>
       </div>
       <div className={styles.dataContainer}>
-        <span style={{ width: "33%" }}>
+        <span style={{ width: '33%' }}>
           Orden: <span className={styles.datosSpan}>{order.numero}</span>
         </span>
         <span
-          style={{ width: "33%", display: "flex", justifyContent: "center" }}
+          style={{ width: '33%', display: 'flex', justifyContent: 'center' }}
         >
-          Subtotal:{" "}
+          Subtotal:{' '}
           <span className={styles.datosSpan}>{`$ ${order.subTotal}`}</span>
         </span>
-        <span style={{ width: "33%", display: "flex", justifyContent: "end" }}>
+        <span style={{ width: '33%', display: 'flex', justifyContent: 'end' }}>
           Total: <span className={styles.datosSpan}>{`$ ${order.total}`}</span>
         </span>
       </div>
@@ -48,18 +48,18 @@ function ConfirmSellOrder(props) {
           <form className={styles.formContainer}>
             <div className={styles.inputContainer}>
               <div className={styles.leftInputContainer}>
-                <div style={{ width: "100%" }}>
+                <div style={{ width: '100%' }}>
                   <span className={styles.inputLabel}>Tipo</span>
-                  <div style={{ display: "flex", alignItems: "center" }}>
+                  <div style={{ display: 'flex', alignItems: 'center' }}>
                     <CustomSelect
                       width="large"
                       name="code"
                       text="Sel. tipo de fact"
                       arrayOptions={[
-                        { text: "Tipo A", value: "A" },
-                        { text: "Tipo B", value: "B" },
-                        { text: "Tipo C", value: "C" },
-                        { text: "Presupuesto", value: "P" },
+                        { text: 'Tipo A', value: 'A' },
+                        { text: 'Tipo B', value: 'B' },
+                        { text: 'Tipo C', value: 'C' },
+                        { text: 'Presupuesto', value: 'P' },
                       ]}
                       validate={{ required: true }}
                       extraFn={setViewNoFac}
@@ -81,7 +81,7 @@ function ConfirmSellOrder(props) {
                           pattern: {
                             value: /^[-+]?\d+(\.\d+)?$/,
                             message:
-                              "Debes ingresar un número entero o decimal con . (punto)",
+                              'Debes ingresar un número entero o decimal con . (punto)',
                           },
                         }}
                       />
@@ -102,7 +102,7 @@ function ConfirmSellOrder(props) {
                         pattern: {
                           value: /^[-+]?\d+(\.\d+)?$/,
                           message:
-                            "Debes ingresar un número entero o decimal con . (punto)",
+                            'Debes ingresar un número entero o decimal con . (punto)',
                         },
                       }}
                     />
@@ -121,7 +121,7 @@ function ConfirmSellOrder(props) {
                       pattern: {
                         value: /^[-+]?\d+(\.\d+)?$/,
                         message:
-                          "Debes ingresar un número entero o decimal con . (punto)",
+                          'Debes ingresar un número entero o decimal con . (punto)',
                       },
                     }}
                   />
@@ -133,11 +133,11 @@ function ConfirmSellOrder(props) {
                 <Button
                   onClick={methods.handleSubmit(onSubmit)}
                   style={{
-                    backgroundColor: "#673ab7",
-                    border: "1px solid #673ab7",
-                    height: "35px",
-                    width: "100px",
-                    marginLeft: "10px",
+                    backgroundColor: '#673ab7',
+                    border: '1px solid #673ab7',
+                    height: '35px',
+                    width: '100px',
+                    marginLeft: '10px',
                   }}
                 >
                   Confirmar

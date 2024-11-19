@@ -1,11 +1,11 @@
-import React, { useEffect } from "react";
-import SearchBrandComponent from "../components/searchBrandComponent/SearchBrandComponent";
-import { useForm } from "react-hook-form";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useEffect } from 'react';
+import SearchBrandComponent from '../components/searchBrandComponent/SearchBrandComponent';
+import { useForm } from 'react-hook-form';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   getBrandByDataRequest,
   toggleEcommerceBrandRequest,
-} from "../redux/searchBrands";
+} from '../redux/searchBrands';
 
 function SearchBrandContainer(props) {
   const filterBrand = useSelector((state) => state.searchBrand);

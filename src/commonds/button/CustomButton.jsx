@@ -1,6 +1,6 @@
-import React from "react";
-import styles from "./customButon.module.css";
-import { useState } from "react";
+import React from 'react';
+import styles from './customButon.module.css';
+import { useState } from 'react';
 
 const CustomButton = ({ props }) => {
   const {
@@ -12,16 +12,16 @@ const CustomButton = ({ props }) => {
     fnSidebar,
   } = props;
   const [iconClass, setIconClass] = useState(iconStyle);
-  const [buttonClass, setButtonClass] = useState("textButton");
+  const [buttonClass, setButtonClass] = useState('textButton');
   return (
     <button
       onMouseOver={() => {
         setIconClass(iconHoverStyle);
-        setButtonClass("textButtonOver");
+        setButtonClass('textButtonOver');
       }}
       onMouseLeave={() => {
         setIconClass(iconStyle);
-        setButtonClass("textButton");
+        setButtonClass('textButton');
       }}
       onClick={(event) => {
         event.preventDefault();

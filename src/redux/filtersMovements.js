@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   facturas: true,
@@ -13,7 +13,7 @@ const initialState = {
 };
 
 const filterMovementsSlice = createSlice({
-  name: "filtersMovements",
+  name: 'filtersMovements',
   initialState,
   reducers: {
     setFilterMovements: (state, action) => {

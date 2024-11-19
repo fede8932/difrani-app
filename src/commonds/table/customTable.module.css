@@ -20,3 +20,10 @@
 .inputChange:hover {
   color: blueviolet;
 }
+.inputTable{
+  all: unset;
+  width: 80px;
+  border: 1px solid grey;
+  border-radius: 2px;
+  padding: 0px 2px;
+}

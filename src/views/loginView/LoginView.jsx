@@ -1,6 +1,6 @@
-import React from "react";
-import LoginContainer from "../../containers/LoginContainer";
-import styles from "./loginView.module.css";
+import React from 'react';
+import LoginContainer from '../../containers/LoginContainer';
+import styles from './loginView.module.css';
 
 function LoginView() {
   return (

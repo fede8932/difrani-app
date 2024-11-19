@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios';
 const apiUrl = import.meta.env.VITE_API_URL;
 
 export const getEquivalennceByProductId = async (productId) => {
@@ -10,7 +10,7 @@ export const getEquivalennceByProductId = async (productId) => {
     return data;
   } catch (error) {
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     throw error;
   }
@@ -24,7 +24,7 @@ export const createEquivalence = async (dataEquiv) => {
     return data;
   } catch (error) {
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     throw error;
   }
@@ -38,7 +38,7 @@ export const deleteEquivalence = async (id) => {
     return data;
   } catch (error) {
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     throw error;
   }
@@ -57,7 +57,7 @@ export const editDescriptionEquivalence = async (sendData) => {
     return description;
   } catch (error) {
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     throw error;
   }
@@ -76,7 +76,7 @@ export const editEquivalence = async (sendData) => {
     return data;
   } catch (error) {
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     throw error;
   }

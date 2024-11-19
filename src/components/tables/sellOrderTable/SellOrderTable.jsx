@@ -1,29 +1,30 @@
-import { AgGridReact } from "ag-grid-react";
-import "ag-grid-community/styles/ag-grid.css";
-import "ag-grid-community/styles/ag-theme-quartz.css";
-import React, { useEffect, useMemo, useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { AgGridReact } from 'ag-grid-react';
+import 'ag-grid-community/styles/ag-grid.css';
+import 'ag-grid-community/styles/ag-theme-quartz.css';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   convertirFechaISOaDDMMYYYY,
   convertirFechaISOaDDMMYYYYHHMM,
+  numberToString,
   redondearADosDecimales,
-} from "../../../utils";
-import { Checkbox, Label, Pagination, Popup, Select } from "semantic-ui-react";
-import styles from "./comitionsTable.module.css";
+} from '../../../utils';
+import { Checkbox, Label, Pagination, Popup, Select } from 'semantic-ui-react';
+import styles from './comitionsTable.module.css';
 import {
   resetFilterSellOrder,
   setFilterSellOrder,
-} from "../../../redux/filtersSellOrder";
+} from '../../../redux/filtersSellOrder';
 import {
   resetOrderState,
   searchSellOrderRequest,
   setOrderMarc,
-} from "../../../redux/searchOrders";
-import ProtectedComponent from "../../../protected/protectedComponent/ProtectedComponent";
-import ActionModalContainer from "../../../containers/ActionModalContainer";
-import { printBillRequest } from "../../../request/orderRequest";
-import { QRCode } from "antd";
-import { billHtml } from "../../../templates/bill";
+} from '../../../redux/searchOrders';
+import ProtectedComponent from '../../../protected/protectedComponent/ProtectedComponent';
+import ActionModalContainer from '../../../containers/ActionModalContainer';
+import { printBillRequest } from '../../../request/orderRequest';
+import { QRCode } from 'antd';
+import { billHtml } from '../../../templates/bill';
 
 const CustomComp = ({ data }) => {
   // console.log(data);
@@ -34,7 +35,7 @@ const CustomComp = ({ data }) => {
   return (
     <div className={styles.buttonContainer}>
       <Checkbox
-        disabled={data.status == "Sent" ? true : false}
+        disabled={data.status == 'Sent' ? true : false}
         onChange={onClick}
         checked={data?.marc}
       />
@@ -59,10 +60,10 @@ const CustomActionComp = ({
     // console.log(order);
 
     // Abrir una nueva ventana
-    const nuevaVentana = window.open("", "", "width=900,height=1250");
+    const nuevaVentana = window.open('', '', 'width=900,height=1250');
 
     // Crear un contenedor en la ventana nueva
-    const container = nuevaVentana.document.createElement("div");
+    const container = nuevaVentana.document.createElement('div');
     nuevaVentana.document.body.appendChild(container);
 
     // Asignar la plantilla HTML al contenedor
@@ -71,7 +72,7 @@ const CustomActionComp = ({
       order,
       codigoQR
     );
-    nuevaVentana.addEventListener("afterprint", () => {
+    nuevaVentana.addEventListener('afterprint', () => {
       nuevaVentana.close(); // Cierra la ventana después de imprimir
     });
     // Imprimir la ventana
@@ -80,7 +81,7 @@ const CustomActionComp = ({
 
   return (
     <div className={styles.buttonContainer}>
-      <div style={{ marginTop: "2px" }}>
+      <div style={{ marginTop: '2px' }}>
         <ActionModalContainer
           size="xl"
           selectedId={data.id}
@@ -96,10 +97,10 @@ const CustomActionComp = ({
       <Popup
         trigger={
           <button
-            style={{ margin: "1px 0px 0px 7px" }}
+            style={{ margin: '1px 0px 0px 7px' }}
             className={styles.iconButton}
             disabled={
-              data.status == "Open" || data.status == "Confirm" ? false : true
+              data.status == 'Open' || data.status == 'Confirm' ? false : true
             }
             onClick={() => {
               setOrder(data.id, data.clientId);
@@ -108,7 +109,7 @@ const CustomActionComp = ({
           >
             <i
               className={`fa-regular fa-pen-to-square fa-lg ${
-                data.status == "Open" || data.status == "Confirm"
+                data.status == 'Open' || data.status == 'Confirm'
                   ? styles.blueIcon
                   : styles.greyIcon
               }`}
@@ -121,13 +122,13 @@ const CustomActionComp = ({
         <Popup
           trigger={
             <button
-              style={{ margin: "1px 0px 0px 7px" }}
+              style={{ margin: '1px 0px 0px 7px' }}
               className={styles.iconButton}
               disabled={
-                data.status == "Open" || data.status == "Confirm" ? false : true
+                data.status == 'Open' || data.status == 'Confirm' ? false : true
               }
               onClick={() => {
-                if (data.status == "Open") {
+                if (data.status == 'Open') {
                   deleteOrder(data.id);
                 } else {
                   if (data.pickingOrder?.status == 0) {
@@ -141,7 +142,7 @@ const CustomActionComp = ({
             >
               <i
                 className={`fa-solid fa-xmark fa-xl ${
-                  data.status == "Open" || data.status == "Confirm"
+                  data.status == 'Open' || data.status == 'Confirm'
                     ? styles.redIcon
                     : styles.greyIcon
                 }`}
@@ -167,9 +168,9 @@ const HeaderInput = (props) => {
   };
   const onInputChange = (e) => {
     const value = e.target.value;
-    dispatch(setFilterSellOrder({ name: "page", value: 1 }));
+    dispatch(setFilterSellOrder({ name: 'page', value: 1 }));
     dispatch(setFilterSellOrder({ name, value }));
-    if (value == "") {
+    if (value == '') {
       setInp(false);
     }
   };
@@ -188,10 +189,10 @@ const HeaderInput = (props) => {
 
   useEffect(() => {
     if (inp) {
-      document.addEventListener("mousedown", handleClickOutside);
+      document.addEventListener('mousedown', handleClickOutside);
     }
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [filterSellOrder, inp]);
 
@@ -214,135 +215,134 @@ function SellOrderTable(props) {
 
   let columnInitialState = [
     {
-      headerName: "Check",
+      headerName: 'Check',
       cellRenderer: (params) => <CustomComp data={params.data} />,
       flex: 0.5,
       filterParams: {
-        filterOptions: ["contains"], // Solo opción 'contains'
+        filterOptions: ['contains'], // Solo opción 'contains'
         suppressFilterButton: true, // Ocultar el botón del menú del filtro
       },
     },
     {
-      headerName: "Fecha",
+      headerName: 'Fecha',
       valueGetter: (params) => convertirFechaISOaDDMMYYYYHHMM(params.data.date),
       flex: 1,
       filterParams: {
-        filterOptions: ["contains"], // Solo opción 'contains'
+        filterOptions: ['contains'], // Solo opción 'contains'
         suppressFilterButton: true, // Ocultar el botón del menú del filtro
       },
     },
     {
-      headerName: "Número",
-      field: "numero",
-      headerComponent: () => <HeaderInput title="Número" name={"number"} />,
+      headerName: 'Número',
+      field: 'numero',
+      headerComponent: () => <HeaderInput title="Número" name={'number'} />,
       valueGetter: (params) => params.data.numero,
       flex: 2,
       filterParams: {
-        filterOptions: ["contains"], // Solo opción 'contains'
+        filterOptions: ['contains'], // Solo opción 'contains'
         suppressFilterButton: true, // Ocultar el botón del menú del filtro
       },
     },
     {
-      headerName: "Cliente",
-      headerComponent: () => <HeaderInput title="Cliente" name={"client"} />,
+      headerName: 'Cliente',
+      headerComponent: () => <HeaderInput title="Cliente" name={'client'} />,
       valueGetter: (params) => params.data.client?.razonSocial,
       flex: 2,
       filterParams: {
-        filterOptions: ["contains"], // Solo opción 'contains'
+        filterOptions: ['contains'], // Solo opción 'contains'
         suppressFilterButton: true, // Ocultar el botón del menú del filtro
       },
     },
     {
-      headerName: "SubTotal",
-      valueGetter: (params) =>
-        `$ ${redondearADosDecimales(params.data.subTotal)}`,
+      headerName: 'SubTotal',
+      valueGetter: (params) => `$ ${numberToString(params.data.subTotal)}`,
       filter: false,
       flex: 1,
       sortable: false,
     },
     {
-      headerName: "Total (c/IVA)",
-      valueGetter: (params) => `$ ${redondearADosDecimales(params.data.total)}`,
+      headerName: 'Total (c/IVA)',
+      valueGetter: (params) => `$ ${numberToString(params.data.total)}`,
       filter: false,
       flex: 1,
     },
     {
-      headerName: "Estado",
+      headerName: 'Estado',
       cellRenderer: (params) => (
         <div className={styles.statusCell}>
-          {params.data.status == "Open" ? (
+          {params.data.status == 'Open' ? (
             <Label
               color="yellow"
               style={{
-                width: "75px",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
+                width: '75px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
               }}
             >
               Abierta
             </Label>
           ) : null}
-          {params.data.status == "Confirm" ? (
+          {params.data.status == 'Confirm' ? (
             <Label
               color="green"
               style={{
-                width: "75px",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
+                width: '75px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
               }}
             >
               Confirmada
             </Label>
           ) : null}
-          {params.data.status == "Ajusted" ? (
+          {params.data.status == 'Ajusted' ? (
             <Label
               color="teal"
               style={{
-                width: "75px",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
+                width: '75px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
               }}
             >
               Ajustada
             </Label>
           ) : null}
-          {params.data.status == "Cancel" ? (
+          {params.data.status == 'Cancel' ? (
             <Label
               color="red"
               style={{
-                width: "75px",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
+                width: '75px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
               }}
             >
               Cancelada
             </Label>
           ) : null}
-          {params.data.status == "Recived" ? (
+          {params.data.status == 'Recived' ? (
             <Label
               color="blue"
               style={{
-                width: "75px",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
+                width: '75px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
               }}
             >
               Recibido
             </Label>
           ) : null}
-          {params.data.status == "Sent" ? (
+          {params.data.status == 'Sent' ? (
             <Label
               color="teal"
               style={{
-                width: "75px",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
+                width: '75px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
               }}
             >
               Facturado
@@ -354,7 +354,7 @@ function SellOrderTable(props) {
       flex: 1,
     },
     {
-      headerName: "Acciones",
+      headerName: 'Acciones',
       cellRenderer: (params) => (
         <CustomActionComp
           data={params.data}
@@ -385,10 +385,10 @@ function SellOrderTable(props) {
   const filterSellOrder = useSelector((state) => state.filterSellOrder);
 
   const selectChange = (e, d) => {
-    dispatch(setFilterSellOrder({ name: "pageSize", value: d.value }));
+    dispatch(setFilterSellOrder({ name: 'pageSize', value: d.value }));
   };
   const changePage = (e, d) => {
-    dispatch(setFilterSellOrder({ name: "page", value: d.activePage }));
+    dispatch(setFilterSellOrder({ name: 'page', value: d.activePage }));
   };
 
   /**
@@ -419,8 +419,8 @@ function SellOrderTable(props) {
 
   return (
     <div
-      className={"ag-theme-quartz"}
-      style={{ height: 600, marginTop: "-20px" }}
+      className={'ag-theme-quartz'}
+      style={{ height: 600, marginTop: '-20px' }}
     >
       <AgGridReact
         rowData={data?.list}
@@ -430,7 +430,7 @@ function SellOrderTable(props) {
       <div className={styles.paginationContainer}>
         <span>{`Se encontraron ${data?.totalPages} páginas con ${data?.totalRows} resultados.`}</span>
         <div className={styles.pagination}>
-          <div style={{ marginRight: "10px" }}>
+          <div style={{ marginRight: '10px' }}>
             <Select
               width="10px"
               defaultValue={filterSellOrder.pageSize}

@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   number: null,
@@ -9,12 +9,12 @@ const initialState = {
 };
 
 const filterPickingsSlice = createSlice({
-  name: "filtersPickings",
+  name: 'filtersPickings',
   initialState,
   reducers: {
     setFilterPickinngs: (state, action) => {
       const { name, value } = action.payload;
-      state[name] = value ? value : name == "pending" ? false : null;
+      state[name] = value ? value : name == 'pending' ? false : null;
     },
     resetFilterPickinngs: (state, action) => {
       state.number = null;

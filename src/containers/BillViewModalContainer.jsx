@@ -1,7 +1,7 @@
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import BillModalViewComponent from "../components/billModalView/BillModalViewComponent";
-import { getBillById, resetSelectBill } from "../redux/selectedBill";
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import BillModalViewComponent from '../components/billModalView/BillModalViewComponent';
+import { getBillById, resetSelectBill } from '../redux/selectedBill';
 
 function BillViewModalContainer(props) {
   const { movId, ...rest } = props;

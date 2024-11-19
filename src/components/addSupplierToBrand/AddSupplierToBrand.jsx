@@ -1,7 +1,7 @@
-import React from "react";
-import styles from "./addSupplierToBrand.module.css";
-import CustomTransfer from "../../commonds/transfer/CustomTransfer";
-import { useForm } from "react-hook-form";
+import React from 'react';
+import styles from './addSupplierToBrand.module.css';
+import CustomTransfer from '../../commonds/transfer/CustomTransfer';
+import { useForm } from 'react-hook-form';
 // import CustomPagination from "../../commonds/pagination/CustomPagination"
 
 function AddSupplierToBrand(props) {
@@ -17,7 +17,7 @@ function AddSupplierToBrand(props) {
           Brand:<span className={styles.dataUser}>{brand.name}</span>
         </span>
       </div>
-      <div style={{ marginTop: "30px" }}>
+      <div style={{ marginTop: '30px' }}>
         <CustomTransfer
           suppliers={suppliers}
           brand={brand}

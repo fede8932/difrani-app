@@ -1,11 +1,11 @@
-import React, { useState } from "react";
-import styles from "./addDataFac.module.css";
-import { FormProvider } from "react-hook-form";
-import CustomInput from "../../commonds/input/CustomInput";
-import { Button } from "react-bootstrap";
-import DataPicker from "../../commonds/dataPicker/DataPicker";
-import { Label } from "semantic-ui-react";
-import CustomSelect from "../../commonds/select/CustomSelect";
+import React, { useState } from 'react';
+import styles from './addDataFac.module.css';
+import { FormProvider } from 'react-hook-form';
+import CustomInput from '../../commonds/input/CustomInput';
+import { Button } from 'react-bootstrap';
+import DataPicker from '../../commonds/dataPicker/DataPicker';
+import { Label } from 'semantic-ui-react';
+import CustomSelect from '../../commonds/select/CustomSelect';
 
 function AddDataFac(props) {
   const { methods, addFac, order, dataChange } = props;
@@ -45,7 +45,7 @@ function AddDataFac(props) {
         >
           <div className={styles.inputContainer}>
             <div className={styles.leftInputContainer}>
-              <div style={{ display: "flex", justifyContent: "space-between" }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                 <div className={styles.dpContainer}>
                   <span className={styles.inputLabel}>Fecha</span>
                   <DataPicker
@@ -53,16 +53,16 @@ function AddDataFac(props) {
                     onChange={dataChange}
                   />
                 </div>
-                <div style={{ width: "50%" }}>
+                <div style={{ width: '50%' }}>
                   <span className={styles.inputLabel}>Tipo</span>
-                  <div style={{ display: "flex", alignItems: "center" }}>
+                  <div style={{ display: 'flex', alignItems: 'center' }}>
                     <CustomSelect
                       width="medium"
                       name="code"
                       text="Sel. tipo de fact"
                       arrayOptions={[
-                        { text: "Tipo A", value: "A" },
-                        { text: "Presupuesto", value: "P" },
+                        { text: 'Tipo A', value: 'A' },
+                        { text: 'Presupuesto', value: 'P' },
                       ]}
                       validate={{ required: true }}
                       extraFn={setViewNoFac}
@@ -91,7 +91,7 @@ function AddDataFac(props) {
                   pattern: {
                     value: /^[-+]?\d+(\.\d+)?$/,
                     message:
-                      "Debes ingresar un número entero o decimal con . (punto)",
+                      'Debes ingresar un número entero o decimal con . (punto)',
                   },
                 }}
               />
@@ -109,7 +109,7 @@ function AddDataFac(props) {
                       pattern: {
                         value: /^[-+]?\d+(\.\d+)?$/,
                         message:
-                          "Debes ingresar un número entero o decimal con . (punto)",
+                          'Debes ingresar un número entero o decimal con . (punto)',
                       },
                     }}
                   />
@@ -122,15 +122,15 @@ function AddDataFac(props) {
               <Button
                 type="submit"
                 style={{
-                  backgroundColor: "#673ab7",
-                  border: "1px solid #673ab7",
-                  height: "35px",
-                  width: "100px",
-                  marginLeft: "10px",
+                  backgroundColor: '#673ab7',
+                  border: '1px solid #673ab7',
+                  height: '35px',
+                  width: '100px',
+                  marginLeft: '10px',
                 }}
               >
                 {!order.loading ? (
-                  "Actualizar"
+                  'Actualizar'
                 ) : (
                   <Spinner animation="border" variant="light" size="sm" />
                 )}

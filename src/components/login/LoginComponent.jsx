@@ -1,11 +1,11 @@
-import React from "react";
-import styles from "./login.module.css";
-import logo from "../../assets/logo/logo.png";
-import Separador from "../../commonds/separador/Separador";
-import Button from "react-bootstrap/Button";
-import Form from "react-bootstrap/Form";
-import { useForm } from "react-hook-form";
-import Spinner from "react-bootstrap/Spinner";
+import React from 'react';
+import styles from './login.module.css';
+import logo from '../../assets/logo/logo.png';
+import Separador from '../../commonds/separador/Separador';
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
+import { useForm } from 'react-hook-form';
+import Spinner from 'react-bootstrap/Spinner';
 
 function LoginComponent(props) {
   const {
@@ -28,7 +28,7 @@ function LoginComponent(props) {
             Ingresá tus credenciales para continuar
           </span>
         </div>
-        <Separador props={{ clase: "separador" }} />
+        <Separador props={{ clase: 'separador' }} />
         <div className={styles.formContainer}>
           <span className={styles.instructionForm}>
             Ingresá con tu correo electrónico
@@ -39,7 +39,7 @@ function LoginComponent(props) {
                 type="email"
                 placeholder="Ingresá tu email"
                 id={styles.textInput}
-                {...register("email", { required: true })}
+                {...register('email', { required: true })}
               />
               {errors.email && (
                 <span className={styles.spanError}>
@@ -54,7 +54,7 @@ function LoginComponent(props) {
                   id={styles.textInput}
                   type="password"
                   placeholder="Ingresá tu contraseña"
-                  {...register("password", { required: true })}
+                  {...register('password', { required: true })}
                 />
                 {errors.password && (
                   <span className={styles.spanError}>
@@ -68,7 +68,7 @@ function LoginComponent(props) {
                     type="checkbox"
                     label="Recordame"
                     className={styles.checkbox}
-                    {...register("recordame")}
+                    {...register('recordame')}
                   />
                 </Form.Group>
                 <a href="/ruta" className={styles.resetPassButton}>
@@ -76,16 +76,20 @@ function LoginComponent(props) {
                 </a>
               </div>
             </div>
-            <Button type="submit" className={styles.submitButton} style={{height:'40px'}} >
+            <Button
+              type="submit"
+              className={styles.submitButton}
+              style={{ height: '40px' }}
+            >
               {user.loading ? (
                 <Spinner animation="border" variant="light" size="sm" />
               ) : (
-                "Iniciar sesión"
+                'Iniciar sesión'
               )}
             </Button>
           </Form>
         </div>
-        <Separador props={{ clase: "separador" }} />
+        <Separador props={{ clase: 'separador' }} />
         <div className={styles.footContainer}>
           <a href="/ruta" className={styles.resetPassButton}>
             No tenés una cuenta?

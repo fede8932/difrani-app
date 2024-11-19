@@ -1,10 +1,15 @@
-import React from "react";
-import styles from "./customTable.module.css";
-import { Checkbox, Table } from "semantic-ui-react";
-import IconButton from "../../commonds/iconButton/IconButon";
-import TableInput from "../tableInput/TableInput";
-import { discountApplication, redondearADosDecimales } from "../../utils";
-import CustomPopup from "../popup/CustomPopup";
+import React from 'react';
+import styles from './customTable.module.css';
+import { Checkbox, Table } from 'semantic-ui-react';
+import IconButton from '../../commonds/iconButton/IconButon';
+import TableInput from '../tableInput/TableInput';
+import {
+  discountApplication,
+  numberToString,
+  redondearADosDecimales,
+} from '../../utils';
+import CustomPopup from '../popup/CustomPopup';
+import IconButonUsersTable from '../iconButtonUsersTable/IconButonUsersTable';
 
 const CustomTable = (props) => {
   let {
@@ -20,6 +25,8 @@ const CustomTable = (props) => {
     type,
     process,
     addItemToBill,
+    setEquivalenceId,
+    equivalenceId,
   } = props;
   // console.log(products);
   return (
@@ -33,24 +40,24 @@ const CustomTable = (props) => {
           ))}
         </Table.Row>
       </Table.Header>
-      {type === "search" ? (
+      {type === 'search' ? (
         <Table.Body>
           {products.length > 0
             ? products.map((p, i) => (
                 <Table.Row
                   key={i}
-                  style={{ height: "40px", maxHeight: "40px" }}
+                  style={{ height: '40px', maxHeight: '40px' }}
                 >
                   <Table.Cell>{p.article.toUpperCase()}</Table.Cell>
                   <Table.Cell>{p.description.toUpperCase()}</Table.Cell>
                   <Table.Cell>{p.brand.name.toUpperCase()}</Table.Cell>
-                  <Table.Cell>{`$ ${redondearADosDecimales(
-                    process == "sell"
+                  <Table.Cell>{`$ ${numberToString(
+                    process == 'sell'
                       ? p.price.price * (1 + p.brand.rentabilidad)
                       : p.price.price
                   )}`}</Table.Cell>
-                  {process == "sell" ? (
-                    <Table.Cell>{`$ ${redondearADosDecimales(
+                  {process == 'sell' ? (
+                    <Table.Cell>{`$ ${numberToString(
                       p.price.price * (1 + p.brand.rentabilidad) * 1.21
                     )}`}</Table.Cell>
                   ) : null}
@@ -68,7 +75,7 @@ const CustomTable = (props) => {
                         iconInitialStyle="iconStyleBlue"
                         fn={fnAdd}
                         product={{ product: p, brand: p.brand }}
-                        style={{ marginLeft: "5px" }}
+                        style={{ marginLeft: '5px' }}
                       />
                     </div>
                   </Table.Cell>
@@ -77,13 +84,13 @@ const CustomTable = (props) => {
             : null}
         </Table.Body>
       ) : null}
-      {type === "search-sell" ? (
+      {type === 'search-sell' ? (
         <Table.Body>
           {products.length > 0
             ? products.map((p, k) => (
                 <Table.Row
                   key={k}
-                  style={{ height: "40px", maxHeight: "40px" }}
+                  style={{ height: '40px', maxHeight: '40px' }}
                 >
                   <Table.Cell>{p.article.toUpperCase()}</Table.Cell>
                   <Table.Cell>
@@ -100,27 +107,42 @@ const CustomTable = (props) => {
                         ? bp.price.price * (1 + bp.price.sellPercentage)
                         : bp.price.price
                     )}`}</Table.Cell> */}
-                  <Table.Cell>{`$ ${
+                  <Table.Cell>{`$ ${numberToString(
                     discountApplication(customerDiscounts, p).initPrice
-                  }`}</Table.Cell>
-                  <Table.Cell>{`$ ${
+                  )}`}</Table.Cell>
+                  <Table.Cell>{`$ ${numberToString(
                     discountApplication(customerDiscounts, p).endPrice
-                  }`}</Table.Cell>
+                  )}`}</Table.Cell>
                   <Table.Cell>{p.stock.stock}</Table.Cell>
                   <Table.Cell>
                     <div className={styles.butContainer}>
-                      <IconButton
-                        icon="fa-regular fa-circle-question"
-                        iconInitialStyle="iconStyleGrey"
-                        fn={fnInfo}
-                        product={{ product: p, brand: p.brand }}
+                      <IconButonUsersTable
+                        disabled={!p.equivalenceId}
+                        popupText="Ver equivalencias"
+                        fn={() => {
+                          equivalenceId
+                            ? setEquivalenceId(null)
+                            : setEquivalenceId(p.equivalenceId);
+                        }}
+                        icon={
+                          equivalenceId
+                            ? 'fa-regular fa-eye-slash'
+                            : 'fa-regular fa-eye'
+                        }
+                        iconInitialStyle={
+                          !p.equivalenceId
+                            ? 'iconStyleGrey'
+                            : equivalenceId
+                              ? 'iconStyleRed'
+                              : 'iconStyleBlue'
+                        }
                       />
                       <IconButton
                         icon="fa-solid fa-arrow-right-to-bracket"
                         iconInitialStyle="iconStyleBlue"
                         fn={fnAdd}
                         product={{ product: p, brand: p.brand }}
-                        style={{ marginLeft: "5px" }}
+                        style={{ marginLeft: '5px' }}
                       />
                     </div>
                   </Table.Cell>
@@ -129,18 +151,18 @@ const CustomTable = (props) => {
             : null}
         </Table.Body>
       ) : null}
-      {type === "list" ? (
+      {type === 'list' ? (
         <Table.Body>
           {products.map((p, i) => {
             const precio = p.product.price;
             return (
-              <Table.Row key={i} style={{ height: "40px", maxHeight: "40px" }}>
+              <Table.Row key={i} style={{ height: '40px', maxHeight: '40px' }}>
                 <Table.Cell>{p.product.article}</Table.Cell>
                 <Table.Cell>{p?.product?.brand?.name}</Table.Cell>
                 <Table.Cell>
-                  <span style={{ display: "flex", alignItems: "center" }}>
-                    {`$ ${redondearADosDecimales(
-                      process != "sell"
+                  <span style={{ display: 'flex', alignItems: 'center' }}>
+                    {`$ ${numberToString(
+                      process != 'sell'
                         ? precio.price
                         : precio.price *
                             (1 + p.product.brand.rentabilidad) *
@@ -158,8 +180,8 @@ const CustomTable = (props) => {
                     dataItem={{ id: p.id }}
                   />
                 </Table.Cell>
-                <Table.Cell>{`$ ${redondearADosDecimales(
-                  process != "sell"
+                <Table.Cell>{`$ ${numberToString(
+                  process != 'sell'
                     ? p.amount * precio.price
                     : p.amount *
                         (precio.price *
@@ -172,7 +194,7 @@ const CustomTable = (props) => {
                       key={i}
                       type="delete"
                       icon="fa-regular fa-trash-can"
-                      iconInitialStyle={"iconStyleRed"}
+                      iconInitialStyle={'iconStyleRed'}
                       fn={fnDelete}
                       itemId={p.id}
                     />
@@ -183,38 +205,38 @@ const CustomTable = (props) => {
           })}
         </Table.Body>
       ) : null}
-      {type === "list-sell" ? (
+      {type === 'list-sell' ? (
         <Table.Body>
           {products.map((p, i) => {
             // console.log(p);
             return (
-              <Table.Row key={i} style={{ height: "40px", maxHeight: "40px" }}>
+              <Table.Row key={i} style={{ height: '40px', maxHeight: '40px' }}>
                 <Table.Cell
                   style={
-                    p.amount > p.product.stock.stock ? { color: "red" } : null
+                    p.amount > p.product.stock.stock ? { color: 'red' } : null
                   }
                 >
                   {p.product.article}
                 </Table.Cell>
                 <Table.Cell
                   style={
-                    p.amount > p.product.stock.stock ? { color: "red" } : null
+                    p.amount > p.product.stock.stock ? { color: 'red' } : null
                   }
                 >
                   {p.product.brand?.name}
                 </Table.Cell>
                 <Table.Cell
                   style={
-                    p.amount > p.product.stock.stock ? { color: "red" } : null
+                    p.amount > p.product.stock.stock ? { color: 'red' } : null
                   }
                 >
-                  <span style={{ display: "flex", alignItems: "center" }}>
-                    {`$ ${redondearADosDecimales(p?.sellPrice /* * 1.21*/)}`}
+                  <span style={{ display: 'flex', alignItems: 'center' }}>
+                    {`$ ${numberToString(p?.sellPrice /* * 1.21*/)}`}
                   </span>
                 </Table.Cell>
                 <Table.Cell>
                   <div className={styles.inpChangeCont}>
-                    <button
+                    {/* <button
                       className={styles.inputChange}
                       onClick={() => {
                         if (p.amount > 1) {
@@ -223,16 +245,26 @@ const CustomTable = (props) => {
                       }}
                     >
                       <i className="fa-solid fa-minus"></i>
-                    </button>
-                    <TableInput
+                    </button> */}
+                    {/* <TableInput
                       key={i}
                       type="number"
                       step="1"
                       defValue={p.amount}
                       fn={fnUpdate}
                       dataItem={{ id: p.id }}
+                    /> */}
+                    <input
+                      className={styles.inputTable}
+                      type="number"
+                      key={i}
+                      step="1"
+                      defaultValue={p.amount}
+                      onChange={(e) => {
+                        fnUpdate({ id: p.id, editCamp: e.target.value });
+                      }}
                     />
-                    <button
+                    {/* <button
                       className={styles.inputChange}
                       onClick={() => {
                         if (p.product.stock.stock > p.amount) {
@@ -241,14 +273,16 @@ const CustomTable = (props) => {
                       }}
                     >
                       <i className="fa-solid fa-plus"></i>
-                    </button>
+                    </button> */}
                   </div>
                 </Table.Cell>
                 <Table.Cell
                   style={
-                    p.amount > p.product.stock.stock ? { color: "red" } : null
+                    p.amount > p.product.stock.stock
+                      ? { color: 'red', fontSize: '11px' }
+                      : { fontSize: '10px' }
                   }
-                >{`$ ${redondearADosDecimales(
+                >{`$ ${numberToString(
                   p.amount * p.sellPrice /* * 1.21*/
                 )}`}</Table.Cell>
                 <Table.Cell>
@@ -257,7 +291,7 @@ const CustomTable = (props) => {
                       key={i}
                       type="delete"
                       icon="fa-regular fa-trash-can"
-                      iconInitialStyle={"iconStyleRed"}
+                      iconInitialStyle={'iconStyleRed'}
                       fn={fnDelete}
                       itemId={p.id}
                       product={{ product: p, brand: p.brand }}
@@ -269,10 +303,10 @@ const CustomTable = (props) => {
           })}
         </Table.Body>
       ) : null}
-      {type === "fact" ? (
+      {type === 'fact' ? (
         <Table.Body>
           {products.map((poi, i) => (
-            <Table.Row key={i} style={{ height: "40px", maxHeight: "40px" }}>
+            <Table.Row key={i} style={{ height: '40px', maxHeight: '40px' }}>
               <Table.Cell>{poi.product.article}</Table.Cell>
               <Table.Cell>{poi.product.brand.name}</Table.Cell>
               <Table.Cell>{poi.amount}</Table.Cell>

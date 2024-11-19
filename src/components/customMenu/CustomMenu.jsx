@@ -1,5 +1,5 @@
-import { useEffect, useRef, useState } from "react";
-import styles from "./customMenu.module.css";
+import { useEffect, useRef, useState } from 'react';
+import styles from './customMenu.module.css';
 
 function CustomMenu(props) {
   const { children } = props;
@@ -14,16 +14,16 @@ function CustomMenu(props) {
     }
 
     // Bind the event listener
-    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener('mousedown', handleClickOutside);
 
     return () => {
       // Unbind the event listener on clean up
-      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
   return (
     <div
-      style={{ position: "absolute", zIndex: "200", backgroundColor: "white" }}
+      style={{ position: 'absolute', zIndex: '200', backgroundColor: 'white' }}
     >
       <button
         className={styles.filterBut}
@@ -32,7 +32,7 @@ function CustomMenu(props) {
         }}
       >
         <i class="fa-solid fa-filter"></i>
-        <span style={{ marginLeft: "5px" }}>Filtro</span>
+        <span style={{ marginLeft: '5px' }}>Filtro</span>
       </button>
       {view ? (
         <div

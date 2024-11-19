@@ -1,20 +1,20 @@
-import React, { useState } from "react";
-import styles from "./editClientView.module.css";
-import Button from "react-bootstrap/esm/Button";
-import CustomInput from "../../commonds/putInput/CustomInput";
-import { FormProvider } from "react-hook-form";
-import Spinner from "react-bootstrap/esm/Spinner";
-import CustomSelect from "../../commonds/select/CustomSelect";
-import Form from "react-bootstrap/Form";
-import { Button as SemanticButton } from "semantic-ui-react";
-import { useNavigate } from "react-router";
-import ProtectedComponent from "../../protected/protectedComponent/ProtectedComponent";
-import PutCustomTextArea from "../../commonds/putTextArea/PutCustomTextArea";
+import React, { useState } from 'react';
+import styles from './editClientView.module.css';
+import Button from 'react-bootstrap/esm/Button';
+import CustomInput from '../../commonds/putInput/CustomInput';
+import { FormProvider } from 'react-hook-form';
+import Spinner from 'react-bootstrap/esm/Spinner';
+import CustomSelect from '../../commonds/select/CustomSelect';
+import Form from 'react-bootstrap/Form';
+import { Button as SemanticButton } from 'semantic-ui-react';
+import { useNavigate } from 'react-router';
+import ProtectedComponent from '../../protected/protectedComponent/ProtectedComponent';
+import PutCustomTextArea from '../../commonds/putTextArea/PutCustomTextArea';
 
 function EditClientViewComponent(props) {
   const { client, update, methods, loading, sellers } = props;
   const navigate = useNavigate();
-  console.log(client);
+  // console.log(client);
   const [readOnly, setReadOnly] = useState(true);
   return (
     <div className={styles.editContainer}>
@@ -90,7 +90,7 @@ function EditClientViewComponent(props) {
                   required: true,
                   pattern: {
                     value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                    message: "Ingrese un correo electrónico válido",
+                    message: 'Ingrese un correo electrónico válido',
                   },
                 }}
                 defaultValue={client?.user?.email}
@@ -98,12 +98,12 @@ function EditClientViewComponent(props) {
 
               <div
                 style={{
-                  display: "flex",
-                  width: "100%",
-                  justifyContent: "space-between",
+                  display: 'flex',
+                  width: '100%',
+                  justifyContent: 'space-between',
                 }}
               >
-                <div style={{ width: "50%", padding: "0px 0px 0px 5px" }}>
+                <div style={{ width: '50%', padding: '0px 0px 0px 5px' }}>
                   <span className={styles.inputLabel}>CUIL</span>
                   <CustomInput
                     readOnly={readOnly}
@@ -116,7 +116,7 @@ function EditClientViewComponent(props) {
                     defaultValue={client?.cuit}
                   />
                 </div>
-                <div style={{ width: "50%", padding: "0px 0px 0px 5px" }}>
+                <div style={{ width: '50%', padding: '0px 0px 0px 5px' }}>
                   <span className={styles.inputLabel}>Teléfono</span>
                   <CustomInput
                     readOnly={readOnly}
@@ -158,12 +158,12 @@ function EditClientViewComponent(props) {
               />
               <div
                 style={{
-                  display: "flex",
-                  width: "100%",
-                  justifyContent: "space-between",
+                  display: 'flex',
+                  width: '100%',
+                  justifyContent: 'space-between',
                 }}
               >
-                <div style={{ width: "50%", padding: "0px 5px 0px 0px" }}>
+                <div style={{ width: '50%', padding: '0px 5px 0px 0px' }}>
                   <span className={styles.inputLabel}>Altura</span>
                   <CustomInput
                     readOnly={readOnly}
@@ -176,7 +176,7 @@ function EditClientViewComponent(props) {
                     defaultValue={client?.altura}
                   />
                 </div>
-                <div style={{ width: "50%", padding: "0px 0px 0px 5px" }}>
+                <div style={{ width: '50%', padding: '0px 0px 0px 5px' }}>
                   <span className={styles.inputLabel}>Código postal</span>
                   <CustomInput
                     readOnly={readOnly}
@@ -192,12 +192,12 @@ function EditClientViewComponent(props) {
               </div>
               <div
                 style={{
-                  display: "flex",
-                  width: "100%",
-                  justifyContent: "space-between",
+                  display: 'flex',
+                  width: '100%',
+                  justifyContent: 'space-between',
                 }}
               >
-                <div style={{ width: "50%", padding: "0px 5px 0px 0px" }}>
+                <div style={{ width: '50%', padding: '0px 5px 0px 0px' }}>
                   <span className={styles.inputLabel}>Vendedor</span>
                   <CustomSelect
                     readOnly={readOnly}
@@ -208,32 +208,32 @@ function EditClientViewComponent(props) {
                     defaultValue={client?.sellerId}
                   />
                 </div>
-                <div style={{ width: "50%", padding: "0px 0px 0px 5px" }}>
+                <div style={{ width: '50%', padding: '0px 0px 0px 5px' }}>
                   <span className={styles.inputLabel}>IVA</span>
                   <CustomSelect
                     name="iva"
                     text="Seleccioná el tipo de iva"
                     arrayOptions={[
                       {
-                        value: "ResponsableInscripto",
-                        text: "ResponsableInscripto",
+                        value: 'ResponsableInscripto',
+                        text: 'ResponsableInscripto',
                       },
-                      { value: "Monotributista", text: "Monotributista" },
-                      { value: "Excento", text: "Excento" },
-                      { value: "NoGravado", text: "NoGravado" },
-                      { value: "Final", text: "Final" },
+                      { value: 'Monotributista', text: 'Monotributista' },
+                      { value: 'Excento', text: 'Excento' },
+                      { value: 'NoGravado', text: 'NoGravado' },
+                      { value: 'Final', text: 'Final' },
                     ]}
                     validate={{ required: false }}
                     defaultValue={client?.iva}
                   />
                 </div>
               </div>
-              <div style={{ width: "100%", padding: "0px 0px 0px 5px" }}>
+              <div style={{ width: '100%', padding: '0px 0px 0px 5px' }}>
                 <span className={styles.inputLabel}>Comentarios</span>
                 <PutCustomTextArea
                   width="large"
                   name="comentarios"
-                  defaultValue={client.comentarios}
+                  defaultValue={client?.comentarios}
                 />
               </div>
             </div>
@@ -268,15 +268,15 @@ function EditClientViewComponent(props) {
                 disabled={readOnly}
                 type="submit"
                 style={{
-                  backgroundColor: "#673ab7",
-                  border: "1px solid #673ab7",
-                  height: "35px",
-                  width: "100px",
-                  marginLeft: "10px",
+                  backgroundColor: '#673ab7',
+                  border: '1px solid #673ab7',
+                  height: '35px',
+                  width: '100px',
+                  marginLeft: '10px',
                 }}
               >
                 {!loading ? (
-                  "Actualizar"
+                  'Actualizar'
                 ) : (
                   <Spinner animation="border" variant="light" size="sm" />
                 )}

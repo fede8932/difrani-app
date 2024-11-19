@@ -1,18 +1,19 @@
-import EditClientViewContainer from "./EditClientViewContainer";
-import EditUserViewContainer from "./EditUserViewContainer";
+import EditClientViewContainer from './EditClientViewContainer';
+import EditUserViewContainer from './EditUserViewContainer';
 
 function EditUserContainer(props) {
   const { view, user, closeModal } = props;
-  console.log(user.seller?.id);
+  // console.log(props);
+  // console.log(user.seller?.id);
   return (
     <>
-      {view == "client" ? (
+      {view == 'client' ? (
         <EditClientViewContainer
           close={closeModal}
           clientId={user.client?.id}
         />
       ) : null}
-      {view == "seller" ? (
+      {view == 'seller' ? (
         <EditUserViewContainer sellerId={user.seller?.id} close={closeModal} />
       ) : null}
     </>

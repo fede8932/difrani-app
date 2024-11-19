@@ -1,23 +1,23 @@
-import React, { useState } from "react";
-import styles from "./customMenu.module.css";
-import avatar from "../../assets/avatars/hombre.png";
+import React, { useState } from 'react';
+import styles from './customMenu.module.css';
+import avatar from '../../assets/avatars/hombre.png';
 
 function CustomMenu(props) {
-  const [classIcon, setClassIcon] = useState("configIconBlue");
+  const [classIcon, setClassIcon] = useState('configIconBlue');
   const [classConfigContainer, setClassConfigContainer] = useState(
-    "configContainerWhite"
+    'configContainerWhite'
   );
 
   return (
     <div>
       <div
         onMouseOver={() => {
-          setClassIcon("configIconWhite");
-          setClassConfigContainer("configContainerBlue");
+          setClassIcon('configIconWhite');
+          setClassConfigContainer('configContainerBlue');
         }}
         onMouseOut={() => {
-          setClassIcon("configIconBlue");
-          setClassConfigContainer("configContainerWhite");
+          setClassIcon('configIconBlue');
+          setClassConfigContainer('configContainerWhite');
         }}
         className={`${styles[classConfigContainer]}`}
       >
@@ -25,7 +25,7 @@ function CustomMenu(props) {
           <img
             src={avatar}
             alt="Avatar de usuario"
-            style={{ heigth: "25px", width: "25px" }}
+            style={{ heigth: '25px', width: '25px' }}
           />
         </div>
         <div>

@@ -9,8 +9,8 @@ export function dateConverter(timestamp) {
   const month = date.getMonth() + 1; // Los meses en JavaScript van de 0 a 11, por lo que se suma 1.
   const year = date.getFullYear();
 
-  const formattedDate = `${day < 10 ? "0" : ""}${day}-${
-    month < 10 ? "0" : ""
+  const formattedDate = `${day < 10 ? '0' : ''}${day}-${
+    month < 10 ? '0' : ''
   }${month}-${year}`;
   return formattedDate;
 }
@@ -22,10 +22,10 @@ export function dateConverterWHour(timestamp) {
   const hours = date.getHours();
   const minutes = date.getMinutes();
 
-  const formattedDate = `${day < 10 ? "0" : ""}${day}-${
-    month < 10 ? "0" : ""
-  }${month}/${year}:${hours < 10 ? "0" : ""}${hours}:${
-    minutes < 10 ? "0" : ""
+  const formattedDate = `${day < 10 ? '0' : ''}${day}-${
+    month < 10 ? '0' : ''
+  }${month}/${year}:${hours < 10 ? '0' : ''}${hours}:${
+    minutes < 10 ? '0' : ''
   }${minutes}`;
 
   return formattedDate;
@@ -40,12 +40,12 @@ export function convertToDate(string) {
 export function formatNumberWithLeadingZeros(number, desiredLength) {
   const numString = String(number);
   const zerosToAdd = Math.max(0, desiredLength - numString.length);
-  const leadingZeros = "0".repeat(zerosToAdd);
+  const leadingZeros = '0'.repeat(zerosToAdd);
   return leadingZeros + numString;
 }
 export function camelCaseToText(cadenaCamelCase) {
   // Agregar espacios entre las palabras en CamelCase usando una expresión regular
-  const cadenaConEspacios = cadenaCamelCase.replace(/([a-z])([A-Z])/g, "$1 $2");
+  const cadenaConEspacios = cadenaCamelCase.replace(/([a-z])([A-Z])/g, '$1 $2');
 
   // Convertir la cadena resultante a mayúsculas
   const cadenaMayusculas = cadenaConEspacios.toUpperCase();
@@ -59,25 +59,25 @@ export function fechaConverter() {
   const month = date.getMonth() + 1; // Los meses en JavaScript van de 0 a 11, por lo que se suma 1.
   const year = date.getFullYear();
 
-  const formattedDate = `${day < 10 ? "0" : ""}${day}-${
-    month < 10 ? "0" : ""
+  const formattedDate = `${day < 10 ? '0' : ''}${day}-${
+    month < 10 ? '0' : ''
   }${month}-${year}`;
   return formattedDate;
 }
 export function controlOrderString(num) {
-  const formatted = `CO-${String(num).padStart(7, "0")}`.slice(-10);
+  const formatted = `CO-${String(num).padStart(7, '0')}`.slice(-10);
   return formatted;
 }
 export function pickingOrderString(num) {
-  const formatted = `PE-${String(num).padStart(7, "0")}`.slice(-10);
+  const formatted = `PE-${String(num).padStart(7, '0')}`.slice(-10);
   return formatted;
 }
 export function buyOrderString(num) {
-  const formatted = `OC-${String(num).padStart(6, "0")}`.slice(-10);
+  const formatted = `OC-${String(num).padStart(6, '0')}`.slice(-10);
   return formatted;
 }
 export function ajustOrderString(num) {
-  const formatted = `OA-${String(num).padStart(6, "0")}`.slice(-10);
+  const formatted = `OA-${String(num).padStart(6, '0')}`.slice(-10);
   return formatted;
 }
 
@@ -98,7 +98,7 @@ export function discountApplication(discountArray, product) {
 
 //Funcion que quita los guiones al cuit/cuil
 export const cuitTransformToNumber = (cuit) => {
-  return parseInt(cuit.replace(/-/g, ""), 10) || 0;
+  return parseInt(cuit.replace(/-/g, ''), 10) || 0;
 };
 export function generarNumeroAleatorio() {
   // Generar un número aleatorio entre 10000000 y 99999999 (8 dígitos)
@@ -132,16 +132,16 @@ export function tabProducts(products, rol) {
           code: item.article,
           description: recortString(item.description.toUpperCase(), 120),
           brand: item.brand.name,
-          cost: rol == 7 ? "" : `$ ${item.price.price}`,
+          cost: rol == 7 ? '' : `$ ${item.price.price}`,
           sellPrice:
             rol == 7
-              ? ""
+              ? ''
               : `$ ${redondearADosDecimales(
                   item.price.price * (1 + item.brand.rentabilidad)
                 )}`,
           priceCIva:
             rol == 7
-              ? ""
+              ? ''
               : `$ ${redondearADosDecimales(
                   item.price.price * (1 + item.brand.rentabilidad) * 1.21
                 )}`,
@@ -183,7 +183,7 @@ export function tabBrands(brands) {
 }
 export function convertirPorcentajeANumero(stringPorcentaje) {
   // Reemplazar '%' con una cadena vacía para eliminarlo
-  var sinPorcentaje = stringPorcentaje.replace(/%/g, "");
+  var sinPorcentaje = stringPorcentaje.replace(/%/g, '');
 
   // Convertir a número de punto flotante
   var numero = parseFloat(sinPorcentaje);
@@ -281,8 +281,8 @@ export function sortByBrandName(items) {
   });
 }
 export function getBillType(type, billType) {
-  if (type == "Factura" && billType == 0) return "Presupuesto";
-  if (type == "Nota de crédito" && billType == 2) return "Nota de crédito P";
+  if (type == 'Factura' && billType == 0) return 'Presupuesto';
+  if (type == 'Nota de crédito' && billType == 2) return 'Nota de crédito P';
   return type;
 }
 export function formatearFecha(fecha) {
@@ -292,8 +292,8 @@ export function formatearFecha(fecha) {
   const anio = fecha.getFullYear();
 
   // Agregar ceros a la izquierda si es necesario
-  const diaConCeros = dia.toString().padStart(2, "0");
-  const mesConCeros = mes.toString().padStart(2, "0");
+  const diaConCeros = dia.toString().padStart(2, '0');
+  const mesConCeros = mes.toString().padStart(2, '0');
 
   // Formatear la fecha y devolverla como cadena
   return `${diaConCeros}-${mesConCeros}-${anio}`;
@@ -303,8 +303,8 @@ export function convertirFechaISOaDDMMYYYY(fechaISO) {
   const fecha = new Date(fechaISO);
 
   // Obtener las partes de la fecha
-  const dia = fecha.getDate().toString().padStart(2, "0");
-  const mes = (fecha.getMonth() + 1).toString().padStart(2, "0");
+  const dia = fecha.getDate().toString().padStart(2, '0');
+  const mes = (fecha.getMonth() + 1).toString().padStart(2, '0');
   const anio = fecha.getFullYear();
   // Formatear y devolver la fecha en el formato deseado
   return `${dia}-${mes}-${anio}`;
@@ -316,21 +316,21 @@ export function convertirFechaISOaDDMMYYYYHHMM(fechaISO) {
 
   // Obtener la fecha y hora en el huso horario de Argentina
   const opciones = {
-    timeZone: "America/Argentina/Buenos_Aires",
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-    hour: "2-digit",
-    minute: "2-digit",
+    timeZone: 'America/Argentina/Buenos_Aires',
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
     hour12: false,
   };
 
   // Convertir la fecha usando el formato y zona horaria correctos
-  const fechaFormateada = fecha.toLocaleString("es-AR", opciones);
+  const fechaFormateada = fecha.toLocaleString('es-AR', opciones);
 
   // Formatear la cadena para ajustarla a 'dd-mm-yyyy hh:mm'
-  const [fechaPartes, horaPartes] = fechaFormateada.split(", ");
-  const [dia, mes, anio] = fechaPartes.split("/");
+  const [fechaPartes, horaPartes] = fechaFormateada.split(', ');
+  const [dia, mes, anio] = fechaPartes.split('/');
 
   return `${dia}-${mes}-${anio} ${horaPartes}`;
 }
@@ -339,32 +339,32 @@ export function traslateRol(rol) {
   // console.log(rol);
   let Trol;
   switch (rol) {
-    case "SYSTEM":
-      Trol = "ADMINISTRADOR";
+    case 'SYSTEM':
+      Trol = 'ADMINISTRADOR';
       break;
-    case "ADMIN":
-      Trol = "ADMINISTRADOR";
+    case 'ADMIN':
+      Trol = 'ADMINISTRADOR';
       break;
-    case "SELLER":
-      Trol = "VENDEDOR";
+    case 'SELLER':
+      Trol = 'VENDEDOR';
       break;
-    case "CLIENT":
-      Trol = "CLIENTE";
+    case 'CLIENT':
+      Trol = 'CLIENTE';
       break;
-    case "BOSS":
-      Trol = "ENCARGADO";
+    case 'BOSS':
+      Trol = 'ENCARGADO';
       break;
-    case "BOSS":
-      Trol = "ENCARGADO";
+    case 'BOSS':
+      Trol = 'ENCARGADO';
       break;
-    case "ACCOUNTING":
-      Trol = "ADMINISTRATIVO";
+    case 'ACCOUNTING':
+      Trol = 'ADMINISTRATIVO';
       break;
-    case "OPERATOR":
-      Trol = "OPERARIO";
+    case 'OPERATOR':
+      Trol = 'OPERARIO';
       break;
     default:
-      Trol = "NO DEFINIDO";
+      Trol = 'NO DEFINIDO';
       break;
   }
   return Trol;
@@ -377,7 +377,7 @@ export const sellOrderButtonConfirm = (list) => {
     if (list[count].marc) {
       conditions.marc = true;
     }
-    if (list[count].status != "Open" && list[count].marc) {
+    if (list[count].status != 'Open' && list[count].marc) {
       conditions.allOpen = false;
     }
     count++;
@@ -400,8 +400,8 @@ export const sellOrderButtonUnif = (list) => {
       countMarc++;
     }
     if (
-      list[count].status != "Open" &&
-      list[count].status != "Confirm" &&
+      list[count].status != 'Open' &&
+      list[count].status != 'Confirm' &&
       list[count].marc
     ) {
       conditions.allOpenConfirm = false;
@@ -449,7 +449,7 @@ export const waitForImagesToLoad = (nuevaVentana) => {
           resolve();
         }
       } else {
-        images[i].addEventListener("load", () => {
+        images[i].addEventListener('load', () => {
           loadedImagesCount++;
           if (loadedImagesCount === images.length) {
             resolve();
@@ -478,4 +478,43 @@ export function compareNCListFactList(factList, ncList) {
     }
   });
   return !totalFact == totalNc;
+}
+
+export function billDateTostringDate(fecha) {
+  //Convierte 20241104 en 04-11-2024
+  // Extraemos el año, mes y día del string
+  const año = fecha.slice(0, 4);
+  const mes = fecha.slice(4, 6);
+  const dia = fecha.slice(6, 8);
+
+  // Retornamos la fecha en el formato deseado
+  return `${dia}-${mes}-${año}`;
+}
+export function presDateIsoTostringDate(fechaISO) {
+  // Convertimos el string ISO a un objeto Date
+  const fecha = new Date(fechaISO);
+
+  // Obtenemos el día, mes y año
+  const dia = String(fecha.getDate()).padStart(2, '0');
+  const mes = String(fecha.getMonth() + 1).padStart(2, '0'); // Meses de 0 a 11, sumamos 1
+  const año = fecha.getFullYear();
+
+  // Retornamos en el formato deseado
+  return `${dia}-${mes}-${año}`;
+}
+export function numberToString(numero) {
+  if (!numero && numero !== 0) return '';
+
+  // Separar la parte entera y decimal
+  let [entero, decimal] = numero.toString().split('.');
+
+  // Formatear la parte entera con punto como separador de miles
+  const options = { minimumFractionDigits: 0, maximumFractionDigits: 0, useGrouping: true };
+  entero = Number(entero).toLocaleString('es-ES', options);
+
+  // Asegurar que la parte decimal tenga siempre dos dígitos
+  decimal = (decimal || '00').slice(0, 2).padEnd(2, '0');
+
+  // Combinar las partes formateadas
+  return `${entero},${decimal}`; // Nota: Hemos cambiado la coma por un punto
 }

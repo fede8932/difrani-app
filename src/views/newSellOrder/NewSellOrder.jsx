@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
-import styles from "./newSellOrder.module.css";
-import FormSelectClientContainer from "../../containers/FormSelectClientContainer";
-import AddProductToSellOrderContainer from "../../containers/AddProductToSellOrderContainer";
-import CustomStep from "../../components/step/CustomStep";
-import { resetAllClientRequest } from "../../redux/client";
-import { useDispatch } from "react-redux";
-import { resetProductSearch } from "../../redux/product";
+import React, { useEffect, useState } from 'react';
+import styles from './newSellOrder.module.css';
+import FormSelectClientContainer from '../../containers/FormSelectClientContainer';
+import AddProductToSellOrderContainer from '../../containers/AddProductToSellOrderContainer';
+import CustomStep from '../../components/step/CustomStep';
+import { resetAllClientRequest } from '../../redux/client';
+import { useDispatch } from 'react-redux';
+import { resetProductSearch } from '../../redux/product';
 
 function NewSellOrder(props) {
   const { estado, type } = props;
@@ -13,13 +13,13 @@ function NewSellOrder(props) {
   const dispatch = useDispatch();
   const steps = [
     {
-      title: type == "sale" ? "Cliente" : "Productos",
+      title: type == 'sale' ? 'Cliente' : 'Productos',
     },
     {
-      title: type == "sale" ? "Productos" : "Cliente",
+      title: type == 'sale' ? 'Productos' : 'Cliente',
     },
   ];
-  const arrayPrueba = ["Damian Cano", "Juan Martinez", "Sofia Altamirano"]; //los que esten asociados no deben aparecer
+  const arrayPrueba = ['Damian Cano', 'Juan Martinez', 'Sofia Altamirano']; //los que esten asociados no deben aparecer
 
   useEffect(() => {
     return () => {
@@ -33,8 +33,8 @@ function NewSellOrder(props) {
       <div className={styles.stepContainer}>
         <CustomStep steps={steps} type="client" view={view} />
       </div>
-      <div style={{ marginTop: "12px" }}>
-        {type !== "sale" ? (
+      <div style={{ marginTop: '12px' }}>
+        {type !== 'sale' ? (
           <>
             {view == 0 ? (
               <AddProductToSellOrderContainer nextFn={setView} />

@@ -1,17 +1,17 @@
-import React, { useEffect, useState } from "react";
-import styles from "./sellerAcount.module.css";
-import SellerAcountContainer from "../../containers/SellerAcount";
-import { useDispatch, useSelector } from "react-redux";
-import { comitionResume } from "../../templates/comitionsResume";
-import { Button } from "semantic-ui-react";
-import Swal from "sweetalert2";
-import { redondearADosDecimales } from "../../utils";
-import { newLiquidation } from "../../redux/sellerLiquidations";
-import { useLocation } from "react-router";
-import { resetMarc } from "../../redux/sellerResume";
-import { TabPane, Tab } from "semantic-ui-react";
-import SellerLiquidationContainer from "../../containers/SellerLiquidationContainer";
-import { getResumeLiquidation } from "../../request/sellerRequest";
+import React, { useEffect, useState } from 'react';
+import styles from './sellerAcount.module.css';
+import SellerAcountContainer from '../../containers/SellerAcount';
+import { useDispatch, useSelector } from 'react-redux';
+import { comitionResume } from '../../templates/comitionsResume';
+import { Button } from 'semantic-ui-react';
+import Swal from 'sweetalert2';
+import { redondearADosDecimales } from '../../utils';
+import { newLiquidation } from '../../redux/sellerLiquidations';
+import { useLocation } from 'react-router';
+import { resetMarc } from '../../redux/sellerResume';
+import { TabPane, Tab } from 'semantic-ui-react';
+import SellerLiquidationContainer from '../../containers/SellerLiquidationContainer';
+import { getResumeLiquidation } from '../../request/sellerRequest';
 
 function SellerMovements(props) {
   const { setEnabledLiq } = props;
@@ -51,22 +51,22 @@ const SellerAcount = () => {
 
   const panes = [
     {
-      menuItem: "Movimientos",
+      menuItem: 'Movimientos',
       render: () => (
         <TabPane
           attached={false}
-          style={{ border: "none", boxShadow: "none", marginTop: "-20px" }}
+          style={{ border: 'none', boxShadow: 'none', marginTop: '-20px' }}
         >
           <SellerMovements setEnabledLiq={setEnabledLiq} />
         </TabPane>
       ),
     },
     {
-      menuItem: "Liquidaciones",
+      menuItem: 'Liquidaciones',
       render: () => (
         <TabPane
           attached={false}
-          style={{ border: "none", boxShadow: "none", marginTop: "-20px" }}
+          style={{ border: 'none', boxShadow: 'none', marginTop: '-20px' }}
         >
           <SellerLiquidation
             setEnabledLiq={setEnabledLiq}
@@ -77,12 +77,12 @@ const SellerAcount = () => {
     },
   ];
   const dispatch = useDispatch();
-  const sellerId = Number(useLocation().pathname.split("/")[3]);
+  const sellerId = Number(useLocation().pathname.split('/')[3]);
 
   const printResume = async (liqId, detail) => {
     const liquidations = await getResumeLiquidation({ liqId: liqId });
     // console.log(liquidations);
-    const nuevaVentana = window.open("", "", "width=900,height=1250");
+    const nuevaVentana = window.open('', '', 'width=900,height=1250');
 
     if (detail) {
       const itemsPerPage = 18;
@@ -92,7 +92,7 @@ const SellerAcount = () => {
       for (let i = 0; i < liquidations.registros.length; i += itemsPerPage) {
         const pageNumber = Math.floor(i / itemsPerPage) + 1;
         const pageItems = liquidations.registros.slice(i, i + itemsPerPage);
-        const containerRem = nuevaVentana.document.createElement("div");
+        const containerRem = nuevaVentana.document.createElement('div');
         nuevaVentana.document.body.appendChild(containerRem);
         containerRem.innerHTML = comitionResume(
           liquidations,
@@ -102,18 +102,18 @@ const SellerAcount = () => {
         );
         if (i > 0) {
           nuevaVentana.document.body.appendChild(
-            nuevaVentana.document.createElement("div")
-          ).style.pageBreakBefore = "always";
+            nuevaVentana.document.createElement('div')
+          ).style.pageBreakBefore = 'always';
         }
       }
     } else {
       liquidations.registros = [];
       console.log(liquidations);
-      const containerRem = nuevaVentana.document.createElement("div");
+      const containerRem = nuevaVentana.document.createElement('div');
       nuevaVentana.document.body.appendChild(containerRem);
       containerRem.innerHTML = comitionResume(liquidations, [], 1, 1);
     }
-    nuevaVentana.addEventListener("afterprint", () => {
+    nuevaVentana.addEventListener('afterprint', () => {
       nuevaVentana.close();
     });
     nuevaVentana.print();
@@ -121,15 +121,15 @@ const SellerAcount = () => {
 
   const genLiquidation = () => {
     Swal.fire({
-      title: "Estás seguro?",
+      title: 'Estás seguro?',
       text: `Vas a generar un pago por $ ${redondearADosDecimales(
         resume?.data?.selectComision
       )}`,
-      icon: "warning",
+      icon: 'warning',
       showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Generar",
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Generar',
     })
       .then((result) => {
         if (result.isConfirmed) {
@@ -145,17 +145,17 @@ const SellerAcount = () => {
           ).then((res) => {
             if (res.error?.message) {
               Swal.fire({
-                icon: "error",
-                title: "Error...",
+                icon: 'error',
+                title: 'Error...',
                 text: `${res.error.message}`,
               });
             } else {
               dispatch(resetMarc(movId));
               setEnabledLiq(true);
               Swal.fire({
-                title: "Exito",
-                text: "Se ha generado el reporte de pago con exito",
-                icon: "success",
+                title: 'Exito',
+                text: 'Se ha generado el reporte de pago con exito',
+                icon: 'success',
               });
             }
           });
@@ -163,8 +163,8 @@ const SellerAcount = () => {
       })
       .catch((err) => {
         Swal.fire({
-          icon: "error",
-          title: "Error...",
+          icon: 'error',
+          title: 'Error...',
           text: `Ocurrio un error en el cliente`,
         });
       });
@@ -176,7 +176,7 @@ const SellerAcount = () => {
         <div className={styles.pickerCont}>
           <Button
             disabled={enabledLiq}
-            style={{ margin: "0px 5px" }}
+            style={{ margin: '0px 5px' }}
             type="button"
             onClick={genLiquidation}
           >
@@ -184,7 +184,7 @@ const SellerAcount = () => {
           </Button>
         </div>
       </div>
-      <Tab menu={{ text: true }} panes={panes} style={{ marginTop: "-35px" }} />
+      <Tab menu={{ text: true }} panes={panes} style={{ marginTop: '-35px' }} />
     </div>
   );
 };

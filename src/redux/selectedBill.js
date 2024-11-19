@@ -1,23 +1,23 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import * as billRequest from "../request/billRequest";
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import * as billRequest from '../request/billRequest';
 const orderState = {
   loading: false,
   data: {},
-  error: "",
+  error: '',
 };
 export const getBillById = createAsyncThunk(
-  "GET_BILL_ID",
+  'GET_BILL_ID',
   billRequest.getBillByIdRequest
 );
 
 const selectBillSlice = createSlice({
-  name: "Bill",
+  name: 'Bill',
   initialState: orderState,
   reducers: {
     resetSelectBill: (state) => {
       state.loading = false;
       state.data = {};
-      state.error = "";
+      state.error = '';
     },
   },
   extraReducers: {
@@ -30,7 +30,7 @@ const selectBillSlice = createSlice({
     },
     [getBillById.fulfilled]: (state, action) => {
       state.loading = false;
-      state.error = "";
+      state.error = '';
       state.data = action.payload;
     },
   },

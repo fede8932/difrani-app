@@ -1,9 +1,9 @@
-import React, { useEffect } from "react";
-import EditBrandComponent from "../components/editBrandComponent/EditBrandComponent";
-import { useForm } from "react-hook-form";
-import { getSupplierRequest } from "../redux/supplier";
-import { useDispatch, useSelector } from "react-redux";
-import { updateBrandRequest } from "../redux/brand";
+import React, { useEffect } from 'react';
+import EditBrandComponent from '../components/editBrandComponent/EditBrandComponent';
+import { useForm } from 'react-hook-form';
+import { getSupplierRequest } from '../redux/supplier';
+import { useDispatch, useSelector } from 'react-redux';
+import { updateBrandRequest } from '../redux/brand';
 
 function EditBrandContainer(props) {
   const brand = props.brands[props.index];

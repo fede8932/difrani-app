@@ -1,6 +1,6 @@
-import React from "react";
-import styles from "./iconButon.module.css";
-import { Popup } from "semantic-ui-react";
+import React from 'react';
+import styles from './iconButon.module.css';
+import { Popup } from 'semantic-ui-react';
 
 const IconButonUsersTable = (props) => {
   const { icon, iconInitialStyle, fn, disabled, popupText, id } = props;

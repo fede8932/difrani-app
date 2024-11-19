@@ -1,31 +1,31 @@
-import React, { useState } from "react";
-import RoleTableComponent from "../components/roleTable/RoleTableComponent";
-import { UpdateStatusSellerRequest } from "../redux/searchSeller";
-import { useDispatch } from "react-redux";
-import { UpdateStatusClientRequest } from "../redux/searchClient";
-import QRCode from "qrcode";
+import React, { useState } from 'react';
+import RoleTableComponent from '../components/roleTable/RoleTableComponent';
+import { UpdateStatusSellerRequest } from '../redux/searchSeller';
+import { useDispatch } from 'react-redux';
+import { UpdateStatusClientRequest } from '../redux/searchClient';
+import QRCode from 'qrcode';
 import {
   DeleteRepSupplierRequest,
   UpdateStatusSupplierRequest,
-} from "../redux/searchSupplier";
-import Swal from "sweetalert2";
-import { useNavigate } from "react-router";
-import { changeAmountBillItem } from "../redux/billItems";
+} from '../redux/searchSupplier';
+import Swal from 'sweetalert2';
+import { useNavigate } from 'react-router';
+import { changeAmountBillItem } from '../redux/billItems';
 import {
   getBillDataRequest,
   printNCByNumRequest,
   printNCPresByNumRequest,
   rePrintPresRequest,
-} from "../request/orderRequest";
-import { getBillByIdRequest } from "../request/billRequest";
-import { billHtml } from "../templates/bill";
-import { convertImageToBase64 } from "../utils";
-import logoAfip from "../assets/afip/logo-vector-afip.jpg";
-import logoBlase from "../assets/logo/logoBlase.png";
-import { remitHtml } from "../templates/RemBlase";
-import { presupHtml } from "../templates/presupBlase";
-import { ncAHtml } from "../templates/ncA";
-import { ncPresupHtml } from "../templates/ncPresupBlase";
+} from '../request/orderRequest';
+import { getBillByIdRequest } from '../request/billRequest';
+import { billHtml } from '../templates/bill';
+import { convertImageToBase64 } from '../utils';
+import logoAfip from '../assets/afip/logo-vector-afip.jpg';
+import logoBlase from '../assets/logo/logoBlase.png';
+import { remitHtml } from '../templates/RemBlase';
+import { presupHtml } from '../templates/presupBlase';
+import { ncAHtml } from '../templates/ncA';
+import { ncPresupHtml } from '../templates/ncPresupBlase';
 
 function RoleTableContainer(props) {
   const [printLoading, setPrintLoading] = useState(false);
@@ -33,60 +33,60 @@ function RoleTableContainer(props) {
   const navigate = useNavigate();
   const alert = (id, type) => {
     const text =
-      type !== "repSupplier"
-        ? "Vas a cambiar el estado de un usuario"
-        : "Vas a cambiar el estado de un representante";
+      type !== 'repSupplier'
+        ? 'Vas a cambiar el estado de un usuario'
+        : 'Vas a cambiar el estado de un representante';
     const confirmButtonText =
-      type !== "repSupplier" ? "Si, actualizar" : "Si, actualizar";
+      type !== 'repSupplier' ? 'Si, actualizar' : 'Si, actualizar';
     Swal.fire({
-      title: "Estas seguro?",
+      title: 'Estas seguro?',
       text: text,
-      icon: "warning",
+      icon: 'warning',
       showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
       confirmButtonText: confirmButtonText,
     }).then((result) => {
       if (result.isConfirmed) {
         switch (type) {
-          case "seller":
+          case 'seller':
             dispatch(UpdateStatusSellerRequest(id)).then(() => {
               Swal.fire(
-                "Actualizado!",
-                "Has cambiado el estado exitosamente",
-                "success"
+                'Actualizado!',
+                'Has cambiado el estado exitosamente',
+                'success'
               );
             });
             break;
-          case "client":
+          case 'client':
             dispatch(UpdateStatusClientRequest(id)).then(() => {
               Swal.fire(
-                "Actualizado!",
-                "Has cambiado el estado exitosamente",
-                "success"
+                'Actualizado!',
+                'Has cambiado el estado exitosamente',
+                'success'
               );
             });
             break;
-          case "supplier":
+          case 'supplier':
             dispatch(UpdateStatusSupplierRequest(id)).then(() => {
               Swal.fire(
-                "Actualizado!",
-                "Has cambiado el estado exitosamente",
-                "success"
+                'Actualizado!',
+                'Has cambiado el estado exitosamente',
+                'success'
               );
             });
             break;
-          case "repSupplier":
+          case 'repSupplier':
             dispatch(DeleteRepSupplierRequest(id)).then(() => {
               Swal.fire(
-                "Actualizado!",
-                "Has cambiado el estado exitosamente",
-                "success"
+                'Actualizado!',
+                'Has cambiado el estado exitosamente',
+                'success'
               );
             });
             break;
           default:
-            console.log("El valor no coincide con ningún caso");
+            console.log('El valor no coincide con ningún caso');
         }
       }
     });
@@ -114,7 +114,7 @@ function RoleTableContainer(props) {
 
       const itemsPerPage = 10; // Número de ítems por página
       const totalPages = Math.ceil(items.length / itemsPerPage);
-      let nuevaVentana = window.open("", "", "width=900,height=1250");
+      let nuevaVentana = window.open('', '', 'width=900,height=1250');
 
       for (
         let i = 0;
@@ -135,13 +135,13 @@ function RoleTableContainer(props) {
           nc.concept
         );
 
-        const containerFact = nuevaVentana.document.createElement("div");
+        const containerFact = nuevaVentana.document.createElement('div');
         nuevaVentana.document.body.appendChild(containerFact);
 
         containerFact.innerHTML = render;
         nuevaVentana.document.body.appendChild(
-          nuevaVentana.document.createElement("div")
-        ).style.pageBreakBefore = "always";
+          nuevaVentana.document.createElement('div')
+        ).style.pageBreakBefore = 'always';
       }
     }
     if (billType == 2) {
@@ -173,14 +173,14 @@ function RoleTableContainer(props) {
           presData.concept
         );
 
-        const nuevaVentana = window.open("", "", "width=900,height=1250");
-        const containerPres = nuevaVentana.document.createElement("div");
+        const nuevaVentana = window.open('', '', 'width=900,height=1250');
+        const containerPres = nuevaVentana.document.createElement('div');
         nuevaVentana.document.body.appendChild(containerPres);
 
         containerPres.innerHTML = render;
         nuevaVentana.document.body.appendChild(
-          nuevaVentana.document.createElement("div")
-        ).style.pageBreakBefore = "always";
+          nuevaVentana.document.createElement('div')
+        ).style.pageBreakBefore = 'always';
       }
     }
     setPrintLoading(false);
@@ -208,7 +208,7 @@ function RoleTableContainer(props) {
       const factItems = fItems;
       const itemsPerPage = 10; // Número de ítems por página
       const totalPages = Math.ceil(factItems.length / itemsPerPage);
-      nuevaVentana = window.open("", "", "width=900,height=1250");
+      nuevaVentana = window.open('', '', 'width=900,height=1250');
 
       // Primero imprimimos las facturas
       for (let i = 0; i < factItems.length; i += itemsPerPage) {
@@ -225,7 +225,7 @@ function RoleTableContainer(props) {
           logoAfipBase64,
           logoBlaseBase64
         );
-        const containerFact = nuevaVentana.document.createElement("div");
+        const containerFact = nuevaVentana.document.createElement('div');
         containerFact.innerHTML = render;
 
         // Agregar el contenido generado a la ventana
@@ -233,8 +233,8 @@ function RoleTableContainer(props) {
 
         // Si no es la última página, agregar un salto de página
         if (pageNumber < totalPages) {
-          const pageBreak = nuevaVentana.document.createElement("div");
-          pageBreak.style.pageBreakAfter = "always"; // Salto de página después del contenido
+          const pageBreak = nuevaVentana.document.createElement('div');
+          pageBreak.style.pageBreakAfter = 'always'; // Salto de página después del contenido
           nuevaVentana.document.body.appendChild(pageBreak);
         }
       }
@@ -254,7 +254,7 @@ function RoleTableContainer(props) {
       const itemsPerPage = 10; // Número de ítems por página
       const totalPresPages = Math.ceil(factPresItems.length / itemsPerPage);
 
-      nuevaVentana = window.open("", "", "width=900,height=1250");
+      nuevaVentana = window.open('', '', 'width=900,height=1250');
 
       for (let i = 0; i < factPresItems.length; i += itemsPerPage) {
         const pagePresNumber = Math.floor(i / itemsPerPage) + 1;
@@ -268,13 +268,13 @@ function RoleTableContainer(props) {
           pagePresNumber,
           totalPresPages
         );
-        const containerPres = nuevaVentana.document.createElement("div");
+        const containerPres = nuevaVentana.document.createElement('div');
         nuevaVentana.document.body.appendChild(containerPres);
 
         containerPres.innerHTML = render;
         nuevaVentana.document.body.appendChild(
-          nuevaVentana.document.createElement("div")
-        ).style.pageBreakBefore = "always";
+          nuevaVentana.document.createElement('div')
+        ).style.pageBreakBefore = 'always';
       }
       // nuevaVentana.document.body.appendChild(
       //   nuevaVentana.document.createElement("div")
@@ -298,7 +298,7 @@ function RoleTableContainer(props) {
         i + itemsRemPage
       );
 
-      const containerRem = nuevaVentana.document.createElement("div");
+      const containerRem = nuevaVentana.document.createElement('div');
       containerRem.innerHTML = remitHtml(
         purchaseOrder,
         numRemito,
@@ -312,8 +312,8 @@ function RoleTableContainer(props) {
 
       // Si no es la última página, agregar un salto de página
       if (pageNumber < totalRemPages) {
-        const pageBreak = nuevaVentana.document.createElement("div");
-        pageBreak.style.pageBreakAfter = "always"; // Salto de página después del contenido
+        const pageBreak = nuevaVentana.document.createElement('div');
+        pageBreak.style.pageBreakAfter = 'always'; // Salto de página después del contenido
         nuevaVentana.document.body.appendChild(pageBreak);
       }
     }

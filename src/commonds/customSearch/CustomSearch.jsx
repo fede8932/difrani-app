@@ -1,63 +1,63 @@
-import React, { useEffect, useRef, useState } from "react";
-import styles from "./customSearch.module.css";
-import { useDispatch, useSelector } from "react-redux";
-import { getAllClientsByTextRequest } from "../../redux/searchClient";
-import { getClientIdRequest } from "../../redux/client";
+import React, { useEffect, useRef, useState } from 'react';
+import styles from './customSearch.module.css';
+import { useDispatch, useSelector } from 'react-redux';
+import { getAllClientsByTextRequest } from '../../redux/searchClient';
+import { getClientIdRequest } from '../../redux/client';
 
 function CustomSearch(props) {
   const { width, icon, type, placeholder } = props;
   const dispatch = useDispatch();
   const clients = useSelector((state) => state.searchClients);
-  const [classDivContainer, setClassDivContainer] = useState("inputContainer");
+  const [classDivContainer, setClassDivContainer] = useState('inputContainer');
   const [classResContainer, setClassResContainer] =
-    useState("resContainerNone");
+    useState('resContainerNone');
   const inputRef = useRef();
 
   const handleDocumentClick = (event) => {
     // Verifica si el clic fue fuera del componente y del input
     if (inputRef.current && !inputRef.current.contains(event.target)) {
       // Oculta los resultados
-      setClassResContainer("resContainerNone");
+      setClassResContainer('resContainerNone');
     }
   };
 
   const handleInputChange = (event) => {
     dispatch(getAllClientsByTextRequest(event.target.value)).then(() => {
-      setClassResContainer("resContainer");
+      setClassResContainer('resContainer');
     });
     // Aquí puedes agregar la lógica de búsqueda según el valor del input
   };
   const onSelect = (id) => {
     dispatch(getClientIdRequest(id)).then(() => {
-      setClassResContainer("resContainerNone");
+      setClassResContainer('resContainerNone');
     });
   };
 
   useEffect(() => {
     // Agrega un escucha de clic al documento cuando se monta el componente
-    document.addEventListener("click", handleDocumentClick);
+    document.addEventListener('click', handleDocumentClick);
 
     // Limpia el escucha de clic cuando el componente se desmonta
     return () => {
-      document.removeEventListener("click", handleDocumentClick);
+      document.removeEventListener('click', handleDocumentClick);
     };
   }, []); // El array vacío indica que este efecto se ejecuta solo al montar y desmontar el componente
   return (
     <div
-      style={{ marginBottom: "15px" }}
+      style={{ marginBottom: '15px' }}
       className={`${styles[width]}`}
       ref={inputRef}
     >
       <div
         onBlur={() => {
-          setClassDivContainer("inputContainer");
+          setClassDivContainer('inputContainer');
         }}
         className={`${styles[classDivContainer]}`}
       >
         <i className={`${styles.searchIcon} ${icon}`}></i>
         <input
           onFocus={() => {
-            setClassDivContainer("inputContainerActive");
+            setClassDivContainer('inputContainerActive');
           }}
           className={styles.input}
           type={type}

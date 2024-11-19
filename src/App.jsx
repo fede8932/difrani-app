@@ -1,45 +1,45 @@
-import React, { useEffect, useState } from "react";
-import "./App.css";
-import LoginView from "./views/loginView/LoginView";
-import NavbarContainer from "./containers/NavbarContainer";
-import SideBarContainer from "./containers/SideBarContainer";
-import { useDispatch, useSelector } from "react-redux";
-import { persistUser, persistUserMe } from "./redux/user";
-import AddUser from "./views/addUser/AddUser";
-import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
-import Dashbord from "./views/dashbord/Dashbord";
-import AddClient from "./views/addClient/AddClient";
-import AddSupplier from "./views/addSupplier/AddSupplier";
-import AddBrand from "./views/addBrand/AddBrand";
-import AddProduct from "./views/addProduct/AddProduct";
-import SearchProduct from "./views/searchProduct/SearchProduct";
-import SearchBrand from "./views/searchBrand/SearchBrand";
-import NewBuyOrder from "./views/newBuyOrder/NewBuyOrder";
-import NewSellOrder from "./views/newSellOrder/NewSellOrder";
-import SearchSeller from "./views/searchSeller/SearchSeller";
-import SearchClient from "./views/searchClient/SearchClient";
-import SearchSupplier from "./views/searchSupplier/SearchSupplier";
-import SearchCurrentAcount from "./views/searchCurrentAcount/SearchCurrentAcount";
-import SearchBuyOrder from "./views/searchOrder/SearchBuyOrder";
-import AddFactView from "./views/addFact/AddFactView";
-import OrderAjust from "./views/orderAjust/OrderAjust";
-import SearchControlOrder from "./views/searchControlOrder/SearchControlOrder";
-import NewBudget from "./views/newBudget/NewBudget";
-import SearchSellOrder from "./views/searchSellOrder/SearchSellOrder";
-import SearchPickingOrder from "./views/pickingOrder/SearchControlOrder";
-import ConfirmBuy from "./views/confirmBuyOrder/ConfirmBuy";
-import SellReport from "./views/sellReport/SellReport";
-import * as signalR from "@microsoft/signalr";
-import { searchSellOrderRequest } from "./redux/searchOrders";
-import { trueNotificStatus } from "./redux/webSocketNotification";
-import SellerAcount from "./views/ClientAcount/SellerAcount";
-import Equivalences from "./views/equivalences/Equivalences";
-import ProtectedView from "./protected/protectedView/ProtectedView";
-import AddOtherUser from "./views/addOtherUser/AddUser";
-import notifSound from "./assets/notif/ding-126626.mp3";
-import { toast } from "react-toastify";
-import SearchUsers from "./views/searchUsers/SearchUsers";
-import { billHtml } from "./templates/billcopy";
+import React, { useEffect, useState } from 'react';
+import './App.css';
+import LoginView from './views/loginView/LoginView';
+import NavbarContainer from './containers/NavbarContainer';
+import SideBarContainer from './containers/SideBarContainer';
+import { useDispatch, useSelector } from 'react-redux';
+import { persistUser, persistUserMe } from './redux/user';
+import AddUser from './views/addUser/AddUser';
+import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
+import Dashbord from './views/dashbord/Dashbord';
+import AddClient from './views/addClient/AddClient';
+import AddSupplier from './views/addSupplier/AddSupplier';
+import AddBrand from './views/addBrand/AddBrand';
+import AddProduct from './views/addProduct/AddProduct';
+import SearchProduct from './views/searchProduct/SearchProduct';
+import SearchBrand from './views/searchBrand/SearchBrand';
+import NewBuyOrder from './views/newBuyOrder/NewBuyOrder';
+import NewSellOrder from './views/newSellOrder/NewSellOrder';
+import SearchSeller from './views/searchSeller/SearchSeller';
+import SearchClient from './views/searchClient/SearchClient';
+import SearchSupplier from './views/searchSupplier/SearchSupplier';
+import SearchCurrentAcount from './views/searchCurrentAcount/SearchCurrentAcount';
+import SearchBuyOrder from './views/searchOrder/SearchBuyOrder';
+import AddFactView from './views/addFact/AddFactView';
+import OrderAjust from './views/orderAjust/OrderAjust';
+import SearchControlOrder from './views/searchControlOrder/SearchControlOrder';
+import NewBudget from './views/newBudget/NewBudget';
+import SearchSellOrder from './views/searchSellOrder/SearchSellOrder';
+import SearchPickingOrder from './views/pickingOrder/SearchControlOrder';
+import ConfirmBuy from './views/confirmBuyOrder/ConfirmBuy';
+import SellReport from './views/sellReport/SellReport';
+import * as signalR from '@microsoft/signalr';
+import { searchSellOrderRequest } from './redux/searchOrders';
+import { trueNotificStatus } from './redux/webSocketNotification';
+import SellerAcount from './views/ClientAcount/SellerAcount';
+import Equivalences from './views/equivalences/Equivalences';
+import ProtectedView from './protected/protectedView/ProtectedView';
+import AddOtherUser from './views/addOtherUser/AddUser';
+import notifSound from './assets/notif/ding-126626.mp3';
+import { toast } from 'react-toastify';
+import SearchUsers from './views/searchUsers/SearchUsers';
+import { billHtml } from './templates/billcopy';
 
 function App() {
   const signalHub = `${import.meta.env.VITE_API_URL}/${
@@ -55,8 +55,8 @@ function App() {
   useEffect(() => {
     dispatch(persistUserMe())
       .then((res) => {
-        if (res.error?.message == "Request failed with status code 401") {
-          console.log("No autorizado");
+        if (res.error?.message == 'Request failed with status code 401') {
+          console.log('No autorizado');
         }
         setRender(true);
       })
@@ -77,20 +77,20 @@ function App() {
 
     connection
       .start()
-      .then(() => console.log("Conexión establecida con SignalR"))
+      .then(() => console.log('Conexión establecida con SignalR'))
       .catch((error) => console.error(error));
 
-    connection.on("NewSellOrder", (message) => {
+    connection.on('NewSellOrder', (message) => {
       // console.log(`${message}`);
-      if (message == "clientOrderOk") {
+      if (message == 'clientOrderOk') {
         console.log(pathname);
-        if (pathname == "/search/sell") {
+        if (pathname == '/search/sell') {
           dispatch(searchSellOrderRequest(filterPickings));
         }
         dispatch(trueNotificStatus());
         const audio = new Audio(notifSound);
         audio.play().catch((error) => {
-          console.error("Error al reproducir el sonido:", error);
+          console.error('Error al reproducir el sonido:', error);
         });
       }
     });
@@ -111,7 +111,7 @@ function App() {
               <NavbarContainer />
               <div className="panelSubContainer">
                 <SideBarContainer />
-                <div className={`viewContainer ${isOpen ? "" : "big"}`}>
+                <div className={`viewContainer ${isOpen ? '' : 'big'}`}>
                   <Routes>
                     <Route
                       path="/"

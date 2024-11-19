@@ -1,9 +1,9 @@
-import React from "react";
-import styles from "./findOrder.module.css";
-import Button from "react-bootstrap/Button";
-import Container from "react-bootstrap/Container";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
+import React from 'react';
+import styles from './findOrder.module.css';
+import Button from 'react-bootstrap/Button';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 
 function FindBuyOrderComponent(props) {
   const { setView } = props;
@@ -12,7 +12,7 @@ function FindBuyOrderComponent(props) {
       <div className={`${styles.listContainer} ${styles.finContainer}`}>
         <span className={styles.subTitle}>Detalles de orden</span>
         <div className={styles.dataContainer}>
-          <Container style={{ margin: "0" }}>
+          <Container style={{ margin: '0' }}>
             <Row className={styles.filasFin}>
               <Col className={styles.colUno}>
                 <span className={styles.titleInfo}>
@@ -244,12 +244,12 @@ function FindBuyOrderComponent(props) {
           </div>
         </div>
       </div>
-      <div className={styles.buttonContainer} style={{ marginTop: "20px" }}>
+      <div className={styles.buttonContainer} style={{ marginTop: '20px' }}>
         <Button
           className={`${styles.buttonStyle} ${styles.buttonStyleBack}`}
           variant="danger"
           onClick={() => {
-            setView("Productos");
+            setView('Productos');
             console.log(View);
           }}
         >
@@ -259,7 +259,7 @@ function FindBuyOrderComponent(props) {
           className={`${styles.buttonStyle} ${styles.buttonStyleNext}`}
           variant="success"
           onClick={() => {
-            setView("Finalizar");
+            setView('Finalizar');
           }}
         >
           Crear

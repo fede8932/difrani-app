@@ -1,11 +1,11 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import * as userRequest from "../request/userRequest";
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import * as userRequest from '../request/userRequest';
 
 const userState = {
   loading: false,
   pending: true,
   data: null,
-  error: "",
+  error: '',
 };
 
 // export const sendSignUpRequest = createAsyncThunk(
@@ -14,26 +14,26 @@ const userState = {
 // );
 
 export const sendLoginRequest = createAsyncThunk(
-  "LOGIN",
+  'LOGIN',
   userRequest.sendLoginRequest
 );
 
 export const sendLogoutRequest = createAsyncThunk(
-  "LOGOUT",
+  'LOGOUT',
   userRequest.sendLogoutRequest
 );
 
-export const persistUser = createAsyncThunk("PERSISTENCIA", async () => {
-  return JSON.parse(localStorage.getItem("user"));
+export const persistUser = createAsyncThunk('PERSISTENCIA', async () => {
+  return JSON.parse(localStorage.getItem('user'));
 });
 
 export const persistUserMe = createAsyncThunk(
-  "PERSIST_USER",
+  'PERSIST_USER',
   userRequest.persistUserRequest
 );
 
 const userSlice = createSlice({
-  name: "user",
+  name: 'user',
   initialState: userState,
   extraReducers: {
     // [sendSignUpRequest.pending]: (state, action) => {

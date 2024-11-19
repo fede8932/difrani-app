@@ -1,11 +1,11 @@
-import React from "react";
-import styles from "./subForm.module.css";
-import TableContainer from "../../containers/TableContainer";
-import FormClientSupplier from "../../commonds/subFormClient/FormClientSupplier";
-import { useNavigate } from "react-router";
-import { Button } from "react-bootstrap";
-import ProtectedComponent from "../../protected/protectedComponent/ProtectedComponent";
-import { useSelector } from "react-redux";
+import React from 'react';
+import styles from './subForm.module.css';
+import TableContainer from '../../containers/TableContainer';
+import FormClientSupplier from '../../commonds/subFormClient/FormClientSupplier';
+import { useNavigate } from 'react-router';
+import { Button } from 'react-bootstrap';
+import ProtectedComponent from '../../protected/protectedComponent/ProtectedComponent';
+import { useSelector } from 'react-redux';
 
 function SubFormAddClientComponent(props) {
   const { methods, onSubmitBrand, tableItems, delFn } = props;
@@ -26,23 +26,23 @@ function SubFormAddClientComponent(props) {
           <TableContainer
             delFn={delFn}
             brands={tableItems}
-            indicadores={["Marca", "Concepto", "Porcentaje", "Acciones"]}
+            indicadores={['Marca', 'Concepto', 'Porcentaje', 'Acciones']}
           />
         </div>
       </div>
       <Button
         onClick={() => {
-          if (rolId == "5") {
-            navigate("/search/client");
+          if (rolId == '5' || rolId == '2') {
+            navigate('/search/client');
             return;
           }
-          navigate("/");
+          navigate('/');
         }}
         style={{
-          backgroundColor: "#673ab7",
-          border: "1px solid #673ab7",
-          margin: "35px 0px",
-          height: "38px",
+          backgroundColor: '#673ab7',
+          border: '1px solid #673ab7',
+          margin: '35px 0px',
+          height: '38px',
         }}
       >
         Finalizar

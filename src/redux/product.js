@@ -1,50 +1,50 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import * as productRequest from "../request/productRequest";
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import * as productRequest from '../request/productRequest';
 const initState = {
   loading: false,
   data: { list: [], totalRows: 0, totalPages: 0 },
-  error: "",
+  error: '',
 };
 export const productCreateRequest = createAsyncThunk(
-  "PRODUCT_CREATE",
+  'PRODUCT_CREATE',
   productRequest.createProduct
 );
 export const productsFileCreateRequest = createAsyncThunk(
-  "PRODUCTS_FILE_CREATE",
+  'PRODUCTS_FILE_CREATE',
   productRequest.addProductsFile
 );
 
 export const searchProductRequest = createAsyncThunk(
-  "SEARCH_PRODUCT",
+  'SEARCH_PRODUCT',
   productRequest.searchProduct
 );
 
 export const searchProductsRequest = createAsyncThunk(
-  "SEARCH_PRODUCTS",
+  'SEARCH_PRODUCTS',
   productRequest.searchProducts
 );
 
 export const searchProductsExtraRequest = createAsyncThunk(
-  "SEARCH_EXTRA_PRODUCTS",
+  'SEARCH_EXTRA_PRODUCTS',
   productRequest.searchExtraProducts
 );
 
 export const deleteProductRequest = createAsyncThunk(
-  "DELETE_PRODUCT",
+  'DELETE_PRODUCT',
   productRequest.deleteProduct
 );
 
 export const updateProductRequest = createAsyncThunk(
-  "UPDATE_PRODUCT",
+  'UPDATE_PRODUCT',
   productRequest.updateProduct
 );
 
 const productSlice = createSlice({
-  name: "product",
+  name: 'product',
   initialState: initState,
   reducers: {
     resetProductSearch: (state, action) => {
-      state.error = "";
+      state.error = '';
       state.loading = false;
       state.data = initState.data;
     },

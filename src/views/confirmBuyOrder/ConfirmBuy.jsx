@@ -1,6 +1,6 @@
-import React from "react";
-import styles from "./confirmBuy.module.css";
-import ConfirmBuyContainer from "../../containers/ConfirmBuyContainer";
+import React from 'react';
+import styles from './confirmBuy.module.css';
+import ConfirmBuyContainer from '../../containers/ConfirmBuyContainer';
 
 function ConfirmBuy(props) {
   return (

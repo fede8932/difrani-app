@@ -1,20 +1,20 @@
-import React, { useState } from "react";
-import styles from "./newMoviment.module.css";
-import { FormProvider } from "react-hook-form";
-import CustomInput from "../../commonds/input/CustomInput";
-import { default as EditInput } from "../../commonds/putInput/CustomInput";
-import CustomSelect from "../../commonds/select/CustomSelect";
-import Button from "react-bootstrap/esm/Button";
+import React, { useState } from 'react';
+import styles from './newMoviment.module.css';
+import { FormProvider } from 'react-hook-form';
+import CustomInput from '../../commonds/input/CustomInput';
+import { default as EditInput } from '../../commonds/putInput/CustomInput';
+import CustomSelect from '../../commonds/select/CustomSelect';
+import Button from 'react-bootstrap/esm/Button';
 import {
   compareNCListFactList,
   filterOrders,
   redondearADosDecimales,
-} from "../../utils";
-import { Checkbox } from "semantic-ui-react";
-import RoleTableContainer from "../../containers/RoleTableContainer";
-import { useSelector } from "react-redux";
-import { Spinner } from "react-bootstrap";
-import { DatePicker } from "antd";
+} from '../../utils';
+import { Checkbox } from 'semantic-ui-react';
+import RoleTableContainer from '../../containers/RoleTableContainer';
+import { useSelector } from 'react-redux';
+import { Spinner } from 'react-bootstrap';
+import { DatePicker } from 'antd';
 
 function NewMoviment(props) {
   const {
@@ -49,8 +49,8 @@ function NewMoviment(props) {
     <div className={styles.formContainer}>
       <div className={styles.infoContainer}>
         <i class="fa-regular fa-folder-open"></i>
-        <span style={{ marginLeft: "5px" }}>Facturas afectadas:</span>
-        <div style={{ display: "inline-block" }}>
+        <span style={{ marginLeft: '5px' }}>Facturas afectadas:</span>
+        <div style={{ display: 'inline-block' }}>
           {listMov.map((m, i) => (
             <span className={styles.label} key={i}>
               {m.numComprobante}
@@ -58,10 +58,10 @@ function NewMoviment(props) {
           ))}
         </div>
         <br />
-        <div style={{ display: "flex", justifyContent: "flex-end" }}>
+        <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
           <div>
             <i class="fa-solid fa-file-invoice"></i>
-            <span style={{ marginLeft: "5px" }}>
+            <span style={{ marginLeft: '5px' }}>
               Saldo pendiente: $
               {/* {redondearADosDecimales(
                 checked
@@ -81,8 +81,8 @@ function NewMoviment(props) {
             name="mov"
             validate={{ required: true }}
             arrayOptions={[
-              { value: 1, text: "Pago" },
-              { value: 2, text: "Cancelación" },
+              { value: 1, text: 'Pago' },
+              { value: 2, text: 'Cancelación' },
             ]}
             fnSelect={handleMovSelect}
           />
@@ -95,9 +95,9 @@ function NewMoviment(props) {
                 name="method"
                 validate={{ required: true }}
                 arrayOptions={[
-                  { value: 1, text: "Cheque" },
-                  { value: 2, text: "Efectivo" },
-                  { value: 3, text: "Transferencia" },
+                  { value: 1, text: 'Cheque' },
+                  { value: 2, text: 'Efectivo' },
+                  { value: 3, text: 'Transferencia' },
                 ]}
                 fnSelect={(e) => {
                   console.log(e);
@@ -144,7 +144,7 @@ function NewMoviment(props) {
                   <CustomInput
                     name="banco"
                     type="text"
-                    width={method.method == 3 ? "xsmall" : "small"}
+                    width={method.method == 3 ? 'xsmall' : 'small'}
                     placeholder="Ingrese el nombre del banco"
                     icon="fa-solid fa-building-columns"
                     validate={{ required: true }}
@@ -176,7 +176,7 @@ function NewMoviment(props) {
                 </div>
               ) : null}
               <Checkbox
-                style={{ marginBottom: "10px" }}
+                style={{ marginBottom: '10px' }}
                 label="Aplicar nota de crédito"
                 onClick={() => setApplyNc(!applyNc)}
                 checked={applyNc}
@@ -188,10 +188,10 @@ function NewMoviment(props) {
             <div className={styles.ncTableCont}>
               <RoleTableContainer
                 colum={[
-                  { title: "Marcar", width: "20%" },
-                  { title: "Fecha", width: "25%" },
-                  { title: "Comprobante", width: "30%" },
-                  { title: "Monto", width: "25%" },
+                  { title: 'Marcar', width: '20%' },
+                  { title: 'Fecha', width: '25%' },
+                  { title: 'Comprobante', width: '30%' },
+                  { title: 'Monto', width: '25%' },
                 ]}
                 marcToggle={marcToggle}
                 result={listNcNoApply.data}
@@ -222,7 +222,7 @@ function NewMoviment(props) {
                 type="text"
                 width="complete"
                 placeholder={`Ingrese el monto ${
-                  selectState == "nc" ? "sin iva " : ""
+                  selectState == 'nc' ? 'sin iva ' : ''
                 }del movimiento`}
                 icon="fa-solid fa-hand-holding-dollar"
                 validate={{ required: true }}
@@ -256,14 +256,14 @@ function NewMoviment(props) {
                 }
                 type="submit"
                 style={{
-                  backgroundColor: "#673ab7",
-                  border: "1px solid #673ab7",
-                  height: "48px",
-                  width: "100px",
-                  marginLeft: "10px",
+                  backgroundColor: '#673ab7',
+                  border: '1px solid #673ab7',
+                  height: '48px',
+                  width: '100px',
+                  marginLeft: '10px',
                 }}
               >
-                {inactive ? <Spinner /> : "Confirmar"}
+                {inactive ? <Spinner /> : 'Confirmar'}
               </Button>
             ) : (
               <Button
@@ -272,14 +272,14 @@ function NewMoviment(props) {
                 }
                 onClick={cancelFactFn}
                 style={{
-                  backgroundColor: "#673ab7",
-                  border: "1px solid #673ab7",
-                  height: "48px",
-                  width: "100px",
-                  marginLeft: "10px",
+                  backgroundColor: '#673ab7',
+                  border: '1px solid #673ab7',
+                  height: '48px',
+                  width: '100px',
+                  marginLeft: '10px',
                 }}
               >
-                {inactive ? <Spinner /> : "Confirmar"}
+                {inactive ? <Spinner /> : 'Confirmar'}
               </Button>
             )}
           </div>

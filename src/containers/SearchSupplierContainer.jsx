@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
-import { useDispatch, useSelector } from "react-redux";
-import SearchSupplierComponent from "../components/searchSupplier/SearchSupplierComponent";
-import { getSuppliersByTextRequest } from "../redux/searchSupplier";
-import { useLocation } from "react-router-dom";
-import SearchRepSupplierComponent from "../components/searchSupplier/SearchRepSupplierComponent";
-import { searchRepresentRequest } from "../redux/representativeSearch";
+import React, { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { useDispatch, useSelector } from 'react-redux';
+import SearchSupplierComponent from '../components/searchSupplier/SearchSupplierComponent';
+import { getSuppliersByTextRequest } from '../redux/searchSupplier';
+import { useLocation } from 'react-router-dom';
+import SearchRepSupplierComponent from '../components/searchSupplier/SearchRepSupplierComponent';
+import { searchRepresentRequest } from '../redux/representativeSearch';
 
 function SearchSupplierContainer(props) {
-  const [searchText, setSearchText] = useState("null");
+  const [searchText, setSearchText] = useState('null');
   const { pathname } = useLocation();
   const representantes = useSelector((state) => state.searchRepresentatives);
   const methods = useForm();
@@ -19,7 +19,7 @@ function SearchSupplierContainer(props) {
       text: text.campo,
       page: 1,
       pageSize: 10,
-      orderByColumn: "id",
+      orderByColumn: 'id',
     };
     dispatch(getSuppliersByTextRequest(data));
   };
@@ -28,27 +28,27 @@ function SearchSupplierContainer(props) {
       text: searchText,
       page: activePag,
       pageSize: 10,
-      orderByColumn: "id",
+      orderByColumn: 'id',
     };
     dispatch(getSuppliersByTextRequest(data));
   };
   const dataSupplier = useSelector((state) => state.searchSuppliers);
   useEffect(() => {
     const data = {
-      text: "null",
+      text: 'null',
       page: 1,
       pageSize: 10,
-      orderByColumn: "id",
+      orderByColumn: 'id',
     };
     dispatch(getSuppliersByTextRequest(data));
     dispatch(searchRepresentRequest({ page: 1 }));
   }, []);
   const resetSearch = () => {
     const data = {
-      text: "null",
+      text: 'null',
       page: 1,
       pageSize: 10,
-      orderByColumn: "id",
+      orderByColumn: 'id',
     };
     dispatch(getSuppliersByTextRequest(data));
   };
@@ -58,7 +58,7 @@ function SearchSupplierContainer(props) {
 
   return (
     <>
-      {pathname == "/search/supplier" ? (
+      {pathname == '/search/supplier' ? (
         <SearchSupplierComponent
           methods={methods}
           onSubmit={searchSupplier}

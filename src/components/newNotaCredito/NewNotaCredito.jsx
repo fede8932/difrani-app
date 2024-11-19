@@ -1,14 +1,14 @@
-import React from "react";
-import styles from "./newNotaCredito.module.css";
-import { FormProvider } from "react-hook-form";
-import CustomSelect from "../../commonds/select/CustomSelect";
-import Button from "react-bootstrap/esm/Button";
-import { filterOrders, redondearADosDecimales } from "../../utils";
-import { Checkbox } from "semantic-ui-react";
-import RoleTableContainer from "../../containers/RoleTableContainer";
-import { useSelector } from "react-redux";
-import { Spinner } from "react-bootstrap";
-import CustomInput from "../../commonds/input/CustomInput";
+import React from 'react';
+import styles from './newNotaCredito.module.css';
+import { FormProvider } from 'react-hook-form';
+import CustomSelect from '../../commonds/select/CustomSelect';
+import Button from 'react-bootstrap/esm/Button';
+import { filterOrders, redondearADosDecimales } from '../../utils';
+import { Checkbox } from 'semantic-ui-react';
+import RoleTableContainer from '../../containers/RoleTableContainer';
+import { useSelector } from 'react-redux';
+import { Spinner } from 'react-bootstrap';
+import CustomInput from '../../commonds/input/CustomInput';
 
 function NewNotaCredito(props) {
   const {
@@ -43,8 +43,8 @@ function NewNotaCredito(props) {
               name="type"
               validate={{ required: true }}
               arrayOptions={[
-                { value: "nc", text: "Nota de crédito oficial" },
-                { value: "ncp", text: "Nota de crédito X" },
+                { value: 'nc', text: 'Nota de crédito oficial' },
+                { value: 'ncp', text: 'Nota de crédito X' },
               ]}
               fnSelect={(e) => {
                 setSelectTypeState(e);
@@ -56,9 +56,9 @@ function NewNotaCredito(props) {
               name="motive"
               validate={{ required: true }}
               arrayOptions={[
-                { value: "g", text: "Garantía" },
-                { value: "d", text: "Devolución" },
-                { value: "n", text: "Nota" },
+                { value: 'g', text: 'Garantía' },
+                { value: 'd', text: 'Devolución' },
+                { value: 'n', text: 'Nota' },
               ]}
               fnSelect={(e) => {
                 setSelectMotivState(e);
@@ -66,19 +66,19 @@ function NewNotaCredito(props) {
             />
             <>
               <span>
-                {selectTypeState == "nc"
-                  ? "Número de factura"
-                  : "Numero de presupuesto"}
+                {selectTypeState == 'nc'
+                  ? 'Número de factura'
+                  : 'Numero de presupuesto'}
               </span>
-              {selectMotivState == "n" ? (
+              {selectMotivState == 'n' ? (
                 <CustomInput
                   name="numFact"
                   type="text"
                   width="complete"
                   placeholder={`Ingrese el número ${
-                    selectTypeState == "nc"
-                      ? "de la factura asociada"
-                      : "del presupuesto asociado"
+                    selectTypeState == 'nc'
+                      ? 'de la factura asociada'
+                      : 'del presupuesto asociado'
                   }`}
                   icon="fa-solid fa-file-invoice-dollar"
                   validate={{ required: true }}
@@ -86,7 +86,7 @@ function NewNotaCredito(props) {
               ) : (
                 <div className={styles.searchInpCont}>
                   <i
-                    style={{ position: "absolute" }}
+                    style={{ position: 'absolute' }}
                     className="fa-solid fa-magnifying-glass"
                   ></i>
                   <input
@@ -99,7 +99,7 @@ function NewNotaCredito(props) {
                 </div>
               )}
             </>
-            {selectMotivState != "n" ? (
+            {selectMotivState != 'n' ? (
               <div>
                 {/* <div className={styles.searchInpCont}>
                   <i
@@ -117,12 +117,12 @@ function NewNotaCredito(props) {
                 <div className={styles.tableContainer}>
                   <RoleTableContainer
                     colum={[
-                      { title: "Check", width: "7%" },
-                      { title: "Marca", width: "16%" },
-                      { title: "Artículo", width: "12%" },
-                      { title: "Description", width: "45%" },
-                      { title: "Precio", width: "12%" },
-                      { title: "Cant.", width: "8%" },
+                      { title: 'Check', width: '7%' },
+                      { title: 'Marca', width: '16%' },
+                      { title: 'Artículo', width: '12%' },
+                      { title: 'Description', width: '45%' },
+                      { title: 'Precio', width: '12%' },
+                      { title: 'Cant.', width: '8%' },
                     ]}
                     type="ncMod"
                     result={billData?.fItems}
@@ -134,7 +134,7 @@ function NewNotaCredito(props) {
                     <div>
                       <i class="fa-solid fa-file-invoice-dollar"></i>
                       <span
-                        style={{ marginLeft: "5px" }}
+                        style={{ marginLeft: '5px' }}
                       >{`Total NC:$ ${redondearADosDecimales(
                         billData?.fItems.reduce((acum, item) => {
                           if (item.marc) {
@@ -142,7 +142,7 @@ function NewNotaCredito(props) {
                           }
                           return acum;
                         }, 0)
-                      )} ${selectTypeState == "nc" ? "+ iva." : ""}`}</span>
+                      )} ${selectTypeState == 'nc' ? '+ iva.' : ''}`}</span>
                     </div>
                   ) : null}
                 </div>
@@ -178,18 +178,18 @@ function NewNotaCredito(props) {
                     return acum + item.sellPrice * item.amount;
                   }
                   return acum;
-                }, 0) <= 0 && selectMotivState != "n"
+                }, 0) <= 0 && selectMotivState != 'n'
               }
               type="submit"
               style={{
-                backgroundColor: "#673ab7",
-                border: "1px solid #673ab7",
-                height: "48px",
-                width: "100px",
-                marginLeft: "10px",
+                backgroundColor: '#673ab7',
+                border: '1px solid #673ab7',
+                height: '48px',
+                width: '100px',
+                marginLeft: '10px',
               }}
             >
-              {loading ? <Spinner /> : "Confirmar"}
+              {loading ? <Spinner /> : 'Confirmar'}
             </Button>
           </div>
         </form>

@@ -1,35 +1,35 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import * as userRequest from "../request/userRequest";
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import * as userRequest from '../request/userRequest';
 
 const uState = {
   loading: false,
   data: { results: 0, pages: 0, users: [] },
-  error: "",
+  error: '',
 };
 
 export const searchUsersExtra = createAsyncThunk(
-  "SEARCH_USERS_EXTRA",
+  'SEARCH_USERS_EXTRA',
   userRequest.searchUserRequest
 );
 
 export const toggleStatusUser = createAsyncThunk(
-  "TOGGLE_STATUS_USER",
+  'TOGGLE_STATUS_USER',
   userRequest.updateUserStatusRequest
 );
 
 export const resetPassUser = createAsyncThunk(
-  "RESET_PASS_USER",
+  'RESET_PASS_USER',
   userRequest.resetPassRequest
 );
 
 const serachUsersSlice = createSlice({
-  name: "searchUsersExtra",
+  name: 'searchUsersExtra',
   initialState: uState,
   reducers: {
     resetState: (state) => {
       state.loading = false;
       state.data = { results: 0, pages: 0, users: [] };
-      state.error = "";
+      state.error = '';
     },
   },
   extraReducers: {
@@ -49,7 +49,7 @@ const serachUsersSlice = createSlice({
     },
     [searchUsersExtra.fulfilled]: (state, action) => {
       state.loading = false;
-      state.error = "";
+      state.error = '';
       state.data = action.payload;
     },
     [toggleStatusUser.pending]: (state) => {
@@ -61,7 +61,7 @@ const serachUsersSlice = createSlice({
     },
     [toggleStatusUser.fulfilled]: (state, action) => {
       state.loading = false;
-      state.error = "";
+      state.error = '';
       const users = [];
       state.data.users.map((user) => {
         if (user.id == action.payload.id) {

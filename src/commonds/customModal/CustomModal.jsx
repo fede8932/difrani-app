@@ -1,7 +1,7 @@
-import React from "react";
-import styles from "./customModal.module.css";
-import Modal from "react-bootstrap/Modal";
-import { Button } from "react-bootstrap";
+import React from 'react';
+import styles from './customModal.module.css';
+import Modal from 'react-bootstrap/Modal';
+import { Button } from 'react-bootstrap';
 
 const VerticalModal = (props) => {
   const { title, size, onHide, children, show } = props; //size: 'sm' | 'lg' | 'xl'
@@ -16,7 +16,7 @@ const VerticalModal = (props) => {
     >
       <Modal.Header closeButton>
         <Modal.Title
-          style={{ color: "#3C3C3C" }}
+          style={{ color: '#3C3C3C' }}
           id="contained-modal-title-vcenter"
         >
           {title}

@@ -1,5 +1,7 @@
-import axios from "axios";
+import axios from 'axios';
 const apiUrl = import.meta.env.VITE_API_URL;
+
+let cancelToken;
 
 export const getCurrentAcount = async (id) => {
   try {
@@ -9,7 +11,21 @@ export const getCurrentAcount = async (id) => {
     return data;
   } catch (error) {
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
+    }
+    throw error;
+  }
+};
+
+export const normalizeResumeRequest = async (id) => {
+  try {
+    const { data } = await axios.get(`${apiUrl}/api/movement/normalize/${id}`, {
+      withCredentials: true,
+    });
+    return data;
+  } catch (error) {
+    if (error.response?.status == 401) {
+      window.location.href = '/';
     }
     throw error;
   }
@@ -32,7 +48,7 @@ export const getMovementsRequest = async (sendData) => {
     return data;
   } catch (error) {
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     throw error;
   }
@@ -40,22 +56,34 @@ export const getMovementsRequest = async (sendData) => {
 
 export const getMovementsExtraRequest = async (sendData) => {
   // console.log(sendData);
+
+  if (cancelToken) {
+    cancelToken.cancel('Operation canceled due to new request.');
+  }
+  // Crear un nuevo token de cancelación para la solicitud actual
+  cancelToken = axios.CancelToken.source();
+
   try {
     const { currentAcountId, ...filters } = sendData;
     if (currentAcountId) {
       let url = `${apiUrl}/api/movement/extra/get/${currentAcountId}`;
       let { data } = await axios.post(url, filters, {
         withCredentials: true,
+        cancelToken: cancelToken.token,
       });
 
       return data;
     }
     return { totalRows: 0, totalPages: 1, list: [] };
   } catch (error) {
-    if (error.response?.status == 401) {
-      window.location.href = "/";
+    if (axios.isCancel(error)) {
+      console.log('Request canceled:', error.message);
+    } else {
+      if (error.response?.status === 401) {
+        window.location.href = '/';
+      }
+      throw error;
     }
-    throw error;
   }
 };
 
@@ -69,7 +97,7 @@ export const newMovementsRequest = async (sendData) => {
     return data;
   } catch (error) {
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     throw error;
   }
@@ -88,7 +116,7 @@ export const addPayToCurrentAcount = async (sendData) => {
     return data;
   } catch (error) {
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     throw error;
   }
@@ -107,7 +135,7 @@ export const addCancelToCurrentAcount = async (sendData) => {
     return data;
   } catch (error) {
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     throw error;
   }

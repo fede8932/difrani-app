@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios';
 const apiUrl = import.meta.env.VITE_API_URL;
 
 export const getRepresentativesBySupplier = async (id) => {
@@ -12,7 +12,7 @@ export const getRepresentativesBySupplier = async (id) => {
     return representatives;
   } catch (error) {
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     throw error;
   }
@@ -31,7 +31,7 @@ export const searchRepresentativesBySupplier = async (date) => {
     return representatives;
   } catch (error) {
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     throw error;
   }

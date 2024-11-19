@@ -1,33 +1,33 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import * as brandRequest from "../request/brandRequest";
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import * as brandRequest from '../request/brandRequest';
 const initState = {
   loading: false,
   data: [],
-  error: "",
+  error: '',
 };
 export const brandCreateRequest = createAsyncThunk(
-  "BRAND_CREATE",
+  'BRAND_CREATE',
   brandRequest.createBrand
 );
 export const getBrandRequest = createAsyncThunk(
-  "GET_BRAND",
+  'GET_BRAND',
   brandRequest.getBrands
 );
 export const getBrandByRSRequest = createAsyncThunk(
-  "GET_BRAND_RS",
+  'GET_BRAND_RS',
   brandRequest.getBrandsBySupplier
 );
 export const updateBrandRequest = createAsyncThunk(
-  "PUT_BRAND",
+  'PUT_BRAND',
   brandRequest.updateBrand
 );
 export const resetBrandRequest = createAsyncThunk(
-  "RESET_BRAND",
+  'RESET_BRAND',
   () => initState
 );
 
 const brandSlice = createSlice({
-  name: "brand",
+  name: 'brand',
   initialState: initState,
   extraReducers: {
     [brandCreateRequest.pending]: (state, action) => {
@@ -80,7 +80,7 @@ const brandSlice = createSlice({
     [resetBrandRequest.fulfilled]: (state, action) => {
       state.data = action.payload.data;
       state.loading = false;
-      state.error = "";
+      state.error = '';
     },
   },
 });

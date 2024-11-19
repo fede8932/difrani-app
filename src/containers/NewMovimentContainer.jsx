@@ -1,31 +1,31 @@
-import React, { useEffect, useState } from "react";
-import NewMoviment from "../components/newMoviment/NewMoviment";
-import { useForm } from "react-hook-form";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useEffect, useState } from 'react';
+import NewMoviment from '../components/newMoviment/NewMoviment';
+import { useForm } from 'react-hook-form';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   addPayToCurrentAcount,
   getMovementsByCurrentAcountId,
-} from "../redux/searchCurrentAcount";
+} from '../redux/searchCurrentAcount';
 import {
   convertImageToBase64,
   filterMovsId,
   obtenerIds,
   redondearADosDecimales,
   waitForImagesToLoad,
-} from "../utils";
-import Swal from "sweetalert2";
+} from '../utils';
+import Swal from 'sweetalert2';
 import {
   getAllMovNoApplyRequest,
   marcToggleNoApplyRequest,
   resetMovNoApplyRequest,
-} from "../redux/movNoApply";
-import { payDetail } from "../templates/payDetail";
-import logoBlase from "../assets/logo/logoBlase.png";
-import { addCancelToCurrentAcount } from "../request/currentAcountRequest";
+} from '../redux/movNoApply';
+import { payDetail } from '../templates/payDetail';
+import logoBlase from '../assets/logo/logoBlase.png';
+import { addCancelToCurrentAcount } from '../request/currentAcountRequest';
 
 function NewMovimientContainer(props) {
   const [inactive, setInactive] = useState(false);
-  const [selectState, setSelectState] = useState("p");
+  const [selectState, setSelectState] = useState('p');
   const [method, setMethod] = useState({
     method: 2,
     fecha: new Date().toISOString(),
@@ -54,9 +54,9 @@ function NewMovimientContainer(props) {
       (method.method == 1 && method.fechaCobro == null)
     ) {
       Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: "La fecha seleccionada es incorrecta",
+        icon: 'error',
+        title: 'Oops...',
+        text: 'La fecha seleccionada es incorrecta',
       });
       return;
     }
@@ -68,9 +68,9 @@ function NewMovimientContainer(props) {
     saldoPend = checked ? saldoPend * (1 - 0.06) : saldoPend;
     if (saldoPend < Number(data.importe)) {
       Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: "El importe no puede superar el saldo pendiente",
+        icon: 'error',
+        title: 'Oops...',
+        text: 'El importe no puede superar el saldo pendiente',
       });
       return;
     }
@@ -115,15 +115,15 @@ function NewMovimientContainer(props) {
   };
 
   const printPayDetail = async (client, payData) => {
-    const nuevaVentana = window.open("", "", "width=900,height=625");
+    const nuevaVentana = window.open('', '', 'width=900,height=625');
     const logoBlaseBase64 = await convertImageToBase64(logoBlase);
 
-    const containerRem = nuevaVentana.document.createElement("div");
+    const containerRem = nuevaVentana.document.createElement('div');
     nuevaVentana.document.body.appendChild(containerRem);
     containerRem.innerHTML = payDetail(client, payData, logoBlaseBase64);
     // Espera a que las imágenes se carguen antes de imprimir
     await waitForImagesToLoad(nuevaVentana);
-    nuevaVentana.addEventListener("afterprint", () => {
+    nuevaVentana.addEventListener('afterprint', () => {
       nuevaVentana.close();
     });
     nuevaVentana.print();

@@ -1,30 +1,30 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import * as clientRequest from "../request/clientRequest";
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import * as clientRequest from '../request/clientRequest';
 const userState = {
   loading: false,
   data: { pickingOrders: [], totalRows: 0, totalPages: 0 },
-  error: "",
+  error: '',
 };
 
 export const getPickingOrderRequest = createAsyncThunk(
-  "PICKING_ORDER_LIST",
+  'PICKING_ORDER_LIST',
   clientRequest.getPickingOrder
 );
 export const searchPickingOrderRequest = createAsyncThunk(
-  "PICKING_ORDER_SEARCH",
+  'PICKING_ORDER_SEARCH',
   clientRequest.searchPickingOrder
 );
 export const updatePickingOrderRequest = createAsyncThunk(
-  "PICKING_UPDATE",
+  'PICKING_UPDATE',
   clientRequest.updatePickingOrder
 );
 export const printPickingOrderRequest = createAsyncThunk(
-  "PICKING_PRINT",
+  'PICKING_PRINT',
   clientRequest.updatePrintPickingOrder
 );
 
 const clientPickingSlice = createSlice({
-  name: "clientPicking",
+  name: 'clientPicking',
   initialState: userState,
   extraReducers: {
     [searchPickingOrderRequest.pending]: (state, action) => {
@@ -36,7 +36,7 @@ const clientPickingSlice = createSlice({
     },
     [searchPickingOrderRequest.fulfilled]: (state, action) => {
       state.loading = false;
-      state.error = "";
+      state.error = '';
       state.data = action.payload;
     },
     [getPickingOrderRequest.pending]: (state, action) => {
@@ -60,7 +60,7 @@ const clientPickingSlice = createSlice({
     [updatePickingOrderRequest.fulfilled]: (state, action) => {
       const newData = state.data.pickingOrders.map((item) => {
         if (item.id == action.payload.id) {
-          item.status = "Preparado";
+          item.status = 'Preparado';
         }
         return item;
       });
@@ -84,7 +84,7 @@ const clientPickingSlice = createSlice({
       });
       newState.pickingOrders = newList;
       state.loading = false;
-      state.error = "";
+      state.error = '';
       state.data = newState;
     },
   },

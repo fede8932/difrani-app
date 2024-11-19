@@ -1,15 +1,15 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import SearchCurrentAcount from "../components/searchCurrentAcount/SearchCurrentAcount";
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import SearchCurrentAcount from '../components/searchCurrentAcount/SearchCurrentAcount';
 import {
   getAcountById,
   marcMovementsByCurrentAcountId,
-} from "../redux/searchCurrentAcount";
-import { useLocation } from "react-router";
+} from '../redux/searchCurrentAcount';
+import { useLocation } from 'react-router';
 import {
   resetFilterMovements,
   setFilterMovements,
-} from "../redux/filtersMovements";
+} from '../redux/filtersMovements';
 
 function SearchCurrentAcountContainer(props) {
   const [filterCheck, setFilterCheck] = useState({
@@ -30,7 +30,7 @@ function SearchCurrentAcountContainer(props) {
 
   const location = useLocation();
   const currentPath = location.pathname;
-  const pathSegments = currentPath.split("/");
+  const pathSegments = currentPath.split('/');
   const lastSegment = pathSegments[pathSegments.length - 1];
   const accountId = parseInt(lastSegment, 10);
 
@@ -43,7 +43,7 @@ function SearchCurrentAcountContainer(props) {
   // }, []);
 
   useEffect(() => {
-    dispatch(setFilterMovements({ name: "currentAcountId", value: accountId }));
+    dispatch(setFilterMovements({ name: 'currentAcountId', value: accountId }));
     return () => {
       dispatch(resetFilterMovements(null));
     };

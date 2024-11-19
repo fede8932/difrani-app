@@ -1,10 +1,10 @@
-import React, { useEffect } from "react";
-import { useForm } from "react-hook-form";
-import { useDispatch, useSelector } from "react-redux";
-import EditClientViewComponent from "../components/editClientView/EditClientViewComponent";
-import { getSellersRequest } from "../redux/seller";
-import { UpdateClientsRequest } from "../redux/searchClient";
-import { getClientIdRequest, resetAllClientRequest } from "../redux/client";
+import React, { useEffect } from 'react';
+import { useForm } from 'react-hook-form';
+import { useDispatch, useSelector } from 'react-redux';
+import EditClientViewComponent from '../components/editClientView/EditClientViewComponent';
+import { getSellersRequest } from '../redux/seller';
+import { UpdateClientsRequest } from '../redux/searchClient';
+import { getClientIdRequest, resetAllClientRequest } from '../redux/client';
 
 function EditClientViewContainer(props) {
   const { client, close, clientId } = props;
@@ -20,9 +20,9 @@ function EditClientViewContainer(props) {
   const dispatch = useDispatch();
   const updateClient = (data) => {
     const { iva, sellerId, ...clientData } = data;
-    clientData.iva = iva != "" ? iva : sendClient.iva;
+    clientData.iva = iva != '' ? iva : sendClient.iva;
     clientData.sellerId =
-      sellerId != "" ? Number(sellerId) : sendClient.sellerId;
+      sellerId != '' ? Number(sellerId) : sendClient.sellerId;
     clientData.altura = Number(clientData.altura);
     clientData.codigoPostal = Number(clientData.codigoPostal);
     clientData.id = clientId ? clientId : client.id;

@@ -1,6 +1,6 @@
-import React from "react";
-import styles from "./addUser.module.css";
-import OtherFormContainer from "../../containers/OtherFormContainer";
+import React from 'react';
+import styles from './addUser.module.css';
+import OtherFormContainer from '../../containers/OtherFormContainer';
 
 function AddOtherUser() {
   return (

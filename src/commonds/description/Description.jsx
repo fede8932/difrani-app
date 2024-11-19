@@ -1,6 +1,6 @@
-import React from "react";
-import { Descriptions } from "antd";
-import { camelCaseToText } from "../../utils";
+import React from 'react';
+import { Descriptions } from 'antd';
+import { camelCaseToText } from '../../utils';
 // const items = [
 //   {
 //     key: '1',
@@ -14,7 +14,7 @@ const Description = (props) => {
     razonSocial: infoProv.razonSocial,
     cuit: infoProv.cuit,
     status: infoProv.status,
-    currentAcount: infoProv.id ? infoProv.currentAcount.resume : "",
+    currentAcount: infoProv.id ? infoProv.currentAcount.resume : '',
     calle: infoProv.calle,
     altura: infoProv.altura,
     codigoPostal: infoProv.codigoPostal,
@@ -27,11 +27,11 @@ const Description = (props) => {
   let key = 1;
   for (let prop in orderInfoProv) {
     let children;
-    if (prop == "status" && infoProv.id) {
+    if (prop == 'status' && infoProv.id) {
       children = orderInfoProv[prop] ? (
-        <span style={{ color: "green" }}>Activo</span>
+        <span style={{ color: 'green' }}>Activo</span>
       ) : (
-        <span style={{ color: "red" }}>Inactivo</span>
+        <span style={{ color: 'red' }}>Inactivo</span>
       );
     } else {
       children = orderInfoProv[prop];

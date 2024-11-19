@@ -1,70 +1,74 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import * as orderRequest from "../request/orderRequest";
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import * as orderRequest from '../request/orderRequest';
 const orderState = {
   loading: false,
   data: { list: [] },
-  error: "",
+  error: '',
 };
 // export const getOrdersByTextRequest = createAsyncThunk(
 //   "ORDERS_LIST",
 //   orderRequest.searchGeneralOrder
 // );
 export const searchSellOrderRequest = createAsyncThunk(
-  "ORDERS_SELL_LIST",
+  'ORDERS_SELL_LIST',
   orderRequest.searchSellOrder
 );
 export const searchBuyOrderRequest = createAsyncThunk(
-  "ORDERS_SELL_LIST",
+  'ORDERS_BUY_LIST',
   orderRequest.searchBuyOrder
 );
+export const confirmBuyOrderRequest = createAsyncThunk(
+  'CONFIRM_ORDERS_BUY',
+  orderRequest.confirmBuyOrder
+);
 export const deleteOrderById = createAsyncThunk(
-  "ORDER_DELETE",
+  'ORDER_DELETE',
   orderRequest.deleteOrder
 );
 export const cancelOrderById = createAsyncThunk(
-  "CANCEL_DELETE",
+  'CANCEL_DELETE',
   orderRequest.cancelOrder
 );
 export const updateOrderConfirmById = createAsyncThunk(
-  "ORDER_UPDATE_RECIVER",
+  'ORDER_UPDATE_RECIVER',
   orderRequest.updateStatusOrderConfirm
 );
 export const confirmSellOrderRequest = createAsyncThunk(
-  "ORDER_UPDATE_SELL_ORDER",
+  'ORDER_UPDATE_SELL_ORDER',
   orderRequest.confirmSellOrder
 );
 export const NewNCSellOrderRequest = createAsyncThunk(
-  "ORDER_NC_SELL_ORDER",
+  'ORDER_NC_SELL_ORDER',
   orderRequest.NewNCForOrder
 );
 export const confirmSellOrderWBillRequest = createAsyncThunk(
-  "ORDER_UPDATE_SELL_ORDER_W_BILL",
+  'ORDER_UPDATE_SELL_ORDER_W_BILL',
   orderRequest.confirmSellOrderWBill
 );
 export const addRemOrderConfirmRequest = createAsyncThunk(
-  "ADD_REMITO",
+  'ADD_REMITO',
   orderRequest.addRemToOrderConfirm
 );
 export const addFacOrderConfirmRequest = createAsyncThunk(
-  "ADD_FACTURA",
+  'ADD_FACTURA',
   orderRequest.addFacToOrderConfirm
 );
 export const confirmSelectSellOrderRequest = createAsyncThunk(
-  "CONFIRM_ALL_SELL_ORDER",
+  'CONFIRM_ALL_SELL_ORDER',
   orderRequest.confirmSelectSellOrder
 );
 export const unificSelectSellOrderRequest = createAsyncThunk(
-  "UNIF_ALL_SELL_ORDER",
+  'UNIF_ALL_SELL_ORDER',
   orderRequest.unificSelectSellOrder
 );
 
 const orderListSlice = createSlice({
-  name: "Orders",
+  name: 'Orders',
   initialState: orderState,
   reducers: {
     setOrderMarc: (state, action) => {
       const { id } = action.payload;
-      let newReg = state.data.list.map((reg) => {
+      let newReg = state.data?.list?.map((reg) => {
         if (id == reg.id) {
           reg.marc = !reg.marc;
         }
@@ -75,7 +79,7 @@ const orderListSlice = createSlice({
     resetOrderState: (state, action) => {
       state.pending = false;
       state.data = {};
-      state.error = "";
+      state.error = '';
     },
   },
   extraReducers: {
@@ -104,7 +108,7 @@ const orderListSlice = createSlice({
       });
       action.payload.list = newList;
       state.loading = false;
-      state.error = "";
+      state.error = '';
       state.data = action.payload;
     },
     [searchBuyOrderRequest.pending]: (state, action) => {
@@ -116,8 +120,19 @@ const orderListSlice = createSlice({
     },
     [searchBuyOrderRequest.fulfilled]: (state, action) => {
       state.loading = false;
-      state.error = "";
+      state.error = '';
       state.data = action.payload;
+    },
+    [confirmBuyOrderRequest.pending]: (state, action) => {
+      state.loading = true;
+    },
+    [confirmBuyOrderRequest.rejected]: (state, action) => {
+      state.loading = false;
+      state.error = action.error.message;
+    },
+    [confirmBuyOrderRequest.fulfilled]: (state, action) => {
+      state.loading = false;
+      state.error = '';
     },
     [deleteOrderById.rejected]: (state, action) => {
       state.error = action.error.message;
@@ -179,7 +194,7 @@ const orderListSlice = createSlice({
     },
     [confirmSellOrderRequest.fulfilled]: (state, action) => {
       state.loading = false;
-      state.error = "";
+      state.error = '';
     },
     [confirmSellOrderWBillRequest.pending]: (state, action) => {
       state.loading = true;
@@ -204,15 +219,8 @@ const orderListSlice = createSlice({
       state.error = action.error.message;
     },
     [addRemOrderConfirmRequest.fulfilled]: (state, action) => {
+      state.error = "";
       state.loading = false;
-      const newState = state.data.list.map((order) => {
-        if (order.id == action.payload.id) {
-          order.status = "Recived";
-          return order;
-        }
-        return order;
-      });
-      state.data = newState;
     },
     [addFacOrderConfirmRequest.pending]: (state, action) => {
       state.loading = true;
@@ -235,14 +243,14 @@ const orderListSlice = createSlice({
       let newState = { ...state.data };
       let newList = newState.list.map((item) => {
         if (action.payload.includes(item.id)) {
-          item.status = "Confirm";
+          item.status = 'Confirm';
           item.marc = false;
         }
         return item;
       });
       newState.list = newList;
       state.loading = false;
-      state.error = "";
+      state.error = '';
       state.data = newState;
     },
     [unificSelectSellOrderRequest.pending]: (state, action) => {
@@ -266,7 +274,7 @@ const orderListSlice = createSlice({
       });
       newState.list = newList;
       state.loading = false;
-      state.error = "";
+      state.error = '';
       state.data = newState;
     },
   },

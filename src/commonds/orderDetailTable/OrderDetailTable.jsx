@@ -1,7 +1,7 @@
-import React from "react";
-import { Table } from "semantic-ui-react";
-import CustomPopup from "../popup/CustomPopup";
-import { redondearADosDecimales } from "../../utils";
+import React from 'react';
+import { Table } from 'semantic-ui-react';
+import CustomPopup from '../popup/CustomPopup';
+import { numberToString, redondearADosDecimales } from '../../utils';
 
 const OrderDetailTable = (props) => {
   const { columns, style, color, data } = props;
@@ -32,15 +32,15 @@ const OrderDetailTable = (props) => {
                 />
               </Table.Cell>
               <Table.Cell>{item.product.brand.name.toUpperCase()}</Table.Cell>
-              <Table.Cell>
-                {`$ ${redondearADosDecimales(
-                  data.type != "Sell" ? item.buyPrice : item.sellPrice
+              <Table.Cell style={{ fontSize: '12px' }}>
+                {`$ ${numberToString(
+                  data.type != 'Sell' ? item.buyPrice : item.sellPrice
                 )}`}
               </Table.Cell>
               <Table.Cell>{item.amount}</Table.Cell>
-              <Table.Cell>
-                {`$ ${redondearADosDecimales(
-                  data.type != "Sell"
+              <Table.Cell style={{ fontSize: '12px' }}>
+                {`$ ${numberToString(
+                  data.type != 'Sell'
                     ? item.buyPrice * item.amount
                     : item.sellPrice * item.amount
                 )}`}

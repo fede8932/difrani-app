@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios';
 const apiUrl = import.meta.env.VITE_API_URL;
 
 export const getBillByIdRequest = async (id) => {
@@ -9,10 +9,10 @@ export const getBillByIdRequest = async (id) => {
     return data;
   } catch (error) {
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     throw error;
   }
@@ -30,10 +30,42 @@ export const getBillItemsRequest = async (info) => {
     return data;
   } catch (error) {
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
+    }
+    throw error;
+  }
+};
+
+export const getBillReportRequest = async (filter) => {
+  try {
+    const { data } = await axios.post(
+      `${apiUrl}/api/movement/get/bill/report`,
+      filter,
+      {
+        withCredentials: true,
+        responseType: 'blob',
+      }
+    );
+
+    // Crea un enlace para descargar el archivo
+    const url = window.URL.createObjectURL(new Blob([data]));
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', 'reporte.xlsx'); // Nombre del archivo
+    document.body.appendChild(link);
+    link.click();
+
+    // Limpia el enlace después de descargar
+    link.parentNode.removeChild(link);
+  } catch (error) {
+    if (error.response?.status == 401) {
+      window.location.href = '/';
+    }
+    if (error.response?.status == 401) {
+      window.location.href = '/';
     }
     throw error;
   }

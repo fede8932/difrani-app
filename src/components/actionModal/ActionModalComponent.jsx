@@ -1,14 +1,14 @@
-import React from "react";
-import Modal from "react-bootstrap/Modal";
-import AddProductViewModalContainer from "../../containers/AddProductViewModalContainer";
-import IconButonUsersTable from "../../commonds/iconButtonUsersTable/IconButonUsersTable";
-import EditUserViewContainer from "../../containers/EditUserViewContainer";
-import EditClientViewContainer from "../../containers/EditClientViewContainer";
-import EditSupplierViewContainer from "../../containers/EditSupplierViewContainer";
-import CustomCarrousel from "../../commonds/carrousel/CustomCarrousel";
-import AddSupplierToBrandContainer from "../../containers/AddSupplierToBrandContainer";
-import OrderViewContainer from "../../containers/OrderViewContainer";
-import EditStockContainer from "../../containers/EditStockContainer";
+import React from 'react';
+import Modal from 'react-bootstrap/Modal';
+import AddProductViewModalContainer from '../../containers/AddProductViewModalContainer';
+import IconButonUsersTable from '../../commonds/iconButtonUsersTable/IconButonUsersTable';
+import EditUserViewContainer from '../../containers/EditUserViewContainer';
+import EditClientViewContainer from '../../containers/EditClientViewContainer';
+import EditSupplierViewContainer from '../../containers/EditSupplierViewContainer';
+import CustomCarrousel from '../../commonds/carrousel/CustomCarrousel';
+import AddSupplierToBrandContainer from '../../containers/AddSupplierToBrandContainer';
+import OrderViewContainer from '../../containers/OrderViewContainer';
+import EditStockContainer from '../../containers/EditStockContainer';
 
 const MyVerticallyCenteredModal = (props) => {
   const { title, type, data, size, repindex, images } = props;
@@ -20,10 +20,10 @@ const MyVerticallyCenteredModal = (props) => {
       aria-labelledby="contained-modal-title-vcenter"
       centered
     >
-      {type !== "infoProduct" ? (
+      {type !== 'infoProduct' ? (
         <Modal.Header closeButton>
           <Modal.Title
-            style={{ color: "#3C3C3C" }}
+            style={{ color: '#3C3C3C' }}
             id="contained-modal-title-vcenter"
           >
             {title}
@@ -32,26 +32,26 @@ const MyVerticallyCenteredModal = (props) => {
       ) : (
         <></>
       )}
-      <Modal.Body style={type === "infoProduct" ? { padding: "4px" } : {}}>
-        {type == "infoProduct" ? <CustomCarrousel images={images} /> : null}
-        {type == "add" ? <AddProductViewModalContainer /> : null}
-        {type == "brand" ? (
+      <Modal.Body style={type === 'infoProduct' ? { padding: '4px' } : {}}>
+        {type == 'infoProduct' ? <CustomCarrousel images={images} /> : null}
+        {type == 'add' ? <AddProductViewModalContainer /> : null}
+        {type == 'brand' ? (
           <AddSupplierToBrandContainer brand={data} close={props.onHide} />
         ) : null}
-        {type == "updateSeller" ? (
+        {type == 'updateSeller' ? (
           <EditUserViewContainer seller={data} close={props.onHide} />
         ) : null}
-        {type == "updateClient" ? (
+        {type == 'updateClient' ? (
           <EditClientViewContainer client={data} close={props.onHide} />
         ) : null}
-        {type == "updateSupplier" ? (
+        {type == 'updateSupplier' ? (
           <EditSupplierViewContainer
             supplier={data}
             close={props.onHide}
             template="supplier"
           />
         ) : null}
-        {type == "updateRepresSupplier" ? (
+        {type == 'updateRepresSupplier' ? (
           <EditSupplierViewContainer
             repindex={repindex}
             supplier={data}
@@ -59,14 +59,14 @@ const MyVerticallyCenteredModal = (props) => {
             template="representative"
           />
         ) : null}
-        {type == "viewOrder" ? (
+        {type == 'viewOrder' ? (
           <OrderViewContainer
             order={data}
             close={props.onHide}
             printBill={props.printBill}
           />
         ) : null}
-        {type == "stockValidate" ? (
+        {type == 'stockValidate' ? (
           <EditStockContainer id={data.id} close={props.onHide} />
         ) : null}
       </Modal.Body>
@@ -103,7 +103,7 @@ function ActionModalComponent(props) {
           setModalShow(true);
         }}
         icon={icon}
-        iconInitialStyle={iconColor ? iconColor : "iconStyleBlue"}
+        iconInitialStyle={iconColor ? iconColor : 'iconStyleBlue'}
         popupText={popupText}
       />
       <MyVerticallyCenteredModal

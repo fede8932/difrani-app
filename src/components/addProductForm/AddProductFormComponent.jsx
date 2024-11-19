@@ -1,12 +1,12 @@
-import React from "react";
-import styles from "./addProduct.module.css";
-import { FormProvider } from "react-hook-form";
-import CustomInput from "../../commonds/input/CustomInput";
-import CustomSelect from "../../commonds/select/CustomSelect";
-import CustomTextArea from "../../commonds/textarea/CustomTextArea";
-import Button from "react-bootstrap/esm/Button";
-import Spinner from "react-bootstrap/esm/Spinner";
-import FileInput from "../../commonds/inputFile/InputFile";
+import React from 'react';
+import styles from './addProduct.module.css';
+import { FormProvider } from 'react-hook-form';
+import CustomInput from '../../commonds/input/CustomInput';
+import CustomSelect from '../../commonds/select/CustomSelect';
+import CustomTextArea from '../../commonds/textarea/CustomTextArea';
+import Button from 'react-bootstrap/esm/Button';
+import Spinner from 'react-bootstrap/esm/Spinner';
+import FileInput from '../../commonds/inputFile/InputFile';
 
 function AddProductFormComponent(props) {
   const {
@@ -79,9 +79,9 @@ function AddProductFormComponent(props) {
             />
             <div
               style={{
-                display: "flex",
-                width: "100%",
-                justifyContent: "space-between",
+                display: 'flex',
+                width: '100%',
+                justifyContent: 'space-between',
               }}
             >
               <CustomInput
@@ -110,14 +110,14 @@ function AddProductFormComponent(props) {
         <Button
           onClick={methods.handleSubmit(onSubmit)}
           style={{
-            backgroundColor: "#673ab7",
-            border: "1px solid #673ab7",
-            marginTop: "35px",
-            height: "48px",
+            backgroundColor: '#673ab7',
+            border: '1px solid #673ab7',
+            marginTop: '35px',
+            height: '48px',
           }}
         >
           {!status ? (
-            "Agregar"
+            'Agregar'
           ) : (
             <Spinner animation="border" variant="light" size="sm" />
           )}

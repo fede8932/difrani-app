@@ -1,8 +1,8 @@
-import React, { useEffect } from "react";
-import styles from "./searchClient.module.css";
-import SearchClientContainer from "../../containers/SearchClientContainer ";
-import { useDispatch } from "react-redux";
-import { ResetStatusClients } from "../../redux/searchClient";
+import React, { useEffect } from 'react';
+import styles from './searchClient.module.css';
+import SearchClientContainer from '../../containers/SearchClientContainer ';
+import { useDispatch } from 'react-redux';
+import { ResetStatusClients } from '../../redux/searchClient';
 
 function SearchClient() {
   const dispatch = useDispatch();

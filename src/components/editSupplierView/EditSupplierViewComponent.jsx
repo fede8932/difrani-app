@@ -1,11 +1,11 @@
-import React, { useState } from "react";
-import styles from "./editSupplierView.module.css";
-import Button from "react-bootstrap/esm/Button";
-import CustomInput from "../../commonds/putInput/CustomInput";
-import { FormProvider } from "react-hook-form";
-import Spinner from "react-bootstrap/esm/Spinner";
-import PutCustomTextArea from "../../commonds/putTextArea/PutCustomTextArea";
-import Form from "react-bootstrap/Form";
+import React, { useState } from 'react';
+import styles from './editSupplierView.module.css';
+import Button from 'react-bootstrap/esm/Button';
+import CustomInput from '../../commonds/putInput/CustomInput';
+import { FormProvider } from 'react-hook-form';
+import Spinner from 'react-bootstrap/esm/Spinner';
+import PutCustomTextArea from '../../commonds/putTextArea/PutCustomTextArea';
+import Form from 'react-bootstrap/Form';
 
 function EditSupplierViewComponent(props) {
   const { supplier, update, methods, loading } = props;
@@ -62,7 +62,7 @@ function EditSupplierViewComponent(props) {
                   required: true,
                   pattern: {
                     value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                    message: "Ingrese un correo electrónico válido",
+                    message: 'Ingrese un correo electrónico válido',
                   },
                 }}
                 defaultValue={supplier.email}
@@ -104,12 +104,12 @@ function EditSupplierViewComponent(props) {
             <div className={styles.rigthInputContainer}>
               <div
                 style={{
-                  display: "flex",
-                  width: "100%",
-                  justifyContent: "space-between",
+                  display: 'flex',
+                  width: '100%',
+                  justifyContent: 'space-between',
                 }}
               >
-                <div style={{ width: "50%", padding: "0px 5px 0px 0px" }}>
+                <div style={{ width: '50%', padding: '0px 5px 0px 0px' }}>
                   <span className={styles.inputLabel}>Altura</span>
                   <CustomInput
                     readOnly={readOnly}
@@ -122,7 +122,7 @@ function EditSupplierViewComponent(props) {
                     defaultValue={supplier.altura}
                   />
                 </div>
-                <div style={{ width: "50%", padding: "0px 0px 0px 5px" }}>
+                <div style={{ width: '50%', padding: '0px 0px 0px 5px' }}>
                   <span className={styles.inputLabel}>Código postal</span>
                   <CustomInput
                     readOnly={readOnly}
@@ -149,7 +149,7 @@ function EditSupplierViewComponent(props) {
                   validate: (value) => {
                     const isValid = /^\d{8,10}$/.test(value);
                     if (!isValid) {
-                      return "El número de teléfono debe tener entre 8 y 10 dígitos";
+                      return 'El número de teléfono debe tener entre 8 y 10 dígitos';
                     }
                   },
                 }}
@@ -172,15 +172,15 @@ function EditSupplierViewComponent(props) {
                 disabled={readOnly}
                 type="submit"
                 style={{
-                  backgroundColor: "#673ab7",
-                  border: "1px solid #673ab7",
-                  height: "35px",
-                  width: "100px",
-                  marginLeft: "10px",
+                  backgroundColor: '#673ab7',
+                  border: '1px solid #673ab7',
+                  height: '35px',
+                  width: '100px',
+                  marginLeft: '10px',
                 }}
               >
                 {!loading ? (
-                  "Actualizar"
+                  'Actualizar'
                 ) : (
                   <Spinner animation="border" variant="light" size="sm" />
                 )}

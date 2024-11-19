@@ -1,6 +1,6 @@
-import React from "react";
-import styles from "./addUser.module.css";
-import SellerFormContainer from "../../containers/SellerFormContainer";
+import React from 'react';
+import styles from './addUser.module.css';
+import SellerFormContainer from '../../containers/SellerFormContainer';
 
 function AddUser() {
   return (

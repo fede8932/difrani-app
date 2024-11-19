@@ -1,9 +1,9 @@
-import React, { useEffect } from "react";
-import styles from "./searchProduct.module.css";
-import SearchProductContainer from "../../containers/SearchProductContainer";
-import { useDispatch } from "react-redux";
-import { resetProductSearch } from "../../redux/product";
-import { resetFilterProduct } from "../../redux/filtersProducts";
+import React, { useEffect } from 'react';
+import styles from './searchProduct.module.css';
+import SearchProductContainer from '../../containers/SearchProductContainer';
+import { useDispatch } from 'react-redux';
+import { resetProductSearch } from '../../redux/product';
+import { resetFilterProduct } from '../../redux/filtersProducts';
 
 function SearchProduct() {
   const dispatch = useDispatch();

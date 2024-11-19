@@ -1,36 +1,36 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import * as clientRequest from "../request/clientRequest";
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import * as clientRequest from '../request/clientRequest';
 const userState = {
   loading: false,
   data: null,
-  error: "",
+  error: '',
 };
 export const clientCreateRequest = createAsyncThunk(
-  "CLIENT_CREATE",
+  'CLIENT_CREATE',
   clientRequest.clientRegister
 );
 
 export const getClientRequest = createAsyncThunk(
-  "GET_CLIENT",
+  'GET_CLIENT',
   clientRequest.getClients
 );
 export const getClientIdRequest = createAsyncThunk(
-  "GET_CLIENT_ID",
+  'GET_CLIENT_ID',
   clientRequest.getClientById
 );
 
 export const getAllClientRequest = createAsyncThunk(
-  "GET_ALL_CLIENT",
+  'GET_ALL_CLIENT',
   clientRequest.getAllClients
 );
 
 export const resetAllClientRequest = createAsyncThunk(
-  "RESET_ALL_CLIENT",
+  'RESET_ALL_CLIENT',
   () => userState
 );
 
 const clientSlice = createSlice({
-  name: "client",
+  name: 'client',
   initialState: userState,
   extraReducers: {
     [clientCreateRequest.pending]: (state, action) => {
@@ -75,7 +75,7 @@ const clientSlice = createSlice({
     },
     [getClientIdRequest.fulfilled]: (state, action) => {
       state.loading = false;
-      state.error = "";
+      state.error = '';
       state.data = action.payload;
     },
     [resetAllClientRequest.pending]: (state, action) => {

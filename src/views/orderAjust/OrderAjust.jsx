@@ -1,6 +1,6 @@
-import React from "react";
-import styles from "./orderAjust.module.css";
-import AddProductToBuyOrderContainer from "../../containers/AddProductToBuyOrderContainer";
+import React from 'react';
+import styles from './orderAjust.module.css';
+import AddProductToBuyOrderContainer from '../../containers/AddProductToBuyOrderContainer';
 
 function OrderAjust() {
   return (

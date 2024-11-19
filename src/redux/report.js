@@ -1,18 +1,25 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import * as orderRequest from "../request/orderRequest";
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import * as orderRequest from '../request/orderRequest';
 const initState = {
   loading: false,
   data: [],
-  error: "",
+  error: '',
 };
 export const getReportRequest = createAsyncThunk(
-  "GET_REPORT",
+  'GET_REPORT',
   orderRequest.getReport
 );
 
 const reportSlice = createSlice({
-  name: "report",
+  name: 'report',
   initialState: initState,
+  reducers: {
+    resetSellReports: (state) => {
+      state.loading = false;
+      state.data = [];
+      state.error = '';
+    },
+  },
   extraReducers: {
     [getReportRequest.pending]: (state, action) => {
       state.loading = true;
@@ -24,9 +31,10 @@ const reportSlice = createSlice({
     [getReportRequest.fulfilled]: (state, action) => {
       state.loading = false;
       state.data = action.payload;
-      state.error = "";
+      state.error = '';
     },
   },
 });
 
+export const { resetSellReports } = reportSlice.actions;
 export default reportSlice.reducer;

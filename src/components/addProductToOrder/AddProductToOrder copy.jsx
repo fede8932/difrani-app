@@ -1,11 +1,11 @@
-import React from "react";
-import styles from "./addProduct.module.css";
-import Button from "react-bootstrap/esm/Button";
-import Spinner from "react-bootstrap/esm/Spinner";
-import { FormProvider } from "react-hook-form";
-import CustomInput from "../../commonds/input/CustomInput";
-import CustomTable from "../../commonds/table/CustomTable";
-import CustomDrawer from "../../commonds/drawer/CustomDrawer";
+import React from 'react';
+import styles from './addProduct.module.css';
+import Button from 'react-bootstrap/esm/Button';
+import Spinner from 'react-bootstrap/esm/Spinner';
+import { FormProvider } from 'react-hook-form';
+import CustomInput from '../../commonds/input/CustomInput';
+import CustomTable from '../../commonds/table/CustomTable';
+import CustomDrawer from '../../commonds/drawer/CustomDrawer';
 
 function AddProductToOrder(props) {
   const {
@@ -46,15 +46,15 @@ function AddProductToOrder(props) {
                 <Button
                   onClick={methods.handleSubmit(onSubmit)}
                   style={{
-                    backgroundColor: "#673ab7",
-                    border: "1px solid #673ab7",
-                    height: "47px",
-                    marginLeft: "20px",
-                    width: "100px",
+                    backgroundColor: '#673ab7',
+                    border: '1px solid #673ab7',
+                    height: '47px',
+                    marginLeft: '20px',
+                    width: '100px',
                   }}
                 >
                   {!productPages.loading ? (
-                    "Buscar"
+                    'Buscar'
                   ) : (
                     <Spinner animation="border" variant="light" size="sm" />
                   )}
@@ -68,11 +68,11 @@ function AddProductToOrder(props) {
                   fnAdd={fnAdd}
                   fnInfo={fnInfo}
                   colum={[
-                    { title: "Artículo", width: "40%" },
-                    { title: "Marca", width: "20%" },
-                    { title: "Precio Uni", width: "20%" },
-                    { title: "Stock", width: "10%" },
-                    { title: "Acción", width: "10%" },
+                    { title: 'Artículo', width: '40%' },
+                    { title: 'Marca', width: '20%' },
+                    { title: 'Precio Uni', width: '20%' },
+                    { title: 'Stock', width: '10%' },
+                    { title: 'Acción', width: '10%' },
                   ]}
                 />
               </div>
@@ -103,7 +103,7 @@ function AddProductToOrder(props) {
                   </span>
                 </div>
                 <div className={styles.infoProvContainer}>
-                  {type == "ajuste" ? (
+                  {type == 'ajuste' ? (
                     <div className={styles.infoCostoCont}>
                       <h6 className={styles.precioLabel}>ID Ajuste:</h6>
                       <span className={styles.precioText}>
@@ -114,7 +114,7 @@ function AddProductToOrder(props) {
                   <div className={styles.infoCostoCont}>
                     <h6 className={styles.precioLabel}>Subtotal:</h6>
                     <span className={styles.precioText}>{`$ ${
-                      type == "ajuste"
+                      type == 'ajuste'
                         ? orderAjust.data.subTotal
                         : order.data.subTotal
                     }`}</span>
@@ -122,7 +122,7 @@ function AddProductToOrder(props) {
                   <div className={styles.infoCostoCont}>
                     <h6 className={styles.precioLabel}>IVA:</h6>
                     <span className={styles.precioText}>{`$ ${
-                      type == "ajuste"
+                      type == 'ajuste'
                         ? (orderAjust.data.subTotal * 0.21).toFixed(2)
                         : (order.data.subTotal * 0.21).toFixed(2)
                     }`}</span>
@@ -130,7 +130,7 @@ function AddProductToOrder(props) {
                   <div className={styles.infoCostoCont}>
                     <h6 className={styles.precioLabel}>Total:</h6>
                     <span className={styles.precioText}>{`$ ${
-                      type == "ajuste"
+                      type == 'ajuste'
                         ? orderAjust.data.total.toFixed(2)
                         : order.data.total.toFixed(2)
                     }`}</span>
@@ -147,19 +147,19 @@ function AddProductToOrder(props) {
                   fnDelete={fnDelete}
                   color="teal"
                   products={
-                    type !== "ajuste"
+                    type !== 'ajuste'
                       ? listOrder
                       : orderAjust.data.ajustOrderItems
                   }
                   fnUpdate={fnUpdate}
                   fnPrUpdate={fnPrUpdate}
                   colum={[
-                    { title: "Artículo", width: "35%" },
-                    { title: "Marca", width: "20%" },
-                    { title: "Precio Uni", width: "15%" },
-                    { title: "Cantidad", width: "10%" },
-                    { title: "Subtotal", width: "10%" },
-                    { title: "Acción", width: "10%" },
+                    { title: 'Artículo', width: '35%' },
+                    { title: 'Marca', width: '20%' },
+                    { title: 'Precio Uni', width: '15%' },
+                    { title: 'Cantidad', width: '10%' },
+                    { title: 'Subtotal', width: '10%' },
+                    { title: 'Acción', width: '10%' },
                   ]}
                 />
               </div>
@@ -167,12 +167,12 @@ function AddProductToOrder(props) {
           </div>
         </div>
         <div className={styles.buttonContainer}>
-          {path == "/edit/buy" ? null : (
+          {path == '/edit/buy' ? null : (
             <Button
               className={`${styles.buttonStyle} ${styles.buttonStyleBack}`}
               variant="danger"
               onClick={() => {
-                !type == "ajuste" ? setView("General") : goPath("/search/buy");
+                !type == 'ajuste' ? setView('General') : goPath('/search/buy');
               }}
             >
               Atras

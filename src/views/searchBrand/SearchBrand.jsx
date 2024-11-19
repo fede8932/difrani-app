@@ -1,6 +1,6 @@
-import React from "react";
-import styles from "./searchBrand.module.css";
-import SearchBrandContainer from "../../containers/SearchBrandContainer";
+import React from 'react';
+import styles from './searchBrand.module.css';
+import SearchBrandContainer from '../../containers/SearchBrandContainer';
 
 function SearchBrand() {
   return (

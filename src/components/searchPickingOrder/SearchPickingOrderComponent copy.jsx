@@ -1,6 +1,6 @@
-import React from "react";
-import styles from "./searchPickingOrder.module.css";
-import RoleTableContainer from "../../containers/RoleTableContainer";
+import React from 'react';
+import styles from './searchPickingOrder.module.css';
+import RoleTableContainer from '../../containers/RoleTableContainer';
 
 function SearchPickingOrderComponent(props) {
   const { result, printFn, updatePicking, chagePage } = props;
@@ -10,13 +10,13 @@ function SearchPickingOrderComponent(props) {
       <div>
         <RoleTableContainer
           colum={[
-            { title: "Fecha", width: "10%" },
-            { title: "N° Picking", width: "15%" },
-            { title: "Remito", width: "15%" },
-            { title: "Orden de compra", width: "15%" },
-            { title: "Estado", width: "15%" },
-            { title: "Despacho", width: "15%" },
-            { title: "Acciones", width: "15%" },
+            { title: 'Fecha', width: '10%' },
+            { title: 'N° Picking', width: '15%' },
+            { title: 'Remito', width: '15%' },
+            { title: 'Orden de compra', width: '15%' },
+            { title: 'Estado', width: '15%' },
+            { title: 'Despacho', width: '15%' },
+            { title: 'Acciones', width: '15%' },
           ]}
           result={result}
           printFn={printFn}

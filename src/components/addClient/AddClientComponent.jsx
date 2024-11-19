@@ -1,10 +1,10 @@
-import React from "react";
-import styles from "./addClient.module.css";
-import CustomInput from "../../commonds/input/CustomInput";
-import Button from "react-bootstrap/Button";
-import { FormProvider } from "react-hook-form";
-import CustomSelect from "../../commonds/select/CustomSelect";
-import Spinner from "react-bootstrap/esm/Spinner";
+import React from 'react';
+import styles from './addClient.module.css';
+import CustomInput from '../../commonds/input/CustomInput';
+import Button from 'react-bootstrap/Button';
+import { FormProvider } from 'react-hook-form';
+import CustomSelect from '../../commonds/select/CustomSelect';
+import Spinner from 'react-bootstrap/esm/Spinner';
 
 function AddClientComponent(props) {
   const { onSubmit, status, methods, sellers } = props;
@@ -17,9 +17,9 @@ function AddClientComponent(props) {
               <span className={styles.subTitle}>Datos de usuario</span>
               <div
                 style={{
-                  display: "flex",
-                  width: "100%",
-                  justifyContent: "space-between",
+                  display: 'flex',
+                  width: '100%',
+                  justifyContent: 'space-between',
                 }}
               >
                 <CustomInput
@@ -57,7 +57,7 @@ function AddClientComponent(props) {
                   required: true,
                   pattern: {
                     value: /^\d{2}-\d{8}-\d{1}$/,
-                    message: "El CUIT debe tener el formato 99-99999999-9",
+                    message: 'El CUIT debe tener el formato 99-99999999-9',
                   },
                 }}
               />
@@ -71,7 +71,7 @@ function AddClientComponent(props) {
                   required: true,
                   pattern: {
                     value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                    message: "Ingrese un correo electrónico válido",
+                    message: 'Ingrese un correo electrónico válido',
                   },
                 }}
               />
@@ -88,9 +88,9 @@ function AddClientComponent(props) {
               />
               <div
                 style={{
-                  display: "flex",
-                  width: "100%",
-                  justifyContent: "space-between",
+                  display: 'flex',
+                  width: '100%',
+                  justifyContent: 'space-between',
                 }}
               >
                 <CustomInput
@@ -128,9 +128,9 @@ function AddClientComponent(props) {
               </div>
               <div
                 style={{
-                  display: "flex",
-                  width: "100%",
-                  justifyContent: "space-between",
+                  display: 'flex',
+                  width: '100%',
+                  justifyContent: 'space-between',
                 }}
               >
                 <CustomInput
@@ -141,7 +141,7 @@ function AddClientComponent(props) {
                   icon="fa-solid fa-location-dot"
                   validate={{ required: true, maxLength: 25 }}
                 />
-                <div style={{ width: "49%" }}>
+                <div style={{ width: '49%' }}>
                   {sellers && (
                     <CustomSelect
                       name="sellerId"
@@ -154,9 +154,9 @@ function AddClientComponent(props) {
               </div>
               <div
                 style={{
-                  display: "flex",
-                  width: "100%",
-                  justifyContent: "space-between",
+                  display: 'flex',
+                  width: '100%',
+                  justifyContent: 'space-between',
                 }}
               >
                 <CustomInput
@@ -169,19 +169,19 @@ function AddClientComponent(props) {
                     required: false,
                   }}
                 />
-                <div style={{ width: "49%" }}>
+                <div style={{ width: '49%' }}>
                   <CustomSelect
                     name="iva"
                     text="Seleccioná el tipo de iva"
                     arrayOptions={[
                       {
-                        value: "ResponsableInscripto",
-                        text: "ResponsableInscripto",
+                        value: 'ResponsableInscripto',
+                        text: 'ResponsableInscripto',
                       },
-                      { value: "Monotributista", text: "Monotributista" },
-                      { value: "Excento", text: "Excento" },
-                      { value: "NoGravado", text: "NoGravado" },
-                      { value: "Final", text: "Final" },
+                      { value: 'Monotributista', text: 'Monotributista' },
+                      { value: 'Excento', text: 'Excento' },
+                      { value: 'NoGravado', text: 'NoGravado' },
+                      { value: 'Final', text: 'Final' },
                     ]}
                     validate={{ required: true }}
                   />
@@ -204,17 +204,17 @@ function AddClientComponent(props) {
       <Button
         onClick={methods.handleSubmit(onSubmit)}
         style={{
-          backgroundColor: "#673ab7",
-          border: "1px solid #673ab7",
-          marginTop: "35px",
-          height: "35px",
-          width: "80px",
+          backgroundColor: '#673ab7',
+          border: '1px solid #673ab7',
+          marginTop: '35px',
+          height: '35px',
+          width: '80px',
         }}
       >
         {status ? (
           <Spinner animation="border" variant="light" size="sm" />
         ) : (
-          "Agregar"
+          'Agregar'
         )}
       </Button>
     </div>

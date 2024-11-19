@@ -1,15 +1,15 @@
-import React, { useEffect, useState } from "react";
-import styles from "./searchSellOrder.module.css";
-import SearchOrderContainer from "../../containers/SearchOrderContainer";
-import { Button, Checkbox } from "semantic-ui-react";
-import { useDispatch, useSelector } from "react-redux";
-import { sellOrderButtonConfirm, sellOrderButtonUnif } from "../../utils";
-import Swal from "sweetalert2";
+import React, { useEffect, useState } from 'react';
+import styles from './searchSellOrder.module.css';
+import SearchOrderContainer from '../../containers/SearchOrderContainer';
+import { Button, Checkbox } from 'semantic-ui-react';
+import { useDispatch, useSelector } from 'react-redux';
+import { sellOrderButtonConfirm, sellOrderButtonUnif } from '../../utils';
+import Swal from 'sweetalert2';
 import {
   confirmSelectSellOrderRequest,
   unificSelectSellOrderRequest,
-} from "../../redux/searchOrders";
-import { setFilterSellOrder } from "../../redux/filtersSellOrder";
+} from '../../redux/searchOrders';
+import { setFilterSellOrder } from '../../redux/filtersSellOrder';
 
 function SearchSellOrder() {
   const { loading, error, data } = useSelector((state) => state.searchOrders);
@@ -21,13 +21,13 @@ function SearchSellOrder() {
 
   const onAllConfirm = () => {
     Swal.fire({
-      title: "Estas seguro?",
-      text: "Vas a confirmas las ordenes seleccionadas",
-      icon: "warning",
+      title: 'Estas seguro?',
+      text: 'Vas a confirmas las ordenes seleccionadas',
+      icon: 'warning',
       showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Confirmar",
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Confirmar',
     }).then((result) => {
       if (result.isConfirmed) {
         const send = { orderIdList: [] };
@@ -40,15 +40,15 @@ function SearchSellOrder() {
           // console.log(res);
           if (res?.error) {
             Swal.fire({
-              icon: "error",
-              title: "Error...",
+              icon: 'error',
+              title: 'Error...',
               text: `${res.error?.message}`,
             });
           } else {
             Swal.fire({
-              title: "Confirmado",
-              text: "Las ventas se confirmaron de manera exitosa",
-              icon: "success",
+              title: 'Confirmado',
+              text: 'Las ventas se confirmaron de manera exitosa',
+              icon: 'success',
             });
           }
         });
@@ -58,13 +58,13 @@ function SearchSellOrder() {
 
   const onAllUnif = () => {
     Swal.fire({
-      title: "Estas seguro?",
-      text: "Vas a unificar las ordenes seleccionadas",
-      icon: "warning",
+      title: 'Estas seguro?',
+      text: 'Vas a unificar las ordenes seleccionadas',
+      icon: 'warning',
       showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Confirmar",
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Confirmar',
     }).then((result) => {
       if (result.isConfirmed) {
         const send = { orderIdList: [] };
@@ -78,15 +78,15 @@ function SearchSellOrder() {
           if (res?.error) {
             console.log(res);
             Swal.fire({
-              icon: "error",
-              title: "Error...",
+              icon: 'error',
+              title: 'Error...',
               text: `${res.error?.message}`,
             });
           } else {
             Swal.fire({
-              title: "Confirmado",
-              text: "Las ordenes se unificaron",
-              icon: "success",
+              title: 'Confirmado',
+              text: 'Las ordenes se unificaron',
+              icon: 'success',
             });
           }
         });
@@ -95,9 +95,9 @@ function SearchSellOrder() {
   };
 
   const pendingFilterToggle = () => {
-    dispatch(setFilterSellOrder({ name: "page", value: 1 }));
+    dispatch(setFilterSellOrder({ name: 'page', value: 1 }));
     dispatch(
-      setFilterSellOrder({ name: "pending", value: !filterSellOrder.pending })
+      setFilterSellOrder({ name: 'pending', value: !filterSellOrder.pending })
     );
   };
 
@@ -108,7 +108,7 @@ function SearchSellOrder() {
   return (
     <div className={styles.addUserContainer}>
       <h6 className={styles.formTitle}>Buscador de ordenes de venta</h6>
-      <div style={{ marginTop: "50px" }}>
+      <div style={{ marginTop: '50px' }}>
         <div className={styles.buttonContainer}>
           <div>
             <Checkbox

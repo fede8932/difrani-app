@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios';
 const apiUrl = import.meta.env.VITE_API_URL;
 
 export const createProduct = async (productData) => {
@@ -7,9 +7,9 @@ export const createProduct = async (productData) => {
     const formData = new FormData();
 
     // Agregar los datos del producto
-    formData.append("article", productData.code);
-    formData.append("description", productData.name);
-    formData.append("price", parseFloat(productData.listPrice));
+    formData.append('article', productData.code);
+    formData.append('description', productData.name);
+    formData.append('price', parseFloat(productData.listPrice));
 
     // Agregar las imágenes al FormData
     if (productData.images && productData.images.length > 0) {
@@ -24,16 +24,16 @@ export const createProduct = async (productData) => {
       formData,
       {
         headers: {
-          "Content-Type": "multipart/form-data",
+          'Content-Type': 'multipart/form-data',
         },
         withCredentials: true,
       }
     );
-    return "Registrado";
+    return 'Registrado';
   } catch (error) {
     if (error.response?.status == 401) {
       // console.log(error);
-      window.location.href = "/";
+      window.location.href = '/';
     }
     throw error;
   }
@@ -43,14 +43,14 @@ export const addProductsFile = async (sendData) => {
   try {
     const { file, check } = sendData;
     const formData = new FormData();
-    formData.append("file", file);
-    formData.append("check", JSON.stringify(check));
+    formData.append('file', file);
+    formData.append('check', JSON.stringify(check));
     const { data } = await axios.post(
       `${apiUrl}/api/productos/file`,
       formData,
       {
         headers: {
-          "Content-Type": "multipart/form-data",
+          'Content-Type': 'multipart/form-data',
           withCredentials: true,
         },
       }
@@ -58,7 +58,7 @@ export const addProductsFile = async (sendData) => {
     return data;
   } catch (error) {
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     throw error;
   }
@@ -73,22 +73,23 @@ export const searchProduct = async (productData) => {
     return products.data;
   } catch (error) {
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     throw error;
   }
 };
 export const searchProducts = async (productData) => {
   try {
-    const { page, text } = productData;
-    const url = text
+    const { page, text, equivalenceId } = productData;
+    let url = text
       ? `${apiUrl}/api/productos?rows=100&page=${page}&data=${text}`
       : `${apiUrl}/api/productos?rows=100&page=${page}`;
+    url = equivalenceId ? url + `&equivalenceId=${equivalenceId}` : url;
     const products = await axios.get(url, { withCredentials: true });
     return products.data;
   } catch (error) {
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     throw error;
   }
@@ -102,7 +103,7 @@ export const searchExtraProducts = async (productData) => {
     return products.data;
   } catch (error) {
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     throw error;
   }
@@ -116,7 +117,7 @@ export const searchProductPage = async (productData) => {
     return data;
   } catch (error) {
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     throw error;
   }
@@ -130,7 +131,7 @@ export const searchOneProduct = async (productData) => {
     return data;
   } catch (error) {
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     throw error;
   }
@@ -138,6 +139,7 @@ export const searchOneProduct = async (productData) => {
 export const updateStock = async (productData) => {
   try {
     const { items } = productData;
+    // console.log(items)
     const newItems = items.map((item) => {
       const newItem = {
         productId: item.productId,
@@ -154,7 +156,7 @@ export const updateStock = async (productData) => {
     return data;
   } catch (error) {
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     throw error;
   }
@@ -169,7 +171,7 @@ export const deleteProduct = async (productId) => {
     return data;
   } catch (error) {
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     throw error;
   }
@@ -198,7 +200,7 @@ export const updateProduct = async (update) => {
       formData,
       {
         headers: {
-          "Content-Type": "multipart/form-data",
+          'Content-Type': 'multipart/form-data',
         },
         withCredentials: true,
       }
@@ -206,7 +208,7 @@ export const updateProduct = async (update) => {
     return data;
   } catch (error) {
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     throw error;
   }
@@ -220,7 +222,7 @@ export const getProductId = async (id) => {
     return data;
   } catch (error) {
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     throw error;
   }
@@ -234,7 +236,7 @@ export const getAllProduct = async () => {
     return products.data;
   } catch (error) {
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     throw error;
   }
@@ -248,13 +250,13 @@ export const getFileProducts = async (filterProducts) => {
       filterProducts,
       {
         withCredentials: true,
-        responseType: "blob", // Configura el tipo de respuesta esperado como 'blob'
+        responseType: 'blob', // Configura el tipo de respuesta esperado como 'blob'
       }
     );
     return res;
   } catch (error) {
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     throw error;
   }

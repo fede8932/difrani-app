@@ -1,17 +1,17 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import * as billRequest from "../request/billRequest";
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import * as billRequest from '../request/billRequest';
 const initState = {
   loading: false,
   data: null,
-  error: "",
+  error: '',
 };
 export const getBillItems = createAsyncThunk(
-  "BILL_ITEMS",
+  'BILL_ITEMS',
   billRequest.getBillItemsRequest
 );
 
 const billItemsSlice = createSlice({
-  name: "billItems",
+  name: 'billItems',
   initialState: initState,
   reducers: {
     changeAmountBillItem: (state, { payload }) => {
@@ -37,7 +37,7 @@ const billItemsSlice = createSlice({
     },
     resetBillItems: (state) => {
       state.data = null;
-      state.error = "";
+      state.error = '';
       state.loading = false;
     },
   },

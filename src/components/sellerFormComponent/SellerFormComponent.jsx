@@ -1,9 +1,9 @@
-import React from "react";
-import styles from "./sellerForm.module.css";
-import CustomInput from "../../commonds/input/CustomInput";
-import Button from "react-bootstrap/Button";
-import { FormProvider } from "react-hook-form";
-import Spinner from "react-bootstrap/esm/Spinner";
+import React from 'react';
+import styles from './sellerForm.module.css';
+import CustomInput from '../../commonds/input/CustomInput';
+import Button from 'react-bootstrap/Button';
+import { FormProvider } from 'react-hook-form';
+import Spinner from 'react-bootstrap/esm/Spinner';
 
 function SellerFormComponent(props) {
   const { methods, onSubmit, status } = props;
@@ -39,7 +39,7 @@ function SellerFormComponent(props) {
                 required: true,
                 pattern: {
                   value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                  message: "Ingrese un correo electrónico válido",
+                  message: 'Ingrese un correo electrónico válido',
                 },
               }}
             />
@@ -53,7 +53,7 @@ function SellerFormComponent(props) {
                 required: true,
                 pattern: {
                   value: /^\d{2}-\d{8}-\d{1}$/,
-                  message: "El CUIT debe tener el formato 99-99999999-9",
+                  message: 'El CUIT debe tener el formato 99-99999999-9',
                 },
               }}
             />
@@ -70,9 +70,9 @@ function SellerFormComponent(props) {
             />
             <div
               style={{
-                display: "flex",
-                width: "100%",
-                justifyContent: "space-between",
+                display: 'flex',
+                width: '100%',
+                justifyContent: 'space-between',
               }}
             >
               <CustomInput
@@ -111,7 +111,7 @@ function SellerFormComponent(props) {
                 validate: (value) => {
                   const isValid = /^\d{8,10}$/.test(value);
                   if (!isValid) {
-                    return "El número de teléfono debe tener entre 8 y 10 dígitos";
+                    return 'El número de teléfono debe tener entre 8 y 10 dígitos';
                   }
                 },
               }}
@@ -151,14 +151,14 @@ function SellerFormComponent(props) {
           type="submit"
           onClick={methods.handleSubmit(onSubmit)}
           style={{
-            backgroundColor: "#673ab7",
-            border: "1px solid #673ab7",
-            marginTop: "35px",
-            height: "48px",
+            backgroundColor: '#673ab7',
+            border: '1px solid #673ab7',
+            marginTop: '35px',
+            height: '48px',
           }}
         >
           {!status ? (
-            "Agregar"
+            'Agregar'
           ) : (
             <Spinner animation="border" variant="light" size="sm" />
           )}

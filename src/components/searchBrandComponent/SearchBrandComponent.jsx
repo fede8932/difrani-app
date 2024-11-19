@@ -1,26 +1,26 @@
-import React from "react";
-import styles from "./searchBrand.module.css";
-import LongTableContainer from "../../containers/LongTableContainer";
-import CustomInput from "../../commonds/input/CustomInput";
-import Button from "react-bootstrap/Button";
-import { FormProvider } from "react-hook-form";
-import Spinner from "react-bootstrap/esm/Spinner";
-import NativeTableContainer from "../../containers/NativeTableContainer";
-import { tabBrands } from "../../utils";
-import CustomModal from "../../commonds/customModal/CustomModal";
-import EditBrandContainer from "../../containers/EditBrandContainer";
-import AddSupplierToBrandContainer from "../../containers/AddSupplierToBrandContainer";
+import React from 'react';
+import styles from './searchBrand.module.css';
+import LongTableContainer from '../../containers/LongTableContainer';
+import CustomInput from '../../commonds/input/CustomInput';
+import Button from 'react-bootstrap/Button';
+import { FormProvider } from 'react-hook-form';
+import Spinner from 'react-bootstrap/esm/Spinner';
+import NativeTableContainer from '../../containers/NativeTableContainer';
+import { tabBrands } from '../../utils';
+import CustomModal from '../../commonds/customModal/CustomModal';
+import EditBrandContainer from '../../containers/EditBrandContainer';
+import AddSupplierToBrandContainer from '../../containers/AddSupplierToBrandContainer';
 
 function SearchBrandComponent(props) {
   const { onSubmit, methods, brands, status, resetSearch, toggleEcommerce } =
     props;
   const tableColumns = [
-    { title: "Código", width: "15%", renderProp: "code" },
-    { title: "Nombre", width: "35%", renderProp: "name" },
-    { title: "Proveedor", width: "20%", renderProp: "supplier" },
-    { title: "Rentabilidad", width: "15%", renderProp: "rentabilidad" },
-    { title: "Ecommerce", width: "7%", renderProp: "check" },
-    { title: "Acciones", width: "8%", renderProp: null },
+    { title: 'Código', width: '15%', renderProp: 'code' },
+    { title: 'Nombre', width: '35%', renderProp: 'name' },
+    { title: 'Proveedor', width: '20%', renderProp: 'supplier' },
+    { title: 'Rentabilidad', width: '15%', renderProp: 'rentabilidad' },
+    { title: 'Ecommerce', width: '7%', renderProp: 'check' },
+    { title: 'Acciones', width: '8%', renderProp: null },
   ];
   return (
     <FormProvider {...methods}>
@@ -43,15 +43,15 @@ function SearchBrandComponent(props) {
               <Button
                 type="submit"
                 style={{
-                  backgroundColor: "#673ab7",
-                  border: "1px solid #673ab7",
-                  height: "47px",
-                  width: "100px",
-                  marginLeft: "10px",
+                  backgroundColor: '#673ab7',
+                  border: '1px solid #673ab7',
+                  height: '47px',
+                  width: '100px',
+                  marginLeft: '10px',
                 }}
               >
                 {!status ? (
-                  "Buscar"
+                  'Buscar'
                 ) : (
                   <Spinner animation="border" variant="light" size="sm" />
                 )}
@@ -59,11 +59,11 @@ function SearchBrandComponent(props) {
               <Button
                 type="reset"
                 style={{
-                  backgroundColor: "grey",
-                  border: "1px solid grey",
-                  height: "47px",
-                  width: "100px",
-                  marginLeft: "10px",
+                  backgroundColor: 'grey',
+                  border: '1px solid grey',
+                  height: '47px',
+                  width: '100px',
+                  marginLeft: '10px',
                 }}
                 onClick={() => {
                   resetSearch();
@@ -82,17 +82,17 @@ function SearchBrandComponent(props) {
             dataRender={tabBrands(brands)}
             ckeck={{
               component: (props) => <span>hola mundo</span>,
-              props: { text: "hola mundo" },
+              props: { text: 'hola mundo' },
             }}
             actions={[
               {
                 component: (props) => <CustomModal {...props} />,
                 props: {
-                  title: "Editar marca",
-                  size: "sm",
+                  title: 'Editar marca',
+                  size: 'sm',
                   actionButton: (
                     <button
-                      style={{ margin: "1px 0px 0px 7px" }}
+                      style={{ margin: '1px 0px 0px 7px' }}
                       className={styles.iconButton}
                       type="button"
                     >
@@ -108,11 +108,11 @@ function SearchBrandComponent(props) {
               {
                 component: (props) => <CustomModal {...props} />,
                 props: {
-                  title: "Editar proveedores",
-                  size: "lg",
+                  title: 'Editar proveedores',
+                  size: 'lg',
                   actionButton: (
                     <button
-                      style={{ margin: "1px 0px 0px 7px" }}
+                      style={{ margin: '1px 0px 0px 7px' }}
                       className={styles.iconButton}
                       type="button"
                     >

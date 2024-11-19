@@ -24,6 +24,13 @@
   font-weight: 600;
   display: contents;
 }
+.userInfo {
+  font-size: 10px;
+  margin-left: 30px;
+  color: grey;
+  position: absolute;
+  margin-top: -10px;
+}
 .barContainer {
   display: flex;
   align-items: center;
@@ -75,7 +82,7 @@
   width: 30px;
   height: 30px;
   border-radius: 50%;
-  background: #FFF164;
+  background: #fff164;
   display: flex;
   align-items: center;
   justify-content: center;

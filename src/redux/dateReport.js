@@ -1,21 +1,21 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import * as orderRequest from "../request/orderRequest";
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import * as orderRequest from '../request/orderRequest';
 const initState = {
   loading: false,
   data: null,
-  error: "",
+  error: '',
 };
 export const getDateReportRequest = createAsyncThunk(
-  "GET_DATE_REPORT",
+  'GET_DATE_REPORT',
   orderRequest.getDateReport
 );
 export const genOrderReportRequest = createAsyncThunk(
-  "GEN_ORDER_BY_REPORT",
+  'GEN_ORDER_BY_REPORT',
   orderRequest.genOrderReport
 );
 
 const dateReportSlice = createSlice({
-  name: "dateReport",
+  name: 'dateReport',
   initialState: initState,
   extraReducers: {
     [getDateReportRequest.pending]: (state, action) => {

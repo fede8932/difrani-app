@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef } from 'react';
 
 const StockUploadButton = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -13,7 +13,7 @@ const StockUploadButton = () => {
     const file = event.target.files?.[0];
     if (file) {
       // Aquí puedes procesar el archivo Excel
-      console.log("Archivo seleccionado:", file.name);
+      console.log('Archivo seleccionado:', file.name);
       // Puedes añadir lógica para enviar el archivo al servidor o procesarlo en el frontend
     }
   };
@@ -24,7 +24,7 @@ const StockUploadButton = () => {
       <input
         type="file"
         ref={fileInputRef}
-        style={{ display: "none" }} // Oculta el input file
+        style={{ display: 'none' }} // Oculta el input file
         accept=".xlsx, .xls" // Solo permite archivos Excel
         onChange={handleFileChange}
       />

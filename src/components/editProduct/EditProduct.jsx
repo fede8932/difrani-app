@@ -1,9 +1,9 @@
-import CustomInput from "../../commonds/putInput/CustomInput";
-import { FormProvider } from "react-hook-form";
-import styles from "./editProduct.module.css";
-import { Button, Spinner } from "react-bootstrap";
-import FileInput from "../../commonds/inputFile/InputFile";
-import ProtectedComponent from "../../protected/protectedComponent/ProtectedComponent";
+import CustomInput from '../../commonds/putInput/CustomInput';
+import { FormProvider } from 'react-hook-form';
+import styles from './editProduct.module.css';
+import { Button, Spinner } from 'react-bootstrap';
+import FileInput from '../../commonds/inputFile/InputFile';
+import ProtectedComponent from '../../protected/protectedComponent/ProtectedComponent';
 
 function EditProduct(props) {
   const { methods, product, update, files } = props;
@@ -67,7 +67,7 @@ function EditProduct(props) {
             defaultValue={product?.data?.description}
           />
         </div>
-        <div style={{ marginBottom: "10px" }}>
+        <div style={{ marginBottom: '10px' }}>
           <FileInput
             selectedFiles={files.selectedFiles}
             setSelectedFiles={files.setSelectedFiles}
@@ -78,15 +78,15 @@ function EditProduct(props) {
             onClick={methods.handleSubmit(update)}
             type="button"
             style={{
-              backgroundColor: "#673ab7",
-              border: "1px solid #673ab7",
-              height: "35px",
-              width: "100px",
-              marginLeft: "10px",
+              backgroundColor: '#673ab7',
+              border: '1px solid #673ab7',
+              height: '35px',
+              width: '100px',
+              marginLeft: '10px',
             }}
           >
             {!false ? (
-              "Actualizar"
+              'Actualizar'
             ) : (
               <Spinner animation="border" variant="light" size="sm" />
             )}

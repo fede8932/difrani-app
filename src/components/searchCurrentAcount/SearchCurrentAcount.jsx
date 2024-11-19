@@ -1,18 +1,20 @@
-import React, { useState } from "react";
-import styles from "./searchCurrentAcount.module.css";
-import { Button, Label, Radio } from "semantic-ui-react";
-import CustomModal from "../../commonds/customModal/CustomModal";
-import NewMovimientContainer from "../../containers/NewMovimentContainer";
-import CustomMenu from "../customMenu/CustomMenu";
-import NewNCContainer from "../../containers/NewNCContainer";
-import { redondearADosDecimales } from "../../utils";
-import ProtectedComponent from "../../protected/protectedComponent/ProtectedComponent";
-import { Spinner } from "react-bootstrap";
-import { getPendingReq } from "../../request/movNoApplyRequest";
-import { clientReport } from "../../templates/reporteCuentaCliente";
-import ClientAcountTable from "../tables/ClientAcountTable/ClientAcountTable";
-import { setFilterMovements } from "../../redux/filtersMovements";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useState } from 'react';
+import styles from './searchCurrentAcount.module.css';
+import { Button, Label, Radio } from 'semantic-ui-react';
+import CustomModal from '../../commonds/customModal/CustomModal';
+import NewMovimientContainer from '../../containers/NewMovimentContainer';
+import CustomMenu from '../customMenu/CustomMenu';
+import NewNCContainer from '../../containers/NewNCContainer';
+import { numberToString } from '../../utils';
+import ProtectedComponent from '../../protected/protectedComponent/ProtectedComponent';
+import { Spinner } from 'react-bootstrap';
+import { getPendingReq } from '../../request/movNoApplyRequest';
+import { clientReport } from '../../templates/reporteCuentaCliente';
+import ClientAcountTable from '../tables/ClientAcountTable/ClientAcountTable';
+import { setFilterMovements } from '../../redux/filtersMovements';
+import { useDispatch, useSelector } from 'react-redux';
+import { normalizeResumeRequest } from '../../request/currentAcountRequest';
+import Swal from 'sweetalert2';
 
 function SearchCurrentAcount(props) {
   const dispatch = useDispatch();
@@ -20,6 +22,7 @@ function SearchCurrentAcount(props) {
   const { currentAcount } = acountState.data;
 
   const [printPending, setPrintPending] = useState(false);
+  const [normalize, setNormalize] = useState(false);
 
   const filterMovements = useSelector((state) => state.filterMovementsOrder);
 
@@ -28,7 +31,7 @@ function SearchCurrentAcount(props) {
     try {
       const pending = await getPendingReq(currentAcount.id);
       // console.log(pending);
-      const nuevaVentana = window.open("", "", "width=900,height=1250");
+      const nuevaVentana = window.open('', '', 'width=900,height=1250');
 
       const items = pending.movements;
       const itemsPerPage = 14; // Número de ítems por página
@@ -45,20 +48,48 @@ function SearchCurrentAcount(props) {
 
         const render = clientReport(pending, pageItems, pageNumber, totalPages);
 
-        const containerFact = nuevaVentana.document.createElement("div");
+        const containerFact = nuevaVentana.document.createElement('div');
         nuevaVentana.document.body.appendChild(containerFact);
 
         containerFact.innerHTML = render;
         {
           if (pageNumber < totalPages)
             nuevaVentana.document.body.appendChild(
-              nuevaVentana.document.createElement("div")
-            ).style.pageBreakBefore = "always";
+              nuevaVentana.document.createElement('div')
+            ).style.pageBreakBefore = 'always';
         }
       }
     } catch (err) {
     } finally {
       setPrintPending(false);
+    }
+  };
+
+  const setResume = async () => {
+    try {
+      Swal.fire({
+        title: 'Vas a recalcular el resumen del clinete. Estas seguro?',
+        showCancelButton: true,
+        confirmButtonText: 'Confirmar',
+      }).then(async (result) => {
+        /* Read more about isConfirmed, isDenied below */
+        if (result.isConfirmed) {
+          setNormalize(true);
+          const result = await normalizeResumeRequest(currentAcount.id);
+          setNormalize(false);
+          Swal.fire('Actualizado!', '', 'success');
+        }
+      });
+      setNormalize(false);
+      return;
+    } catch (err) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: `${err.message}`,
+      });
+      setNormalize(false);
+    } finally {
     }
   };
 
@@ -69,51 +100,51 @@ function SearchCurrentAcount(props) {
           <div>
             <div className={styles.dataContainer}>
               <span className={styles.spanTitle}>
-                Razón Social:{" "}
+                Razón Social:{' '}
                 <span className={styles.spanContent}>
-                  {currentAcount.supplier
-                    ? currentAcount.supplier?.razonSocial.toUpperCase()
-                    : currentAcount.client?.razonSocial.toUpperCase()}
+                  {currentAcount?.supplier
+                    ? currentAcount?.supplier?.razonSocial.toUpperCase()
+                    : currentAcount?.client?.razonSocial.toUpperCase()}
                 </span>
               </span>
               <span className={styles.spanTitle}>
-                CUIT:{" "}
+                CUIT:{' '}
                 <span className={styles.spanContent}>
-                  {currentAcount.supplier
-                    ? currentAcount.supplier?.cuit
-                    : currentAcount.client?.cuit}
+                  {currentAcount?.supplier
+                    ? currentAcount?.supplier?.cuit
+                    : currentAcount?.client?.cuit}
                 </span>
               </span>
               <span className={styles.spanTitle}>
-                IVA:{" "}
+                IVA:{' '}
                 <span className={styles.spanContent}>
-                  {currentAcount.supplier
-                    ? "No definido"
-                    : currentAcount.client?.iva}
+                  {currentAcount?.supplier
+                    ? 'No definido'
+                    : currentAcount?.client?.iva}
                 </span>
               </span>
             </div>
             <div className={styles.dataContainer}>
               <span className={styles.spanTitle}>
-                Numero de cuenta:{" "}
+                Numero de cuenta:{' '}
                 <span className={styles.spanContent}>
-                  {currentAcount.acountNumber}
+                  {currentAcount?.acountNumber}
                 </span>
               </span>
               <span className={styles.spanTitle}>
-                Saldo:{" "}
+                Saldo:{' '}
                 <span
                   style={{
-                    color: `${currentAcount.resume < 0 ? "red" : "green"}`,
-                    fontWeight: "700",
+                    color: `${currentAcount?.resume < 0 ? 'red' : 'green'}`,
+                    fontWeight: '700',
                   }}
                   className={`$styles.spanContent`}
-                >{`$ ${redondearADosDecimales(currentAcount.resume)}`}</span>
+                >{`$ ${numberToString(currentAcount?.resume)}`}</span>
               </span>
               <span className={styles.spanTitle}>
-                Estado:{" "}
-                <Label color={currentAcount.status ? "green" : "red"}>
-                  {currentAcount.status ? "Habilitada" : "Inhabilitada"}
+                Estado:{' '}
+                <Label color={currentAcount?.status ? 'green' : 'red'}>
+                  {currentAcount?.status ? 'Habilitada' : 'Inhabilitada'}
                 </Label>
               </span>
             </div>
@@ -124,7 +155,7 @@ function SearchCurrentAcount(props) {
         <span className={styles.subTitle}>Detalle de movimientos</span>
         <ProtectedComponent listAccesss={[1, 2, 5]}>
           <div className={styles.buttonMovContainer}>
-            <div style={{ display: "flex", position: "relative" }}>
+            <div style={{ display: 'flex', position: 'relative' }}>
               <CustomModal
                 title={`Registrar movimiento`}
                 size="lg"
@@ -141,7 +172,7 @@ function SearchCurrentAcount(props) {
                 }
                 bodyModal={(props) => <NewMovimientContainer {...props} />}
                 bodyProps={{
-                  currentAcountId: currentAcount.id,
+                  currentAcountId: currentAcount?.id,
                   acountState: acountState,
                 }}
               />
@@ -151,9 +182,9 @@ function SearchCurrentAcount(props) {
                 actionButton={<Button>Nueva nota de crédito</Button>}
                 bodyModal={(props) => <NewNCContainer {...props} />}
                 bodyProps={{
-                  currentAcountId: currentAcount.id,
+                  currentAcountId: currentAcount?.id,
                   acountState: acountState,
-                  type: "nc",
+                  type: 'nc',
                 }}
               />
               <div>
@@ -167,7 +198,7 @@ function SearchCurrentAcount(props) {
                         onChange={() => {
                           dispatch(
                             setFilterMovements({
-                              name: "facturas",
+                              name: 'facturas',
                               value: !filterMovements.facturas,
                             })
                           );
@@ -182,7 +213,7 @@ function SearchCurrentAcount(props) {
                         onChange={() => {
                           dispatch(
                             setFilterMovements({
-                              name: "pagos",
+                              name: 'pagos',
                               value: !filterMovements.pagos,
                             })
                           );
@@ -197,7 +228,7 @@ function SearchCurrentAcount(props) {
                         onChange={() => {
                           dispatch(
                             setFilterMovements({
-                              name: "notasCredito",
+                              name: 'notasCredito',
                               value: !filterMovements.notasCredito,
                             })
                           );
@@ -212,7 +243,7 @@ function SearchCurrentAcount(props) {
                         onChange={() => {
                           dispatch(
                             setFilterMovements({
-                              name: "devoluciones",
+                              name: 'devoluciones',
                               value: !filterMovements.devoluciones,
                             })
                           );
@@ -227,7 +258,7 @@ function SearchCurrentAcount(props) {
                         onChange={() => {
                           dispatch(
                             setFilterMovements({
-                              name: "descuentos",
+                              name: 'descuentos',
                               value: !filterMovements.descuentos,
                             })
                           );
@@ -239,9 +270,9 @@ function SearchCurrentAcount(props) {
               </div>
               <div
                 style={{
-                  marginLeft: "90px",
-                  display: "flex",
-                  alignItems: "center",
+                  marginLeft: '90px',
+                  display: 'flex',
+                  alignItems: 'center',
                 }}
               >
                 <label>Todo</label>
@@ -251,24 +282,43 @@ function SearchCurrentAcount(props) {
                   onChange={() => {
                     dispatch(
                       setFilterMovements({
-                        name: "pending",
+                        name: 'pending',
                         value: !filterMovements.pending,
                       })
                     );
                   }}
-                  style={{ margin: "0px 5px" }}
+                  style={{ margin: '0px 5px' }}
                 />
                 <label>Pendiente</label>
               </div>
             </div>
             <div>
+              <ProtectedComponent listAccesss={[1]} >
+                <Button
+                  disabled={normalize}
+                  type="button"
+                  onClick={() => {
+                    setResume();
+                  }}
+                >
+                  {normalize ? (
+                    <Spinner animation="border" size="sm" />
+                  ) : (
+                    'Recalcular'
+                  )}
+                </Button>
+              </ProtectedComponent>
               <Button
                 type="button"
                 onClick={() => {
                   getPending();
                 }}
               >
-                {printPending ? <Spinner /> : "Imprimir pendiente"}
+                {printPending ? (
+                  <Spinner animation="border" size="sm" />
+                ) : (
+                  'Imprimir pendiente'
+                )}
               </Button>
             </div>
           </div>

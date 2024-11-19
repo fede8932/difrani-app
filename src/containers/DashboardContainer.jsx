@@ -1,5 +1,5 @@
-import React from "react";
-import Dashboard from "../components/dashboard/Dashboard";
+import React from 'react';
+import Dashboard from '../components/dashboard/Dashboard';
 
 function DashboardContainer(props) {
   const { ...rest } = props;

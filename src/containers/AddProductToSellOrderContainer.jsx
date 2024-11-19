@@ -1,29 +1,33 @@
-import React, { useEffect, useState } from "react";
-import AddProductToSellOrder from "../components/addProductoToSellOrder/AddProductToSellOrder";
-import { useForm } from "react-hook-form";
-import { useDispatch, useSelector } from "react-redux";
-import { searchProductsRequest } from "../redux/product";
+import React, { useEffect, useState } from 'react';
+import AddProductToSellOrder from '../components/addProductoToSellOrder/AddProductToSellOrder';
+import { useForm } from 'react-hook-form';
+import { useDispatch, useSelector } from 'react-redux';
+import { searchProductsRequest } from '../redux/product';
 import {
   deleteSellOrder,
   getBuyOrderRequest,
   newBuyOrderRequest,
-} from "../redux/newOrder";
+} from '../redux/newOrder';
 import {
   addOrderItemsRequest,
   deleteOrderItemsRequest,
   deleteSellOrderItemsRequest,
   resetAddOrderItems,
   updateCantItemsRequest,
-} from "../redux/addOrderItems";
-import { useNavigate } from "react-router";
-import Swal from "sweetalert2";
-import { updateClientStatusOrder } from "../request/orderRequest";
+} from '../redux/addOrderItems';
+import { useNavigate } from 'react-router';
+import Swal from 'sweetalert2';
+import { updateClientStatusOrder } from '../request/orderRequest';
+import { resetPendingSave, setPendingSave } from '../redux/pendingSave';
 
 function AddProductToSellOrderContainer(props) {
+  const [equivalenceId, setEquivalenceId] = useState(null);
   const { type } = props;
   const [text, setText] = useState(null);
   const methods = useForm();
   const actualOrder = useSelector((state) => state.newBuyOrder);
+  const pendingSave = useSelector((state) => state.pendingSave);
+  // console.log(pendingSave);
   const client = useSelector((state) => state.client);
   const navigate = useNavigate();
   const productPages = useSelector((state) => state.product);
@@ -43,10 +47,11 @@ function AddProductToSellOrderContainer(props) {
       brandId: brand.id,
       orderId: actualOrder.data.id,
       cantidad: 1,
-      type: "sell",
+      type: 'sell',
     };
     dispatch(addOrderItemsRequest(objSend)).then(() => {
       dispatch(getBuyOrderRequest(actualOrder.data.id));
+      dispatch(setPendingSave({ pending: false, orderId: null }));
     });
   };
   const infoProduct = (product) => {};
@@ -71,24 +76,24 @@ function AddProductToSellOrderContainer(props) {
 
   const cancelar = (id) => {
     Swal.fire({
-      title: "Estás seguro?",
+      title: 'Estás seguro?',
       text: `${
-        type == "sale" ? "La orden de venta" : "El presupuesto"
+        type == 'sale' ? 'La orden de venta' : 'El presupuesto'
       } se eliminará`,
-      icon: "warning",
+      icon: 'warning',
       showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Eliminar",
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Eliminar',
     }).then((result) => {
       if (result.isConfirmed) {
         dispatch(deleteSellOrder(id)).then(() => {
           Swal.fire(
-            "Eliminado!",
-            "Has eliminado el presupuesto con éxito",
-            "success"
+            'Eliminado!',
+            'Has eliminado el presupuesto con éxito',
+            'success'
           ).then(() => {
-            navigate("/");
+            navigate('/');
           });
         });
       }
@@ -96,13 +101,13 @@ function AddProductToSellOrderContainer(props) {
   };
   const updateOrder = (orderId, status) => {
     Swal.fire({
-      title: "Estás seguro?",
-      text: "Vas a confirmar una venta y generar orden de pedido",
-      icon: "warning",
+      title: 'Estás seguro?',
+      text: 'Vas a confirmar una venta y generar orden de pedido',
+      icon: 'warning',
       showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Si, confirmar",
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, confirmar',
     }).then((result) => {
       if (result.isConfirmed) {
         updateClientStatusOrder({
@@ -111,13 +116,13 @@ function AddProductToSellOrderContainer(props) {
           clientId: client.data.id,
         }).then(() => {
           Swal.fire({
-            position: "center",
-            icon: "success",
-            title: "Orden de venta confirmada, generamos la orden de pedido",
+            position: 'center',
+            icon: 'success',
+            title: 'Orden de venta confirmada, generamos la orden de pedido',
             showConfirmButton: false,
             timer: 1500,
           }).then(() => {
-            navigate("/picking/orden");
+            navigate('/picking/orden');
           });
         });
       }
@@ -125,19 +130,30 @@ function AddProductToSellOrderContainer(props) {
   };
 
   useEffect(() => {
-    if (type != "sale") {
-      dispatch(newBuyOrderRequest({ supplier: "nosupplier" }));
+    if (type != 'sale') {
+      dispatch(newBuyOrderRequest({ supplier: 'nosupplier' }));
     } else {
-      dispatch(searchProductsRequest({ page: 1, text: null }));
+      dispatch(
+        searchProductsRequest({
+          page: 1,
+          text: null,
+          equivalenceId: equivalenceId,
+        })
+      );
     }
-  }, []);
+  }, [equivalenceId]);
 
   useEffect(() => {
-    return () => dispatch(resetAddOrderItems(null));
+    return () => {
+      dispatch(resetAddOrderItems(null));
+      dispatch(resetPendingSave(null));
+    };
   }, []);
   return (
     <AddProductToSellOrder
       {...props}
+      equivalenceId={equivalenceId}
+      setEquivalenceId={setEquivalenceId}
       methods={methods}
       onSubmit={searchProd}
       productPages={productPages}

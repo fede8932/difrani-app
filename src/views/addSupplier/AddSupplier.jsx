@@ -1,6 +1,6 @@
-import React from "react";
-import styles from "./addSupplier.module.css";
-import SupplierFormContainer from "../../containers/SupplierFormContainer";
+import React from 'react';
+import styles from './addSupplier.module.css';
+import SupplierFormContainer from '../../containers/SupplierFormContainer';
 
 function AddSupplier() {
   return (

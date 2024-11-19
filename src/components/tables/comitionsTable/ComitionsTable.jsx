@@ -1,22 +1,22 @@
-import { AgGridReact } from "ag-grid-react";
-import "ag-grid-community/styles/ag-grid.css";
-import "ag-grid-community/styles/ag-theme-quartz.css";
-import React, { useEffect, useMemo, useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { AgGridReact } from 'ag-grid-react';
+import 'ag-grid-community/styles/ag-grid.css';
+import 'ag-grid-community/styles/ag-theme-quartz.css';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   convertirFechaISOaDDMMYYYY,
   redondearADosDecimales,
-} from "../../../utils";
-import { Checkbox, Pagination, Select } from "semantic-ui-react";
-import styles from "./comitionsTable.module.css";
-import { useLocation } from "react-router";
-import { setFilterProduct } from "../../../redux/filtersProducts";
+} from '../../../utils';
+import { Checkbox, Pagination, Select } from 'semantic-ui-react';
+import styles from './comitionsTable.module.css';
+import { useLocation } from 'react-router';
+import { setFilterProduct } from '../../../redux/filtersProducts';
 import {
   getResumeLiquidationRequest,
   getSellerResumeRequest,
   setMarc,
-} from "../../../redux/sellerResume";
-import { setFilterComis } from "../../../redux/filtersComis";
+} from '../../../redux/sellerResume';
+import { setFilterComis } from '../../../redux/filtersComis';
 
 const CustomComp = ({ data }) => {
   const dispatch = useDispatch();
@@ -88,46 +88,46 @@ const CustomComp = ({ data }) => {
 
 function ComitionsTable(props) {
   const { liqId } = props;
-  const sellerId = Number(useLocation().pathname.split("/")[3]);
+  const sellerId = Number(useLocation().pathname.split('/')[3]);
   const dispatch = useDispatch();
 
   let columnInitialState = [
     {
-      headerName: "Fecha",
+      headerName: 'Fecha',
       valueGetter: (params) => convertirFechaISOaDDMMYYYY(params.data.fecha),
       flex: 1,
       filterParams: {
-        filterOptions: ["contains"], // Solo opción 'contains'
+        filterOptions: ['contains'], // Solo opción 'contains'
         suppressFilterButton: true, // Ocultar el botón del menú del filtro
       },
     },
     {
-      headerName: "Concepto",
+      headerName: 'Concepto',
       valueGetter: (params) => params.data.concepto,
       flex: 2,
       filterParams: {
-        filterOptions: ["contains"], // Solo opción 'contains'
+        filterOptions: ['contains'], // Solo opción 'contains'
         suppressFilterButton: true, // Ocultar el botón del menú del filtro
       },
     },
     {
-      headerName: "Cliente",
+      headerName: 'Cliente',
       valueGetter: (params) => params.data.cliente,
       flex: 2,
       filterParams: {
-        filterOptions: ["contains"], // Solo opción 'contains'
+        filterOptions: ['contains'], // Solo opción 'contains'
         suppressFilterButton: true, // Ocultar el botón del menú del filtro
       },
     },
     {
-      headerName: "Monto",
+      headerName: 'Monto',
       valueGetter: (params) => `$ ${redondearADosDecimales(params.data.monto)}`,
       filter: false,
       flex: 1,
       sortable: false,
     },
     {
-      headerName: "Comisión",
+      headerName: 'Comisión',
       valueGetter: (params) =>
         `$ ${redondearADosDecimales(params.data.comision)}`,
       filter: false,
@@ -137,9 +137,9 @@ function ComitionsTable(props) {
 
   if (!liqId) {
     columnInitialState.push({
-      headerName: "Liquidada",
+      headerName: 'Liquidada',
       cellRenderer: (params) => <CustomComp data={params.data} />,
-      field: "id",
+      field: 'id',
       sortable: false,
       filter: false,
       flex: 1,
@@ -163,10 +163,10 @@ function ComitionsTable(props) {
   const filterCom = useSelector((state) => state.filterCom);
 
   const selectChange = (e, d) => {
-    dispatch(setFilterComis({ name: "pageSize", value: d.value }));
+    dispatch(setFilterComis({ name: 'pageSize', value: d.value }));
   };
   const changePage = (e, d) => {
-    dispatch(setFilterComis({ name: "page", value: d.activePage }));
+    dispatch(setFilterComis({ name: 'page', value: d.activePage }));
   };
 
   useEffect(() => {
@@ -180,11 +180,11 @@ function ComitionsTable(props) {
 
   return (
     <div
-      className={"ag-theme-quartz"}
-      style={!liqId ? { height: 600, marginTop: "-20px" } : { height: 520 }}
+      className={'ag-theme-quartz'}
+      style={!liqId ? { height: 600, marginTop: '-20px' } : { height: 520 }}
     >
       <Checkbox
-        style={{ margin: "0px 0px 5px 0px" }}
+        style={{ margin: '0px 0px 5px 0px' }}
         toggle
         label="Pendiente"
         checked={pending}
@@ -199,7 +199,7 @@ function ComitionsTable(props) {
         <div className={styles.paginationContainer}>
           <span>{`Se encontraron ${data.totalPages} páginas con ${data.totalResults} resultados.`}</span>
           <div className={styles.pagination}>
-            <div style={{ marginRight: "10px" }}>
+            <div style={{ marginRight: '10px' }}>
               <Select
                 width="10px"
                 defaultValue={filterCom.pageSize}

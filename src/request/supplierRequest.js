@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios';
 const apiUrl = import.meta.env.VITE_API_URL;
 
 export const suplierRegister = async (datos) => {
@@ -21,10 +21,10 @@ export const suplierRegister = async (datos) => {
     await axios.post(`${apiUrl}/api/representative`, dataRep, {
       withCredentials: true,
     });
-    return "ok";
+    return 'ok';
   } catch (error) {
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     throw error;
   }
@@ -41,7 +41,7 @@ export const getSuppliers = async () => {
     return arraySupplier;
   } catch (error) {
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     throw error;
   }
@@ -55,7 +55,7 @@ export const getSuppliersInfo = async () => {
     return data;
   } catch (error) {
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     throw error;
   }
@@ -70,7 +70,7 @@ export const getInfoSuppliers = async (razonSocial) => {
     return data;
   } catch (error) {
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     throw error;
   }
@@ -86,7 +86,7 @@ export const getSuppliersByData = async (searchData) => {
     return data;
   } catch (error) {
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     throw error;
   }
@@ -101,7 +101,7 @@ export const updateSupplierStatusRequest = async (id) => {
     return data;
   } catch (error) {
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     throw error;
   }
@@ -118,7 +118,7 @@ export const updateSupplierRequest = async (dataEdit) => {
     return data;
   } catch (error) {
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     throw error;
   }
@@ -134,7 +134,7 @@ export const addRepresentativeRequest = async (dataRepresentative) => {
     return data;
   } catch (error) {
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     throw error;
   }
@@ -149,7 +149,7 @@ export const deleteRepSupplierRequest = async (id) => {
     return data;
   } catch (error) {
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     throw error;
   }
@@ -166,7 +166,7 @@ export const updateRepSupplierRequest = async (newData) => {
     return data;
   } catch (error) {
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     throw error;
   }
@@ -182,7 +182,7 @@ export const getControlOrder = async (filterData) => {
     return data;
   } catch (error) {
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     throw error;
   }
@@ -197,23 +197,23 @@ export const selectControlOrder = async (id) => {
     return data;
   } catch (error) {
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     throw error;
   }
 };
 
 export const selectControlOrderItems = async (data) => {
-  const { id, rows, page } = data;
+  const { id } = data;
   try {
     const { data } = await axios.get(
-      `${apiUrl}/api/supplier/picking/select/order?id=${id}&rows=${rows}&page=${page}`,
+      `${apiUrl}/api/supplier/picking/select/order?id=${id}`,
       { withCredentials: true }
     );
     return data;
   } catch (error) {
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     throw error;
   }
@@ -225,7 +225,7 @@ export const updateItems = async (data) => {
     return data;
   } catch (error) {
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     throw error;
   }
@@ -242,7 +242,7 @@ export const updateControlOrderStatus = async (id) => {
   } catch (error) {
     console.log(error);
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     throw error;
   }

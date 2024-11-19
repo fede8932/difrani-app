@@ -1,5 +1,5 @@
-import React from "react";
-import styles from ".//breadcrumb.module.css";
+import React from 'react';
+import styles from './/breadcrumb.module.css';
 
 function BreadCrumbComponent() {
   return (

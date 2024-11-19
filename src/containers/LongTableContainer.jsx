@@ -1,20 +1,20 @@
-import React, { useState } from "react";
-import LongTableComponent from "../components/longTable/LongTableComponent";
-import { useDispatch } from "react-redux";
-import { getBuyOrderRequest } from "../redux/newOrder";
-import { useNavigate } from "react-router";
-import { getOrderItemsRequest } from "../redux/addOrderItems";
-import { billHtml } from "../templates/bill.js";
-import Swal from "sweetalert2";
+import React, { useState } from 'react';
+import LongTableComponent from '../components/longTable/LongTableComponent';
+import { useDispatch } from 'react-redux';
+import { getBuyOrderRequest } from '../redux/newOrder';
+import { useNavigate } from 'react-router';
+import { getOrderItemsRequest } from '../redux/addOrderItems';
+import { billHtml } from '../templates/bill.js';
+import Swal from 'sweetalert2';
 import {
   cancelOrderById,
   deleteOrderById,
   updateOrderConfirmById,
-} from "../redux/searchOrders";
-import { deleteOrderAjust } from "../request/orderAjustRequest";
-import { getClientIdRequest } from "../redux/client";
-import { printBillRequest } from "../request/orderRequest";
-import QRCode from "qrcode";
+} from '../redux/searchOrders';
+import { deleteOrderAjust } from '../request/orderAjustRequest';
+import { getClientIdRequest } from '../redux/client';
+import { printBillRequest } from '../request/orderRequest';
+import QRCode from 'qrcode';
 
 function LongTableContainer(props) {
   const dispatch = useDispatch();
@@ -23,10 +23,10 @@ function LongTableContainer(props) {
     dispatch(getBuyOrderRequest(id)).then(({ payload }) => {
       dispatch(getOrderItemsRequest(payload.id)).then((res) => {
         if (!clientId) {
-          navigate("/edit/buy");
+          navigate('/edit/buy');
         } else {
           dispatch(getClientIdRequest(clientId)).then(() => {
-            navigate("/edit/sell");
+            navigate('/edit/sell');
           });
         }
       });
@@ -34,20 +34,20 @@ function LongTableContainer(props) {
   };
   const deleteOrder = (orderId) => {
     Swal.fire({
-      title: "Estás Seguro?",
-      text: "Vas a eliminar la orden",
-      icon: "warning",
+      title: 'Estás Seguro?',
+      text: 'Vas a eliminar la orden',
+      icon: 'warning',
       showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Si, eliminar!",
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, eliminar!',
     }).then((result) => {
       if (result.isConfirmed) {
         dispatch(deleteOrderById(orderId)).then(() => {
           Swal.fire(
-            "Eliminado!",
-            "Se ha eliminado la orden exitosamente",
-            "success"
+            'Eliminado!',
+            'Se ha eliminado la orden exitosamente',
+            'success'
           );
         });
       }
@@ -55,22 +55,22 @@ function LongTableContainer(props) {
   };
   const cancelOrder = (orderId) => {
     Swal.fire({
-      title: "Estás Seguro?",
-      text: "Vas a cancelar la orden",
-      icon: "warning",
+      title: 'Estás Seguro?',
+      text: 'Vas a cancelar la orden',
+      icon: 'warning',
       showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Si, cancelar!",
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, cancelar!',
     }).then((result) => {
       if (result.isConfirmed) {
-        dispatch(cancelOrderById({ orderId: orderId, status: "Cancel" })).then(
+        dispatch(cancelOrderById({ orderId: orderId, status: 'Cancel' })).then(
           () => {
             deleteOrderAjust(orderId);
             Swal.fire(
-              "Orden cancelada!",
-              "Has cancelado la orden exitosamente",
-              "success"
+              'Orden cancelada!',
+              'Has cancelado la orden exitosamente',
+              'success'
             );
           }
         );
@@ -80,7 +80,7 @@ function LongTableContainer(props) {
   const receptOrder = async (id) => {
     dispatch(getBuyOrderRequest(id)).then(() => {
       // navigate("/search/buy/addfac");
-      navigate("/search/buy/confirm");
+      navigate('/search/buy/confirm');
     });
   };
   const printBill = async (id) => {
@@ -93,10 +93,10 @@ function LongTableContainer(props) {
     // console.log(order);
 
     // Abrir una nueva ventana
-    const nuevaVentana = window.open("", "", "width=900,height=1250");
+    const nuevaVentana = window.open('', '', 'width=900,height=1250');
 
     // Crear un contenedor en la ventana nueva
-    const container = nuevaVentana.document.createElement("div");
+    const container = nuevaVentana.document.createElement('div');
     nuevaVentana.document.body.appendChild(container);
 
     // Asignar la plantilla HTML al contenedor
@@ -105,7 +105,7 @@ function LongTableContainer(props) {
       order,
       codigoQR
     );
-    nuevaVentana.addEventListener("afterprint", () => {
+    nuevaVentana.addEventListener('afterprint', () => {
       nuevaVentana.close(); // Cierra la ventana después de imprimir
     });
     // Imprimir la ventana

@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 // Estado inicial
 const initialState = {
@@ -8,7 +8,7 @@ const initialState = {
 
 // Slice de Redux para manejar el estado de la notificación
 const notificationSlice = createSlice({
-  name: "notification",
+  name: 'notification',
   initialState,
   reducers: {
     trueNotificStatus: (state) => {

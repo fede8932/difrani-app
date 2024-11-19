@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import styles from "./inputFile.module.css";
-import { Icon, Label } from "semantic-ui-react";
+import React, { useState } from 'react';
+import styles from './inputFile.module.css';
+import { Icon, Label } from 'semantic-ui-react';
 
 const FileInput = (props) => {
   const { selectedFiles, setSelectedFiles } = props;
@@ -9,7 +9,7 @@ const FileInput = (props) => {
     const files = Array.from(event.target.files);
     // Limitar la cantidad de archivos seleccionados a 3
     if (files.length > 3) {
-      alert("Solo puedes seleccionar hasta 3 archivos.");
+      alert('Solo puedes seleccionar hasta 3 archivos.');
       return;
     }
     setSelectedFiles(files);
@@ -26,7 +26,7 @@ const FileInput = (props) => {
         id="file-upload"
         multiple
         onChange={handleFileChange}
-        style={{ display: "none" }}
+        style={{ display: 'none' }}
       />
       {/* Mostrar los nombres de los archivos seleccionados */}
       <div className={styles.fileList}>

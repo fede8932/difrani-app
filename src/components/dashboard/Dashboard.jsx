@@ -1,8 +1,8 @@
-import React from "react";
-import styles from "./dashboard.module.css";
-import Widget from "../../commonds/widget/Widget";
-import ChartG from "../chartG.jsx/ChartG";
-import ChartT from "../chartG.jsx/ChartT";
+import React from 'react';
+import styles from './dashboard.module.css';
+import Widget from '../../commonds/widget/Widget';
+import ChartG from '../chartG.jsx/ChartG';
+import ChartT from '../chartG.jsx/ChartT';
 
 function Dashboard(props) {
   return (

@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import styles from "./equiv.module.css";
+import React, { useState, useEffect } from 'react';
+import styles from './equiv.module.css';
 import {
   Button,
   Checkbox,
@@ -11,7 +11,7 @@ import {
   TableHeader,
   TableHeaderCell,
   TableRow,
-} from "semantic-ui-react";
+} from 'semantic-ui-react';
 
 function EquivalencesComponent(props) {
   const {
@@ -26,7 +26,7 @@ function EquivalencesComponent(props) {
     reemplceEquiv,
   } = props;
 
-  const [inputValue, setInputValue] = useState("");
+  const [inputValue, setInputValue] = useState('');
 
   useEffect(() => {
     const delayDebounceFn = setTimeout(() => {
@@ -57,9 +57,9 @@ function EquivalencesComponent(props) {
     <div>
       <div
         style={{
-          display: "flex",
-          justifyContent: "space-around",
-          backgroundColor: "#DFE4E8",
+          display: 'flex',
+          justifyContent: 'space-around',
+          backgroundColor: '#DFE4E8',
         }}
       >
         <span>
@@ -77,7 +77,7 @@ function EquivalencesComponent(props) {
       </div>
       <div className={styles.addUserContainer}>
         <div className={styles.leftCont}>
-          <div style={{ display: "flex", justifyContent: "space-between" }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between' }}>
             <Input
               icon="search"
               placeholder="Search..."
@@ -91,14 +91,14 @@ function EquivalencesComponent(props) {
               className={styles.button}
               onClick={handleClick}
             >
-              {equivalences?.equivalence ? "Actualizar" : "Crear"}
+              {equivalences?.equivalence ? 'Actualizar' : 'Crear'}
             </Button>
           </div>
           <div className={styles.tableOneContainer}>
             <Table celled compact>
               <TableHeader
                 style={{
-                  position: "sticky",
+                  position: 'sticky',
                   top: 0,
                   zIndex: 1,
                 }}
@@ -122,7 +122,7 @@ function EquivalencesComponent(props) {
                       />
                     </TableCell>
                     <TableCell>{p.article}</TableCell>
-                    <TableCell style={{ fontSize: "9px" }}>
+                    <TableCell style={{ fontSize: '9px' }}>
                       {p.description.slice(0, 90)}
                     </TableCell>
                   </TableRow>
@@ -148,7 +148,7 @@ function EquivalencesComponent(props) {
             <Table celled compact>
               <TableHeader
                 style={{
-                  position: "sticky",
+                  position: 'sticky',
                   top: 0,
                   zIndex: 1,
                 }}
@@ -162,7 +162,7 @@ function EquivalencesComponent(props) {
               <TableBody>
                 {equivalences?.equivalence ? (
                   <TableRow>
-                    <TableCell style={{ fontSize: "9px" }}>
+                    <TableCell style={{ fontSize: '9px' }}>
                       {equivalences?.equivalence?.description}
                     </TableCell>
                     <TableCell>
@@ -188,7 +188,7 @@ function EquivalencesComponent(props) {
             <Table celled compact>
               <TableHeader
                 style={{
-                  position: "sticky",
+                  position: 'sticky',
                   top: 0,
                   zIndex: 1,
                 }}
@@ -203,15 +203,15 @@ function EquivalencesComponent(props) {
                 {equivalences?.equivalencesProducts?.map((ep, i) => (
                   <TableRow key={i}>
                     <TableCell
-                      style={ep.new ? { backgroundColor: "#A5FFD5" } : {}}
+                      style={ep.new ? { backgroundColor: '#A5FFD5' } : {}}
                     >
                       {ep.article}
                     </TableCell>
                     <TableCell
                       style={
                         ep.new
-                          ? { backgroundColor: "#A5FFD5", fontSize: "9px" }
-                          : { fontSize: "9px" }
+                          ? { backgroundColor: '#A5FFD5', fontSize: '9px' }
+                          : { fontSize: '9px' }
                       }
                     >
                       {ep.description.slice(0, 45)}

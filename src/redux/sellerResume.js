@@ -1,21 +1,21 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import * as sellerRequest from "../request/sellerRequest";
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import * as sellerRequest from '../request/sellerRequest';
 const sellerState = {
   loading: false,
   data: { registros: [], selectTotal: 0, selectComision: 0 },
-  error: "",
+  error: '',
 };
 export const getSellerResumeRequest = createAsyncThunk(
-  "GET_SELLER_RESUME",
+  'GET_SELLER_RESUME',
   sellerRequest.getSellerResume
 );
 export const getResumeLiquidationRequest = createAsyncThunk(
-  "GET_LIQUIDATION_RESUME",
+  'GET_LIQUIDATION_RESUME',
   sellerRequest.getResumeLiquidation
 );
 
 const sellerResumeSlice = createSlice({
-  name: "sellerResume",
+  name: 'sellerResume',
   initialState: sellerState,
   reducers: {
     setMarc: (state, action) => {

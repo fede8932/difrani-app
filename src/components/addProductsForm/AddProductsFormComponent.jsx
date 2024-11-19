@@ -1,10 +1,10 @@
-import React from "react";
-import styles from "./addProduct.module.css";
-import { FormProvider } from "react-hook-form";
-import Button from "react-bootstrap/esm/Button";
-import Spinner from "react-bootstrap/esm/Spinner";
-import ExcelUpload from "../../commonds/upload/ExcelUpload";
-import { Checkbox } from "semantic-ui-react";
+import React from 'react';
+import styles from './addProduct.module.css';
+import { FormProvider } from 'react-hook-form';
+import Button from 'react-bootstrap/esm/Button';
+import Spinner from 'react-bootstrap/esm/Spinner';
+import ExcelUpload from '../../commonds/upload/ExcelUpload';
+import { Checkbox } from 'semantic-ui-react';
 
 function AddProductsFormComponent(props) {
   const {
@@ -62,6 +62,7 @@ function AddProductsFormComponent(props) {
             <span className={styles.subTitle}>Subir productos</span>
             <div className={styles.uploadContainer}>
               <ExcelUpload
+                label={true}
                 selectedFile={selectedFile}
                 setSelectedFile={setSelectedFile}
               />
@@ -72,14 +73,14 @@ function AddProductsFormComponent(props) {
           disabled={selectedFile ? false : true}
           onClick={methods.handleSubmit(onSubmit)}
           style={{
-            backgroundColor: "#673ab7",
-            border: "1px solid #673ab7",
-            marginTop: "35px",
-            height: "48px",
+            backgroundColor: '#673ab7',
+            border: '1px solid #673ab7',
+            marginTop: '35px',
+            height: '48px',
           }}
         >
           {!status ? (
-            "Agregar"
+            'Agregar'
           ) : (
             <Spinner animation="border" variant="light" size="sm" />
           )}

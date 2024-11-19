@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios';
 const apiUrl = import.meta.env.VITE_API_URL;
 
 export const getSellers = async () => {
@@ -19,7 +19,7 @@ export const getSellers = async () => {
     return ans;
   } catch (error) {
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     throw error;
   }
@@ -36,7 +36,7 @@ export const getSellerResume = async (info) => {
   } catch (error) {
     console.log(error);
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     throw error;
   }
@@ -52,7 +52,7 @@ export const getSellerLiquidation = async (info) => {
   } catch (error) {
     console.log(error);
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     throw error;
   }
@@ -68,7 +68,7 @@ export const getResumeLiquidation = async (info) => {
   } catch (error) {
     console.log(error);
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     throw error;
   }
@@ -96,10 +96,10 @@ export const createSellers = async (objData) => {
     await axios.post(`${apiUrl}/api/seller`, dataSeller, {
       withCredentials: true,
     });
-    return "Registrado";
+    return 'Registrado';
   } catch (error) {
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     throw error;
   }
@@ -114,7 +114,7 @@ export const getSellersByText = async (dataSearch) => {
     return data;
   } catch (error) {
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     throw error;
   }
@@ -128,7 +128,7 @@ export const getSellerId = async (id) => {
     return data;
   } catch (error) {
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     throw error;
   }
@@ -145,7 +145,7 @@ export const updateSellerById = async (dataUpdate) => {
     return data;
   } catch (error) {
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     throw error;
   }
@@ -159,7 +159,7 @@ export const createLiquidationRequest = async (sendInfo) => {
     return data;
   } catch (error) {
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     throw error;
   }

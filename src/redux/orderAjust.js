@@ -1,25 +1,25 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import * as orderAjustRequest from "../request/orderAjustRequest"
+import * as orderAjustRequest from '../request/orderAjustRequest';
 const initState = {
   loading: false,
   data: {},
-  error: "",
+  error: '',
 };
 export const addOrderAjust = createAsyncThunk(
-  "ADD_AJUST",
+  'ADD_AJUST',
   orderAjustRequest.addOrderAjust
 );
 export const getAjustOrder = createAsyncThunk(
-  "GET_ORDER",
+  'GET_ORDER',
   orderAjustRequest.getAjustOrder
 );
 export const getOrderAjust = createAsyncThunk(
-  "GET_AJUST",
+  'GET_AJUST',
   orderAjustRequest.getOrderAjust
 );
 
 const orderAjustSlice = createSlice({
-  name: "orderAjust",
+  name: 'orderAjust',
   initialState: initState,
   extraReducers: {
     [addOrderAjust.pending]: (state, action) => {

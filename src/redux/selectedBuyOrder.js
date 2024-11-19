@@ -1,21 +1,21 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import * as orderRequest from "../request/orderRequest";
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import * as orderRequest from '../request/orderRequest';
 const orderState = {
   loading: false,
   data: {
-    supplier: { razonSocial: "" },
-    client: { razonSocial: "" },
+    supplier: { razonSocial: '' },
+    client: { razonSocial: '' },
     orderAjust: { ajustOrderItems: [] },
   },
-  error: "",
+  error: '',
 };
 export const getOrderById = createAsyncThunk(
-  "GET_ORDER_ID",
+  'GET_ORDER_ID',
   orderRequest.getOrderByIdRequest
 );
 
 const buyOrderSlice = createSlice({
-  name: "Order",
+  name: 'Order',
   initialState: orderState,
   extraReducers: {
     [getOrderById.pending]: (state, action) => {

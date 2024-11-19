@@ -1,28 +1,28 @@
-import React, { useEffect, useState } from "react";
-import AddProductToOrder from "../components/addProductToOrder/AddProductToOrder";
-import { useForm } from "react-hook-form";
-import { searchProductRequest } from "../redux/product";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useEffect, useState } from 'react';
+import AddProductToOrder from '../components/addProductToOrder/AddProductToOrder';
+import { useForm } from 'react-hook-form';
+import { searchProductRequest } from '../redux/product';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   addOrderItemsRequest,
   deleteOrderItemsRequest,
   getOrderItemsRequest,
   updateCantItemsRequest,
   updatePriceItemsRequest,
-} from "../redux/addOrderItems";
-import { getBuyOrderRequest } from "../redux/newOrder";
-import Swal from "sweetalert2";
-import { useNavigate } from "react-router";
-import { updateStatusOrder } from "../request/orderRequest";
-import { useLocation } from "react-router-dom";
+} from '../redux/addOrderItems';
+import { getBuyOrderRequest } from '../redux/newOrder';
+import Swal from 'sweetalert2';
+import { useNavigate } from 'react-router';
+import { useLocation } from 'react-router-dom';
 import {
   addAjustItemsRequest,
   deleteAjustItemsRequest,
   updateCantAjustItemsRequest,
   updatePriceAjustItemsRequest,
-} from "../redux/addAjustItems";
-import { getOrderAjust } from "../redux/orderAjust";
-import { updateStatusAjust } from "../request/orderAjustRequest";
+} from '../redux/addAjustItems';
+import { getOrderAjust } from '../redux/orderAjust';
+import { updateStatusAjust } from '../request/orderAjustRequest';
+import { addRemOrderConfirmRequest, confirmBuyOrderRequest } from '../redux/searchOrders';
 
 function AddProductToBuyOrderContainer(props) {
   const [showAlert, setShowAlert] = useState(false);
@@ -47,7 +47,7 @@ function AddProductToBuyOrderContainer(props) {
       orderId: actualOrder.data.id,
       cantidad: 1,
     };
-    if (type !== "ajuste") {
+    if (type !== 'ajuste') {
       dispatch(addOrderItemsRequest(objSend)).then(() => {
         dispatch(getBuyOrderRequest(actualOrder.data.id)).then(() => {
           setShowAlert(true);
@@ -67,7 +67,7 @@ function AddProductToBuyOrderContainer(props) {
     // console.log("anda", product, productPages, actualOrder);
   };
   const deleteOrder = (dataOrder) => {
-    if (type !== "ajuste") {
+    if (type !== 'ajuste') {
       dispatch(deleteOrderItemsRequest(dataOrder)).then(() => {
         dispatch(getBuyOrderRequest(actualOrder.data.id));
       });
@@ -78,7 +78,7 @@ function AddProductToBuyOrderContainer(props) {
     }
   };
   const updateCantOrderItem = async (dataOrderItem) => {
-    if (type !== "ajuste") {
+    if (type !== 'ajuste') {
       dispatch(updateCantItemsRequest(dataOrderItem)).then(() => {
         dispatch(getBuyOrderRequest(actualOrder.data.id));
       });
@@ -89,7 +89,7 @@ function AddProductToBuyOrderContainer(props) {
     }
   };
   const updatePrecOrderItem = async (dataOrderItem) => {
-    if (type !== "ajuste") {
+    if (type !== 'ajuste') {
       dispatch(updatePriceItemsRequest(dataOrderItem)).then(() => {
         dispatch(getBuyOrderRequest(actualOrder.data.id));
       });
@@ -101,54 +101,94 @@ function AddProductToBuyOrderContainer(props) {
     }
   };
   const confirmOrder = () => {
-    const question = type !== "ajuste" ? "orden" : "ajuste";
     Swal.fire({
-      title: `Confirmar ${question}?`,
-      text: "Ya no se podrá modificar",
-      icon: "warning",
+      title: `Confirmar orden?`,
+      text: 'Vas a enviar el pedido al proveedor',
+      icon: 'warning',
       showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Confirmar",
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Confirmar',
     }).then((result) => {
       if (result.isConfirmed) {
-        if (type !== "ajuste") {
-          updateStatusOrder({
-            id: actualOrder.data.id,
-            status: "Confirm",
-          }).then(() => {
+        dispatch(confirmBuyOrderRequest(actualOrder.data.id)).then((res) => {
+          // console.log(res);
+          if (res.error) {
             Swal.fire(
-              "Orden confirmada",
-              "Tu orden se ha confirmado correctamente",
-              "success"
+              'Error',
+              `No se pudo confirmar la orden: ${res.error.message}`,
+              'error'
+            );
+            return;
+          } else {
+            Swal.fire(
+              'Orden confirmada',
+              'Tu orden se ha confirmado correctamente',
+              'success'
             ).then(() => {
-              navigate("/search/buy");
+              navigate('/search/buy');
             });
-          });
-        } else {
-          updateStatusAjust({ id: orderAjust.data.id, status: "Confirm" }).then(
-            () => {
-              Swal.fire(
-                "Orden confirmada",
-                "Tu orden se ha confirmado correctamente",
-                "success"
-              ).then(() => {
-                navigate("/search/buy");
-              });
-            }
-          );
-        }
+          }
+        });
       }
     });
   };
+
+  const recepOrder = (orderId) => {
+    Swal.fire({
+      title: 'Ingresa el valor de remito',
+      input: 'text',
+      showCancelButton: true,
+      confirmButtonText: 'Confirmar',
+      cancelButtonText: 'Cancelar',
+      inputValidator: (value) => {
+        if (!value) {
+          return 'El número de remito es obligatorio';
+        }
+        if (!/^\d+$/.test(value)) {
+          return 'El valor debe contener solo números';
+        }
+      },
+    }).then((result) => {
+      if (result.isConfirmed) {
+        dispatch(addRemOrderConfirmRequest({ orderId, remito: result.value }))
+          .then((res) => {
+            if (res.error) {
+              Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: `Ocurrió un error: ${res.error}`,
+              });
+              return;
+            }
+            Swal.fire({
+              position: 'center',
+              icon: 'success',
+              title: 'Nota de control generada con éxito',
+              showConfirmButton: false,
+              timer: 1000,
+            });
+            navigate('/search/buy')
+          })
+          .catch((err) => {
+            Swal.fire({
+              icon: 'error',
+              title: 'Oops...',
+              text: `${err?.message}`,
+            });
+          });
+      }
+    });
+  };
+
   useEffect(() => {
     dispatch(
       searchProductRequest({
-        dataSearch: "",
+        dataSearch: '',
         supplierId: actualOrder.data.supplierId,
       })
     );
-    if (type == "ajuste") {
+    if (type == 'ajuste') {
       dispatch(getOrderItemsRequest(actualOrder.data.id));
     }
   }, []);
@@ -170,6 +210,7 @@ function AddProductToBuyOrderContainer(props) {
       path={pathname}
       goPath={useNavigate()}
       showAlert={showAlert}
+      recep={recepOrder}
     />
   );
 }

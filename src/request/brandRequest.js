@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios';
 const apiUrl = import.meta.env.VITE_API_URL;
 
 export const createBrand = async (brandData) => {
@@ -8,17 +8,17 @@ export const createBrand = async (brandData) => {
       name: brandData.name,
       code: brandData.code,
       rentabilidad: brandData.renta / 100,
-      seFactura: brandData.seFactura == "true" ? true : false,
+      seFactura: brandData.seFactura == 'true' ? true : false,
     };
     await axios.post(
       `${apiUrl}/api/brand?supplierId=${Number(supplierName)}`,
       brandDate,
       { withCredentials: true }
     );
-    return "Registrado";
+    return 'Registrado';
   } catch (error) {
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     throw error;
   }
@@ -35,7 +35,7 @@ export const getBrands = async () => {
     return brands;
   } catch (error) {
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     throw error;
   }
@@ -49,7 +49,7 @@ export const getBrandsByData = async (text) => {
     return data;
   } catch (error) {
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     throw error;
   }
@@ -61,7 +61,7 @@ export const toggleEcommerce = async (id) => {
     return data;
   } catch (error) {
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     throw error;
   }
@@ -79,7 +79,7 @@ export const getBrandsBySupplier = async (supplierId) => {
     return brands;
   } catch (error) {
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     throw error;
   }
@@ -95,7 +95,7 @@ export const addSupplierToBrand = async (infoBS) => {
     return data;
   } catch (error) {
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     throw error;
   }
@@ -110,7 +110,7 @@ export const deleteSupplierToBrand = async (infoBS) => {
     return data;
   } catch (error) {
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     throw error;
   }
@@ -119,7 +119,7 @@ export const updateBrand = async (info) => {
   try {
     const { brandId, ...sendData } = info;
     sendData.rentabilidad = Number(sendData.rentabilidad) / 100;
-    sendData.seFactura = sendData.seFactura == "true" ? true : false;
+    sendData.seFactura = sendData.seFactura == 'true' ? true : false;
     console.log(sendData);
     const { data } = await axios.put(
       `${apiUrl}/api/brand/update/${brandId}`,
@@ -129,7 +129,7 @@ export const updateBrand = async (info) => {
     return data;
   } catch (error) {
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     throw error;
   }
@@ -142,7 +142,7 @@ export const addBrandToTable = async (datos) => {
     return data.customerDiscounts;
   } catch (error) {
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     throw error;
   }
@@ -157,7 +157,7 @@ export const delBrandToTable = async (ids) => {
     return data.customerDiscounts;
   } catch (error) {
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     throw error;
   }
@@ -176,7 +176,7 @@ export const getAllBrandToTable = async (clientId) => {
     return data;
   } catch (error) {
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     throw error;
   }

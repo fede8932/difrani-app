@@ -1,7 +1,7 @@
-import React, { useState } from "react";
-import styles from "./nativeTable.module.css";
-import CustomPagination from "../../commonds/pagination/CustomPagination";
-import { Checkbox } from "semantic-ui-react";
+import React, { useState } from 'react';
+import styles from './nativeTable.module.css';
+import CustomPagination from '../../commonds/pagination/CustomPagination';
+import { Checkbox } from 'semantic-ui-react';
 
 function NativeTable(props) {
   const {
@@ -61,7 +61,7 @@ function NativeTable(props) {
                   className={styles.cell}
                 >
                   {col.renderProp != null ? (
-                    col.renderProp != "check" ? (
+                    col.renderProp != 'check' ? (
                       <p>{item[col.renderProp]}</p>
                     ) : (
                       <Checkbox

@@ -1,7 +1,7 @@
-import React from "react";
-import { Document, Page, View } from "@react-pdf/renderer";
-import styles from "./pdfGenR.module.css";
-import { fechaConverter } from "../../utils";
+import React from 'react';
+import { Document, Page, View } from '@react-pdf/renderer';
+import styles from './pdfGenR.module.css';
+import { fechaConverter } from '../../utils';
 
 const PdfGenR = (props) => {
   const { order, numRemito } = props;
@@ -20,14 +20,14 @@ const PdfGenR = (props) => {
           size="A4"
           orientation="landscape"
           style={{
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "center",
-            backgroundColor: "white",
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center',
+            backgroundColor: 'white',
           }}
         >
-          <View style={{ width: "800px", height: "1100px" }}>
+          <View style={{ width: '800px', height: '1100px' }}>
             <div className={styles.encabezado}>
               <div className={styles.leftCont}>
                 <div className={styles.dataEmisor}>
@@ -76,13 +76,13 @@ const PdfGenR = (props) => {
             <div className={styles.clientContainer}>
               <div className={styles.ivaClient}>
                 <span className={styles.clientInfoText}>
-                  Razon Social:{" "}
+                  Razon Social:{' '}
                   <span className={styles.clientInfoTextDos}>
                     {order.client.razonSocial}
                   </span>
                 </span>
                 <span className={styles.clientInfoText}>
-                  Teléfono:{" "}
+                  Teléfono:{' '}
                   <span className={styles.clientInfoTextDos}>
                     {order.client.telefono}
                   </span>
@@ -90,7 +90,7 @@ const PdfGenR = (props) => {
               </div>
               <div className={styles.ivaClient}>
                 <span className={styles.clientInfoText}>
-                  Dirección:{" "}
+                  Dirección:{' '}
                   <span className={styles.clientInfoTextDos}>
                     {`${order.client.calle} ${order.client.altura}, ${order.client.localidad}`}
                   </span>

@@ -1,34 +1,34 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import * as currentRequest from "../request/currentAcountRequest";
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import * as currentRequest from '../request/currentAcountRequest';
 const movementsState = {
   loading: false,
   data: {
     currentAcount: {
-      client: { razonSocial: "" },
-      supplier: { razonSocial: "" },
+      client: { razonSocial: '' },
+      supplier: { razonSocial: '' },
     },
     movements: { list: [], totalRows: 0, totalPages: 1 },
   },
-  error: "",
+  error: '',
 };
 export const getAcountById = createAsyncThunk(
-  "GET_CURRENT_ACOUNT",
+  'GET_CURRENT_ACOUNT',
   currentRequest.getCurrentAcount
 );
 export const getMovementsByCurrentAcountId = createAsyncThunk(
-  "GET_MOVEMENTS",
+  'GET_MOVEMENTS',
   currentRequest.getMovementsRequest
 );
 export const getMovementsByCurrentAcountIdX = createAsyncThunk(
-  "GET_MOVEMENTS",
+  'GET_MOVEMENTS',
   currentRequest.getMovementsExtraRequest
 );
 export const addMovementsByCurrentAcountId = createAsyncThunk(
-  "ADD_NEW_MOVEMENTS",
+  'ADD_NEW_MOVEMENTS',
   currentRequest.newMovementsRequest
 );
 export const addPayToCurrentAcount = createAsyncThunk(
-  "ADD_PAY",
+  'ADD_PAY',
   currentRequest.addPayToCurrentAcount
 );
 // export const marcMovementsByCurrentAcountId = createAsyncThunk(
@@ -37,7 +37,7 @@ export const addPayToCurrentAcount = createAsyncThunk(
 // );
 
 const movementsSlice = createSlice({
-  name: "movements",
+  name: 'movements',
   initialState: movementsState,
   reducers: {
     marcMovementsByCurrentAcountId: (state, action) => {
@@ -53,12 +53,12 @@ const movementsSlice = createSlice({
       state.loading = false;
       state.data = {
         currentAcount: {
-          client: { razonSocial: "" },
-          supplier: { razonSocial: "" },
+          client: { razonSocial: '' },
+          supplier: { razonSocial: '' },
         },
         movements: { list: [], totalRows: 0, totalPages: 1 },
       };
-      state.error = "";
+      state.error = '';
     },
   },
   extraReducers: {
@@ -71,7 +71,9 @@ const movementsSlice = createSlice({
     },
     [getAcountById.fulfilled]: (state, action) => {
       state.loading = false;
-      state.data.currentAcount = action.payload;
+      state.error = "";
+      const { movements , ...caData } = action.payload;
+      state.data.currentAcount = caData;
     },
     [getMovementsByCurrentAcountId.pending]: (state, action) => {
       state.loading = true;
@@ -99,7 +101,9 @@ const movementsSlice = createSlice({
         Object.assign({}, mov, { marc: false })
       );
       state.loading = false;
-      state.data.movements = action.payload;
+      let { currentAcount, ...list } = action.payload;
+      state.data.currentAcount = currentAcount;
+      state.data.movements = list;
     },
     [addMovementsByCurrentAcountId.pending]: (state, action) => {
       state.loading = true;

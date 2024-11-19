@@ -1,14 +1,14 @@
-import React, { useEffect } from "react";
-import AddClientComponent from "../components/addClient/AddClientComponent";
-import { useForm } from "react-hook-form";
-import { useDispatch, useSelector } from "react-redux";
-import { clientCreateRequest } from "../redux/client";
-import { getSellersRequest } from "../redux/seller";
-import { getBrandRequest } from "../redux/brand";
-import { resetBrandToTable } from "../redux/tableItems";
-import LoadingSpinner from "../commonds/loading/LoadingSpinner";
-import { message } from "antd";
-import { useNavigate } from "react-router";
+import React, { useEffect } from 'react';
+import AddClientComponent from '../components/addClient/AddClientComponent';
+import { useForm } from 'react-hook-form';
+import { useDispatch, useSelector } from 'react-redux';
+import { clientCreateRequest } from '../redux/client';
+import { getSellersRequest } from '../redux/seller';
+import { getBrandRequest } from '../redux/brand';
+import { resetBrandToTable } from '../redux/tableItems';
+import LoadingSpinner from '../commonds/loading/LoadingSpinner';
+import { message } from 'antd';
+import { useNavigate } from 'react-router';
 
 function AddClientContainer(props) {
   const { nextFn, type } = props;
@@ -23,14 +23,14 @@ function AddClientContainer(props) {
     dispatch(clientCreateRequest(data)).then((res) => {
       if (res?.error?.message) {
         message.error(res?.error?.message);
-        navigate("/search/client");
+        navigate('/search/client');
         return;
       }
-      type == "client" ? message.success("Cliente registrado!") : null;
+      type == 'client' ? message.success('Cliente registrado!') : null;
       methods.reset();
       dispatch(resetBrandToTable()).then(() => {
         if (rolId != 1 && rolId != 2 && rolId != 5) {
-          navigate("/search/client");
+          navigate('/search/client');
         }
       });
       nextFn(1);

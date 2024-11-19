@@ -1,19 +1,19 @@
-import React, { useState } from "react";
-import styles from "./addClient.module.css";
-import AddClientContainer from "../../containers/AddClientContainer";
-import CustomStep from "../../components/step/CustomStep";
-import SubFormAddClientContainer from "../../containers/SubFormAddClientContainer";
-import ProtectedComponent from "../../protected/protectedComponent/ProtectedComponent";
+import React, { useState } from 'react';
+import styles from './addClient.module.css';
+import AddClientContainer from '../../containers/AddClientContainer';
+import CustomStep from '../../components/step/CustomStep';
+import SubFormAddClientContainer from '../../containers/SubFormAddClientContainer';
+import ProtectedComponent from '../../protected/protectedComponent/ProtectedComponent';
 
 function AddClient(props) {
   const { initView } = props;
   const [view, setView] = useState(initView);
   const steps = [
     {
-      title: "Cliente",
+      title: 'Cliente',
     },
     {
-      title: "Descuentos",
+      title: 'Descuentos',
     },
   ];
 
@@ -22,7 +22,7 @@ function AddClient(props) {
       <h6 className={styles.formTitle}>Registrar cliente</h6>
       <div>
         <CustomStep steps={steps} type="client" view={view} />
-        <div style={{ marginTop: "30px" }}>
+        <div style={{ marginTop: '30px' }}>
           {view == 0 ? (
             <AddClientContainer nextFn={setView} type="client" />
           ) : null}

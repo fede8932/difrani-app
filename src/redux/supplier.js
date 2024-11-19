@@ -1,29 +1,29 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import * as supplierRequest from "../request/supplierRequest"
+import * as supplierRequest from '../request/supplierRequest';
 const userState = {
   loading: false,
   data: [],
-  error: "",
+  error: '',
 };
 export const supplierCreateRequest = createAsyncThunk(
-  "SUPPLIER_CREATE",
+  'SUPPLIER_CREATE',
   supplierRequest.suplierRegister
 );
 export const getSupplierRequest = createAsyncThunk(
-  "SUPPLIER_LIST",
+  'SUPPLIER_LIST',
   supplierRequest.getSuppliers
 );
 export const getSuppliersInfoRequest = createAsyncThunk(
-  "SUPPLIER_INFO_LIST",
+  'SUPPLIER_INFO_LIST',
   supplierRequest.getSuppliersInfo
 );
 export const addRepresentativeRequest = createAsyncThunk(
-  "ADD_REP",
+  'ADD_REP',
   supplierRequest.addRepresentativeRequest
 );
 
 const supplierSlice = createSlice({
-  name: "supplier",
+  name: 'supplier',
   initialState: userState,
   extraReducers: {
     [supplierCreateRequest.pending]: (state, action) => {

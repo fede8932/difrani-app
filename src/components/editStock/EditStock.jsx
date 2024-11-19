@@ -1,49 +1,43 @@
-import React, { useState } from "react";
-import styles from "./editStock.module.css";
-import { controlOrderString, fechaConverter } from "../../utils";
-import { Table } from "semantic-ui-react";
-import CustomPagination from "../../commonds/pagination/CustomPagination";
-import { Button } from "semantic-ui-react";
-import CustomPopup from "../../commonds/popup/CustomPopup";
+import React, { useState } from 'react';
+import styles from './editStock.module.css';
+import { controlOrderString, fechaConverter } from '../../utils';
+import { Table } from 'semantic-ui-react';
+import CustomPagination from '../../commonds/pagination/CustomPagination';
+import { Button } from 'semantic-ui-react';
+import CustomPopup from '../../commonds/popup/CustomPopup';
+import { Spinner } from 'react-bootstrap';
 
-function EditStock({
-  order,
-  activePage,
-  handlePageChange,
-  confirmButton,
-  onClick,
-  updateAmount,
-}) {
+function EditStock({ order, onClick, updateAmount, loading }) {
   return (
     <div className={styles.editStockContainer}>
       <div className={styles.genericInfo}>
         <span>
-          Fecha:{" "}
+          Fecha:{' '}
           <span className={styles.spanData}>
             {fechaConverter(order.controlOrder.createdAt)}
           </span>
         </span>
         <span>
-          Control:{" "}
+          Control:{' '}
           <span className={styles.spanData}>
             {controlOrderString(order.controlOrder.id)}
           </span>
         </span>
         <span>
-          Orden:{" "}
+          Orden:{' '}
           <span className={styles.spanData}>
             {order.controlOrder.purchaseOrder.numero}
           </span>
         </span>
         <span>
-          N° Remito:{" "}
+          N° Remito:{' '}
           <span className={styles.spanData}>
             {order.controlOrder.numRemito}
           </span>
         </span>
       </div>
       <div className={styles.tableContainer}>
-        <Table color={"violet"}>
+        <Table color={'violet'}>
           <Table.Header>
             <Table.Row>
               <Table.HeaderCell>Código</Table.HeaderCell>
@@ -62,7 +56,7 @@ function EditStock({
                     content={item.product.description.toUpperCase()}
                   />
                 </Table.Cell>
-                <Table.Cell>{item.product.brand.name.toUpperCase()}</Table.Cell>
+                <Table.Cell>{item.product.brand.toUpperCase()}</Table.Cell>
                 <Table.Cell>
                   <input
                     defaultValue={item.amount}
@@ -77,20 +71,15 @@ function EditStock({
           </Table.Body>
         </Table>
         <div className={styles.paginationContainer}>
-          <CustomPagination
-            pages={order.pages}
-            initPage={1}
-            changeFn={handlePageChange}
-          />
+          <div></div>
           <Button
             primary
             type="submit"
-            disabled={confirmButton}
             onClick={() => {
               onClick(order.controlOrder.id);
             }}
           >
-            Confirmar
+            {loading ? <Spinner animation="border" size="sm" /> : 'Confirmar'}
           </Button>
         </div>
       </div>

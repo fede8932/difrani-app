@@ -1,5 +1,5 @@
-import React from "react";
-import { Button, Steps } from "antd";
+import React from 'react';
+import { Button, Steps } from 'antd';
 
 const CustomStep = (props) => {
   const { steps, view } = props;
@@ -15,7 +15,7 @@ const CustomStep = (props) => {
   }));
   return (
     <>
-      <Steps current={view} items={items} style={{ width: "60%" }} />
+      <Steps current={view} items={items} style={{ width: '60%' }} />
     </>
   );
 };

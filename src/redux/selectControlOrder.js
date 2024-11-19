@@ -1,5 +1,5 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import * as supplierRequest from "../request/supplierRequest";
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import * as supplierRequest from '../request/supplierRequest';
 const userState = {
   loading: false,
   data: {
@@ -10,15 +10,15 @@ const userState = {
       purchaseOrderItems: [],
     },
   },
-  error: "",
+  error: '',
 };
 export const selectControlOrderRequest = createAsyncThunk(
-  "SELECT_CONTROL_ORDER",
+  'SELECT_CONTROL_ORDER',
   supplierRequest.selectControlOrder
 );
 
 const selectControlSlice = createSlice({
-  name: "selectControl",
+  name: 'selectControl',
   initialState: userState,
   extraReducers: {
     [selectControlOrderRequest.pending]: (state, action) => {

@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from "react";
-import FormSelectProveedorComponent from "../components/formSelectProveedor/FormSelectProveedorComponent";
-import { useForm } from "react-hook-form";
-import { useDispatch, useSelector } from "react-redux";
-import { getSupplierRequest } from "../redux/supplier";
-import { getRepresentRequest } from "../redux/representative";
-import { getInfoSupplierRequest } from "../redux/infoSupplier";
-import { newBuyOrderRequest } from "../redux/newOrder";
-import { getOrderItemsRequest } from "../redux/addOrderItems";
+import React, { useEffect, useState } from 'react';
+import FormSelectProveedorComponent from '../components/formSelectProveedor/FormSelectProveedorComponent';
+import { useForm } from 'react-hook-form';
+import { useDispatch, useSelector } from 'react-redux';
+import { getSupplierRequest } from '../redux/supplier';
+import { getRepresentRequest } from '../redux/representative';
+import { getInfoSupplierRequest } from '../redux/infoSupplier';
+import { newBuyOrderRequest } from '../redux/newOrder';
+import { getOrderItemsRequest } from '../redux/addOrderItems';
 
 function FormSelectProveedorContainer(props) {
   const { /*setView, */ nextFn } = props;

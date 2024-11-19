@@ -1,48 +1,50 @@
-import React, { useEffect, useState } from "react";
-import EditStock from "../components/editStock/EditStock";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useEffect, useState } from 'react';
+import EditStock from '../components/editStock/EditStock';
+import { useDispatch, useSelector } from 'react-redux';
 import {
+  resetControlItems,
   selectControlOrderItemsRequest,
   updateItemsRequest,
-} from "../redux/selectControlOrderItems";
-import { updateStock } from "../request/productRequest";
-import { updateControlOrderRequest } from "../redux/supplierControlOrder";
+  updteControlItem,
+} from '../redux/selectControlOrderItems';
+import { updateStock } from '../request/productRequest';
+import { updateControlOrderRequest } from '../redux/supplierControlOrder';
+import Swal from 'sweetalert2';
 
 function EditStockContainer({ id, close }) {
   const controlOrder = useSelector((state) => state.selectControlOrderItems);
   const dispatch = useDispatch();
 
-  const itemsPorPag = 11; // defino cantidad de items
-
-  const [activePage, setActivePage] = useState(1);
-  const [confirmButton, setConfirmButton] = useState(true);
-  const handlePageChange = (activePage) => {
-    dispatch(
-      selectControlOrderItemsRequest({
-        id: id,
-        rows: itemsPorPag,
-        page: activePage,
-      })
-    ).then(() => {
-      setActivePage(activePage);
-      if (controlOrder.data.pages === activePage) {
-        setConfirmButton(false);
-      }
-    });
-  };
-
   const updateAmount = async (data) => {
-    dispatch(updateItemsRequest(data));
+    dispatch(updteControlItem(data));
   };
-
+  const [loading, setLoading] = useState(false);
   const confirm = async (controlOrderId) => {
+    setLoading(true);
     try {
       await updateStock({ items: controlOrder.data.items });
       dispatch(updateControlOrderRequest(controlOrderId)).then(() => {
         close();
+      }).then(()=> {
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "Se actualizó el stock de los items controlados",
+          showConfirmButton: false,
+          timer: 1500
+        });
+      })
+      .catch((err) => {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: `Error: ${err.message}`,
+        });
       });
     } catch (err) {
       console.log(err);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -50,24 +52,19 @@ function EditStockContainer({ id, close }) {
     dispatch(
       selectControlOrderItemsRequest({
         id: id,
-        rows: itemsPorPag,
-        page: 1,
       })
-    ).then(() => {
-      if (controlOrder.data.pages === 1) {
-        setConfirmButton(false);
-      }
-    });
+    );
+    return () => {
+      dispatch(resetControlItems(null));
+    };
   }, []);
 
   return (
     <EditStock
       order={controlOrder.data}
-      handlePageChange={handlePageChange}
-      activePage={activePage}
-      confirmButton={confirmButton}
       onClick={confirm}
       updateAmount={updateAmount}
+      loading={loading}
     />
   );
 }

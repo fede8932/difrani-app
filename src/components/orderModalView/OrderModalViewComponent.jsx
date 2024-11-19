@@ -1,7 +1,7 @@
-import React from "react";
-import styles from "./orderModalView.module.css";
-import { Label } from "semantic-ui-react";
-import OrderDetailTable from "../../commonds/orderDetailTable/OrderDetailTable";
+import React from 'react';
+import styles from './orderModalView.module.css';
+import { Label } from 'semantic-ui-react';
+import OrderDetailTable from '../../commonds/orderDetailTable/OrderDetailTable';
 
 function OrderModalViewComponent(props) {
   const { order } = props;
@@ -17,13 +17,13 @@ function OrderModalViewComponent(props) {
         <span>
           Tipo:
           <span className={styles.dataUser}>
-            {order.type != "Sell" ? "Compra" : "Venta"}
+            {order.type != 'Sell' ? 'Compra' : 'Venta'}
           </span>
         </span>
         <span>
-          {order.type == "Buy" ? "Proveedor:" : "Cliente:"}
+          {order.type == 'Buy' ? 'Proveedor:' : 'Cliente:'}
           <span className={styles.dataUser}>
-            {order.type == "Buy"
+            {order.type == 'Buy'
               ? order.supplier.razonSocial.toUpperCase()
               : order.client.razonSocial.toUpperCase()}
           </span>
@@ -39,12 +39,12 @@ function OrderModalViewComponent(props) {
       <div className={styles.tableContainer}>
         <OrderDetailTable
           columns={[
-            { title: "Código", width: "10%" },
-            { title: "Descripción", width: "50%" },
-            { title: "Marca", width: "10%" },
-            { title: "Precio", width: "10%" },
-            { title: "Cantidad", width: "10%" },
-            { title: "Total", width: "10%" },
+            { title: 'Código', width: '10%' },
+            { title: 'Descripción', width: '50%' },
+            { title: 'Marca', width: '10%' },
+            { title: 'Precio', width: '10%' },
+            { title: 'Cantidad', width: '10%' },
+            { title: 'Total', width: '10%' },
           ]}
           color="teal"
           data={order}

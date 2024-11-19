@@ -7,14 +7,14 @@
   flex-direction: column;
   justify-content: space-between;
 }
-.dataContainer{
+.dataContainer {
   display: flex;
   justify-content: space-between;
   align-items: center;
   height: 25px;
   margin-bottom: 10px;
 }
-.dataUser{
+.dataUser {
   height: 20px;
   margin-left: 5px;
   font-weight: 600;
@@ -40,9 +40,9 @@
   margin-top: 10px;
 }
 .buttonSubContainer {
-    margin: 0 5px;
+  margin: 0 5px;
 }
-.inputLabel{
+.inputLabel {
   margin: 0 10px;
-  color: #202020
+  color: #202020;
 }

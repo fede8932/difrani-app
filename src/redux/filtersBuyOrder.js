@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   number: null,
@@ -9,12 +9,12 @@ const initialState = {
 };
 
 const filterBuyOrderSlice = createSlice({
-  name: "filtersBuyOrder",
+  name: 'filtersBuyOrder',
   initialState,
   reducers: {
     setFilterBuyOrder: (state, action) => {
       const { name, value } = action.payload;
-      state[name] = value ? value : name == "pending" ? false : null;
+      state[name] = value ? value : name == 'pending' ? false : null;
     },
     resetFilterBuyOrder: (state, action) => {
       state.number = null;

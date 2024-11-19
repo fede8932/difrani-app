@@ -1,21 +1,21 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import * as sellerRequest from "../request/sellerRequest";
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import * as sellerRequest from '../request/sellerRequest';
 const sellerState = {
   loading: false,
   data: { list: [], totalPages: 0, totalResults: 0 },
-  error: "",
+  error: '',
 };
 export const newLiquidation = createAsyncThunk(
-  "NEW_LIQUIDATION",
+  'NEW_LIQUIDATION',
   sellerRequest.createLiquidationRequest
 );
 export const getLiquidation = createAsyncThunk(
-  "GET_LIQUIDATION",
+  'GET_LIQUIDATION',
   sellerRequest.getSellerLiquidation
 );
 
 const sellerLiquidationsSlice = createSlice({
-  name: "sellerLiquidations",
+  name: 'sellerLiquidations',
   initialState: sellerState,
   reducers: {},
   extraReducers: {
@@ -28,7 +28,7 @@ const sellerLiquidationsSlice = createSlice({
     },
     [newLiquidation.fulfilled]: (state, action) => {
       state.loading = false;
-      state.error = "";
+      state.error = '';
     },
     [getLiquidation.pending]: (state, action) => {
       state.loading = true;
@@ -39,7 +39,7 @@ const sellerLiquidationsSlice = createSlice({
     },
     [getLiquidation.fulfilled]: (state, action) => {
       state.loading = false;
-      state.error = "";
+      state.error = '';
       state.data = action.payload;
     },
   },

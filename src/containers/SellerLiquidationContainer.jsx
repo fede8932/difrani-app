@@ -1,6 +1,6 @@
-import React from "react";
-import { useSelector } from "react-redux";
-import SellerLiquidationComponent from "../components/sellerLiquidation/SellerLiquidationComponent";
+import React from 'react';
+import { useSelector } from 'react-redux';
+import SellerLiquidationComponent from '../components/sellerLiquidation/SellerLiquidationComponent';
 
 function SellerLiquidationContainer(props) {
   const resume = useSelector((state) => state.sellerResume);

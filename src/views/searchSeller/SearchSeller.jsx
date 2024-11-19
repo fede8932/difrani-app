@@ -1,8 +1,8 @@
-import React, { useEffect } from "react";
-import styles from "./searchSeller.module.css";
-import SearchSellerContainer from "../../containers/SearchSellerContainer";
-import { useDispatch } from "react-redux";
-import { ResetStatusSellerRequest } from "../../redux/searchSeller";
+import React, { useEffect } from 'react';
+import styles from './searchSeller.module.css';
+import SearchSellerContainer from '../../containers/SearchSellerContainer';
+import { useDispatch } from 'react-redux';
+import { ResetStatusSellerRequest } from '../../redux/searchSeller';
 
 function SearchSeller() {
   const dispatch = useDispatch();

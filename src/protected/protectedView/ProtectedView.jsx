@@ -1,7 +1,7 @@
-import react, { useEffect } from "react";
-import { useSelector } from "react-redux";
-import PermissionDenied from "../../components/permissionDenied/PermissionDenied";
-import { useNavigate } from "react-router";
+import react, { useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import PermissionDenied from '../../components/permissionDenied/PermissionDenied';
+import { useNavigate } from 'react-router';
 
 function ProtectedView(props) {
   const { listAccesss, children } = props; // array con los id de roles permitidos
@@ -17,16 +17,16 @@ function ProtectedView(props) {
     if (!listAccesss.includes(user.rolId)) {
       switch (user.rolId) {
         case 2:
-          navigate("/search/product");
+          navigate('/search/product');
           break;
         case 5:
-          navigate("/search/product");
+          navigate('/search/product');
           break;
         case 6:
-          navigate("/search/sell");
+          navigate('/search/sell');
           break;
         case 7:
-          navigate("/control/orden");
+          navigate('/control/orden');
           break;
       }
     }

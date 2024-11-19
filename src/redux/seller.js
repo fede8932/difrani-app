@@ -1,31 +1,31 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import * as sellerRequest from "../request/sellerRequest";
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import * as sellerRequest from '../request/sellerRequest';
 const sellerState = {
   loading: false,
   data: [],
-  error: "",
+  error: '',
 };
 export const getSellersRequest = createAsyncThunk(
-  "GET_SELLER",
+  'GET_SELLER',
   sellerRequest.getSellers
 );
 export const createSellersRequest = createAsyncThunk(
-  "CREATE_SELLER",
+  'CREATE_SELLER',
   sellerRequest.createSellers
 );
 export const getSellerIdRequest = createAsyncThunk(
-  "GET_SELLER_ID",
+  'GET_SELLER_ID',
   sellerRequest.getSellerId
 );
 
 const sellerSlice = createSlice({
-  name: "seller",
+  name: 'seller',
   initialState: sellerState,
   reducers: {
     resetSellerStatus: (state, action) => {
       state.loading = false;
       state.data = [];
-      state.error = "";
+      state.error = '';
     },
   },
   extraReducers: {
@@ -60,7 +60,7 @@ const sellerSlice = createSlice({
     [getSellerIdRequest.fulfilled]: (state, action) => {
       let list = [action.payload];
       state.loading = false;
-      state.error = "";
+      state.error = '';
       state.data = list;
     },
   },

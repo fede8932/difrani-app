@@ -1,33 +1,33 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import * as ajustOrderRequest from "../request/orderAjustRequest";
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import * as ajustOrderRequest from '../request/orderAjustRequest';
 const userState = {
   loading: false,
   data: [],
-  error: "",
+  error: '',
 };
 // export const getOrderItemsRequest = createAsyncThunk(
 //   "GET_ITEMS_BY_ORDER",
 //   buyOrderRequest.getOrderItems
 // );
 export const addAjustItemsRequest = createAsyncThunk(
-  "ADD_AJUST_ITEM",
+  'ADD_AJUST_ITEM',
   ajustOrderRequest.addOrderAjustItem
 );
 export const deleteAjustItemsRequest = createAsyncThunk(
-  "DELETE_AJUST_ITEM",
+  'DELETE_AJUST_ITEM',
   ajustOrderRequest.deleteAjustItem
 );
 export const updateCantAjustItemsRequest = createAsyncThunk(
-  "UPDATE_CANT_AJUST_ITEM",
+  'UPDATE_CANT_AJUST_ITEM',
   ajustOrderRequest.updateCantAjustItem
 );
 export const updatePriceAjustItemsRequest = createAsyncThunk(
-  "UPDATE_PREC_AJUST_ITEM",
+  'UPDATE_PREC_AJUST_ITEM',
   ajustOrderRequest.updatePriceAjustItem
 );
 
 const ajustOrderItem = createSlice({
-  name: "ajustOrderItem",
+  name: 'ajustOrderItem',
   initialState: userState,
   extraReducers: {
     // [getOrderItemsRequest.pending]: (state, action) => {
@@ -71,12 +71,12 @@ const ajustOrderItem = createSlice({
       state.error = action.error.message;
     },
     [updateCantAjustItemsRequest.fulfilled]: (state, action) => {
-      const newState = state.data.map(item =>{
-        if(item.id === action.payload.id){
-          item.amount = action.payload.amount
+      const newState = state.data.map((item) => {
+        if (item.id === action.payload.id) {
+          item.amount = action.payload.amount;
         }
-        return item
-      })
+        return item;
+      });
       state.loading = false;
       state.data = newState;
     },
@@ -88,12 +88,12 @@ const ajustOrderItem = createSlice({
       state.error = action.error.message;
     },
     [updatePriceAjustItemsRequest.fulfilled]: (state, action) => {
-      const newState = state.data.map(item =>{
-        if(item.id === action.payload.id){
-          item.buyPrice = action.payload.buyPrice
+      const newState = state.data.map((item) => {
+        if (item.id === action.payload.id) {
+          item.buyPrice = action.payload.buyPrice;
         }
-        return item
-      })
+        return item;
+      });
       state.loading = false;
       state.data = newState;
     },

@@ -1,19 +1,19 @@
-import { AgGridReact } from "ag-grid-react";
-import "ag-grid-community/styles/ag-grid.css";
-import "ag-grid-community/styles/ag-theme-quartz.css";
-import React, { useEffect, useMemo, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { AgGridReact } from 'ag-grid-react';
+import 'ag-grid-community/styles/ag-grid.css';
+import 'ag-grid-community/styles/ag-theme-quartz.css';
+import React, { useEffect, useMemo, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   convertirFechaISOaDDMMYYYY,
   redondearADosDecimales,
-} from "../../../utils";
-import { Pagination, Select } from "semantic-ui-react";
-import styles from "./comitionsTable.module.css";
-import { useLocation } from "react-router";
-import { setFilterComis } from "../../../redux/filtersComis";
-import { getLiquidation } from "../../../redux/sellerLiquidations";
-import CustomModal from "../../../commonds/customModal/CustomModal";
-import ComitionsTable from "../comitionsTable/ComitionsTable";
+} from '../../../utils';
+import { Pagination, Select } from 'semantic-ui-react';
+import styles from './comitionsTable.module.css';
+import { useLocation } from 'react-router';
+import { setFilterComis } from '../../../redux/filtersComis';
+import { getLiquidation } from '../../../redux/sellerLiquidations';
+import CustomModal from '../../../commonds/customModal/CustomModal';
+import ComitionsTable from '../comitionsTable/ComitionsTable';
 
 const CustomComp = ({ data, printResume }) => {
   // console.log(printResume);
@@ -44,40 +44,40 @@ const CustomComp = ({ data, printResume }) => {
 
 function LiquidationsTable(props) {
   const { printResume } = props;
-  const sellerId = Number(useLocation().pathname.split("/")[3]);
+  const sellerId = Number(useLocation().pathname.split('/')[3]);
   const dispatch = useDispatch();
 
   const [columnDefs, setColumnDefs] = useState([
     {
-      headerName: "Fecha",
+      headerName: 'Fecha',
       valueGetter: (params) =>
         convertirFechaISOaDDMMYYYY(params.data.createdAt),
       flex: 1,
       filterParams: {
-        filterOptions: ["contains"], // Solo opción 'contains'
+        filterOptions: ['contains'], // Solo opción 'contains'
         suppressFilterButton: true, // Ocultar el botón del menú del filtro
       },
     },
     {
-      headerName: "Concepto",
+      headerName: 'Concepto',
       valueGetter: (params) => `LIQ-${params.data.id}`,
       filter: false,
       flex: 1,
       sortable: false,
     },
     {
-      headerName: "Monto",
+      headerName: 'Monto',
       valueGetter: (params) => `$ ${redondearADosDecimales(params.data.total)}`,
       filter: false,
       flex: 1,
       sortable: false,
     },
     {
-      headerName: "Acciones",
+      headerName: 'Acciones',
       cellRenderer: (params) => (
         <CustomComp data={params.data} printResume={printResume} />
       ),
-      field: "id",
+      field: 'id',
       sortable: false,
       filter: false,
       flex: 1,
@@ -98,10 +98,10 @@ function LiquidationsTable(props) {
   const filterCom = useSelector((state) => state.filterCom);
 
   const selectChange = (e, d) => {
-    dispatch(setFilterComis({ name: "pageSize", value: d.value }));
+    dispatch(setFilterComis({ name: 'pageSize', value: d.value }));
   };
   const changePage = (e, d) => {
-    dispatch(setFilterComis({ name: "page", value: d.activePage }));
+    dispatch(setFilterComis({ name: 'page', value: d.activePage }));
   };
 
   useEffect(() => {
@@ -111,8 +111,8 @@ function LiquidationsTable(props) {
 
   return (
     <div
-      className={"ag-theme-quartz"}
-      style={{ height: 600, marginTop: "-20px" }}
+      className={'ag-theme-quartz'}
+      style={{ height: 600, marginTop: '-20px' }}
     >
       <AgGridReact
         rowData={data.list}
@@ -122,7 +122,7 @@ function LiquidationsTable(props) {
       <div className={styles.paginationContainer}>
         <span>{`Se encontraron ${data.totalPages} páginas con ${data.totalResults} resultados.`}</span>
         <div className={styles.pagination}>
-          <div style={{ marginRight: "10px" }}>
+          <div style={{ marginRight: '10px' }}>
             <Select
               width="10px"
               defaultValue={filterCom.pageSize}

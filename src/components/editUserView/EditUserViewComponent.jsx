@@ -1,13 +1,13 @@
-import React, { useState } from "react";
-import styles from "./editUserView.module.css";
-import Button from "react-bootstrap/esm/Button";
-import CustomInput from "../../commonds/putInput/CustomInput";
-import { FormProvider } from "react-hook-form";
-import Spinner from "react-bootstrap/esm/Spinner";
-import Form from "react-bootstrap/Form";
-import { Button as SemanticButton } from "semantic-ui-react";
-import { useNavigate } from "react-router";
-import ProtectedComponent from "../../protected/protectedComponent/ProtectedComponent";
+import React, { useState } from 'react';
+import styles from './editUserView.module.css';
+import Button from 'react-bootstrap/esm/Button';
+import CustomInput from '../../commonds/putInput/CustomInput';
+import { FormProvider } from 'react-hook-form';
+import Spinner from 'react-bootstrap/esm/Spinner';
+import Form from 'react-bootstrap/Form';
+import { Button as SemanticButton } from 'semantic-ui-react';
+import { useNavigate } from 'react-router';
+import ProtectedComponent from '../../protected/protectedComponent/ProtectedComponent';
 
 function EditUserViewComponent(props) {
   const { seller, update, methods, loading } = props;
@@ -78,7 +78,7 @@ function EditUserViewComponent(props) {
                   required: true,
                   pattern: {
                     value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                    message: "Ingrese un correo electrónico válido",
+                    message: 'Ingrese un correo electrónico válido',
                   },
                 }}
                 defaultValue={seller?.user?.email}
@@ -120,12 +120,12 @@ function EditUserViewComponent(props) {
               />
               <div
                 style={{
-                  display: "flex",
-                  width: "100%",
-                  justifyContent: "space-between",
+                  display: 'flex',
+                  width: '100%',
+                  justifyContent: 'space-between',
                 }}
               >
-                <div style={{ width: "50%", padding: "0px 5px 0px 0px" }}>
+                <div style={{ width: '50%', padding: '0px 5px 0px 0px' }}>
                   <span className={styles.inputLabel}>Altura</span>
                   <CustomInput
                     readOnly={readOnly}
@@ -138,7 +138,7 @@ function EditUserViewComponent(props) {
                     defaultValue={seller?.altura}
                   />
                 </div>
-                <div style={{ width: "50%", padding: "0px 0px 0px 5px" }}>
+                <div style={{ width: '50%', padding: '0px 0px 0px 5px' }}>
                   <span className={styles.inputLabel}>Código postal</span>
                   <CustomInput
                     readOnly={readOnly}
@@ -165,7 +165,7 @@ function EditUserViewComponent(props) {
                   validate: (value) => {
                     const isValid = /^\d{8,10}$/.test(value);
                     if (!isValid) {
-                      return "El número de teléfono debe tener entre 8 y 10 dígitos";
+                      return 'El número de teléfono debe tener entre 8 y 10 dígitos';
                     }
                   },
                 }}
@@ -173,12 +173,12 @@ function EditUserViewComponent(props) {
               />
               <div
                 style={{
-                  display: "flex",
-                  width: "100%",
-                  justifyContent: "space-between",
+                  display: 'flex',
+                  width: '100%',
+                  justifyContent: 'space-between',
                 }}
               >
-                <div style={{ width: "50%", padding: "0px 5px 0px 0px" }}>
+                <div style={{ width: '50%', padding: '0px 5px 0px 0px' }}>
                   <span className={styles.inputLabel}>Comisión base</span>
                   <CustomInput
                     readOnly={readOnly}
@@ -194,7 +194,7 @@ function EditUserViewComponent(props) {
                     defaultValue={seller?.comisionBase * 100}
                   />
                 </div>
-                <div style={{ width: "50%", padding: "0px 0px 0px 5px" }}>
+                <div style={{ width: '50%', padding: '0px 0px 0px 5px' }}>
                   <span className={styles.inputLabel}>Comisión oferta</span>
                   <CustomInput
                     readOnly={readOnly}
@@ -230,15 +230,15 @@ function EditUserViewComponent(props) {
                 disabled={readOnly}
                 type="submit"
                 style={{
-                  backgroundColor: "#673ab7",
-                  border: "1px solid #673ab7",
-                  height: "35px",
-                  width: "100px",
-                  marginLeft: "10px",
+                  backgroundColor: '#673ab7',
+                  border: '1px solid #673ab7',
+                  height: '35px',
+                  width: '100px',
+                  marginLeft: '10px',
                 }}
               >
                 {!loading ? (
-                  "Actualizar"
+                  'Actualizar'
                 ) : (
                   <Spinner animation="border" variant="light" size="sm" />
                 )}

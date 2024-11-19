@@ -1,6 +1,6 @@
-import React, { useEffect } from "react";
-import { useSelector } from "react-redux";
-import SellerAcountComponent from "../components/sellerAcount/SellerAcountComponent";
+import React, { useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import SellerAcountComponent from '../components/sellerAcount/SellerAcountComponent';
 
 function SellerAcountContainer(props) {
   const resume = useSelector((state) => state.sellerResume);

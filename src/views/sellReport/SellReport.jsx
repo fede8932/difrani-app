@@ -1,9 +1,9 @@
-import React, { useEffect } from "react";
-import styles from "./sellReport.module.css";
-import SellReportContainer from "../../containers/SellReportContainer";
-import { useDispatch, useSelector } from "react-redux";
-import { getDateReportRequest } from "../../redux/dateReport";
-import { dateConverter } from "../../utils";
+import React, { useEffect } from 'react';
+import styles from './sellReport.module.css';
+import SellReportContainer from '../../containers/SellReportContainer';
+import { useDispatch, useSelector } from 'react-redux';
+import { getDateReportRequest } from '../../redux/dateReport';
+import { dateConverter } from '../../utils';
 
 function SellReport() {
   const dispatch = useDispatch();
@@ -16,8 +16,8 @@ function SellReport() {
       <div className={styles.titleContainer}>
         <h6 className={styles.formTitle}>Reporte de ventas</h6>
         <span className={styles.actualizacion}>
-          Último pedido:{" "}
-          <span style={{ fontWeight: "500" }}>
+          Último pedido:{' '}
+          <span style={{ fontWeight: '500' }}>
             {dateConverter(dateReport.data?.date)}
           </span>
         </span>

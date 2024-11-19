@@ -1,6 +1,6 @@
-import React from "react";
-import styles from "./addFac.module.css";
-import AddDataFacContainer from "../../containers/AddDataFacContainer";
+import React from 'react';
+import styles from './addFac.module.css';
+import AddDataFacContainer from '../../containers/AddDataFacContainer';
 
 function AddFactView(props) {
   return (

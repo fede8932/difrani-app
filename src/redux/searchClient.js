@@ -1,38 +1,38 @@
-import { createSlice, createAsyncThunk, current } from "@reduxjs/toolkit";
-import * as clientRequest from "../request/clientRequest";
-import * as userRequest from "../request/userRequest";
+import { createSlice, createAsyncThunk, current } from '@reduxjs/toolkit';
+import * as clientRequest from '../request/clientRequest';
+import * as userRequest from '../request/userRequest';
 const clientState = {
   loading: false,
   data: { clients: [], totalRows: 1, totalPages: 1 },
-  error: "",
+  error: '',
 };
 export const getClientssByTextRequest = createAsyncThunk(
-  "GET_CLIENTS",
+  'GET_CLIENTS',
   clientRequest.getClientsByData
 );
 export const getClientByTextRequest = createAsyncThunk(
-  "GET_CLIENT",
+  'GET_CLIENT',
   clientRequest.getClientByData
 );
 export const UpdateClientsRequest = createAsyncThunk(
-  "UPDATE_CLIENT",
+  'UPDATE_CLIENT',
   clientRequest.updateClientById
 );
 export const UpdateStatusClientRequest = createAsyncThunk(
-  "UPDATE_STATUS_CLIENT",
+  'UPDATE_STATUS_CLIENT',
   userRequest.updateUserStatusRequest
 );
 export const getAllClientsByTextRequest = createAsyncThunk(
-  "GET_CLIENTS_TEXT",
+  'GET_CLIENTS_TEXT',
   clientRequest.getAllClientByData
 );
 export const ResetStatusClients = createAsyncThunk(
-  "RESET_STATUS_CLIENT",
+  'RESET_STATUS_CLIENT',
   () => clientState
 );
 
 const clientsSlice = createSlice({
-  name: "clients",
+  name: 'clients',
   initialState: clientState,
   extraReducers: {
     [getClientssByTextRequest.pending]: (state, action) => {
@@ -48,7 +48,7 @@ const clientsSlice = createSlice({
     },
     [ResetStatusClients.fulfilled]: (state, action) => {
       state.loading = false;
-      state.error = "";
+      state.error = '';
       state.data = action.payload.data;
     },
     [getAllClientsByTextRequest.pending]: (state, action) => {

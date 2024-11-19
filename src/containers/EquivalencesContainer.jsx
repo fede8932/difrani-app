@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
-import EquivalencesComponent from "../components/equivalences/EquivalencesComponent";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useEffect, useState } from 'react';
+import EquivalencesComponent from '../components/equivalences/EquivalencesComponent';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   createEquivalenceRequest,
   editDescriptionRequest,
@@ -10,15 +10,15 @@ import {
   reemplaceEquivRequest,
   resetEquivState,
   toggleMarcRec,
-} from "../redux/equivalences";
-import { useLocation, useNavigate } from "react-router";
-import Swal from "sweetalert2";
-import { deleteEquivalence } from "../request/equivalencesRequest";
+} from '../redux/equivalences';
+import { useLocation, useNavigate } from 'react-router';
+import Swal from 'sweetalert2';
+import { deleteEquivalence } from '../request/equivalencesRequest';
 
 function EquivalencesContainer(props) {
   const dispatch = useDispatch();
 
-  const [text, setText] = useState("");
+  const [text, setText] = useState('');
   const [page, setPage] = useState(1);
   const navigate = useNavigate();
 
@@ -35,13 +35,13 @@ function EquivalencesContainer(props) {
   // -------CREAR EQUIVALENCIA------------
   const createEquiv = () => {
     Swal.fire({
-      title: "Descripción de equivalencia",
-      input: "text",
+      title: 'Descripción de equivalencia',
+      input: 'text',
       inputAttributes: {
-        autocapitalize: "off",
+        autocapitalize: 'off',
       },
       showCancelButton: true,
-      confirmButtonText: "Confirmar",
+      confirmButtonText: 'Confirmar',
       showLoaderOnConfirm: true,
     }).then((result) => {
       if (result.isConfirmed) {
@@ -53,7 +53,7 @@ function EquivalencesContainer(props) {
             productIds: productIds,
           })
         ).then((res) => {
-          console.log("res:", res);
+          console.log('res:', res);
         });
       }
     });
@@ -71,13 +71,13 @@ function EquivalencesContainer(props) {
 
   const editDescriptEquiv = (id) => {
     Swal.fire({
-      title: "Descripción de equivalencia",
-      input: "text",
+      title: 'Descripción de equivalencia',
+      input: 'text',
       inputAttributes: {
-        autocapitalize: "off",
+        autocapitalize: 'off',
       },
       showCancelButton: true,
-      confirmButtonText: "Confirmar",
+      confirmButtonText: 'Confirmar',
       showLoaderOnConfirm: true,
     }).then((result) => {
       if (result.isConfirmed) {
@@ -91,16 +91,16 @@ function EquivalencesContainer(props) {
           if (res.error) {
             console.log(res);
             Swal.fire({
-              icon: "error",
-              title: "Oops...",
-              text: "Ocurrio un error en el servidor",
+              icon: 'error',
+              title: 'Oops...',
+              text: 'Ocurrio un error en el servidor',
             });
             return;
           }
           Swal.fire({
-            position: "center",
-            icon: "success",
-            title: "Descripción actualizada",
+            position: 'center',
+            icon: 'success',
+            title: 'Descripción actualizada',
             showConfirmButton: false,
             timer: 1000,
           });
@@ -111,31 +111,31 @@ function EquivalencesContainer(props) {
 
   const deleteAllEquiv = (id) => {
     Swal.fire({
-      title: "Estás seguro?",
-      text: "Vas a eliminar la relación entre todos los productos en la equivalencia",
-      icon: "warning",
+      title: 'Estás seguro?',
+      text: 'Vas a eliminar la relación entre todos los productos en la equivalencia',
+      icon: 'warning',
       showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Confirmar",
-      cancelButtonText: "Cancelar",
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Confirmar',
+      cancelButtonText: 'Cancelar',
     }).then((result) => {
       if (result.isConfirmed) {
         deleteEquivalence(id).then((res) => {
           if (res.error) {
             Swal.fire({
-              icon: "error",
-              title: "Oops...",
-              text: "Ocurrio un error en el servidor",
+              icon: 'error',
+              title: 'Oops...',
+              text: 'Ocurrio un error en el servidor',
             });
             return;
           }
           Swal.fire({
-            title: "Eliminado!",
-            text: "Has eliminado la equivalencia",
-            icon: "success",
+            title: 'Eliminado!',
+            text: 'Has eliminado la equivalencia',
+            icon: 'success',
           }).then(() => {
-            navigate("/search/product");
+            navigate('/search/product');
           });
         });
       }
@@ -143,18 +143,18 @@ function EquivalencesContainer(props) {
   };
 
   useEffect(() => {
-    dispatch(getProductRequest(Number(pathname.split("/")[2])));
+    dispatch(getProductRequest(Number(pathname.split('/')[2])));
     return () => dispatch(resetEquivState());
   }, []);
 
   useEffect(() => {
     dispatch(
-      getProductListRequest({ page: page, text: text != "" ? text : null })
+      getProductListRequest({ page: page, text: text != '' ? text : null })
     );
   }, [equivalences.product, text, page]);
 
   useEffect(() => {
-    dispatch(getEquivalenceByProductId(Number(pathname.split("/")[2])));
+    dispatch(getEquivalenceByProductId(Number(pathname.split('/')[2])));
   }, [equivalences.product]);
 
   return (

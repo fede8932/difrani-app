@@ -1,10 +1,10 @@
-import React, { useEffect } from "react";
-import SearchSellerComponent from "../components/searchSeller/SearchSellerComponent";
-import { useForm } from "react-hook-form";
-import { useDispatch, useSelector } from "react-redux";
-import { getSellersByTextRequest } from "../redux/searchSeller";
-import { getPendingBySellerReq } from "../request/movNoApplyRequest";
-import { clienteReportBySeller } from "../templates/clienteReportBySeller";
+import React, { useEffect } from 'react';
+import SearchSellerComponent from '../components/searchSeller/SearchSellerComponent';
+import { useForm } from 'react-hook-form';
+import { useDispatch, useSelector } from 'react-redux';
+import { getSellersByTextRequest } from '../redux/searchSeller';
+import { getPendingBySellerReq } from '../request/movNoApplyRequest';
+import { clienteReportBySeller } from '../templates/clienteReportBySeller';
 
 function SearchSellerContainer(props) {
   const methods = useForm();
@@ -12,33 +12,33 @@ function SearchSellerContainer(props) {
   const searchSeller = (data) => {
     const carcterInicial = parseInt(data.text.substring(0, 1), 10);
     if (isNaN(carcterInicial)) {
-      data.by = "name";
+      data.by = 'name';
     } else {
-      data.by = "cuil";
+      data.by = 'cuil';
     }
     data.page = 1;
     data.pageSize = 10;
-    data.orderByColumn = "id";
+    data.orderByColumn = 'id';
     dispatch(getSellersByTextRequest(data));
   };
   const result = useSelector((state) => state.searchSellers);
   useEffect(() => {
     const data = {
-      text: "null",
-      by: "cuil",
+      text: 'null',
+      by: 'cuil',
       page: 1,
       pageSize: 10,
-      orderByColumn: "id",
+      orderByColumn: 'id',
     };
     dispatch(getSellersByTextRequest(data));
   }, []);
   const resetSearch = () => {
     const data = {
-      text: "null",
-      by: "cuil",
+      text: 'null',
+      by: 'cuil',
       page: 1,
       pageSize: 10,
-      orderByColumn: "id",
+      orderByColumn: 'id',
     };
     dispatch(getSellersByTextRequest(data));
   };
@@ -55,8 +55,8 @@ function SearchSellerContainer(props) {
         clients
       );
 
-      const nuevaVentana = window.open("", "", "width=900,height=1250");
-      const containerFact = nuevaVentana.document.createElement("div");
+      const nuevaVentana = window.open('', '', 'width=900,height=1250');
+      const containerFact = nuevaVentana.document.createElement('div');
       nuevaVentana.document.body.appendChild(containerFact);
 
       containerFact.innerHTML = render;

@@ -1,12 +1,12 @@
-import React from "react";
-import { Document, Page, View } from "@react-pdf/renderer";
-import logoBlase from "../../assets/logo/logoBlase.png";
+import React from 'react';
+import { Document, Page, View } from '@react-pdf/renderer';
+import logoBlase from '../../assets/logo/logoBlase.png';
 import {
   buyOrderString,
   fechaConverter,
   pickingOrderString,
   sortByBrandName,
-} from "../../utils";
+} from '../../utils';
 
 const PdfGenP = (props) => {
   const { pickingOrder } = props;
@@ -23,49 +23,49 @@ const PdfGenP = (props) => {
           size="A4"
           orientation="landscape"
           style={{
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "center",
-            backgroundColor: "white",
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center',
+            backgroundColor: 'white',
           }}
         >
-          <View style={{ width: "100%", height: "790px" }}>
+          <View style={{ width: '100%', height: '790px' }}>
             <div
               style={{
-                width: "100%",
-                height: "200px",
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
+                width: '100%',
+                height: '200px',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
               }}
             >
               <div
                 style={{
-                  width: "95%",
-                  height: "70px",
-                  display: "flex",
-                  justifyContent: "space-between",
+                  width: '95%',
+                  height: '70px',
+                  display: 'flex',
+                  justifyContent: 'space-between',
                 }}
               >
-                <div style={{ width: "33%" }}>
+                <div style={{ width: '33%' }}>
                   <img
                     src={logoBlase}
-                    style={{ width: "180px", margin: "8px" }}
+                    style={{ width: '180px', margin: '8px' }}
                   />
                 </div>
                 <div
                   style={{
-                    width: "33%",
-                    display: "flex",
-                    justifyContent: "center",
+                    width: '33%',
+                    display: 'flex',
+                    justifyContent: 'center',
                   }}
                 >
                   <h1
                     style={{
-                      marginTop: "3px",
-                      padding: "0px",
-                      fontSize: "16px",
+                      marginTop: '3px',
+                      padding: '0px',
+                      fontSize: '16px',
                     }}
                   >
                     Orden de pedido
@@ -73,17 +73,17 @@ const PdfGenP = (props) => {
                 </div>
                 <div
                   style={{
-                    width: "33%",
-                    display: "flex",
-                    justifyContent: "flex-end",
-                    alignItems: "center",
+                    width: '33%',
+                    display: 'flex',
+                    justifyContent: 'flex-end',
+                    alignItems: 'center',
                   }}
                 >
                   <h6
-                    style={{ fontSize: "16px", marginTop: "15", padding: "0" }}
+                    style={{ fontSize: '16px', marginTop: '15', padding: '0' }}
                   >
-                    Fecha:{" "}
-                    <span style={{ fontWeight: "200" }}>
+                    Fecha:{' '}
+                    <span style={{ fontWeight: '200' }}>
                       {fechaConverter(new Date())}
                     </span>
                   </h6>
@@ -91,19 +91,19 @@ const PdfGenP = (props) => {
               </div>
               <div
                 style={{
-                  width: "100%",
-                  height: "100px",
-                  display: "flex",
-                  flexDirection: "column",
-                  border: "2px solid grey",
-                  justifyContent: "center",
+                  width: '100%',
+                  height: '100px',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  border: '2px solid grey',
+                  justifyContent: 'center',
                 }}
               >
                 <div
-                  style={{ display: "flex", justifyContent: "space-around" }}
+                  style={{ display: 'flex', justifyContent: 'space-around' }}
                 >
                   <span>
-                    Numero de orden:{" "}
+                    Numero de orden:{' '}
                     {buyOrderString(pickingOrder.purchaseOrder.id)}
                   </span>
                   <span>
@@ -115,10 +115,10 @@ const PdfGenP = (props) => {
                 </div>
                 <div
                   style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    marginTop: "25px",
-                    padding: "0px 25px",
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    marginTop: '25px',
+                    padding: '0px 25px',
                   }}
                 >
                   <span>
@@ -129,64 +129,64 @@ const PdfGenP = (props) => {
             </div>
             <div
               style={{
-                width: "100%",
-                height: "780px",
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
+                width: '100%',
+                height: '780px',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
               }}
             >
               <table
                 style={{
-                  width: "98%",
-                  borderCollapse: "collapse",
-                  tableLayout: "fixed",
-                  textAlign: "left",
+                  width: '98%',
+                  borderCollapse: 'collapse',
+                  tableLayout: 'fixed',
+                  textAlign: 'left',
                 }}
               >
                 <thead>
                   <tr>
                     <th
                       style={{
-                        padding: "8px",
-                        textAlign: "left",
-                        width: "15%",
+                        padding: '8px',
+                        textAlign: 'left',
+                        width: '15%',
                       }}
                     >
                       Código
                     </th>
                     <th
                       style={{
-                        padding: "8px",
-                        textAlign: "left",
-                        width: "6%",
+                        padding: '8px',
+                        textAlign: 'left',
+                        width: '6%',
                       }}
                     >
                       Cant
                     </th>
                     <th
                       style={{
-                        padding: "8px",
-                        textAlign: "left",
-                        width: "16%",
+                        padding: '8px',
+                        textAlign: 'left',
+                        width: '16%',
                       }}
                     >
                       Ubicación
                     </th>
                     <th
                       style={{
-                        padding: "8px",
-                        textAlign: "left",
-                        width: "53%",
+                        padding: '8px',
+                        textAlign: 'left',
+                        width: '53%',
                       }}
                     >
                       Producto
                     </th>
                     <th
                       style={{
-                        padding: "8px",
-                        textAlign: "left",
-                        width: "10%",
+                        padding: '8px',
+                        textAlign: 'left',
+                        width: '10%',
                       }}
                     >
                       Marca
@@ -196,25 +196,25 @@ const PdfGenP = (props) => {
                 <tbody>
                   {pageItems.map((item) => (
                     <tr key={item.product.article}>
-                      <td style={{ padding: "2px" }}>{item.product.article}</td>
-                      <td style={{ padding: "2px" }}>{item.amount}</td>
-                      <td style={{ padding: "2px" }}>
+                      <td style={{ padding: '2px' }}>{item.product.article}</td>
+                      <td style={{ padding: '2px' }}>{item.amount}</td>
+                      <td style={{ padding: '2px' }}>
                         {item.product.location}
                       </td>
                       <td
                         style={{
-                          padding: "2px",
-                          fontSize: "11px",
-                          wordWrap: "break-word",
+                          padding: '2px',
+                          fontSize: '11px',
+                          wordWrap: 'break-word',
                         }}
                       >
                         {item.product.description}
                       </td>
                       <td
                         style={{
-                          padding: "8px",
-                          fontSize: "11px",
-                          wordWrap: "break-word",
+                          padding: '8px',
+                          fontSize: '11px',
+                          wordWrap: 'break-word',
                         }}
                       >
                         {item.product.brand?.name}
@@ -226,12 +226,12 @@ const PdfGenP = (props) => {
             </div>
             <div
               style={{
-                width: "97%",
-                height: "50px",
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "end",
-                marginTop: "5px",
+                width: '97%',
+                height: '50px',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'end',
+                marginTop: '5px',
               }}
             >
               <span>

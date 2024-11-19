@@ -1,17 +1,53 @@
-import React, { useState } from "react";
-import styles from "./customAcordion.module.css";
+import React, { useState } from 'react';
+import styles from './customAcordion.module.css';
+import { useDispatch, useSelector } from 'react-redux';
+import Swal from 'sweetalert2';
+import { resetPendingSave } from '../../redux/pendingSave';
+import { deleteSellOrder } from '../../request/orderRequest';
 
 const CustomAcordion = ({ props }) => {
   const { textButton, icon01, items, notific } = props;
   // console.log(notific);
   const [isOpen, setIsOpen] = useState(false);
-  const [iconClass, setIconClass] = useState("sideIconGri");
-  const [icon02, setIcon02] = useState("fa-solid fa-caret-down");
+  const [iconClass, setIconClass] = useState('sideIconGri');
+  const [icon02, setIcon02] = useState('fa-solid fa-caret-down');
 
   const toggleAccordion = () => {
     setIsOpen(!isOpen);
-    let icon = isOpen ? "fa-solid fa-caret-down" : "fa-solid fa-caret-up";
+    let icon = isOpen ? 'fa-solid fa-caret-down' : 'fa-solid fa-caret-up';
     setIcon02(icon);
+  };
+
+  const pendingSave = useSelector((state) => state.pendingSave);
+  const dispatch = useDispatch();
+
+  const handleClick = (fn) => {
+    // console.log(pendingSave);
+    if (pendingSave.pending) {
+      Swal.fire({
+        title: 'Deseas guardar la orden de venta?',
+        showDenyButton: true,
+        showCancelButton: true,
+        cancelButtonText: 'Cancelar',
+        confirmButtonText: 'Guardar',
+        denyButtonText: `No guardar`,
+      }).then((result) => {
+        /* Read more about isConfirmed, isDenied below */
+        if (result.isConfirmed) {
+          dispatch(resetPendingSave(null));
+          Swal.fire('Guardado!', '', 'success');
+          fn();
+        } else if (result.isDenied) {
+          deleteSellOrder(pendingSave.orderId).then(() => {
+            dispatch(resetPendingSave(null));
+            Swal.fire('No se guardaron los cambios', '', 'info');
+            fn();
+          });
+        }
+      });
+    } else {
+      fn();
+    }
   };
 
   return (
@@ -19,10 +55,10 @@ const CustomAcordion = ({ props }) => {
       <button
         className={styles.sideOptionButton}
         onMouseOver={() => {
-          setIconClass("sideIconVio");
+          setIconClass('sideIconVio');
         }}
         onMouseLeave={() => {
-          setIconClass("sideIconGri");
+          setIconClass('sideIconGri');
         }}
         onClick={toggleAccordion}
       >
@@ -44,7 +80,7 @@ const CustomAcordion = ({ props }) => {
               key={i}
               className={styles.interButton}
               onClick={() => {
-                item.fn();
+                handleClick(item.fn);
               }}
             >
               <i className={`${styles.pointIcon} fa-solid fa-circle`}></i>

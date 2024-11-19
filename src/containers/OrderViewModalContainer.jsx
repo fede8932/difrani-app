@@ -1,7 +1,7 @@
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import OrderModalViewComponent from "../components/orderModalView/OrderModalViewComponent";
-import { getOrderById } from "../redux/selectedBuyOrder";
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import OrderModalViewComponent from '../components/orderModalView/OrderModalViewComponent';
+import { getOrderById } from '../redux/selectedBuyOrder';
 
 function OrderViewModalContainer(props) {
   const { orderId, ...rest } = props;

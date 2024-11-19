@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   pageSize: 50,
@@ -6,7 +6,7 @@ const initialState = {
 };
 
 const filtersComisSlice = createSlice({
-  name: "filtersComis",
+  name: 'filtersComis',
   initialState,
   reducers: {
     setFilterComis: (state, action) => {

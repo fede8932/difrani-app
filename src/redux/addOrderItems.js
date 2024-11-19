@@ -1,58 +1,58 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import * as orderRequest from "../request/orderRequest";
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import * as orderRequest from '../request/orderRequest';
 const userState = {
   loading: false,
   data: [],
-  error: "",
+  error: '',
 };
 export const getOrderItemsRequest = createAsyncThunk(
-  "GET_ITEMS_BY_ORDER",
+  'GET_ITEMS_BY_ORDER',
   orderRequest.getOrderItems
 );
 export const addOrderItemsRequest = createAsyncThunk(
-  "ADD_ITEM",
+  'ADD_ITEM',
   orderRequest.addOrderItem
 );
 export const deleteOrderItemsRequest = createAsyncThunk(
-  "DELETE_ITEM",
+  'DELETE_ITEM',
   orderRequest.deleteOrderItem
 );
 export const deleteSellOrderItemsRequest = createAsyncThunk(
-  "DELETE_SELL_ITEM",
+  'DELETE_SELL_ITEM',
   orderRequest.deleteSellOrderItem
 );
 export const updateCantItemsRequest = createAsyncThunk(
-  "UPDAT_CANT_ITEM",
+  'UPDAT_CANT_ITEM',
   orderRequest.updateOrderItem
 );
 export const updatePriceItemsRequest = createAsyncThunk(
-  "UPDAT_PREC_ITEM",
+  'UPDAT_PREC_ITEM',
   orderRequest.updatePriceOrderItem
 );
 export const factItemToggleRequest = createAsyncThunk(
-  "FATC_TOGGLE",
+  'FATC_TOGGLE',
   orderRequest.factItemToggle
 );
 //Esta no modifica en db, solo es en el estado y se usa solo para nc
 export const changeCantForNCRequest = createAsyncThunk(
-  "CHANGE_CANT_NC",
+  'CHANGE_CANT_NC',
   (data) => {
     return data;
   }
 );
-export const marcToggleRequest = createAsyncThunk("MARC_TOGGLE_NC", (id) => id);
+export const marcToggleRequest = createAsyncThunk('MARC_TOGGLE_NC', (id) => id);
 export const resetStatusRequest = createAsyncThunk(
-  "RESET_STATUS_ITEM_LIST",
+  'RESET_STATUS_ITEM_LIST',
   () => {}
 );
 
 const newOrderItem = createSlice({
-  name: "newOrderItem",
+  name: 'newOrderItem',
   initialState: userState,
   reducers: {
     resetAddOrderItems: (state) => {
       state.loading = false;
-      state.error = "";
+      state.error = '';
       state.data = [];
     },
   },
@@ -69,7 +69,7 @@ const newOrderItem = createSlice({
     [changeCantForNCRequest.fulfilled]: (state, action) => {
       const newState = state.data.map((item) => {
         if (item.id == action.payload.id) {
-          if (action.payload.change == "up") {
+          if (action.payload.change == 'up') {
             item.amount += 1;
           } else {
             item.amount -= 1;
@@ -81,7 +81,7 @@ const newOrderItem = createSlice({
     },
     [resetStatusRequest.fulfilled]: (state, action) => {
       state.loading = false;
-      state.error = "";
+      state.error = '';
       state.data = [];
     },
     [getOrderItemsRequest.pending]: (state, action) => {

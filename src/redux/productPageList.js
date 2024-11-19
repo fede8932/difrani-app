@@ -1,18 +1,18 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import * as productRequest from "../request/productRequest"
+import * as productRequest from '../request/productRequest';
 const initState = {
   loading: false,
-  data: {products: [], pages: 0},
-  error: "",
+  data: { products: [], pages: 0 },
+  error: '',
 };
 
 export const searchProductPageRequest = createAsyncThunk(
-  "SEARCH_PRODUCT_PAGE",
+  'SEARCH_PRODUCT_PAGE',
   productRequest.searchProductPage
 );
 
 const productPageSlice = createSlice({
-  name: "productPages",
+  name: 'productPages',
   initialState: initState,
   extraReducers: {
     [searchProductPageRequest.pending]: (state, action) => {

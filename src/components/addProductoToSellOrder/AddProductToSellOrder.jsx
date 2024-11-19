@@ -1,17 +1,18 @@
-import React, { useState } from "react";
-import styles from "./addProduct.module.css";
-import Button from "react-bootstrap/esm/Button";
-import Spinner from "react-bootstrap/esm/Spinner";
-import CustomInput from "../../commonds/input/CustomInput";
-import CustomTable from "../../commonds/table/CustomTable";
-import { FormProvider } from "react-hook-form";
-import CustomDrawer from "../../commonds/drawer/CustomDrawer";
-import PresupPDF from "../../commonds/presupuestoPDF/PresupPDF";
-import ReactDOM from "react-dom";
-import { useSelector } from "react-redux";
-import CustomModal from "../../commonds/customModal/CustomModal";
-import NewBillContainer from "../../containers/NewBillContainer";
-import CustomPagination from "../../commonds/pagination/CustomPagination";
+import React, { useState } from 'react';
+import styles from './addProduct.module.css';
+import Button from 'react-bootstrap/esm/Button';
+import Spinner from 'react-bootstrap/esm/Spinner';
+import CustomInput from '../../commonds/input/CustomInput';
+import CustomTable from '../../commonds/table/CustomTable';
+import { FormProvider } from 'react-hook-form';
+import CustomDrawer from '../../commonds/drawer/CustomDrawer';
+import PresupPDF from '../../commonds/presupuestoPDF/PresupPDF';
+import ReactDOM from 'react-dom';
+import { useSelector } from 'react-redux';
+import CustomModal from '../../commonds/customModal/CustomModal';
+import NewBillContainer from '../../containers/NewBillContainer';
+import CustomPagination from '../../commonds/pagination/CustomPagination';
+import { numberToString } from '../../utils';
 
 function AddProductToSellOrder(props) {
   const {
@@ -30,6 +31,8 @@ function AddProductToSellOrder(props) {
     type,
     confirmFn,
     changeFn,
+    setEquivalenceId,
+    equivalenceId,
   } = props;
 
   const [ventanaAbierta, setVentanaAbierta] = useState(null);
@@ -37,8 +40,8 @@ function AddProductToSellOrder(props) {
     .customerDiscounts; // Se usa para renderizar el precio cuando es una venta
 
   const abrirNuevaVentana = () => {
-    const nuevaVentana = window.open("", "", "width=794,height=1123");
-    const container = nuevaVentana.document.createElement("div");
+    const nuevaVentana = window.open('', '', 'width=794,height=1123');
+    const container = nuevaVentana.document.createElement('div');
     nuevaVentana.document.body.appendChild(container);
     setVentanaAbierta(container);
 
@@ -74,21 +77,21 @@ function AddProductToSellOrder(props) {
                 </span>
                 <span className={styles.textInfoProv}>
                   <i class="fa-solid fa-money-bill"></i> Subtotal:
-                  <span
-                    className={styles.textInfoProv}
-                  >{`$ ${order.data.subTotal}`}</span>
+                  <span className={styles.textInfoProv}>{`$ ${numberToString(
+                    order.data.subTotal
+                  )}`}</span>
                 </span>
                 <span className={styles.textInfoProv}>
                   <i class="fa-solid fa-money-bill-trend-up"></i> IVA:
-                  <span className={styles.textInfoProv}>{`$ ${(
+                  <span className={styles.textInfoProv}>{`$ ${numberToString(
                     order.data.subTotal * 0.21
-                  ).toFixed(2)}`}</span>
+                  )}`}</span>
                 </span>
                 <span className={styles.textInfoProv}>
                   <i class="fa-solid fa-money-bill-1-wave"></i> Total:
-                  <span className={styles.precioText}>{`$ ${(
+                  <span className={styles.precioText}>{`$ ${numberToString(
                     order.data.subTotal * 1.21
-                  ).toFixed(2)}`}</span>
+                  )}`}</span>
                 </span>
               </div>
             </div>
@@ -108,15 +111,15 @@ function AddProductToSellOrder(props) {
                     <Button
                       type="submit"
                       style={{
-                        backgroundColor: "#673ab7",
-                        border: "1px solid #673ab7",
-                        height: "47px",
-                        marginLeft: "20px",
-                        width: "100px",
+                        backgroundColor: '#673ab7',
+                        border: '1px solid #673ab7',
+                        height: '47px',
+                        marginLeft: '20px',
+                        width: '100px',
                       }}
                     >
                       {!productPages.loading ? (
-                        "Buscar"
+                        'Buscar'
                       ) : (
                         <Spinner animation="border" variant="light" size="sm" />
                       )}
@@ -127,36 +130,39 @@ function AddProductToSellOrder(props) {
                   </div>
                   <div
                     style={{
-                      display: "flex",
-                      alignItems: "center",
-                      height: "30px",
+                      display: 'flex',
+                      alignItems: 'center',
+                      height: '30px',
                     }}
                   >
                     <div className={styles[client.data.inTerm]}></div>
                     <span>
-                      {client.data.inTerm == "Green"
-                        ? "En término"
-                        : client.data.inTerm == "Blue"
-                        ? "Pago pendiente"
-                        : client.data.inTerm == "Orange"
-                        ? "Pago atrasado"
-                        : "Bloqueado"}
+                      {console.log(client.data.inTerm)}
+                      {client.data.inTerm == 'Green'
+                        ? 'En término'
+                        : client.data.inTerm == 'Blue'
+                          ? 'Pago pendiente'
+                          : client.data.inTerm == 'Orange'
+                            ? 'Pago atrasado'
+                            : 'Bloqueado'}
                     </span>
                   </div>
                   <div className={styles.buttonInfoContainer}>
                     <CustomDrawer
-                      type={"type"}
+                      type={'type'}
                       orderType="OS"
                       fnDelete={fnDelete}
                       fnUpdate={fnUpdate}
                       fnPrUpdate={fnPrUpdate}
                       listOrder={listOrder}
-                      orderAjust={"orderAjust"}
+                      orderAjust={'orderAjust'}
                     />
                   </div>
                 </div>
                 <div className={styles.tableProdContainer}>
                   <CustomTable
+                    equivalenceId={equivalenceId}
+                    setEquivalenceId={setEquivalenceId}
                     type="search-sell"
                     process="sell"
                     color="blue"
@@ -165,13 +171,13 @@ function AddProductToSellOrder(props) {
                     fnAdd={fnAdd}
                     fnInfo={fnInfo}
                     colum={[
-                      { title: "Artículo", width: "8%" },
-                      { title: "Descripción", width: "42%" },
-                      { title: "Marca", width: "16%" },
-                      { title: "Precio", width: "10%" },
-                      { title: "Precio c/IVA", width: "10%" },
-                      { title: "Stock", width: "3%" },
-                      { title: "Acción", width: "7%" },
+                      { title: 'Artículo', width: '8%' },
+                      { title: 'Descripción', width: '42%' },
+                      { title: 'Marca', width: '16%' },
+                      { title: 'Precio', width: '10%' },
+                      { title: 'Precio c/IVA', width: '10%' },
+                      { title: 'Stock', width: '3%' },
+                      { title: 'Acción', width: '7%' },
                     ]}
                   />
                 </div>
@@ -186,7 +192,7 @@ function AddProductToSellOrder(props) {
             initPage={1}
           />
           <div className={styles.buttonCondContainer}>
-            {order.data.status != "Confirm" ? (
+            {order.data.status != 'Confirm' ? (
               <Button
                 className={`${styles.buttonStyle} ${styles.buttonStyleBack}`}
                 variant="danger"
@@ -197,14 +203,14 @@ function AddProductToSellOrder(props) {
                 Cancelar
               </Button>
             ) : null}
-            {type == "sale" ? (
+            {type == 'sale' ? (
               <div>
-                {order.data.status != "Confirm" ? (
+                {order.data.status != 'Confirm' ? (
                   <Button
                     className={`${styles.buttonStyle} ${styles.buttonStyleNext}`}
                     variant="primary"
                     onClick={() => {
-                      confirmFn(order.data.id, "Confirm");
+                      confirmFn(order.data.id, 'Confirm');
                     }}
                   >
                     Confirmar
@@ -225,7 +231,7 @@ function AddProductToSellOrder(props) {
                     }
                     actionProps={{
                       className: `${styles.buttonStyle} ${styles.buttonStyleNext}`,
-                      variant: "primary",
+                      variant: 'primary',
                     }}
                     bodyModal={(props) => <NewBillContainer {...props} />}
                     bodyProps={{ listOrder: listOrder }}

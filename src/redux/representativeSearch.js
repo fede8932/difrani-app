@@ -1,17 +1,17 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import * as representativeRequest from "../request/representativesRequest";
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import * as representativeRequest from '../request/representativesRequest';
 const initState = {
   loading: false,
   data: { totalRows: 0, totalPages: 0, list: [] },
-  error: "",
+  error: '',
 };
 export const searchRepresentRequest = createAsyncThunk(
-  "SEARCH_REPRESENTATIVE",
+  'SEARCH_REPRESENTATIVE',
   representativeRequest.searchRepresentativesBySupplier
 );
 
 const searchRepresentativeSlice = createSlice({
-  name: "representative",
+  name: 'representative',
   initialState: initState,
   extraReducers: {
     [searchRepresentRequest.pending]: (state, action) => {

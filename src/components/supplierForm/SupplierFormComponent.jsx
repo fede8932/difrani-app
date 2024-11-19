@@ -1,10 +1,10 @@
-import React from "react";
-import styles from "./supplierForm.module.css";
-import { FormProvider } from "react-hook-form";
-import CustomInput from "../../commonds/input/CustomInput";
-import Button from "react-bootstrap/Button";
-import CustomTextArea from "../../commonds/textarea/CustomTextArea";
-import Spinner from "react-bootstrap/Spinner";
+import React from 'react';
+import styles from './supplierForm.module.css';
+import { FormProvider } from 'react-hook-form';
+import CustomInput from '../../commonds/input/CustomInput';
+import Button from 'react-bootstrap/Button';
+import CustomTextArea from '../../commonds/textarea/CustomTextArea';
+import Spinner from 'react-bootstrap/Spinner';
 
 function SupplierFormCmponent(props) {
   const { onSubmit, status, methods } = props;
@@ -35,7 +35,7 @@ function SupplierFormCmponent(props) {
                 required: true,
                 pattern: {
                   value: /^\d{2}-\d{8}-\d{1}$/,
-                  message: "El CUIT debe tener el formato 99-99999999-9",
+                  message: 'El CUIT debe tener el formato 99-99999999-9',
                 },
               }}
             />
@@ -59,9 +59,9 @@ function SupplierFormCmponent(props) {
             />
             <div
               style={{
-                display: "flex",
-                width: "100%",
-                justifyContent: "space-between",
+                display: 'flex',
+                width: '100%',
+                justifyContent: 'space-between',
               }}
             >
               <CustomInput
@@ -99,7 +99,7 @@ function SupplierFormCmponent(props) {
                 required: true,
                 pattern: {
                   value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                  message: "Ingrese un correo electrónico válido",
+                  message: 'Ingrese un correo electrónico válido',
                 },
               }}
             />
@@ -114,7 +114,7 @@ function SupplierFormCmponent(props) {
                 validate: (value) => {
                   const isValid = /^\d{8,10}$/.test(value);
                   if (!isValid) {
-                    return "El número de teléfono debe tener entre 8 y 10 dígitos";
+                    return 'El número de teléfono debe tener entre 8 y 10 dígitos';
                   }
                 },
               }}
@@ -151,7 +151,7 @@ function SupplierFormCmponent(props) {
                   required: true,
                   pattern: {
                     value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                    message: "Ingrese un correo electrónico válido",
+                    message: 'Ingrese un correo electrónico válido',
                   },
                 }}
               />
@@ -168,7 +168,7 @@ function SupplierFormCmponent(props) {
                   validate: (value) => {
                     const isValid = /^\d{8,10}$/.test(value);
                     if (!isValid) {
-                      return "El número de teléfono debe tener entre 8 y 10 dígitos";
+                      return 'El número de teléfono debe tener entre 8 y 10 dígitos';
                     }
                   },
                 }}
@@ -186,14 +186,14 @@ function SupplierFormCmponent(props) {
         <Button
           type="submit"
           style={{
-            backgroundColor: "#673ab7",
-            border: "1px solid #673ab7",
-            marginTop: "35px",
-            height: "48px",
+            backgroundColor: '#673ab7',
+            border: '1px solid #673ab7',
+            marginTop: '35px',
+            height: '48px',
           }}
         >
           {!status ? (
-            "Agregar"
+            'Agregar'
           ) : (
             <Spinner animation="border" variant="light" size="sm" />
           )}

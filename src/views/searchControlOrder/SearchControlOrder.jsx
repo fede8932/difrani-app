@@ -1,6 +1,6 @@
-import React from "react";
-import styles from "./searchControlOrder.module.css";
-import SearchControlOrderContainer from "../../containers/SearchControlOrderContainer";
+import React from 'react';
+import styles from './searchControlOrder.module.css';
+import SearchControlOrderContainer from '../../containers/SearchControlOrderContainer';
 
 function SearchControlOrder() {
   return (

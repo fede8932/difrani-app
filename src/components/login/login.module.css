@@ -34,7 +34,7 @@
   height: 10%;
   display: flex;
   justify-content: center;
-  align-content:flex-end
+  align-content: flex-end;
 }
 .iconTitleContainer {
   display: flex;
@@ -83,12 +83,12 @@
   flex-direction: column;
   justify-content: space-around;
 }
-.checkbox{
+.checkbox {
   color: #697586;
   font-size: 16px;
   font-weight: 400;
 }
-#textInput{
+#textInput {
   height: 55px;
 }
 .formulario input:focus {
@@ -115,26 +115,26 @@
   color: white;
   box-shadow: 0 0 5px #673ab7;
 }
-.resetPassButton{
+.resetPassButton {
   text-decoration: none;
   color: #697586;
   font-size: 14px;
   display: flex;
   align-items: center;
-  font-weight:400;
+  font-weight: 400;
 }
-.resetPassButton:hover{
+.resetPassButton:hover {
   color: #673ab7;
   text-decoration: underline;
   text-decoration-color: #673ab7;
 }
-.footContainer a{
+.footContainer a {
   color: black;
   font-weight: 400;
   font-size: medium;
 }
-.spanError{
-  color: #FF4848;
+.spanError {
+  color: #ff4848;
   font-size: 12px;
   margin-left: 15px;
 }

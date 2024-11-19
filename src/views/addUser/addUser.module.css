@@ -86,7 +86,7 @@
   width: 50%;
   color: white;
 }
-.subContainer{
+.subContainer {
   display: flex;
   width: 100%;
   justify-content: space-between;

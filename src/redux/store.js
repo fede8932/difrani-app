@@ -1,52 +1,54 @@
-import { configureStore } from "@reduxjs/toolkit";
+import { configureStore } from '@reduxjs/toolkit';
 // import logger from "redux-logger";
-import sidebarReducer from "./sidebar";
-import supplierReducer from "./supplier";
-import clientReducer from "./client";
-import sellerReducer from "./seller";
-import sellerResumeReducer from "./sellerResume";
-import tableReducer from "./tableItems";
-import brandReducer from "./brand";
-import productReducer from "./product";
-import searchBrandReducer from "./searchBrands";
-import representativesReducer from "./representative";
-import infoSupplierReducer from "./infoSupplier";
-import newBuyOrderReducer from "./newOrder";
-import productPagesReducer from "./productPageList";
-import addOrderItem from "./addOrderItems";
-import searchSellersReducer from "./searchSeller";
-import searchClientsReducer from "./searchClient";
-import searchSuppliersReducer from "./searchSupplier";
-import searchMovementsReducer from "./searchCurrentAcount";
-import searchOrderssReducer from "./searchOrders";
-import OrdersAjustReducer from "./orderAjust";
-import OrdersAjustItemsReducer from "./addAjustItems";
-import buyOrderReducer from "./selectedBuyOrder";
-import controlOrdersReducer from "./supplierControlOrder";
-import selectControlOrdersReducer from "./selectControlOrder";
-import selectControlOrderItemssReducer from "./selectControlOrderItems";
-import pickingOrdersReducer from "./clientPickingOrder";
-import searchRepresReducer from "./representativeSearch";
-import getReport from "./report";
-import getDateReport from "./dateReport";
-import webSocketNotific from "./webSocketNotification";
-import selectProductReducer from "./selectProduct";
-import productClientReducer from "./productsByClient";
-import ncNoApplyReducer from "./movNoApply";
-import equivalencesReducers from "./equivalences";
-import otherUsersReducers from "./otherUsers";
-import filtersProductsSlice from "./filtersProducts";
-import filtersUsersSlice from "./filtersUsers";
-import filtersComisSlice from "./filtersComis";
-import searchUsers from "./searchUsers";
-import userSlice from "./user";
-import liquidationsReducer from "./sellerLiquidations";
-import filtersSellOrderSlice from "./filtersSellOrder";
-import filtersMovementsSlice from "./filtersMovements";
-import filtersBuyOrderSlice from "./filtersBuyOrder";
-import filtersPickingsSlice from "./filtersPickings";
-import selectBillSlice from "./selectedBill";
-import billItemsReducer from "./billItems";
+import sidebarReducer from './sidebar';
+import supplierReducer from './supplier';
+import clientReducer from './client';
+import sellerReducer from './seller';
+import sellerResumeReducer from './sellerResume';
+import tableReducer from './tableItems';
+import brandReducer from './brand';
+import productReducer from './product';
+import searchBrandReducer from './searchBrands';
+import representativesReducer from './representative';
+import infoSupplierReducer from './infoSupplier';
+import newBuyOrderReducer from './newOrder';
+import productPagesReducer from './productPageList';
+import addOrderItem from './addOrderItems';
+import searchSellersReducer from './searchSeller';
+import searchClientsReducer from './searchClient';
+import searchSuppliersReducer from './searchSupplier';
+import searchMovementsReducer from './searchCurrentAcount';
+import searchOrderssReducer from './searchOrders';
+import OrdersAjustReducer from './orderAjust';
+import OrdersAjustItemsReducer from './addAjustItems';
+import buyOrderReducer from './selectedBuyOrder';
+import controlOrdersReducer from './supplierControlOrder';
+import selectControlOrdersReducer from './selectControlOrder';
+import selectControlOrderItemssReducer from './selectControlOrderItems';
+import pickingOrdersReducer from './clientPickingOrder';
+import searchRepresReducer from './representativeSearch';
+import getReport from './report';
+import getDateReport from './dateReport';
+import webSocketNotific from './webSocketNotification';
+import selectProductReducer from './selectProduct';
+import productClientReducer from './productsByClient';
+import ncNoApplyReducer from './movNoApply';
+import equivalencesReducers from './equivalences';
+import otherUsersReducers from './otherUsers';
+import filtersProductsSlice from './filtersProducts';
+import filtersUsersSlice from './filtersUsers';
+import filtersComisSlice from './filtersComis';
+import searchUsers from './searchUsers';
+import userSlice from './user';
+import liquidationsReducer from './sellerLiquidations';
+import filtersSellOrderSlice from './filtersSellOrder';
+import filtersMovementsSlice from './filtersMovements';
+import filtersBuyOrderSlice from './filtersBuyOrder';
+import filtersPickingsSlice from './filtersPickings';
+import selectBillSlice from './selectedBill';
+import billItemsReducer from './billItems';
+import pendingSaveReducer from './pendingSave';
+import filterSellReportReducer from './filtersSellReports';
 
 const store = configureStore({
   middleware: (getDefaultMiddleware) =>
@@ -100,6 +102,8 @@ const store = configureStore({
     selectBill: selectBillSlice,
     billItems: billItemsReducer,
     filterMovementsOrder: filtersMovementsSlice,
+    pendingSave: pendingSaveReducer,
+    filterSellReport: filterSellReportReducer,
   },
 });
 

@@ -1,45 +1,47 @@
-import { AgGridReact } from "ag-grid-react";
-import "ag-grid-community/styles/ag-grid.css";
-import "ag-grid-community/styles/ag-theme-quartz.css";
-import React, { useEffect, useMemo, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import logoBlase from "../../../assets/logo/logoBlase.png";
+import { AgGridReact } from 'ag-grid-react';
+import 'ag-grid-community/styles/ag-grid.css';
+import 'ag-grid-community/styles/ag-theme-quartz.css';
+import React, { useEffect, useMemo, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import logoBlase from '../../../assets/logo/logoBlase.png';
 import {
+  billDateTostringDate,
   checkActive,
   convertImageToBase64,
   convertirFechaISOaDDMMYYYYHHMM,
   getBillType,
-  redondearADosDecimales,
-} from "../../../utils";
-import logoAfip from "../../../assets/afip/logo-vector-afip.jpg";
-import { Checkbox, Label, Pagination, Popup, Select } from "semantic-ui-react";
-import styles from "./clientAcountTables.module.css";
+  numberToString,
+  presDateIsoTostringDate,
+} from '../../../utils';
+import logoAfip from '../../../assets/afip/logo-vector-afip.jpg';
+import { Checkbox, Label, Pagination, Popup, Select } from 'semantic-ui-react';
+import styles from './clientAcountTables.module.css';
 import {
   getBillDataRequest,
   printNCByNumRequest,
   printNCPresByNumRequest,
   rePrintPresRequest,
-} from "../../../request/orderRequest";
-import QRCode from "qrcode";
-import { billHtml } from "../../../templates/bill";
+} from '../../../request/orderRequest';
+import QRCode from 'qrcode';
+import { billHtml } from '../../../templates/bill';
 import {
   resetFilterMovements,
   setFilterMovements,
-} from "../../../redux/filtersMovements";
+} from '../../../redux/filtersMovements';
 import {
   getAcountById,
   getMovementsByCurrentAcountIdX,
   marcMovementsByCurrentAcountId,
   resetMovementsByCurrentAcountId,
-} from "../../../redux/searchCurrentAcount";
-import { MovTypeEnum } from "../../../enum/MovEnum";
-import CustomModal from "../../../commonds/customModal/CustomModal";
-import BillViewModalContainer from "../../../containers/BillViewModalContainer";
-import { getBillByIdRequest } from "../../../request/billRequest";
-import { ncAHtml } from "../../../templates/ncA";
-import { ncPresupHtml } from "../../../templates/ncPresupBlase";
-import { presupHtml } from "../../../templates/presupBlase";
-import { remitHtml } from "../../../templates/RemBlase";
+} from '../../../redux/searchCurrentAcount';
+import { MovTypeEnum } from '../../../enum/MovEnum';
+import CustomModal from '../../../commonds/customModal/CustomModal';
+import BillViewModalContainer from '../../../containers/BillViewModalContainer';
+import { getBillByIdRequest } from '../../../request/billRequest';
+import { ncAHtml } from '../../../templates/ncA';
+import { ncPresupHtml } from '../../../templates/ncPresupBlase';
+import { presupHtml } from '../../../templates/presupBlase';
+import { remitHtml } from '../../../templates/RemBlase';
 
 const CustomComp = ({ data }) => {
   // console.log(data);
@@ -62,6 +64,7 @@ const CustomActionComp = ({ data }) => {
   const [printLoading, setPrintLoading] = useState(false);
   const rePrint = async (bill) => {
     // console.log(bill);
+    let billRemDate = { type: null, date: null };
     setPrintLoading(true);
     let purchaseOrder;
     let numRemito;
@@ -74,6 +77,10 @@ const CustomActionComp = ({ data }) => {
     if (billType == 1 || billType == 6) {
       const billData = await getBillDataRequest(numComprobante, billType);
       numRemito = billData.billData.ResultGet.CbteDesde;
+      billRemDate.type = 'f';
+      billRemDate.date = billDateTostringDate(
+        billData.billData.ResultGet.CbteFch
+      );
       const billInfo = await getBillByIdRequest(id);
       const { fItems } = billInfo;
       purchaseOrder = billInfo.purchaseOrder;
@@ -82,7 +89,7 @@ const CustomActionComp = ({ data }) => {
       const factItems = fItems;
       const itemsPerPage = 10; // Número de ítems por página
       const totalPages = Math.ceil(factItems.length / itemsPerPage);
-      nuevaVentana = window.open("", "", "width=900,height=1250");
+      nuevaVentana = window.open('', '', 'width=900,height=1250');
 
       // Primero imprimimos las facturas
       for (let i = 0; i < factItems.length; i += itemsPerPage) {
@@ -99,7 +106,7 @@ const CustomActionComp = ({ data }) => {
           logoAfipBase64,
           logoBlaseBase64
         );
-        const containerFact = nuevaVentana.document.createElement("div");
+        const containerFact = nuevaVentana.document.createElement('div');
         containerFact.innerHTML = render;
 
         // Agregar el contenido generado a la ventana
@@ -107,8 +114,8 @@ const CustomActionComp = ({ data }) => {
 
         // Si no es la última página, agregar un salto de página
         if (pageNumber < totalPages) {
-          const pageBreak = nuevaVentana.document.createElement("div");
-          pageBreak.style.pageBreakAfter = "always"; // Salto de página después del contenido
+          const pageBreak = nuevaVentana.document.createElement('div');
+          pageBreak.style.pageBreakAfter = 'always'; // Salto de página después del contenido
           nuevaVentana.document.body.appendChild(pageBreak);
         }
       }
@@ -124,11 +131,13 @@ const CustomActionComp = ({ data }) => {
       const factPresItems = purchaseOrder.purchaseOrderItems.filter(
         (poi) => !poi.fact
       );
+      billRemDate.type = 'p';
+      billRemDate.date = presDateIsoTostringDate(presData.fecha);
 
       const itemsPerPage = 10; // Número de ítems por página
       const totalPresPages = Math.ceil(factPresItems.length / itemsPerPage);
 
-      nuevaVentana = window.open("", "", "width=900,height=1250");
+      nuevaVentana = window.open('', '', 'width=900,height=1250');
 
       for (let i = 0; i < factPresItems.length; i += itemsPerPage) {
         const pagePresNumber = Math.floor(i / itemsPerPage) + 1;
@@ -142,13 +151,13 @@ const CustomActionComp = ({ data }) => {
           pagePresNumber,
           totalPresPages
         );
-        const containerPres = nuevaVentana.document.createElement("div");
+        const containerPres = nuevaVentana.document.createElement('div');
         nuevaVentana.document.body.appendChild(containerPres);
 
         containerPres.innerHTML = render;
         nuevaVentana.document.body.appendChild(
-          nuevaVentana.document.createElement("div")
-        ).style.pageBreakBefore = "always";
+          nuevaVentana.document.createElement('div')
+        ).style.pageBreakBefore = 'always';
       }
       // nuevaVentana.document.body.appendChild(
       //   nuevaVentana.document.createElement("div")
@@ -172,22 +181,23 @@ const CustomActionComp = ({ data }) => {
         i + itemsRemPage
       );
 
-      const containerRem = nuevaVentana.document.createElement("div");
+      const containerRem = nuevaVentana.document.createElement('div');
       containerRem.innerHTML = remitHtml(
         purchaseOrder,
         numRemito,
         pageItems,
         pageNumber,
         totalRemPages,
-        logoBlaseBase64
+        logoBlaseBase64,
+        billRemDate
       );
 
       nuevaVentana.document.body.appendChild(containerRem);
 
       // Si no es la última página, agregar un salto de página
       if (pageNumber < totalRemPages) {
-        const pageBreak = nuevaVentana.document.createElement("div");
-        pageBreak.style.pageBreakAfter = "always"; // Salto de página después del contenido
+        const pageBreak = nuevaVentana.document.createElement('div');
+        pageBreak.style.pageBreakAfter = 'always'; // Salto de página después del contenido
         nuevaVentana.document.body.appendChild(pageBreak);
       }
     }
@@ -207,7 +217,7 @@ const CustomActionComp = ({ data }) => {
 
       const itemsPerPage = 10; // Número de ítems por página
       const totalPages = Math.ceil(items.length / itemsPerPage);
-      let nuevaVentana = window.open("", "", "width=900,height=1250");
+      let nuevaVentana = window.open('', '', 'width=900,height=1250');
 
       for (
         let i = 0;
@@ -228,13 +238,13 @@ const CustomActionComp = ({ data }) => {
           nc.concept
         );
 
-        const containerFact = nuevaVentana.document.createElement("div");
+        const containerFact = nuevaVentana.document.createElement('div');
         nuevaVentana.document.body.appendChild(containerFact);
 
         containerFact.innerHTML = render;
         nuevaVentana.document.body.appendChild(
-          nuevaVentana.document.createElement("div")
-        ).style.pageBreakBefore = "always";
+          nuevaVentana.document.createElement('div')
+        ).style.pageBreakBefore = 'always';
       }
     }
     if (billType == 2) {
@@ -266,14 +276,14 @@ const CustomActionComp = ({ data }) => {
           presData.concept
         );
 
-        const nuevaVentana = window.open("", "", "width=900,height=1250");
-        const containerPres = nuevaVentana.document.createElement("div");
+        const nuevaVentana = window.open('', '', 'width=900,height=1250');
+        const containerPres = nuevaVentana.document.createElement('div');
         nuevaVentana.document.body.appendChild(containerPres);
 
         containerPres.innerHTML = render;
         nuevaVentana.document.body.appendChild(
-          nuevaVentana.document.createElement("div")
-        ).style.pageBreakBefore = "always";
+          nuevaVentana.document.createElement('div')
+        ).style.pageBreakBefore = 'always';
       }
     }
     setPrintLoading(false);
@@ -285,7 +295,7 @@ const CustomActionComp = ({ data }) => {
         size="xl"
         actionButton={
           <button
-            style={{ margin: "1px 0px 0px 7px" }}
+            style={{ margin: '1px 0px 0px 7px' }}
             className={styles.iconButton}
             type="button"
           >
@@ -296,7 +306,7 @@ const CustomActionComp = ({ data }) => {
         bodyProps={{ movId: data.id }}
       />
       <button
-        style={{ margin: "1px 0px 0px 7px" }}
+        style={{ margin: '1px 0px 0px 7px' }}
         className={styles.iconButton}
         type="button"
         onClick={() => {
@@ -327,26 +337,26 @@ function ClientAcountTable(props) {
 
   let columnInitialState = [
     {
-      headerName: "Check",
+      headerName: 'Check',
       cellRenderer: (params) => <CustomComp data={params.data} />,
       flex: 0.5,
       filterParams: {
-        filterOptions: ["contains"], // Solo opción 'contains'
+        filterOptions: ['contains'], // Solo opción 'contains'
         suppressFilterButton: true, // Ocultar el botón del menú del filtro
       },
     },
     {
-      headerName: "Fecha",
+      headerName: 'Fecha',
       valueGetter: (params) =>
         convertirFechaISOaDDMMYYYYHHMM(params.data.fecha),
       flex: 1,
       filterParams: {
-        filterOptions: ["contains"], // Solo opción 'contains'
+        filterOptions: ['contains'], // Solo opción 'contains'
         suppressFilterButton: true, // Ocultar el botón del menú del filtro
       },
     },
     {
-      headerName: "Concepto",
+      headerName: 'Concepto',
       valueGetter: (params) => {
         return getBillType(MovTypeEnum[params.data.type], params.data.billType);
       },
@@ -355,64 +365,73 @@ function ClientAcountTable(props) {
       sortable: false,
     },
     {
-      headerName: "Factura/N-Crédito",
+      headerName: 'Factura/N-Crédito',
       valueGetter: (params) => {
         return getBillType(
           MovTypeEnum[params.data.type],
           params.data.billType
-        ) != "Pago" &&
+        ) != 'Pago' &&
           getBillType(MovTypeEnum[params.data.type], params.data.billType) !=
-            "Descuento"
+            'Descuento'
           ? params.data.numComprobante
-          : "-";
+          : '-';
       },
       filter: false,
       flex: 1,
       sortable: false,
     },
     {
-      headerName: "Factura Asoc.",
+      headerName: 'Factura Asoc.',
       valueGetter: (params) => {
         return getBillType(
           MovTypeEnum[params.data.type],
           params.data.billType
-        ) == "Pago" ||
+        ) == 'Pago' ||
           getBillType(MovTypeEnum[params.data.type], params.data.billType) ==
-            "Nota de crédito" ||
+            'Nota de crédito' ||
           getBillType(MovTypeEnum[params.data.type], params.data.billType) ==
-            "Devolución"
+            'Devolución'
           ? params.data.bills.map((b, i) => {
               if (i > 0) {
                 return `-${b.numComprobante}`;
               }
               return b.numComprobante;
             })
-          : "-";
+          : '-';
       },
       filter: false,
       flex: 1,
       sortable: false,
     },
     {
-      headerName: "Cbte del Sist.",
+      headerName: 'Cbte del Sist.',
       valueGetter: (params) => params.data.payDetail?.id,
       filter: false,
       flex: 1,
     },
     {
-      headerName: "Cbte del Vdor.",
+      headerName: 'Cbte del Vdor.',
       valueGetter: (params) => params.data.payDetail?.comprobanteVendedor,
       filter: false,
       flex: 1,
     },
     {
-      headerName: "Monto",
-      valueGetter: (params) => `$${redondearADosDecimales(params.data.total)}`,
+      headerName: 'Monto',
+      valueGetter: (params) => `$${numberToString(params.data.total)}`,
       filter: false,
       flex: 1,
     },
     {
-      headerName: "Acciones",
+      headerName: 'Pendiente',
+      valueGetter: (params) =>
+        params?.data?.saldoPend
+          ? `$${numberToString(params?.data?.saldoPend)}`
+          : '-',
+      filter: false,
+      flex: 1,
+    },
+    {
+      headerName: 'Acciones',
       cellRenderer: (params) => <CustomActionComp data={params.data} />,
       filter: false,
       flex: 1,
@@ -438,17 +457,15 @@ function ClientAcountTable(props) {
   // console.log(filterMovements);
 
   const selectChange = (e, d) => {
-    dispatch(setFilterMovements({ name: "pageSize", value: d.value }));
+    dispatch(setFilterMovements({ name: 'pageSize', value: d.value }));
   };
   const changePage = (e, d) => {
-    dispatch(setFilterMovements({ name: "page", value: d.activePage }));
+    dispatch(setFilterMovements({ name: 'page', value: d.activePage }));
   };
 
   useEffect(() => {
-    dispatch(getAcountById(filterMovements.currentAcountId))
-      .then(() => {
-        dispatch(getMovementsByCurrentAcountIdX(filterMovements));
-      })
+    dispatch(getMovementsByCurrentAcountIdX(filterMovements))
+      .then(() => {})
       .catch((err) => console.log(err));
 
     return () => {
@@ -464,8 +481,8 @@ function ClientAcountTable(props) {
 
   return (
     <div
-      className={"ag-theme-quartz"}
-      style={{ height: 480, marginTop: "5px" }}
+      className={'ag-theme-quartz'}
+      style={{ height: 480, marginTop: '5px' }}
     >
       <AgGridReact
         rowData={data?.movements?.list}
@@ -475,7 +492,7 @@ function ClientAcountTable(props) {
       <div className={styles.paginationContainer}>
         <span>{`Se encontraron ${data?.movements?.totalPages} páginas con ${data?.movements?.totalRows} resultados.`}</span>
         <div className={styles.pagination}>
-          <div style={{ marginRight: "10px" }}>
+          <div style={{ marginRight: '10px' }}>
             <Select
               width="10px"
               defaultValue={filterMovements.pageSize}

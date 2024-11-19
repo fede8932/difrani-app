@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios';
 const apiUrl = import.meta.env.VITE_API_URL;
 
 export const createBuyOrder = async (objInfo) => {
@@ -11,10 +11,10 @@ export const createBuyOrder = async (objInfo) => {
     return data;
   } catch (error) {
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     throw error;
   }
@@ -33,7 +33,7 @@ export const addOrderItem = async (dataOrder) => {
     return data;
   } catch (error) {
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     throw error;
   }
@@ -47,10 +47,10 @@ export const deleteOrderItem = async (id) => {
     return data;
   } catch (error) {
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     throw error;
   }
@@ -64,10 +64,10 @@ export const deleteSellOrderItem = async (id) => {
     return data;
   } catch (error) {
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     throw error;
   }
@@ -80,10 +80,10 @@ export const getBuyOrder = async (id) => {
     return data;
   } catch (error) {
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     throw error;
   }
@@ -98,19 +98,19 @@ export const getSellOrderLocal = async (id) => {
       efective: false,
       id: 0,
       purchaseOrderItems: null,
-      status: "Open",
+      status: 'Open',
       supplier: null,
       supplierId: null,
       total: 0,
-      type: "Sell",
+      type: 'Sell',
     };
     return order;
   } catch (error) {
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     throw error;
   }
@@ -125,10 +125,10 @@ export const getOrderItems = async (orderId) => {
     return data;
   } catch (error) {
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     throw error;
   }
@@ -144,10 +144,10 @@ export const updateOrderItem = async (dataItem) => {
     return data;
   } catch (error) {
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     throw error;
   }
@@ -163,10 +163,10 @@ export const updatePriceOrderItem = async (dataItem) => {
     return data;
   } catch (error) {
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     throw error;
   }
@@ -182,10 +182,10 @@ export const updateStatusOrder = async (dataItem) => {
     return data;
   } catch (error) {
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     throw error;
   }
@@ -200,10 +200,22 @@ export const updateClientStatusOrder = async (dataItem) => {
     return data;
   } catch (error) {
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
+    }
+    throw error;
+  }
+};
+export const confirmBuyOrder = async (id) => {
+  try {
+    const url = `${apiUrl}/api/purchase/order/status/confirm/buy/${id}`;
+    const { data } = await axios.patch(url, null, { withCredentials: true });
+    return data;
+  } catch (error) {
+    if (error.response?.status == 401) {
+      window.location.href = '/';
     }
     throw error;
   }
@@ -217,10 +229,7 @@ export const deleteSellOrder = async (orderId) => {
     return data;
   } catch (error) {
     if (error.response?.status == 401) {
-      window.location.href = "/";
-    }
-    if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     throw error;
   }
@@ -234,10 +243,7 @@ export const searchSellOrder = async (filter) => {
     return res.data;
   } catch (error) {
     if (error.response?.status == 401) {
-      window.location.href = "/";
-    }
-    if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     throw error;
   }
@@ -250,10 +256,10 @@ export const searchBuyOrder = async (filter) => {
     return res.data;
   } catch (error) {
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     throw error;
   }
@@ -267,10 +273,10 @@ export const deleteOrder = async (orderId) => {
     return data;
   } catch (error) {
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     throw error;
   }
@@ -286,10 +292,10 @@ export const cancelOrder = async (sendInfo) => {
     return data;
   } catch (error) {
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     throw error;
   }
@@ -307,10 +313,10 @@ export const updateStatusOrderConfirm = async (sendInfo) => {
     return data;
   } catch (error) {
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     throw error;
   }
@@ -326,10 +332,10 @@ export const addRemToOrderConfirm = async (sendInfo) => {
     return data;
   } catch (error) {
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     throw error;
   }
@@ -348,10 +354,10 @@ export const addFacToOrderConfirm = async (sendInfo) => {
     console.log(error);
 
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     throw error;
   }
@@ -364,10 +370,10 @@ export const getOrderByIdRequest = async (id) => {
     return data;
   } catch (error) {
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     throw error;
   }
@@ -382,10 +388,10 @@ export const createSellOrderRequest = async (clientId) => {
     return data;
   } catch (error) {
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     throw error;
   }
@@ -403,10 +409,10 @@ export const confirmSellOrder = async (sendData) => {
     return data;
   } catch (error) {
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     throw error;
   }
@@ -422,10 +428,10 @@ export const confirmSelectSellOrder = async (sendData) => {
     return data;
   } catch (error) {
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     throw error;
   }
@@ -444,10 +450,10 @@ export const unificSelectSellOrder = async (sendData) => {
     error.message = error.response?.data ? error.response?.data : error.message;
 
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     throw error;
   }
@@ -472,10 +478,10 @@ export const NewNCForOrder = async (sendData) => {
     return data;
   } catch (error) {
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     throw error;
   }
@@ -491,10 +497,10 @@ export const confirmSellOrderWBill = async (sendData) => {
     return data;
   } catch (error) {
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     throw error;
   }
@@ -509,7 +515,7 @@ export const factItemToggle = async (itemId) => {
     return data;
   } catch (error) {
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     throw error;
   }
@@ -523,7 +529,7 @@ export const printBillRequest = async (orderId) => {
     return data;
   } catch (error) {
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     throw error;
   }
@@ -541,7 +547,7 @@ export const getBillDataRequest = async (cbte, billType) => {
     return data;
   } catch (error) {
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     throw error;
   }
@@ -556,7 +562,7 @@ export const printNCRequest = async (orderId, ncNum) => {
     return data;
   } catch (error) {
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     throw error;
   }
@@ -571,7 +577,7 @@ export const printNCByNumRequest = async (ncNum, currentAcountId) => {
     return data;
   } catch (error) {
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     throw error;
   }
@@ -585,7 +591,7 @@ export const printPresRequest = async (orderId) => {
     return data;
   } catch (error) {
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     throw error;
   }
@@ -599,7 +605,7 @@ export const rePrintPresRequest = async (id) => {
     return data;
   } catch (error) {
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     throw error;
   }
@@ -613,7 +619,7 @@ export const printNCPresRequest = async (orderId) => {
     return data;
   } catch (error) {
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     throw error;
   }
@@ -627,37 +633,19 @@ export const printNCPresByNumRequest = async (compNum) => {
     return data;
   } catch (error) {
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     throw error;
   }
 };
 export const getReport = async (sendData) => {
-  // console.log(sendData);
   try {
-    const { rows, page, init, end, brandId, clientId } = sendData;
-    let url = `${apiUrl}/api/purchase/order/report/list/${rows}/${page}`;
-    if (brandId || clientId) {
-      url = `${url}?`;
-      url = brandId ? `${url}brandId=${brandId}` : url;
-      url = clientId && brandId ? `${url}&` : url;
-      url = clientId ? `${url}clientId=${clientId}` : url;
-    }
-    console.log(url);
-    const obj =
-      init && end
-        ? {
-            params: {
-              init: new Date(init).toISOString(),
-              end: new Date(end).toISOString(),
-            },
-          }
-        : null;
-    const { data } = await axios.get(url, obj);
+    let url = `${apiUrl}/api/purchase/order/report/getlist`;
+    const { data } = await axios.post(url, sendData, { withCredentials: true });
     return data;
   } catch (error) {
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     throw error;
   }
@@ -669,11 +657,55 @@ export const getDateReport = async () => {
     return data;
   } catch (error) {
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     throw error;
   }
 };
+
+export const getFileReport = async (filter) => {
+  try {
+    const res = await axios.post(
+      `${apiUrl}/api/purchase/order/report/download`,
+      filter,
+      {
+        withCredentials: true,
+        responseType: 'blob', // Configura el tipo de respuesta esperado como 'blob'
+      }
+    );
+    return res;
+  } catch (error) {
+    if (error.response?.status == 401) {
+      window.location.href = '/';
+    }
+    throw error;
+  }
+};
+
+export const genBuyOrdersByReportImport = async (sendData) => {
+  try {
+    const { file } = sendData;
+    const formData = new FormData();
+    formData.append('file', file);
+    const { data } = await axios.post(
+      `${apiUrl}/api/purchase/order/pedido/file`,
+      formData,
+      {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          withCredentials: true,
+        },
+      }
+    );
+    return data;
+  } catch (error) {
+    if (error.response?.status == 401) {
+      window.location.href = '/';
+    }
+    throw error;
+  }
+};
+
 export const genOrderReport = async () => {
   try {
     const url = `${apiUrl}/api/purchase/order/gen/order`;
@@ -682,7 +714,7 @@ export const genOrderReport = async () => {
     return data;
   } catch (error) {
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     throw error;
   }
@@ -697,7 +729,7 @@ export const getListProductsClient = async (send) => {
     return data;
   } catch (error) {
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     throw error;
   }

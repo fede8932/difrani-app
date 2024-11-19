@@ -1,5 +1,5 @@
-import React from "react";
-import styles from "./iconButon.module.css";
+import React from 'react';
+import styles from './iconButon.module.css';
 // import { useSelector } from "react-redux";
 
 const IconButton = (props) => {
@@ -16,7 +16,7 @@ const IconButton = (props) => {
       disabled={objetive ? true : false}
       onClick={(event) => {
         event.preventDefault();
-        type == "delete" ? fn(itemId) : fn(product);
+        type == 'delete' ? fn(itemId) : fn(product);
       }}
       className={styles.butStyle}
     >

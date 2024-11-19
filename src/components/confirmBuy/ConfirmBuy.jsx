@@ -1,14 +1,14 @@
-import React, { useState } from "react";
-import styles from "./confirmBuy.module.css";
-import { Button } from "react-bootstrap";
-import { Label } from "semantic-ui-react";
-import LongTableContainer from "../../containers/LongTableContainer";
+import React, { useState } from 'react';
+import styles from './confirmBuy.module.css';
+import { Button } from 'react-bootstrap';
+import { Label } from 'semantic-ui-react';
+import LongTableContainer from '../../containers/LongTableContainer';
 
 function ConfirmBuy(props) {
   const { addRem, order, ajustFn } = props;
   const ajustButton = order.data.orderAjust
     ? order.data.orderAjust.status
-    : "Open";
+    : 'Open';
   return (
     <div className={styles.editContainer}>
       <div className={styles.dataContainer}>
@@ -40,10 +40,10 @@ function ConfirmBuy(props) {
         <span className={styles.subTitle}>Detalle de productos</span>
         <LongTableContainer
           colum={[
-            { title: "Marca", width: "20%" },
-            { title: "Código", width: "20%" },
-            { title: "Descripción", width: "45%" },
-            { title: "Cantidad", width: "15%" },
+            { title: 'Marca', width: '20%' },
+            { title: 'Código', width: '20%' },
+            { title: 'Descripción', width: '45%' },
+            { title: 'Cantidad', width: '15%' },
           ]}
           data={order.data}
           type="orderItems"
@@ -51,18 +51,18 @@ function ConfirmBuy(props) {
       </div>
       <div className={styles.buttonContainer}>
         <div className={styles.buttonSubContainer}>
-          {ajustButton == "Open" ? (
+          {ajustButton == 'Open' ? (
             <Button
               onClick={() => {
                 ajustFn();
               }}
               style={{
-                backgroundColor: "#fbfbfb",
-                color: "#673ab7",
-                border: "1px solid #673ab7",
-                height: "35px",
-                width: "100px",
-                marginLeft: "10px",
+                backgroundColor: '#fbfbfb',
+                color: '#673ab7',
+                border: '1px solid #673ab7',
+                height: '35px',
+                width: '100px',
+                marginLeft: '10px',
               }}
             >
               Ajustar
@@ -73,15 +73,15 @@ function ConfirmBuy(props) {
               addRem(order.data.id);
             }}
             style={{
-              backgroundColor: "#673ab7",
-              border: "1px solid #673ab7",
-              height: "35px",
-              width: "100px",
-              marginLeft: "10px",
+              backgroundColor: '#673ab7',
+              border: '1px solid #673ab7',
+              height: '35px',
+              width: '100px',
+              marginLeft: '10px',
             }}
           >
             {!order.loading ? (
-              "Guardar"
+              'Guardar'
             ) : (
               <Spinner animation="border" variant="light" size="sm" />
             )}

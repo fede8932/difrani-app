@@ -1,6 +1,6 @@
-import React from "react";
-import styles from "./addBrand.module.css";
-import AddBrandContainer from "../../containers/AddBrandContainer"
+import React from 'react';
+import styles from './addBrand.module.css';
+import AddBrandContainer from '../../containers/AddBrandContainer';
 
 function AddBrand() {
   return (

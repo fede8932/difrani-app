@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import styles from "./countInput.module.css";
+import React, { useState } from 'react';
+import styles from './countInput.module.css';
 
 const CountInput = () => {
   const [valor, setValor] = useState(0); // Valor por defecto

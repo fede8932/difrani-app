@@ -1,12 +1,12 @@
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import AddSupplierToBrand from "../components/addSupplierToBrand/AddSupplierToBrand";
-import { getSuppliersInfoRequest } from "../redux/supplier";
-import LoadingSpinner from "../commonds/loading/LoadingSpinner";
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import AddSupplierToBrand from '../components/addSupplierToBrand/AddSupplierToBrand';
+import { getSuppliersInfoRequest } from '../redux/supplier';
+import LoadingSpinner from '../commonds/loading/LoadingSpinner';
 import {
   addSupplierToBrandRequest,
   deleteSupplierToBrandRequest,
-} from "../redux/searchBrands";
+} from '../redux/searchBrands';
 
 function AddSupplierToBrandContainer(props) {
   const { close, brands, index } = props;

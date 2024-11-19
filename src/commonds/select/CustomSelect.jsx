@@ -1,6 +1,6 @@
-import React from "react";
-import styles from "./customSelect.module.css";
-import { useFormContext, Controller } from "react-hook-form";
+import React from 'react';
+import styles from './customSelect.module.css';
+import { useFormContext, Controller } from 'react-hook-form';
 
 function CustomSelect(props) {
   const {
@@ -24,7 +24,7 @@ function CustomSelect(props) {
     <Controller
       control={control}
       name={name}
-      defaultValue={defaultValue ? defaultValue : ""}
+      defaultValue={defaultValue ? defaultValue : ''}
       rules={validate}
       render={({ field }) => (
         <select
@@ -39,7 +39,7 @@ function CustomSelect(props) {
               fnSelect(e.target.value);
             }
             if (extraFn) {
-              if (e.target.value !== "P") {
+              if (e.target.value !== 'P') {
                 extraFn(true);
               } else {
                 extraFn(false);

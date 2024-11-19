@@ -1,12 +1,12 @@
-import React, { useRef, useState } from "react";
-import styles from "./customTextArea.module.css";
-import { useFormContext } from "react-hook-form";
+import React, { useRef, useState } from 'react';
+import styles from './customTextArea.module.css';
+import { useFormContext } from 'react-hook-form';
 
 function CustomTextArea(props) {
   const { width, name, obligatorio } = props;
   const { register } = useFormContext();
   const inputRef = useRef(null);
-  const [classDivContainer, setClassDivContainer] = useState("inputContainer");
+  const [classDivContainer, setClassDivContainer] = useState('inputContainer');
   return (
     <div
       // onClick={() => {
@@ -14,13 +14,13 @@ function CustomTextArea(props) {
       //   setClassDivContainer("inputContainerActive");
       // }}
       onBlur={() => {
-        setClassDivContainer("inputContainer");
+        setClassDivContainer('inputContainer');
       }}
       className={`${styles[classDivContainer]} ${styles[width]}`}
     >
       <textarea
         onFocus={() => {
-          setClassDivContainer("inputContainerActive");
+          setClassDivContainer('inputContainerActive');
         }}
         // ref={inputRef}
         {...register(name, { required: obligatorio })}

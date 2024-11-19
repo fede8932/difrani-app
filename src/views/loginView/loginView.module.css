@@ -1,8 +1,8 @@
-.loginViewContainer{
-    width: 100vw;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color:#F4F3F7;
+.loginViewContainer {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f4f3f7;
 }

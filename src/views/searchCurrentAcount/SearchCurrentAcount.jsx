@@ -1,6 +1,6 @@
-import React from "react";
-import styles from "./searchCurrentAcount.module.css";
-import SearchCurrentAcountContainer from "../../containers/SearchCurrentAcountContainer";
+import React from 'react';
+import styles from './searchCurrentAcount.module.css';
+import SearchCurrentAcountContainer from '../../containers/SearchCurrentAcountContainer';
 // import { useLocation } from "react-router";
 
 function SearchCurrentAcount() {

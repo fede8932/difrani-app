@@ -1,11 +1,11 @@
-import React, { useEffect } from "react";
-import AddBrandComponent from "../components/addBrand/AddBrandComponent";
-import { useForm } from "react-hook-form";
-import { useDispatch, useSelector } from "react-redux";
-import { getSupplierRequest } from "../redux/supplier";
-import { brandCreateRequest } from "../redux/brand";
-import Swal from "sweetalert2";
-import LoadingSpinner from "../commonds/loading/LoadingSpinner";
+import React, { useEffect } from 'react';
+import AddBrandComponent from '../components/addBrand/AddBrandComponent';
+import { useForm } from 'react-hook-form';
+import { useDispatch, useSelector } from 'react-redux';
+import { getSupplierRequest } from '../redux/supplier';
+import { brandCreateRequest } from '../redux/brand';
+import Swal from 'sweetalert2';
+import LoadingSpinner from '../commonds/loading/LoadingSpinner';
 
 function AddBrandContainer(props) {
   const suppliers = useSelector((state) => state.supplier);
@@ -17,16 +17,16 @@ function AddBrandContainer(props) {
       .then((res) => {
         if (res.error) {
           Swal.fire({
-            title: "Error!",
-            text: "No se pudo guardar tu registro",
-            icon: "error",
-            confirmButtonText: "Cerrar",
+            title: 'Error!',
+            text: 'No se pudo guardar tu registro',
+            icon: 'error',
+            confirmButtonText: 'Cerrar',
           });
           return;
         }
         Swal.fire({
-          icon: "success",
-          title: "Registrado con éxito",
+          icon: 'success',
+          title: 'Registrado con éxito',
           showConfirmButton: false,
           timer: 1500,
         });
@@ -35,10 +35,10 @@ function AddBrandContainer(props) {
       .catch((err) => {
         console.log(err);
         Swal.fire({
-          title: "Error!",
-          text: "No se pudo registrar",
-          icon: "error",
-          confirmButtonText: "Cerrar",
+          title: 'Error!',
+          text: 'No se pudo registrar',
+          icon: 'error',
+          confirmButtonText: 'Cerrar',
         });
       });
   };

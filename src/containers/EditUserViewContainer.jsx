@@ -1,9 +1,9 @@
-import React, { useEffect } from "react";
-import EditUserViewComponent from "../components/editUserView/EditUserViewComponent";
-import { useForm } from "react-hook-form";
-import { UpdateSellersRequest } from "../redux/searchSeller";
-import { useDispatch, useSelector } from "react-redux";
-import { getSellerIdRequest, resetSellerStatus } from "../redux/seller";
+import React, { useEffect } from 'react';
+import EditUserViewComponent from '../components/editUserView/EditUserViewComponent';
+import { useForm } from 'react-hook-form';
+import { UpdateSellersRequest } from '../redux/searchSeller';
+import { useDispatch, useSelector } from 'react-redux';
+import { getSellerIdRequest, resetSellerStatus } from '../redux/seller';
 
 function EditUserViewContainer(props) {
   const { seller, close, sellerId } = props;

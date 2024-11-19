@@ -1,16 +1,16 @@
-import React, { useEffect, useState } from "react";
-import AddProductFormComponent from "../components/addProductForm/AddProductFormComponent";
-import { useForm } from "react-hook-form";
-import { useDispatch, useSelector } from "react-redux";
-import { getSupplierRequest } from "../redux/supplier";
-import { getBrandByRSRequest } from "../redux/brand";
+import React, { useEffect, useState } from 'react';
+import AddProductFormComponent from '../components/addProductForm/AddProductFormComponent';
+import { useForm } from 'react-hook-form';
+import { useDispatch, useSelector } from 'react-redux';
+import { getSupplierRequest } from '../redux/supplier';
+import { getBrandByRSRequest } from '../redux/brand';
 import {
   productCreateRequest,
   productsFileCreateRequest,
-} from "../redux/product";
-import Swal from "sweetalert2";
-import LoadingSpinner from "../commonds/loading/LoadingSpinner";
-import AddProductsFormComponent from "../components/addProductsForm/AddProductsFormComponent";
+} from '../redux/product';
+import Swal from 'sweetalert2';
+import LoadingSpinner from '../commonds/loading/LoadingSpinner';
+import AddProductsFormComponent from '../components/addProductsForm/AddProductsFormComponent';
 
 function AddProductFormContainer(props) {
   const { view } = props;
@@ -29,7 +29,7 @@ function AddProductFormContainer(props) {
   const brands = useSelector((state) => state.brand);
   const productStatus = useSelector((state) => state.product.loading);
   const addProduct = (data) => {
-    if (data.cantidad === "") {
+    if (data.cantidad === '') {
       data.cantidad = 0;
     }
     if (selectedFiles.length > 0) {
@@ -39,16 +39,16 @@ function AddProductFormContainer(props) {
       .then((res) => {
         if (res.error) {
           Swal.fire({
-            title: "Error!",
-            text: "No se pudo guardar tu registro",
-            icon: "error",
-            confirmButtonText: "Cerrar",
+            title: 'Error!',
+            text: 'No se pudo guardar tu registro',
+            icon: 'error',
+            confirmButtonText: 'Cerrar',
           });
           return;
         }
         Swal.fire({
-          icon: "success",
-          title: "Registrado con éxito",
+          icon: 'success',
+          title: 'Registrado con éxito',
           showConfirmButton: false,
           timer: 1500,
         });
@@ -58,10 +58,10 @@ function AddProductFormContainer(props) {
       .catch((err) => {
         console.log(err);
         Swal.fire({
-          title: "Error!",
-          text: "No se pudo registrar",
-          icon: "error",
-          confirmButtonText: "Cerrar",
+          title: 'Error!',
+          text: 'No se pudo registrar',
+          icon: 'error',
+          confirmButtonText: 'Cerrar',
         });
       });
   };
@@ -71,26 +71,26 @@ function AddProductFormContainer(props) {
     dispatch(productsFileCreateRequest({ file: selectedExcel, check: checks }))
       .then((res) => {
         // console.log(res);
-        const brands = res.payload.blackList.join(" ");
+        const brands = res.payload.blackList.join(' ');
         if (res.error) {
           Swal.fire({
-            title: "Error!",
-            text: "No se pudo guardar tu registro",
-            icon: "error",
-            confirmButtonText: "Cerrar",
+            title: 'Error!',
+            text: 'No se pudo guardar tu registro',
+            icon: 'error',
+            confirmButtonText: 'Cerrar',
           });
           return;
         }
         Swal.fire({
-          icon: res.payload.blackList.length > 0 ? "warning" : "success",
+          icon: res.payload.blackList.length > 0 ? 'warning' : 'success',
           title:
             res.payload.blackList.length > 0
               ? `Hay marcas no registradas:`
-              : "Registrado con éxito",
+              : 'Registrado con éxito',
           text: `${
             res.payload.blackList.length > 0
               ? `No registrado: ${brands} - `
-              : ""
+              : ''
           } Actualizados: ${res.payload.update} - Agregados: ${
             res.payload.add
           }`,
@@ -102,10 +102,10 @@ function AddProductFormContainer(props) {
       .catch((err) => {
         console.log(err);
         Swal.fire({
-          title: "Error!",
-          text: "No se pudo registrar",
-          icon: "error",
-          confirmButtonText: "Cerrar",
+          title: 'Error!',
+          text: 'No se pudo registrar',
+          icon: 'error',
+          confirmButtonText: 'Cerrar',
         });
       });
   };
@@ -123,7 +123,7 @@ function AddProductFormContainer(props) {
         <LoadingSpinner loading={suppliers.loading} />
       ) : (
         <>
-          {view !== "group" ? (
+          {view !== 'group' ? (
             <AddProductFormComponent
               {...props}
               files={{

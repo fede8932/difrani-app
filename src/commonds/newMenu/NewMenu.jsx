@@ -1,11 +1,11 @@
-import React from "react";
+import React from 'react';
 import {
   DropdownMenu,
   DropdownItem,
   DropdownDivider,
   Dropdown,
-} from "semantic-ui-react";
-import CustomMenu from "../menu/CustomMenu";
+} from 'semantic-ui-react';
+import CustomMenu from '../menu/CustomMenu';
 
 function NewMenu(props) {
   const { logOutFn, perfilFn, ...rest } = props;

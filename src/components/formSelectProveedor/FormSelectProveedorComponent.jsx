@@ -1,11 +1,11 @@
-import React from "react";
-import styles from "./formSelectProveedor.module.css";
-import { useNavigate } from "react-router";
-import CustomSelect from "../../commonds/select/CustomSelect";
-import Button from "react-bootstrap/Button";
-import { FormProvider } from "react-hook-form";
-import Spinner from "react-bootstrap/Spinner";
-import Description from "../../commonds/description/Description";
+import React from 'react';
+import styles from './formSelectProveedor.module.css';
+import { useNavigate } from 'react-router';
+import CustomSelect from '../../commonds/select/CustomSelect';
+import Button from 'react-bootstrap/Button';
+import { FormProvider } from 'react-hook-form';
+import Spinner from 'react-bootstrap/Spinner';
+import Description from '../../commonds/description/Description';
 
 function FormSelectProveedorComponent(props) {
   const {
@@ -29,9 +29,9 @@ function FormSelectProveedorComponent(props) {
               <span className={styles.subTitle}>Datos de proveedor</span>
               <div
                 style={{
-                  display: "flex",
-                  width: "100%",
-                  justifyContent: "space-between",
+                  display: 'flex',
+                  width: '100%',
+                  justifyContent: 'space-between',
                 }}
               >
                 {proveedores && (
@@ -63,7 +63,7 @@ function FormSelectProveedorComponent(props) {
               className={`${styles.buttonStyle} ${styles.buttonStyleBack}`}
               variant="danger"
               onClick={() => {
-                navigate("/");
+                navigate('/');
               }}
             >
               Cancelar
@@ -73,7 +73,7 @@ function FormSelectProveedorComponent(props) {
               onClick={methods.handleSubmit(onSubmit)}
             >
               {!orderState.loading ? (
-                "Siguiente"
+                'Siguiente'
               ) : (
                 <Spinner animation="border" variant="light" size="sm" />
               )}

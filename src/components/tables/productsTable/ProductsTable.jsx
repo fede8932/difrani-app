@@ -1,25 +1,27 @@
-import { AgGridReact } from "ag-grid-react";
-import "ag-grid-community/styles/ag-grid.css";
-import "ag-grid-community/styles/ag-theme-quartz.css";
-import React, { useEffect, useMemo, useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { AgGridReact } from 'ag-grid-react';
+import 'ag-grid-community/styles/ag-grid.css';
+import 'ag-grid-community/styles/ag-theme-quartz.css';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   resetProductSearch,
   searchProductsExtraRequest,
-} from "../../../redux/product";
-import { redondearADosDecimales } from "../../../utils";
-import { Pagination, Select } from "semantic-ui-react";
-import styles from "./productsTables.module.css";
-import ActionModalContainer from "../../../containers/ActionModalContainer";
-import ProtectedComponent from "../../../protected/protectedComponent/ProtectedComponent";
-import CustomModal from "../../../commonds/customModal/CustomModal";
-import EditProductContainer from "../../../containers/EditProductContainer";
-import IconButonUsersTable from "../../../commonds/iconButtonUsersTable/IconButonUsersTable";
-import { useNavigate } from "react-router";
+} from '../../../redux/product';
+import { numberToString, redondearADosDecimales } from '../../../utils';
+import { Pagination, Select } from 'semantic-ui-react';
+import styles from './productsTables.module.css';
+import ActionModalContainer from '../../../containers/ActionModalContainer';
+import ProtectedComponent from '../../../protected/protectedComponent/ProtectedComponent';
+import CustomModal from '../../../commonds/customModal/CustomModal';
+import EditProductContainer from '../../../containers/EditProductContainer';
+import IconButonUsersTable from '../../../commonds/iconButtonUsersTable/IconButonUsersTable';
+import { useNavigate } from 'react-router';
 import {
+  resetEquivFilter,
   resetFilterProduct,
+  setEquivFilter,
   setFilterProduct,
-} from "../../../redux/filtersProducts";
+} from '../../../redux/filtersProducts';
 
 const CustomComp = ({ data, props }) => {
   const { deleteProduct } = props;
@@ -47,23 +49,50 @@ const CustomComp = ({ data, props }) => {
           )}
         />
       </ProtectedComponent>
-
-      <ProtectedComponent listAccesss={[1, 2, 5, 6]}>
-        <IconButonUsersTable
-          popupText="Equivalencias"
-          fn={() => {
-            navigate(`/equivalences/${data.id}`);
-          }}
-          icon="fa-solid fa-scale-balanced"
-          iconInitialStyle="iconStyleTeal"
-        />
-      </ProtectedComponent>
       <ProtectedComponent listAccesss={[1, 2]}>
         <IconButonUsersTable
           popupText="Eliminar"
           fn={() => deleteProduct(data.id)}
           icon="fa-regular fa-trash-can"
           iconInitialStyle="iconStyleRed"
+        />
+      </ProtectedComponent>
+    </div>
+  );
+};
+
+const Equivalences = ({ data, props }) => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { equivalenceId } = useSelector((state) => state.filterProduct);
+  // console.log(equivalenceId);
+  return (
+    <div className={styles.buttonContainer}>
+      <IconButonUsersTable
+        disabled={!data.equivalenceId}
+        popupText={equivalenceId ? 'Quitar filtro' : 'Ver equivalencias'}
+        fn={() => {
+          equivalenceId
+            ? dispatch(resetEquivFilter())
+            : dispatch(setEquivFilter(data.equivalenceId));
+        }}
+        icon={equivalenceId ? 'fa-regular fa-eye-slash' : 'fa-regular fa-eye'}
+        iconInitialStyle={
+          !data.equivalenceId
+            ? 'iconStyleGrey'
+            : equivalenceId
+              ? 'iconStyleRed'
+              : 'iconStyleBlue'
+        }
+      />
+      <ProtectedComponent listAccesss={[1, 2, 5, 6]}>
+        <IconButonUsersTable
+          popupText="Editar equivalencia"
+          fn={() => {
+            navigate(`/equivalences/${data.id}`);
+          }}
+          icon="fa-solid fa-scale-balanced"
+          iconInitialStyle="iconStyleTeal"
         />
       </ProtectedComponent>
     </div>
@@ -92,9 +121,9 @@ const HeaderInput = (props) => {
     }
 
     debounceTimeoutRef.current = setTimeout(() => {
-      dispatch(setFilterProduct({ name: "page", value: 1 }));
+      dispatch(setFilterProduct({ name: 'page', value: 1 }));
       dispatch(setFilterProduct({ name, value }));
-      if (value === "") {
+      if (value === '') {
         setInp(false);
       }
     }, 500); // El valor 500 representa el tiempo de espera en milisegundos
@@ -114,10 +143,10 @@ const HeaderInput = (props) => {
 
   useEffect(() => {
     if (inp) {
-      document.addEventListener("mousedown", handleClickOutside);
+      document.addEventListener('mousedown', handleClickOutside);
     }
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [filterProducts, inp]);
 
@@ -143,99 +172,116 @@ function ProductsTable(props) {
 
   const [columnDefs, setColumnDefs] = useState([
     {
-      headerName: "Artículo",
-      field: "article",
-      headerComponent: () => <HeaderInput title="Artículo" name={"article"} />,
+      headerName: 'Artículo',
+      field: 'article',
+      headerComponent: () => <HeaderInput title="Artículo" name={'article'} />,
       width: 150,
       filterParams: {
-        filterOptions: ["contains"], // Solo opción 'contains'
+        filterOptions: ['contains'], // Solo opción 'contains'
         suppressFilterButton: true, // Ocultar el botón del menú del filtro
       },
     },
     {
-      headerName: "Descripción",
-      field: "description",
+      headerName: 'Descripción',
+      field: 'description',
       headerComponent: () => (
-        <HeaderInput title="Descripción" name={"description"} />
+        <HeaderInput title="Descripción" name={'description'} />
       ),
       width: 650,
       filterParams: {
-        filterOptions: ["contains"], // Solo opción 'contains'
+        filterOptions: ['contains'], // Solo opción 'contains'
         suppressFilterButton: true, // Ocultar el botón del menú del filtro
       },
     },
     {
-      headerName: "Marca",
-      field: "brand",
-      headerComponent: () => <HeaderInput title="Marca" name={"brand"} />,
+      headerName: 'Marca',
+      field: 'brand',
+      headerComponent: () => <HeaderInput title="Marca" name={'brand'} />,
       valueGetter: (params) =>
-        params.data.brand ? params.data.brand.name : "",
+        params.data.brand ? params.data.brand.name : '',
       filterParams: {
-        filterOptions: ["contains"], // Solo opción 'contains'
+        filterOptions: ['contains'], // Solo opción 'contains'
         suppressFilterButton: true, // Ocultar el botón del menú del filtro
       },
     },
     {
-      headerName: "Costo",
-      field: "price",
-      valueGetter: (params) =>
-        params.data.price ? `$ ${params.data.price.price}` : "",
+      headerName: 'Equivalencias',
+      cellRenderer: (params) => <Equivalences data={params.data} />,
+      field: 'id',
+      sortable: false,
+      filter: false,
+      width: 125,
+    },
+    {
+      headerName: 'Costo',
+      field: 'price',
+      cellRenderer: (params) => (
+        <ProtectedComponent listAccesss={[1, 2]}>
+          <span>{params.data.price ? `$ ${numberToString(params.data.price.price)}` : ''}</span>
+        </ProtectedComponent>
+      ),
       filter: false,
       width: 120,
       sortable: false,
     },
     {
-      headerName: "Stock",
-      field: "stock",
+      headerName: 'Stock',
+      field: 'stock',
       valueGetter: (params) =>
-        params.data.stock ? params.data.stock.stock : "",
+        params.data.stock ? params.data.stock.stock : '',
       filter: false,
       width: 90,
     },
     {
-      headerName: "Acciones",
+      headerName: 'Acciones',
       cellRenderer: (params) => (
         <CustomComp
           data={params.data}
           props={{ deleteProduct: deleteProduct }}
         />
       ),
-      field: "id",
+      field: 'id',
       sortable: false,
       filter: false,
       width: 125,
     },
     {
-      headerName: "Precio",
-      field: "sellPrice",
+      headerName: 'Precio',
+      field: 'sellPrice',
       sortable: false,
-      valueGetter: (params) =>
-        params.data.price && params.data.brand
-          ? `$ ${redondearADosDecimales(
+      cellRenderer: (params) => (
+        <ProtectedComponent listAccesss={[1, 2, 5, 6]}>
+          <span>{params.data.price && params.data.brand
+          ? `$ ${numberToString(
               params.data.price.price * (1 + params.data.brand.rentabilidad)
             )}`
-          : "",
+          : ''}</span>
+        </ProtectedComponent>
+      ),
       filter: false,
       width: 125,
     },
     {
-      headerName: "Precio cIva",
-      field: "sellPriceIva",
+      headerName: 'Precio cIva',
+      field: 'sellPriceIva',
       sortable: false,
-      valueGetter: (params) =>
-        params.data.price && params.data.brand
-          ? `$ ${redondearADosDecimales(
+      cellRenderer: (params) => (
+        <ProtectedComponent listAccesss={[1, 2, 3, 5, 6]}>
+          <span>{params.data.price && params.data.brand
+          ? `$ ${numberToString(
               params.data.price.price *
                 (1 + params.data.brand.rentabilidad) *
                 1.21
             )}`
-          : "",
+          : ''}</span>
+        </ProtectedComponent>
+      ),
       filter: false,
       width: 155,
     },
     {
-      headerName: "Ubicación",
-      field: "location",
+      headerName: 'Ubicación',
+      field: 'location',
       sortable: false,
       filter: false,
     },
@@ -257,14 +303,14 @@ function ProductsTable(props) {
   }, [filterProducts]);
 
   const selectChange = (e, d) => {
-    dispatch(setFilterProduct({ name: "pageSize", value: d.value }));
+    dispatch(setFilterProduct({ name: 'pageSize', value: d.value }));
   };
   const changePage = (e, d) => {
-    dispatch(setFilterProduct({ name: "page", value: d.activePage }));
+    dispatch(setFilterProduct({ name: 'page', value: d.activePage }));
   };
 
   return (
-    <div className={"ag-theme-quartz"} style={{ height: 665 }}>
+    <div className={'ag-theme-quartz'} style={{ height: 665 }}>
       <AgGridReact
         rowData={products.data.list}
         columnDefs={columnDefs}
@@ -273,7 +319,7 @@ function ProductsTable(props) {
       <div className={styles.paginationContainer}>
         <span>{`Se encontraron ${products.data.totalPages} páginas con ${products.data.totalRows} resultados.`}</span>
         <div className={styles.pagination}>
-          <div style={{ marginRight: "10px" }}>
+          <div style={{ marginRight: '10px' }}>
             <Select
               width="10px"
               defaultValue={filterProducts.pageSize}

@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios';
 const apiUrl = import.meta.env.VITE_API_URL;
 
 export const createUser = async (objData) => {
@@ -19,10 +19,10 @@ export const createUser = async (objData) => {
     dataOther.codigoPostal = Number(dataOther.codigoPostal);
 
     await axios.post(`${apiUrl}/api/seller`, dataOther);
-    return "Registrado";
+    return 'Registrado';
   } catch (error) {
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     throw error;
   }

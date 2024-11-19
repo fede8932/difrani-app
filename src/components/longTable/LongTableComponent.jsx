@@ -1,18 +1,18 @@
-import React from "react";
-import styles from "./longTable.module.css";
-import ActionModalContainer from "../../containers/ActionModalContainer";
-import CustomPopup from "../../commonds/popup/CustomPopup";
-import { Label, Popup } from "semantic-ui-react";
+import React from 'react';
+import styles from './longTable.module.css';
+import ActionModalContainer from '../../containers/ActionModalContainer';
+import CustomPopup from '../../commonds/popup/CustomPopup';
+import { Label, Popup } from 'semantic-ui-react';
 import {
   dateConverter,
   formatNumberWithLeadingZeros,
   redondearADosDecimales,
-} from "../../utils";
-import CustomModal from "../../commonds/customModal/CustomModal";
-import ConfirmSellOrderContainer from "../../containers/ConfirmSellOrderContainer";
-import EditBrandContainer from "../../containers/EditBrandContainer";
-import AddSupplierToBrandContainer from "../../containers/AddSupplierToBrandContainer";
-import ProtectedComponent from "../../protected/protectedComponent/ProtectedComponent";
+} from '../../utils';
+import CustomModal from '../../commonds/customModal/CustomModal';
+import ConfirmSellOrderContainer from '../../containers/ConfirmSellOrderContainer';
+import EditBrandContainer from '../../containers/EditBrandContainer';
+import AddSupplierToBrandContainer from '../../containers/AddSupplierToBrandContainer';
+import ProtectedComponent from '../../protected/protectedComponent/ProtectedComponent';
 
 function LongTableComponent(props) {
   const {
@@ -44,7 +44,7 @@ function LongTableComponent(props) {
           </tr>
         </thead>
         <tbody>
-          {type == "product"
+          {type == 'product'
             ? data.map((obj) =>
                 obj.brandProducts.map((brand, i) => {
                   return (
@@ -73,8 +73,8 @@ function LongTableComponent(props) {
                       <td>
                         <div
                           style={{
-                            display: "flex",
-                            width: "130px",
+                            display: 'flex',
+                            width: '130px',
                           }}
                         >
                           <ActionModalContainer
@@ -85,9 +85,9 @@ function LongTableComponent(props) {
                           />
                           <div
                             style={{
-                              margin: "0px 0px 0px 8px",
-                              display: "flex",
-                              alignItems: "center",
+                              margin: '0px 0px 0px 8px',
+                              display: 'flex',
+                              alignItems: 'center',
                             }}
                           >
                             {/* <ActionModalContainer
@@ -105,7 +105,7 @@ function LongTableComponent(props) {
                 })
               )
             : null}
-          {type == "brand"
+          {type == 'brand'
             ? data.map((obj) =>
                 obj.brandSuppliers.map((bs, i) => (
                   <tr key={i}>
@@ -115,7 +115,7 @@ function LongTableComponent(props) {
                     <td>
                       <div
                         style={{
-                          display: "flex",
+                          display: 'flex',
                         }}
                       >
                         <CustomModal
@@ -123,7 +123,7 @@ function LongTableComponent(props) {
                           size="sm"
                           actionButton={
                             <button
-                              style={{ margin: "1px 0px 0px 7px" }}
+                              style={{ margin: '1px 0px 0px 7px' }}
                               className={styles.iconButton}
                               type="button"
                             >
@@ -142,7 +142,7 @@ function LongTableComponent(props) {
                           size="lg"
                           actionButton={
                             <button
-                              style={{ margin: "1px 0px 0px 7px" }}
+                              style={{ margin: '1px 0px 0px 7px' }}
                               className={styles.iconButton}
                               type="button"
                             >
@@ -170,7 +170,7 @@ function LongTableComponent(props) {
                 ))
               )
             : null}
-          {type == "Buy"
+          {type == 'Buy'
             ? data.map((obj, i) => (
                 <tr key={i}>
                   <td>{dateConverter(obj.date)}</td>
@@ -180,79 +180,79 @@ function LongTableComponent(props) {
                   </td>
                   <td>
                     <ProtectedComponent listAccesss={[1, 2, 5]}>{`$ ${
-                      obj.status === "Ajusted"
+                      obj.status === 'Ajusted'
                         ? redondearADosDecimales(obj.orderAjust.subTotal)
                         : redondearADosDecimales(obj.subTotal)
                     }`}</ProtectedComponent>
                   </td>
                   <td>
                     <ProtectedComponent listAccesss={[1, 2, 5]}>{`$ ${
-                      obj.status === "Ajusted"
+                      obj.status === 'Ajusted'
                         ? redondearADosDecimales(obj.orderAjust.subTotal * 1.21)
                         : redondearADosDecimales(obj.subTotal * 1.21)
                     }`}</ProtectedComponent>
                   </td>
-                  <td style={{ padding: "2px" }}>
-                    {obj.status == "Open" ? (
+                  <td style={{ padding: '2px' }}>
+                    {obj.status == 'Open' ? (
                       <Label
                         color="yellow"
                         style={{
-                          width: "75px",
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
+                          width: '75px',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
                         }}
                       >
                         Abierta
                       </Label>
                     ) : null}
-                    {obj.status == "Confirm" ? (
+                    {obj.status == 'Confirm' ? (
                       <Label
                         color="green"
                         style={{
-                          width: "75px",
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
+                          width: '75px',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
                         }}
                       >
                         Confirmada
                       </Label>
                     ) : null}
-                    {obj.status == "Ajusted" ? (
+                    {obj.status == 'Ajusted' ? (
                       <Label
                         color="teal"
                         style={{
-                          width: "75px",
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
+                          width: '75px',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
                         }}
                       >
                         Ajustada
                       </Label>
                     ) : null}
-                    {obj.status == "Cancel" ? (
+                    {obj.status == 'Cancel' ? (
                       <Label
                         color="red"
                         style={{
-                          width: "75px",
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
+                          width: '75px',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
                         }}
                       >
                         Cancelada
                       </Label>
                     ) : null}
-                    {obj.status == "Recived" ? (
+                    {obj.status == 'Recived' ? (
                       <Label
                         color="blue"
                         style={{
-                          width: "75px",
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
+                          width: '75px',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
                         }}
                       >
                         Recibido
@@ -272,10 +272,10 @@ function LongTableComponent(props) {
                   <td>
                     <div
                       style={{
-                        display: "flex",
+                        display: 'flex',
                       }}
                     >
-                      <div style={{ marginTop: "2px" }}>
+                      <div style={{ marginTop: '2px' }}>
                         <ActionModalContainer
                           size="xl"
                           selectedId={obj.id}
@@ -290,9 +290,9 @@ function LongTableComponent(props) {
                       <Popup
                         trigger={
                           <button
-                            style={{ margin: "1px 0px 0px 7px" }}
+                            style={{ margin: '1px 0px 0px 7px' }}
                             className={styles.iconButton}
-                            disabled={obj.status == "Open" ? false : true}
+                            disabled={obj.status == 'Open' ? false : true}
                             onClick={() => {
                               setBuyOrder(obj.id);
                             }}
@@ -300,7 +300,7 @@ function LongTableComponent(props) {
                           >
                             <i
                               className={`fa-regular fa-pen-to-square fa-lg ${
-                                obj.status == "Open"
+                                obj.status == 'Open'
                                   ? styles.blueIcon
                                   : styles.greyIcon
                               }`}
@@ -312,17 +312,17 @@ function LongTableComponent(props) {
                       <Popup
                         trigger={
                           <button
-                            style={{ margin: "1px 0px 0px 7px" }}
+                            style={{ margin: '1px 0px 0px 7px' }}
                             className={styles.iconButton}
                             disabled={
-                              obj.status == "Open" ||
-                              obj.status == "Confirm" ||
-                              obj.status == "Ajusted"
+                              obj.status == 'Open' ||
+                              obj.status == 'Confirm' ||
+                              obj.status == 'Ajusted'
                                 ? false
                                 : true
                             }
                             onClick={() => {
-                              if (obj.status == "Open") {
+                              if (obj.status == 'Open') {
                                 deleteOrder(obj.id);
                               } else {
                                 cancelOrder(obj.id);
@@ -332,9 +332,9 @@ function LongTableComponent(props) {
                           >
                             <i
                               className={`fa-solid fa-xmark fa-xl ${
-                                obj.status == "Open" ||
-                                obj.status == "Confirm" ||
-                                obj.status == "Ajusted"
+                                obj.status == 'Open' ||
+                                obj.status == 'Confirm' ||
+                                obj.status == 'Ajusted'
                                   ? styles.redIcon
                                   : styles.greyIcon
                               }`}
@@ -346,10 +346,10 @@ function LongTableComponent(props) {
                       <Popup
                         trigger={
                           <button
-                            style={{ margin: "1px 0px 0px 7px" }}
+                            style={{ margin: '1px 0px 0px 7px' }}
                             className={styles.iconButton}
                             disabled={
-                              obj.status == "Confirm" || obj.status == "Ajusted"
+                              obj.status == 'Confirm' || obj.status == 'Ajusted'
                                 ? false
                                 : true
                             }
@@ -360,8 +360,8 @@ function LongTableComponent(props) {
                           >
                             <i
                               className={`fa-regular fa-circle-check fa-lg ${
-                                obj.status == "Confirm" ||
-                                obj.status == "Ajusted"
+                                obj.status == 'Confirm' ||
+                                obj.status == 'Ajusted'
                                   ? styles.blueIcon
                                   : styles.greyIcon
                               }`}
@@ -376,7 +376,7 @@ function LongTableComponent(props) {
               ))
             : null}
 
-          {type == "Sell"
+          {type == 'Sell'
             ? data.map((obj, i) => (
                 <tr key={i}>
                   <td>{dateConverter(obj.date)}</td>
@@ -390,80 +390,80 @@ function LongTableComponent(props) {
                   </td>
                   <td>{`$ ${redondearADosDecimales(obj.subTotal)}`}</td>
                   <td>{`$ ${redondearADosDecimales(obj.subTotal * 1.21)}`}</td>
-                  <td style={{ padding: "2px" }}>
-                    {obj.status == "Open" ? (
+                  <td style={{ padding: '2px' }}>
+                    {obj.status == 'Open' ? (
                       <Label
                         color="yellow"
                         style={{
-                          width: "75px",
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
+                          width: '75px',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
                         }}
                       >
                         Abierta
                       </Label>
                     ) : null}
-                    {obj.status == "Confirm" ? (
+                    {obj.status == 'Confirm' ? (
                       <Label
                         color="green"
                         style={{
-                          width: "75px",
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
+                          width: '75px',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
                         }}
                       >
                         Confirmada
                       </Label>
                     ) : null}
-                    {obj.status == "Ajusted" ? (
+                    {obj.status == 'Ajusted' ? (
                       <Label
                         color="teal"
                         style={{
-                          width: "75px",
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
+                          width: '75px',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
                         }}
                       >
                         Ajustada
                       </Label>
                     ) : null}
-                    {obj.status == "Cancel" ? (
+                    {obj.status == 'Cancel' ? (
                       <Label
                         color="red"
                         style={{
-                          width: "75px",
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
+                          width: '75px',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
                         }}
                       >
                         Cancelada
                       </Label>
                     ) : null}
-                    {obj.status == "Recived" ? (
+                    {obj.status == 'Recived' ? (
                       <Label
                         color="blue"
                         style={{
-                          width: "75px",
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
+                          width: '75px',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
                         }}
                       >
                         Recibido
                       </Label>
                     ) : null}
-                    {obj.status == "Sent" ? (
+                    {obj.status == 'Sent' ? (
                       <Label
                         color="teal"
                         style={{
-                          width: "75px",
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
+                          width: '75px',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
                         }}
                       >
                         Facturado
@@ -474,10 +474,10 @@ function LongTableComponent(props) {
                   <td>
                     <div
                       style={{
-                        display: "flex",
+                        display: 'flex',
                       }}
                     >
-                      <div style={{ marginTop: "2px" }}>
+                      <div style={{ marginTop: '2px' }}>
                         <ActionModalContainer
                           size="xl"
                           selectedId={obj.id}
@@ -493,10 +493,10 @@ function LongTableComponent(props) {
                       <Popup
                         trigger={
                           <button
-                            style={{ margin: "1px 0px 0px 7px" }}
+                            style={{ margin: '1px 0px 0px 7px' }}
                             className={styles.iconButton}
                             disabled={
-                              obj.status == "Open" || obj.status == "Confirm"
+                              obj.status == 'Open' || obj.status == 'Confirm'
                                 ? false
                                 : true
                             }
@@ -507,7 +507,7 @@ function LongTableComponent(props) {
                           >
                             <i
                               className={`fa-regular fa-pen-to-square fa-lg ${
-                                obj.status == "Open" || obj.status == "Confirm"
+                                obj.status == 'Open' || obj.status == 'Confirm'
                                   ? styles.blueIcon
                                   : styles.greyIcon
                               }`}
@@ -520,11 +520,11 @@ function LongTableComponent(props) {
                         <Popup
                           trigger={
                             <button
-                              style={{ margin: "1px 0px 0px 7px" }}
+                              style={{ margin: '1px 0px 0px 7px' }}
                               className={styles.iconButton}
-                              disabled={obj.status == "Open" ? false : true}
+                              disabled={obj.status == 'Open' ? false : true}
                               onClick={() => {
-                                if (obj.status == "Open") {
+                                if (obj.status == 'Open') {
                                   deleteOrder(obj.id);
                                 } else {
                                   cancelOrder(obj.id);
@@ -534,7 +534,7 @@ function LongTableComponent(props) {
                             >
                               <i
                                 className={`fa-solid fa-xmark fa-xl ${
-                                  obj.status == "Open"
+                                  obj.status == 'Open'
                                     ? styles.redIcon
                                     : styles.greyIcon
                                 }`}
@@ -573,7 +573,7 @@ function LongTableComponent(props) {
                 </tr>
               ))
             : null}
-          {type == "orderItems" ? (
+          {type == 'orderItems' ? (
             list.map((obj, i) => (
               <tr key={i}>
                 <td>{obj.product.brand.name.toUpperCase()}</td>

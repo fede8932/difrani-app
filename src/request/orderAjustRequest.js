@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios';
 const apiUrl = import.meta.env.VITE_API_URL;
 
 export const addOrderAjust = async (orderId) => {
@@ -11,7 +11,7 @@ export const addOrderAjust = async (orderId) => {
     return data;
   } catch (error) {
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     throw error;
   }
@@ -24,7 +24,7 @@ export const getOrderAjust = async (orderId) => {
     return data;
   } catch (error) {
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     throw error;
   }
@@ -37,7 +37,7 @@ export const getAjustOrder = async (id) => {
     return data;
   } catch (error) {
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     throw error;
   }
@@ -48,7 +48,7 @@ export const deleteOrderAjust = async (orderId) => {
     return data;
   } catch (error) {
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     throw error;
   }
@@ -68,7 +68,7 @@ export const addOrderAjustItem = async (obj) => {
       }
     });
     if (rep.includes(true)) {
-      throw new Error("El producto ya esta en el listado");
+      throw new Error('El producto ya esta en el listado');
     } else {
       const { data } = await axios.post(
         `${apiUrl}/api/order/ajust/items/${orderId}?productId=${productId}&brandId=${brandId}&cantidad=${cantidad}`,
@@ -79,7 +79,7 @@ export const addOrderAjustItem = async (obj) => {
     }
   } catch (error) {
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     throw error;
   }
@@ -94,7 +94,7 @@ export const deleteAjustItem = async (item) => {
     return data;
   } catch (error) {
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     throw error;
   }
@@ -110,7 +110,7 @@ export const updateCantAjustItem = async (dataItem) => {
     return data;
   } catch (error) {
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     throw error;
   }
@@ -126,7 +126,7 @@ export const updatePriceAjustItem = async (dataItem) => {
     return data;
   } catch (error) {
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     throw error;
   }
@@ -142,7 +142,7 @@ export const updateStatusAjust = async (ajust) => {
     return data;
   } catch (error) {
     if (error.response?.status == 401) {
-      window.location.href = "/";
+      window.location.href = '/';
     }
     throw error;
   }

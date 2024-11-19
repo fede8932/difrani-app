@@ -1,33 +1,33 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import * as orderRequest from "../request/orderRequest";
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import * as orderRequest from '../request/orderRequest';
 const userState = {
   loading: false,
   data: {},
-  error: "",
+  error: '',
 };
 export const newBuyOrderRequest = createAsyncThunk(
-  "ORDER_CREATE",
+  'ORDER_CREATE',
   orderRequest.createBuyOrder
 );
 export const getBuyOrderRequest = createAsyncThunk(
-  "ORDER_GET",
+  'ORDER_GET',
   orderRequest.getBuyOrder
 );
 export const getSellOrderLocalRequest = createAsyncThunk(
-  "ORDER_GET_LOCAL",
+  'ORDER_GET_LOCAL',
   orderRequest.getSellOrderLocal
 );
 export const deleteSellOrder = createAsyncThunk(
-  "DELETE_ORDER",
+  'DELETE_ORDER',
   orderRequest.deleteSellOrder
 );
 export const newSellOrderRequest = createAsyncThunk(
-  "SELL_ORDER_CREATE",
+  'SELL_ORDER_CREATE',
   orderRequest.createSellOrderRequest
 );
 
 const newBuyOrderSlice = createSlice({
-  name: "newOrder",
+  name: 'newOrder',
   initialState: userState,
   extraReducers: {
     [newBuyOrderRequest.pending]: (state, action) => {

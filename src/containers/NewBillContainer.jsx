@@ -1,26 +1,26 @@
-import React from "react";
-import NewBill from "../components/newBill/NewBill";
-import { useDispatch, useSelector } from "react-redux";
+import React from 'react';
+import NewBill from '../components/newBill/NewBill';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   convertImageToBase64,
   cuitTransformToNumber,
   redondearADosDecimales,
   waitForImagesToLoad,
-} from "../utils";
+} from '../utils';
 import {
   confirmSellOrderRequest,
   searchSellOrderRequest,
-} from "../redux/searchOrders";
-import { useNavigate } from "react-router";
-import { factItemToggleRequest } from "../redux/addOrderItems";
-import Swal from "sweetalert2";
-import { printBillRequest, printPresRequest } from "../request/orderRequest";
-import { billHtml } from "../templates/bill.js";
-import QRCode from "qrcode";
-import { presupHtml } from "../templates/presupBlase.js";
-import { remitHtml } from "../templates/RemBlase.js";
-import logoAfip from "../assets/afip/logo-vector-afip.jpg";
-import logoBlase from "../assets/logo/logoBlase.png";
+} from '../redux/searchOrders';
+import { useNavigate } from 'react-router';
+import { factItemToggleRequest } from '../redux/addOrderItems';
+import Swal from 'sweetalert2';
+import { printBillRequest, printPresRequest } from '../request/orderRequest';
+import { billHtml } from '../templates/bill.js';
+import QRCode from 'qrcode';
+import { presupHtml } from '../templates/presupBlase.js';
+import { remitHtml } from '../templates/RemBlase.js';
+import logoAfip from '../assets/afip/logo-vector-afip.jpg';
+import logoBlase from '../assets/logo/logoBlase.png';
 
 function NewBillContainer(props) {
   const { closeModal, listOrder } = props;
@@ -58,7 +58,7 @@ function NewBillContainer(props) {
     const logoAfipBase64 = await convertImageToBase64(logoAfip);
     const logoBlaseBase64 = await convertImageToBase64(logoBlase);
     // console.log(logoBlaseBase64);
-    const nuevaVentana = window.open("", "", "width=900,height=1250");
+    const nuevaVentana = window.open('', '', 'width=900,height=1250');
     // Obtener datos de la factura
     if (totalFacturado > 0) {
       const billData = await printBillRequest(order.id);
@@ -85,13 +85,13 @@ function NewBillContainer(props) {
           logoBlaseBase64
         );
 
-        const containerFact = nuevaVentana.document.createElement("div");
+        const containerFact = nuevaVentana.document.createElement('div');
         nuevaVentana.document.body.appendChild(containerFact);
 
         containerFact.innerHTML = render;
         nuevaVentana.document.body.appendChild(
-          nuevaVentana.document.createElement("div")
-        ).style.pageBreakBefore = "always";
+          nuevaVentana.document.createElement('div')
+        ).style.pageBreakBefore = 'always';
       }
     }
     if (totalNoFacturado > 0) {
@@ -117,18 +117,18 @@ function NewBillContainer(props) {
           totalPages
         );
 
-        const containerPres = nuevaVentana.document.createElement("div");
+        const containerPres = nuevaVentana.document.createElement('div');
         nuevaVentana.document.body.appendChild(containerPres);
 
         containerPres.innerHTML = render;
         nuevaVentana.document.body.appendChild(
-          nuevaVentana.document.createElement("div")
-        ).style.pageBreakBefore = "always";
+          nuevaVentana.document.createElement('div')
+        ).style.pageBreakBefore = 'always';
       }
       if (totalPages > 1) {
         nuevaVentana.document.body.appendChild(
-          nuevaVentana.document.createElement("div")
-        ).style.pageBreakBefore = "always";
+          nuevaVentana.document.createElement('div')
+        ).style.pageBreakBefore = 'always';
       }
     }
     const itemsPerPage = 14;
@@ -138,7 +138,7 @@ function NewBillContainer(props) {
     for (let i = 0; i < order.purchaseOrderItems.length; i += itemsPerPage) {
       const pageNumber = Math.floor(i / itemsPerPage) + 1;
       const pageItems = order.purchaseOrderItems.slice(i, i + itemsPerPage);
-      const containerRem = nuevaVentana.document.createElement("div");
+      const containerRem = nuevaVentana.document.createElement('div');
       nuevaVentana.document.body.appendChild(containerRem);
       containerRem.innerHTML = remitHtml(
         order,
@@ -148,26 +148,24 @@ function NewBillContainer(props) {
         totalPages,
         logoBlaseBase64
       );
-      if (i < totalPages && i > 0) {
-        nuevaVentana.document.body.appendChild(
-          nuevaVentana.document.createElement("div")
-        ).style.pageBreakBefore = "always";
-      }
+      nuevaVentana.document.body.appendChild(
+        nuevaVentana.document.createElement('div')
+      ).style.pageBreakBefore = 'always';
     }
     // Espera a que las imágenes se carguen antes de imprimir
     await waitForImagesToLoad(nuevaVentana);
-    nuevaVentana.addEventListener("afterprint", () => {
+    nuevaVentana.addEventListener('afterprint', () => {
       nuevaVentana.close();
     });
     nuevaVentana.print();
   };
   const newBill = () => {
-    const facturaType = client.iva == "Monotributista" ? "B" : "A";
+    const facturaType = client.iva == 'Monotributista' ? 'B' : 'A';
     let sendData = {
-      concepto: "Productos",
-      type: "Factura",
+      concepto: 'Productos',
+      type: 'Factura',
       tipo_de_factura: facturaType,
-      tipo_de_documento: "CUIT",
+      tipo_de_documento: 'CUIT',
       numero_de_documento: cuitTransformToNumber(client.cuit),
       importe_gravado: redondearADosDecimales(totalFacturado / 1.21),
       importe_excento: 0,
@@ -181,14 +179,14 @@ function NewBillContainer(props) {
       closeModal();
       if (res.error) {
         Swal.fire({
-          icon: "error",
-          title: "No facturado",
-          text: "Es posible alguno de los artículos no tenga stock",
+          icon: 'error',
+          title: 'No facturado',
+          text: 'Es posible alguno de los artículos no tenga stock',
         });
       } else {
         printBill(res.payload, totalFacturado, totalNoFacturado);
         dispatch(searchSellOrderRequest(filterSellOrder)).then((res) => {
-          navigate("/search/sell");
+          navigate('/search/sell');
         });
       }
     });

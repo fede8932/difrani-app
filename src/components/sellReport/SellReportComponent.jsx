@@ -1,181 +1,175 @@
-import React, { useState } from "react";
-import styles from "./sellReport.module.css";
-import Button from "react-bootstrap/Button";
-import Spinner from "react-bootstrap/esm/Spinner";
-import NativeTableContainer from "../../containers/NativeTableContainer";
-import { tabReport } from "../../utils";
-import { DatePicker } from "antd";
-import CustomSelect from "../../commonds/select/CustomSelect";
-import { FormProvider, useForm } from "react-hook-form";
+import React, { useState } from 'react';
+import styles from './sellReport.module.css';
+import Button from 'react-bootstrap/Button';
+import Spinner from 'react-bootstrap/esm/Spinner';
+import { DatePicker } from 'antd';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  resetFilterReport,
+  setFilterReport,
+} from '../../redux/filtersSellReports';
+import LibreSelect from '../../commonds/libreSelect/LibreSelect';
+import SellReportTable from '../tables/sellReportTable/SellReportTable';
+import SimpleInputFile from '../../commonds/simpleInputFile/SimpleInputFile';
 
 function SellReportComponent(props) {
+  const {
+    reportState,
+    genOrder,
+    brands,
+    clients,
+    exportar,
+    exportLoading,
+    importLoading,
+    setImportfile,
+  } = props;
+
+  const dispatch = useDispatch();
+  const filterReport = useSelector((state) => state.filterSellReport);
+
   const { RangePicker } = DatePicker;
-  const { filterFn, reportState, genOrder, brands, clients } = props;
-  const methods = useForm();
   const { data, loading } = reportState;
-  const [dateRange, setDateRange] = useState([]);
-  const [brand, setBrand] = useState(null);
-  const [client, setClient] = useState(null);
-  const [dateStringRange, setStringDateRange] = useState([]);
   const [isEmpty, setIsEmpty] = useState(false);
-  // console.log(loading);
-  // console.log("VER BRANDS ====>", brands);
 
   const handleDateRangeChange = (dates, dateStrings) => {
-    setDateRange(dates);
-    setStringDateRange(dateStrings);
-    if (dates == null) {
-      filterFn({
-        page: 1,
-      });
+    if (dates && dates.length === 2) {
+      // Convertir las fechas a objetos Date
+      const startDateUTC = new Date(dates[0].toISOString());
+      const endDateUTC = new Date(dates[1].toISOString());
+
+      // Establecer la hora de la fecha de inicio a 00:00:00 UTC
+      startDateUTC.setUTCHours(0, 0, 0, 0);
+
+      // Establecer la hora de la fecha final a 23:59:59.999 UTC
+      endDateUTC.setUTCHours(23, 59, 59, 999);
+
+      const filters = [
+        {
+          name: 'rangeDate',
+          value: [startDateUTC.toISOString(), endDateUTC.toISOString()],
+        },
+        { name: 'page', value: 1 },
+      ];
+
+      dispatch(setFilterReport(filters));
     }
   };
+
+  const handleSelectChange = (obj) => {
+    const filters = [obj, { name: 'page', value: 1 }];
+    dispatch(setFilterReport(filters));
+  };
+  // console.log(filterReport);
   const completeBrand = brands
-    ? [{ value: "", text: "Ninguno" }, ...brands]
+    ? [{ value: '', text: 'Ninguno' }, ...brands]
     : [];
   const completeClient = clients
-    ? [{ value: "", text: "Ninguno" }, ...clients]
+    ? [{ value: '', text: 'Ninguno' }, ...clients]
     : [];
 
-  const filter = (data) => {
-    if (dateRange == null || dateRange.length === 0) {
-      setIsEmpty(true);
-    } else {
-      setIsEmpty(false);
-      setBrand(data.brand);
-      setClient(data.client);
-      filterFn({
-        page: 1,
-        init: dateStringRange[0],
-        end: dateStringRange[1],
-        brandId: data.brand,
-        clientId: data.client,
-      });
-    }
-  };
-
-  const changePage = (page) => {
-    filterFn({
-      page: page,
-      init: dateStringRange[0],
-      end: dateStringRange[1],
-      brandId: brand,
-      clientId: client,
-    });
-  };
-  // console.log(data);
-  // console.log(dateStringRange, dateRange);
-  const tableColumns = [
-    { title: "Código", width: "15%", renderProp: "code" },
-    { title: "Descripción", width: "45%", renderProp: "description" },
-    { title: "Marca", width: "23%", renderProp: "brand" },
-    { title: "Cantidad", width: "17%", renderProp: "amount" },
-    // { title: "Acciones", width: "15%", renderProp: null },
-  ];
   return (
     <div className={styles.formContainer}>
       <div className={styles.subFormContainer}>
-        <div className={styles.inputContainer}>
-          <span className={styles.subTitle}>Campos de filtrado</span>
-          <FormProvider {...methods}>
-            <form className={styles.searchContainer}>
-              <div className={styles.filterContainer}>
-                <div className={styles.rangeContainer}>
-                  <RangePicker
-                    onChange={handleDateRangeChange}
-                    style={{ borderColor: isEmpty ? "red" : null }}
-                  />
-                </div>
-                <CustomSelect
-                  width="small"
-                  name="client"
-                  text="Sel. cliente"
-                  arrayOptions={completeClient}
-                  validate={{ required: false }}
-                />
-                <div style={{ marginLeft: "5px" }}></div>
-                <CustomSelect
-                  width="small"
-                  name="brand"
-                  text="Sel. marca"
-                  arrayOptions={completeBrand}
-                  validate={{ required: false }}
-                />
-                <div style={{ marginLeft: "5px" }}></div>
-                <Button
-                  onClick={methods.handleSubmit(filter)}
-                  type="button"
-                  style={{
-                    backgroundColor: "#673ab7",
-                    border: "1px solid #673ab7",
-                    height: "32px",
-                    width: "100px",
-                    marginLeft: "10px",
-                  }}
-                >
-                  {!loading ? (
-                    "Filtrar"
-                  ) : (
-                    <Spinner animation="border" variant="light" size="sm" />
-                  )}
-                </Button>
-                <Button
-                  onClick={methods.reset}
-                  type="reset"
-                  style={{
-                    backgroundColor: "grey",
-                    border: "1px solid grey",
-                    height: "32px",
-                    width: "100px",
-                    marginLeft: "10px",
-                  }}
-                >
-                  {!loading ? (
-                    "Limpiar"
-                  ) : (
-                    <Spinner animation="border" variant="light" size="sm" />
-                  )}
-                </Button>
-              </div>
-              <Button
-                type="button"
-                onClick={genOrder}
-                style={{
-                  backgroundColor: "grey",
-                  border: "1px solid grey",
-                  height: "32px",
-                  width: "150px",
-                  marginLeft: "10px",
-                }}
-              >
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "space-around",
-                    alignItems: "center",
-                  }}
-                >
-                  <i className="fa-solid fa-cart-arrow-down"></i>
-                  {!loading ? (
-                    "Nuevo pedido"
-                  ) : (
-                    <Spinner animation="border" variant="light" size="sm" />
-                  )}
-                </div>
-              </Button>
-            </form>
-          </FormProvider>
+        <div className={styles.searchContainer}>
+          <div className={styles.filterContainer}>
+            <div className={styles.rangeContainer}>
+              <RangePicker
+                onChange={handleDateRangeChange}
+                style={{ borderColor: isEmpty ? 'red' : null }}
+              />
+            </div>
+            <LibreSelect
+              value={filterReport.clientId}
+              width="small"
+              placeholder="Sel. cliente"
+              arrayOptions={completeClient}
+              onChange={(value) => {
+                handleSelectChange({
+                  name: 'clientId',
+                  value: Number(value),
+                });
+              }}
+            />
+            <div style={{ marginLeft: '5px' }}></div>
+            <LibreSelect
+              value={filterReport.brandId}
+              width="small"
+              placeholder="Sel. marca"
+              arrayOptions={completeBrand}
+              onChange={(value) => {
+                handleSelectChange({ name: 'brandId', value: Number(value) });
+              }}
+            />
+            <div style={{ marginLeft: '5px' }}></div>
+            <Button
+              onClick={() => {
+                dispatch(resetFilterReport(null));
+              }}
+              type="button"
+              style={{
+                backgroundColor: 'grey',
+                border: '1px solid grey',
+                height: '32px',
+                width: '100px',
+                marginLeft: '10px',
+              }}
+            >
+              {!loading ? (
+                'Limpiar'
+              ) : (
+                <Spinner animation="border" variant="light" size="sm" />
+              )}
+            </Button>
+            <Button
+              onClick={exportar}
+              type="button"
+              style={{
+                height: '32px',
+                width: '100px',
+                marginLeft: '10px',
+              }}
+            >
+              {!exportLoading ? (
+                'Exportar'
+              ) : (
+                <Spinner animation="border" variant="light" size="sm" />
+              )}
+            </Button>
+            <SimpleInputFile
+              importLoading={importLoading}
+              setFile={setImportfile}
+            />
+          </div>
+          <Button
+            type="button"
+            onClick={genOrder}
+            style={{
+              backgroundColor: 'grey',
+              border: '1px solid grey',
+              height: '32px',
+              width: '150px',
+              marginLeft: '10px',
+            }}
+          >
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'space-around',
+                alignItems: 'center',
+              }}
+            >
+              <i className="fa-solid fa-cart-arrow-down"></i>
+              {!loading ? (
+                'Nuevo pedido'
+              ) : (
+                <Spinner animation="border" variant="light" size="sm" />
+              )}
+            </div>
+          </Button>
         </div>
       </div>
-      <div className={styles.tableContainer}>
-        <span className={styles.subTitle}>Reporte de venta</span>
-        <NativeTableContainer
-          columns={tableColumns}
-          dataRender={tabReport(data)}
-          actions={[]}
-          pagination={true}
-          changePage={changePage}
-        />
+      <div style={{ height: '650px' }}>
+        <SellReportTable />
       </div>
     </div>
   );

@@ -1,6 +1,6 @@
-import React from "react";
-import styles from "./equivalences.module.css";
-import EquivalencesContainer from "../../containers/EquivalencesContainer";
+import React from 'react';
+import styles from './equivalences.module.css';
+import EquivalencesContainer from '../../containers/EquivalencesContainer';
 
 function Equivalences() {
   return (

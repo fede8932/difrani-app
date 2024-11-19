@@ -1,21 +1,21 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import * as supplierRequest from "../request/supplierRequest";
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import * as supplierRequest from '../request/supplierRequest';
 const userState = {
   loading: false,
   data: { controlOrders: [], totalRows: 0, totalPages: 0 },
-  error: "",
+  error: '',
 };
 export const getControlOrderRequest = createAsyncThunk(
-  "CONTROL_ORDER_LIST",
+  'CONTROL_ORDER_LIST',
   supplierRequest.getControlOrder
 );
 export const updateControlOrderRequest = createAsyncThunk(
-  "CONTROL_UPDATE",
+  'CONTROL_UPDATE',
   supplierRequest.updateControlOrderStatus
 );
 
 const supplierControlSlice = createSlice({
-  name: "supplier",
+  name: 'supplier',
   initialState: userState,
   extraReducers: {
     [getControlOrderRequest.pending]: (state, action) => {
@@ -39,7 +39,7 @@ const supplierControlSlice = createSlice({
     [updateControlOrderRequest.fulfilled]: (state, action) => {
       const newData = state.data.controlOrders.map((item) => {
         if (item.id == action.payload) {
-          item.status = "Aceptado";
+          item.status = 'Aceptado';
         }
         return item;
       });

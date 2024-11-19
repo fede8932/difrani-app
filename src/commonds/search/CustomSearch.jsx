@@ -1,21 +1,21 @@
-import React from "react";
-import styles from "./customSearch.module.css";
-import CustomButton from "../button/CustomButton";
-import { useRef } from "react";
-import { useState } from "react";
+import React from 'react';
+import styles from './customSearch.module.css';
+import CustomButton from '../button/CustomButton';
+import { useRef } from 'react';
+import { useState } from 'react';
 
 const CustomSearch = () => {
   const inputRef = useRef(null);
-  const [classDivContainer, setClassDivContainer] = useState("searchContainer");
+  const [classDivContainer, setClassDivContainer] = useState('searchContainer');
   return (
     <div
       className={styles[classDivContainer]}
       onClick={() => {
         inputRef.current.focus();
-        setClassDivContainer("searchContainerActive");
+        setClassDivContainer('searchContainerActive');
       }}
       onBlur={() => {
-        setClassDivContainer("searchContainer");
+        setClassDivContainer('searchContainer');
       }}
     >
       <form className={styles.formSearchConteiner}>
@@ -29,10 +29,10 @@ const CustomSearch = () => {
       </form>
       <CustomButton
         props={{
-          buttonStyle: "findButton",
-          icon: "fas fa-filter",
-          iconStyle: "findIconVio",
-          iconHoverStyle: "findIconBla",
+          buttonStyle: 'findButton',
+          icon: 'fas fa-filter',
+          iconStyle: 'findIconVio',
+          iconHoverStyle: 'findIconBla',
         }}
       />
     </div>

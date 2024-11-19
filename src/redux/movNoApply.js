@@ -1,31 +1,31 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import * as noApplyReq from "../request/movNoApplyRequest";
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import * as noApplyReq from '../request/movNoApplyRequest';
 const initState = {
   loading: false,
   data: [],
-  error: "",
+  error: '',
   montoTotal: 0,
 };
 export const getAllMovNoApplyRequest = createAsyncThunk(
-  "GET_NC_NOAPPLY",
+  'GET_NC_NOAPPLY',
   noApplyReq.getAllMovNoApply
 );
 export const marcToggleNoApplyRequest = createAsyncThunk(
-  "MARC_TOGGLE_NC_NA",
+  'MARC_TOGGLE_NC_NA',
   (id) => id
 );
 export const resetMovNoApplyRequest = createAsyncThunk(
-  "RESET_STATUS_NOAPPLY_MOV",
+  'RESET_STATUS_NOAPPLY_MOV',
   () => {}
 );
 
 const movNoApplySlice = createSlice({
-  name: "noApply",
+  name: 'noApply',
   initialState: initState,
   extraReducers: {
     [resetMovNoApplyRequest.fulfilled]: (state, action) => {
       state.loading = false;
-      state.error = "";
+      state.error = '';
       state.data = [];
       state.montoTotal = 0;
     },

@@ -1,5 +1,5 @@
-import React from "react";
-import styles from "./widget.module.css";
+import React from 'react';
+import styles from './widget.module.css';
 import Chart from 'chart.js/auto';
 
 function Widget(props) {
@@ -22,13 +22,13 @@ function Widget(props) {
             comparativa < 0 ? styles.compRed : styles.compGreen
           }`}
         >
-          {`${comparativa*100} %`}
+          {`${comparativa * 100} %`}
         </span>
         <i
           className={` ${comparativa < 0 ? styles.compRed : styles.compGreen} ${
             comparativa > 0
-              ? "fa-solid fa-angles-up"
-              : "fa-solid fa-angles-down"
+              ? 'fa-solid fa-angles-up'
+              : 'fa-solid fa-angles-down'
           } ${styles.compIcon}`}
         ></i>
       </div>

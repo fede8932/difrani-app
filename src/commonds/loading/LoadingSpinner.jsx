@@ -1,8 +1,6 @@
-import React from "react";
-import {
-  CircleSpinner,
-} from "react-spinner-overlay";
-import styles from "./loadingSpinner.module.css";
+import React from 'react';
+import { CircleSpinner } from 'react-spinner-overlay';
+import styles from './loadingSpinner.module.css';
 
 const LoadingSpinner = (props) => {
   const { loading } = props;

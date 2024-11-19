@@ -1,40 +1,36 @@
-import React, { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
-import { useDispatch, useSelector } from "react-redux";
-import QRCode from "qrcode";
+import React, { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { useDispatch, useSelector } from 'react-redux';
+import QRCode from 'qrcode';
 import {
   getAcountById,
   getMovementsByCurrentAcountId,
-} from "../redux/searchCurrentAcount";
-import logoBlase from "../assets/logo/logoBlase.png";
+} from '../redux/searchCurrentAcount';
+import logoBlase from '../assets/logo/logoBlase.png';
 import {
   convertImageToBase64,
   cuitTransformToNumber,
   filterOrdersId,
   redondearADosDecimales,
   waitForImagesToLoad,
-} from "../utils";
-import Swal from "sweetalert2";
-import {
-  getOrderItemsRequest,
-  resetStatusRequest,
-} from "../redux/addOrderItems";
-import { NewNCSellOrderRequest } from "../redux/searchOrders";
+} from '../utils';
+import Swal from 'sweetalert2';
+import { NewNCSellOrderRequest } from '../redux/searchOrders';
 import {
   printNCByNumRequest,
   printNCPresByNumRequest,
-} from "../request/orderRequest";
-import { ncAHtml } from "../templates/ncA";
-import { ncPresupHtml } from "../templates/ncPresupBlase";
-import NewNotaCredito from "../components/newNotaCredito/NewNotaCredito";
-import { productClientRequest } from "../redux/productsByClient";
-import { getBillItems, marcBillItem, resetBillItems } from "../redux/billItems";
+} from '../request/orderRequest';
+import { ncAHtml } from '../templates/ncA';
+import { ncPresupHtml } from '../templates/ncPresupBlase';
+import NewNotaCredito from '../components/newNotaCredito/NewNotaCredito';
+import { productClientRequest } from '../redux/productsByClient';
+import { getBillItems, marcBillItem, resetBillItems } from '../redux/billItems';
 
 function NewNCContainer(props) {
-  const [selectState, setSelectState] = useState("");
-  const [factAsoc, setFactAsoc] = useState("");
-  const [selectMotivState, setSelectMotivState] = useState("");
-  const [selectTypeState, setSelectTypeState] = useState("nc");
+  const [selectState, setSelectState] = useState('');
+  const [factAsoc, setFactAsoc] = useState('');
+  const [selectMotivState, setSelectMotivState] = useState('');
+  const [selectTypeState, setSelectTypeState] = useState('nc');
   const itemList = useSelector((state) => state.productsByClient);
   const { currentAcountId, acountState, ...rest } = props;
 
@@ -46,7 +42,7 @@ function NewNCContainer(props) {
       getBillItems({
         currentAcountId: currentAcountId,
         factNumber: e.target.value,
-        oficial: selectTypeState == "nc" ? "True" : "False",
+        oficial: selectTypeState == 'nc' ? 'True' : 'False',
       })
     );
   };
@@ -71,11 +67,12 @@ function NewNCContainer(props) {
       }
       return acum;
     }, 0);
-    const endAmount = motive == "n" ? montoNota : monto;
+    const endAmount = motive == 'n' ? montoNota : monto;
     // console.log(motive, type, monto);
     //selectMotivState es "g" o "d" si es g no toca el stock si es d modifica el stock
-    const montoOfNC = type == "nc" ? endAmount : 0;
-    const montoPrNC = type == "ncp" ? endAmount : 0;
+    const montoOfNC = type == 'nc' ? endAmount : 0;
+    const montoPrNC = type == 'ncp' ? endAmount : 0;
+    // console.log(montoOfNC,montoPrNC)
     newNotaCredito(
       montoOfNC,
       montoPrNC,
@@ -90,7 +87,7 @@ function NewNCContainer(props) {
   const printNC = async (res, totalNCO, totalNCP, items, concept) => {
     const { numComp, client, products } = res;
     const logoBlaseBase64 = await convertImageToBase64(logoBlase);
-    const nuevaVentana = window.open("", "", "width=900,height=1250");
+    const nuevaVentana = window.open('', '', 'width=900,height=1250');
     // Obtener datos de la factura
     if (totalNCO > 0) {
       const ncData = await printNCByNumRequest(numComp, currentAcountId);
@@ -119,19 +116,19 @@ function NewNCContainer(props) {
           concept
         );
 
-        const containerFact = nuevaVentana.document.createElement("div");
+        const containerFact = nuevaVentana.document.createElement('div');
         nuevaVentana.document.body.appendChild(containerFact);
 
         containerFact.innerHTML = render;
         nuevaVentana.document.body.appendChild(
-          nuevaVentana.document.createElement("div")
-        ).style.pageBreakBefore = "always";
+          nuevaVentana.document.createElement('div')
+        ).style.pageBreakBefore = 'always';
       }
     }
     if (totalNCP > 0) {
       // console.log("llega ok pres");
       const presData = await printNCPresByNumRequest(numComp);
-      if (selectMotivState != "n") {
+      if (selectMotivState != 'n') {
         items = items.filter((i) => i.marc);
         const itemsPerPage = 10; // Número de ítems por página
         const totalPages = Math.ceil(items.length / itemsPerPage);
@@ -149,13 +146,13 @@ function NewNCContainer(props) {
             logoBlaseBase64
           );
 
-          const containerPres = nuevaVentana.document.createElement("div");
+          const containerPres = nuevaVentana.document.createElement('div');
           nuevaVentana.document.body.appendChild(containerPres);
 
           containerPres.innerHTML = render;
           nuevaVentana.document.body.appendChild(
-            nuevaVentana.document.createElement("div")
-          ).style.pageBreakBefore = "always";
+            nuevaVentana.document.createElement('div')
+          ).style.pageBreakBefore = 'always';
         }
       } else {
         const render = ncPresupHtml(
@@ -168,7 +165,7 @@ function NewNCContainer(props) {
           concept
         );
 
-        const containerPres = nuevaVentana.document.createElement("div");
+        const containerPres = nuevaVentana.document.createElement('div');
         nuevaVentana.document.body.appendChild(containerPres);
 
         containerPres.innerHTML = render;
@@ -176,7 +173,7 @@ function NewNCContainer(props) {
     }
 
     await waitForImagesToLoad(nuevaVentana);
-    nuevaVentana.addEventListener("afterprint", () => {
+    nuevaVentana.addEventListener('afterprint', () => {
       nuevaVentana.close();
     });
     nuevaVentana.print();
@@ -192,16 +189,16 @@ function NewNCContainer(props) {
   ) => {
     // console.log(montoOfNC, montoPrNC, motive);
     const facturaType =
-      acountState.data.currentAcount.client.iva == "Monotributista"
-        ? "NCB"
-        : "NCA";
+      acountState.data.currentAcount.client.iva == 'Monotributista'
+        ? 'NCB'
+        : 'NCA';
     let sendData = {
       concept: concept,
       currentAcountId: currentAcountId,
-      concepto: "Productos",
-      type: "NotaCredito",
+      concepto: 'Productos',
+      type: 'NotaCredito',
       tipo_de_factura: facturaType,
-      tipo_de_documento: "CUIT",
+      tipo_de_documento: 'CUIT',
       numero_de_documento: cuitTransformToNumber(
         acountState.data.currentAcount.client.cuit
       ),
@@ -211,9 +208,9 @@ function NewNCContainer(props) {
       salePoint: 1,
       iva: 21,
       importe_no_facturado: montoPrNC,
-      motivo: motive == "g" ? "Garantia" : "Devolucion",
+      motivo: motive == 'g' ? 'Garantia' : 'Devolucion',
       articles:
-        motive == "n"
+        motive == 'n'
           ? []
           : billData.fItems
               ?.filter((item) => item.marc)
@@ -225,13 +222,13 @@ function NewNCContainer(props) {
         sendData.numFactAsoc = numberFact;
       } else {
         console.log(
-          "el string Numero de factura no se puede convertir a un número."
+          'el string Numero de factura no se puede convertir a un número.'
         );
       }
     }
 
     sendData.productsId = [];
-    motive == "n"
+    motive == 'n'
       ? null
       : billData.fItems.map((i) => {
           if (i.marc) {
@@ -261,9 +258,9 @@ function NewNCContainer(props) {
         .catch((err) => console.log(err));
       if (res.error) {
         Swal.fire({
-          icon: "error",
-          title: "No facturado",
-          text: "Ocurrió un error en el servidor",
+          icon: 'error',
+          title: 'No facturado',
+          text: 'Ocurrió un error en el servidor',
         });
       }
     });
@@ -292,8 +289,8 @@ function NewNCContainer(props) {
     dispatch(
       getBillItems({
         currentAcountId: currentAcountId,
-        factNumber: "",
-        oficial: selectTypeState == "nc" ? "True" : "False",
+        factNumber: '',
+        oficial: selectTypeState == 'nc' ? 'True' : 'False',
       })
     );
     return () => {

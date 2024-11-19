@@ -1,7 +1,7 @@
-import React, { useState } from "react";
-import styles from "./customTransfer.module.css";
-import { Table } from "semantic-ui-react";
-import { isSupplierInBrand } from "../../utils";
+import React, { useState } from 'react';
+import styles from './customTransfer.module.css';
+import { Table } from 'semantic-ui-react';
+import { isSupplierInBrand } from '../../utils';
 
 const CustomTransfer = (props) => {
   const { suppliers, brand, addSuppliers, deleteSupplier } = props;
@@ -20,18 +20,18 @@ const CustomTransfer = (props) => {
         <Table color="blue">
           <Table.Header>
             <Table.Row>
-              <Table.HeaderCell style={{ width: "8%" }}>Check</Table.HeaderCell>
-              <Table.HeaderCell style={{ width: "75%" }}>
+              <Table.HeaderCell style={{ width: '8%' }}>Check</Table.HeaderCell>
+              <Table.HeaderCell style={{ width: '75%' }}>
                 Razón Social
               </Table.HeaderCell>
-              <Table.HeaderCell style={{ width: "17%" }}>Id</Table.HeaderCell>
+              <Table.HeaderCell style={{ width: '17%' }}>Id</Table.HeaderCell>
             </Table.Row>
           </Table.Header>
           <Table.Body>
             {tableSuppliers.map((supplier, i) => (
-              <Table.Row style={{ height: "30px" }} key={i}>
+              <Table.Row style={{ height: '30px' }} key={i}>
                 <Table.Cell
-                  style={{ heigth: "30px", padding: "5px 0px 0px 12px" }}
+                  style={{ heigth: '30px', padding: '5px 0px 0px 12px' }}
                 >
                   {supplier.id ? (
                     <input
@@ -49,12 +49,12 @@ const CustomTransfer = (props) => {
                   ) : null}
                 </Table.Cell>
                 <Table.Cell
-                  style={{ heigth: "30px", padding: "4px 0px 0px 12px" }}
+                  style={{ heigth: '30px', padding: '4px 0px 0px 12px' }}
                 >
                   {supplier.razonSocial}
                 </Table.Cell>
                 <Table.Cell
-                  style={{ heigth: "30px", padding: "5px 0px 0px 12px" }}
+                  style={{ heigth: '30px', padding: '5px 0px 0px 12px' }}
                 >
                   {supplier.id}
                 </Table.Cell>
@@ -77,11 +77,11 @@ const CustomTransfer = (props) => {
         <Table color="green">
           <Table.Header>
             <Table.Row>
-              <Table.HeaderCell style={{ width: "17%" }}>Id</Table.HeaderCell>
-              <Table.HeaderCell style={{ width: "70%" }}>
+              <Table.HeaderCell style={{ width: '17%' }}>Id</Table.HeaderCell>
+              <Table.HeaderCell style={{ width: '70%' }}>
                 Razón Social
               </Table.HeaderCell>
-              <Table.HeaderCell style={{ width: "15%" }}>
+              <Table.HeaderCell style={{ width: '15%' }}>
                 Acción
               </Table.HeaderCell>
             </Table.Row>
@@ -89,19 +89,19 @@ const CustomTransfer = (props) => {
 
           <Table.Body>
             {tableBrandSuppliers.map((bp, i) => (
-              <Table.Row style={{ height: "30px" }} key={i}>
+              <Table.Row style={{ height: '30px' }} key={i}>
                 <Table.Cell
-                  style={{ heigth: "30px", padding: "5px 0px 0px 12px" }}
+                  style={{ heigth: '30px', padding: '5px 0px 0px 12px' }}
                 >
-                  {bp.supplierId ? bp.supplier.id : ""}
+                  {bp.supplierId ? bp.supplier.id : ''}
                 </Table.Cell>
                 <Table.Cell
-                  style={{ heigth: "30px", padding: "5px 0px 0px 12px" }}
+                  style={{ heigth: '30px', padding: '5px 0px 0px 12px' }}
                 >
-                  {bp.supplierId ? bp.supplier.razonSocial : ""}
+                  {bp.supplierId ? bp.supplier.razonSocial : ''}
                 </Table.Cell>
                 <Table.Cell
-                  style={{ heigth: "30px", padding: "6px 0px 0px 12px" }}
+                  style={{ heigth: '30px', padding: '6px 0px 0px 12px' }}
                 >
                   {bp.supplierId ? (
                     <button
@@ -118,7 +118,7 @@ const CustomTransfer = (props) => {
                       ></i>
                     </button>
                   ) : (
-                    ""
+                    ''
                   )}
                 </Table.Cell>
               </Table.Row>

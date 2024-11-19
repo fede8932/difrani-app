@@ -1,7 +1,7 @@
-import React from "react";
-import { Table } from "semantic-ui-react";
-import CustomPopup from "../popup/CustomPopup";
-import { redondearADosDecimales } from "../../utils";
+import React from 'react';
+import { Table } from 'semantic-ui-react';
+import CustomPopup from '../popup/CustomPopup';
+import { redondearADosDecimales } from '../../utils';
 
 const BillDetailTable = (props) => {
   const { columns, style, color, data } = props;

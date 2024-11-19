@@ -6,11 +6,11 @@
   justify-content: flex-start;
   align-items: flex-start;
 }
-.panelSubContainer{
+.panelSubContainer {
   display: flex;
   justify-content: flex-start;
 }
-.viewContainer{
+.viewContainer {
   height: calc(100vh - 72px);
   width: calc(100vw - 250px);
   padding: 18px;

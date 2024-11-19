@@ -1,9 +1,9 @@
-import React from "react";
-import styles from "./formClient.module.css";
-import Button from "react-bootstrap/Button";
-import { FormProvider } from "react-hook-form";
-import CustomSelect from "../select/CustomSelect";
-import { useSelector } from "react-redux";
+import React from 'react';
+import styles from './formClient.module.css';
+import Button from 'react-bootstrap/Button';
+import { FormProvider } from 'react-hook-form';
+import CustomSelect from '../select/CustomSelect';
+import { useSelector } from 'react-redux';
 
 const FormClientSeller = (props) => {
   const { selMethods, onSubmitSeller } = props;
@@ -25,8 +25,8 @@ const FormClientSeller = (props) => {
         <Button
           className={styles.selectButton}
           style={{
-            backgroundColor: "#673ab7",
-            border: "1px solid #673ab7",
+            backgroundColor: '#673ab7',
+            border: '1px solid #673ab7',
           }}
         >
           Asociar

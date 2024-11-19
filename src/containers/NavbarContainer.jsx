@@ -1,20 +1,20 @@
-import React from "react";
-import NavbarComponent from "../components/navbar/NavbarComponent";
-import { useDispatch } from "react-redux";
-import { toggleSidebar } from "../redux/sidebar";
-import { sendLogoutRequest } from "../redux/user";
+import React from 'react';
+import NavbarComponent from '../components/navbar/NavbarComponent';
+import { useDispatch } from 'react-redux';
+import { toggleSidebar } from '../redux/sidebar';
+import { sendLogoutRequest } from '../redux/user';
 
 function NavbarContainer() {
   const dispatch = useDispatch();
   const arrayButtons = [
     {
-      text: "Perfil",
+      text: 'Perfil',
       fn: () => {
-        console.log("ok");
+        console.log('ok');
       },
     },
     {
-      text: "Cerrar Sesión",
+      text: 'Cerrar Sesión',
       fn: () => {
         logOut();
       },
@@ -25,7 +25,7 @@ function NavbarContainer() {
     dispatch(toggleSidebar());
   };
   const logOut = () => {
-    const userId = JSON.parse(localStorage.getItem("user")).userId;
+    const userId = JSON.parse(localStorage.getItem('user')).userId;
     dispatch(sendLogoutRequest(userId));
   };
 

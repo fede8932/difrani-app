@@ -1,37 +1,37 @@
-import { createSlice, createAsyncThunk, current } from "@reduxjs/toolkit";
-import * as supplierRequest from "../request/supplierRequest";
+import { createSlice, createAsyncThunk, current } from '@reduxjs/toolkit';
+import * as supplierRequest from '../request/supplierRequest';
 const sellerState = {
   loading: false,
   data: { suppliers: [], totalRows: 0, totalPages: 1 },
-  error: "",
+  error: '',
 };
 export const getSuppliersByTextRequest = createAsyncThunk(
-  "GET_SUPPLIERS",
+  'GET_SUPPLIERS',
   supplierRequest.getSuppliersByData
 );
 export const UpdateStatusSupplierRequest = createAsyncThunk(
-  "UPDATE_STATUS_SUPPLIER",
+  'UPDATE_STATUS_SUPPLIER',
   supplierRequest.updateSupplierStatusRequest
 );
 export const UpdateSuppliersRequest = createAsyncThunk(
-  "UPDATE_SUPPLIER",
+  'UPDATE_SUPPLIER',
   supplierRequest.updateSupplierRequest
 );
 export const DeleteRepSupplierRequest = createAsyncThunk(
-  "DELETE_REPSUPPLIER",
+  'DELETE_REPSUPPLIER',
   supplierRequest.deleteRepSupplierRequest
 );
 export const UpdateRepSupplierRequest = createAsyncThunk(
-  "UPDATE_REPSUPPLIER",
+  'UPDATE_REPSUPPLIER',
   supplierRequest.updateRepSupplierRequest
 );
 export const ResetSupplierRequest = createAsyncThunk(
-  "RESET_REPSUPPLIER",
+  'RESET_REPSUPPLIER',
   () => sellerState
 );
 
 const suppliersSlice = createSlice({
-  name: "suppliers",
+  name: 'suppliers',
   initialState: sellerState,
   extraReducers: {
     [getSuppliersByTextRequest.pending]: (state, action) => {
@@ -47,7 +47,7 @@ const suppliersSlice = createSlice({
     },
     [ResetSupplierRequest.fulfilled]: (state, action) => {
       state.loading = false;
-      state.error = "";
+      state.error = '';
       state.data = action.payload.data;
     },
     [UpdateStatusSupplierRequest.pending]: (state, action) => {

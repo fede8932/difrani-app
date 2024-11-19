@@ -1,13 +1,13 @@
-import React from "react";
-import styles from "./clientAcordion.module.css";
-import Accordion from "react-bootstrap/Accordion";
-import CustomInput from "../input/CustomInput";
-import Container from "react-bootstrap/Container";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
-import CustomSelect from "../select/CustomSelect";
-import { useForm, FormProvider } from "react-hook-form";
-import CustomSearch from "../customSearch/CustomSearch";
+import React from 'react';
+import styles from './clientAcordion.module.css';
+import Accordion from 'react-bootstrap/Accordion';
+import CustomInput from '../input/CustomInput';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import CustomSelect from '../select/CustomSelect';
+import { useForm, FormProvider } from 'react-hook-form';
+import CustomSearch from '../customSearch/CustomSearch';
 
 function ClientAcordion({ client, type }) {
   const methodsNoClient = useForm();
@@ -23,7 +23,7 @@ function ClientAcordion({ client, type }) {
               icon="fa-solid fa-magnifying-glass"
             />
             <div className={styles.dataContainer}>
-              <Container style={{ margin: "0" }}>
+              <Container style={{ margin: '0' }}>
                 <Row className={styles.filas}>
                   <Col className={styles.colUno}>
                     <span className={styles.titleInfo}>
@@ -46,7 +46,7 @@ function ClientAcordion({ client, type }) {
                       Estado:
                       {client ? (
                         <span className={`${styles.info} ${styles.statusTrue}`}>
-                          {client?.user?.status ? "Active" : "Inactive"}
+                          {client?.user?.status ? 'Active' : 'Inactive'}
                         </span>
                       ) : null}
                     </span>
@@ -108,7 +108,7 @@ function ClientAcordion({ client, type }) {
             </div>
             <div
               className={styles.inputContainer}
-              style={{ marginBottom: "35px", height: "125px" }}
+              style={{ marginBottom: '35px', height: '125px' }}
             >
               <span className={styles.titleInfo}>
                 Comentarios:

@@ -115,7 +115,7 @@
 }
 .infoContainer {
   width: 100%;
-  margin: 10px 15px 10px 15px
+  margin: 10px 15px 10px 15px;
 }
 .info {
   color: white;
@@ -134,12 +134,12 @@
   font-weight: 600;
   margin-right: 15px;
 }
-.compRed{
-    color: #FF4C4C;
+.compRed {
+  color: #ff4c4c;
 }
-.compGreen{
-    color: #4CFF75;
+.compGreen {
+  color: #4cff75;
 }
-.compIcon{
-    font-size: 21px;
+.compIcon {
+  font-size: 21px;
 }
