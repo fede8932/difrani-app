@@ -7,7 +7,6 @@ import {
 } from 'semantic-ui-react';
 import CustomMenu from '../menu/CustomMenu';
 import ProtectedComponent from '../../protected/protectedComponent/ProtectedComponent';
-import { useNavigate } from 'react-router';
 const redirect_url = import.meta.env.VITE_REDIRECT_URL;
 const entorno = import.meta.env.VITE_ENTORNO;
 

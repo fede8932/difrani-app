@@ -8,6 +8,7 @@ import CustomTable from '../../commonds/table/CustomTable';
 import CustomDrawer from '../../commonds/drawer/CustomDrawer';
 import AlertSuccess from '../../commonds/alertSuccess/AlerSuccess';
 import { numberToString } from '../../utils';
+import ProtectedComponent from '../../protected/protectedComponent/ProtectedComponent';
 
 function AddProductToOrder(props) {
   const {
@@ -60,36 +61,39 @@ function AddProductToOrder(props) {
                 <span className={styles.precioText}>{orderAjust.data.id}</span>
               </div>
             ) : null}
-            <div className={styles.infoCostoCont}>
-              <span className={styles.precioLabel}>
-                <i className="fa-solid fa-money-bill"></i> Subtotal:
-              </span>
-              <span className={styles.precioText}>{`$ ${
-                type == 'ajuste'
-                  ? numberToString(orderAjust.data.subTotal)
-                  : numberToString(order.data.subTotal)
-              }`}</span>
-            </div>
-            <div className={styles.infoCostoCont}>
-              <span className={styles.precioLabel}>
-                <i className="fa-solid fa-money-bill-trend-up"></i> IVA:
-              </span>
-              <span className={styles.precioText}>{`$ ${
-                type == 'ajuste'
-                  ? numberToString(orderAjust.data.subTotal * 0.21)
-                  : numberToString(order.data.subTotal * 0.21)
-              }`}</span>
-            </div>
-            <div className={styles.infoCostoCont}>
-              <span className={styles.precioLabel}>
-                <i className="fa-solid fa-money-bill-1-wave"></i> Total:
-              </span>
-              <span className={styles.precioText}>{`$ ${
-                type == 'ajuste'
-                  ? numberToString(orderAjust?.data?.total)
-                  : numberToString(order.data.total)
-              }`}</span>
-            </div>
+            <ProtectedComponent listAccesss={[1, 2]} >
+            <>
+              <div className={styles.infoCostoCont}>
+                <span className={styles.precioLabel}>
+                  <i className="fa-solid fa-money-bill"></i> Subtotal:
+                </span>
+                <span className={styles.precioText}>{`$ ${
+                  type == 'ajuste'
+                    ? numberToString(orderAjust.data.subTotal)
+                    : numberToString(order.data.subTotal)
+                }`}</span>
+              </div>
+              <div className={styles.infoCostoCont}>
+                <span className={styles.precioLabel}>
+                  <i className="fa-solid fa-money-bill-trend-up"></i> IVA:
+                </span>
+                <span className={styles.precioText}>{`$ ${
+                  type == 'ajuste'
+                    ? numberToString(orderAjust.data.subTotal * 0.21)
+                    : numberToString(order.data.subTotal * 0.21)
+                }`}</span>
+              </div>
+              <div className={styles.infoCostoCont}>
+                <span className={styles.precioLabel}>
+                  <i className="fa-solid fa-money-bill-1-wave"></i> Total:
+                </span>
+                <span className={styles.precioText}>{`$ ${
+                  type == 'ajuste'
+                    ? numberToString(orderAjust?.data?.total)
+                    : numberToString(order.data.total)
+                }`}</span>
+              </div>
+            </></ProtectedComponent>
           </div>
         </div>
         <div className={styles.tableProdContainerPrinc}>
@@ -195,7 +199,7 @@ function AddProductToOrder(props) {
             >
               Recibir
             </Button>
-          ) : (null)}
+          ) : null}
         </div>
       </form>
     </FormProvider>

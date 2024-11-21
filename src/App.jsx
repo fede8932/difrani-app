@@ -220,7 +220,7 @@ function App() {
                     <Route
                       path="edit/buy"
                       element={
-                        <ProtectedView listAccesss={[1, 2]}>
+                        <ProtectedView listAccesss={[1, 2, 6]}>
                           <NewBuyOrder estado={1} />
                         </ProtectedView>
                       }

@@ -220,14 +220,22 @@ function BuyOrderTable(props) {
     },
     {
       headerName: 'SubTotal',
-      valueGetter: (params) => `$ ${numberToString(params.data.subTotal)}`,
+      cellRenderer: (params) => (
+        <ProtectedComponent
+          listAccesss={[1, 2]}
+        >{`$ ${numberToString(params.data.subTotal)}`}</ProtectedComponent>
+      ),
       filter: false,
       flex: 1,
       sortable: false,
     },
     {
       headerName: 'Total (c/IVA)',
-      valueGetter: (params) => `$ ${numberToString(params.data.total)}`,
+      cellRenderer: (params) => (
+        <ProtectedComponent
+          listAccesss={[1, 2]}
+        >{`$ ${numberToString(params.data.total)}`}</ProtectedComponent>
+      ),
       filter: false,
       flex: 1,
     },

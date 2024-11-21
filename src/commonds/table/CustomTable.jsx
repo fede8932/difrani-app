@@ -11,6 +11,7 @@ import {
 import CustomPopup from '../popup/CustomPopup';
 import IconButonUsersTable from '../iconButtonUsersTable/IconButonUsersTable';
 import { useSelector } from 'react-redux';
+import ProtectedComponent from '../../protected/protectedComponent/ProtectedComponent';
 
 const CustomTable = (props) => {
   let {
@@ -55,11 +56,15 @@ const CustomTable = (props) => {
                   <Table.Cell>{p.article.toUpperCase()}</Table.Cell>
                   <Table.Cell>{p.description.toUpperCase()}</Table.Cell>
                   <Table.Cell>{p.brand.name.toUpperCase()}</Table.Cell>
-                  <Table.Cell>{`$ ${numberToString(
-                    process == 'sell'
-                      ? p.price.price * (1 + p.brand.rentabilidad)
-                      : p.price.price
-                  )}`}</Table.Cell>
+                  <Table.Cell>
+                    <ProtectedComponent
+                      listAccesss={[1, 2]}
+                    >{`$ ${numberToString(
+                      process == 'sell'
+                        ? p.price.price * (1 + p.brand.rentabilidad)
+                        : p.price.price
+                    )}`}</ProtectedComponent>
+                  </Table.Cell>
                   {process == 'sell' ? (
                     <Table.Cell>{`$ ${numberToString(
                       p.price.price * (1 + p.brand.rentabilidad) * 1.21
@@ -164,15 +169,17 @@ const CustomTable = (props) => {
                 <Table.Cell>{p.product.article}</Table.Cell>
                 <Table.Cell>{p?.product?.brand?.name}</Table.Cell>
                 <Table.Cell>
-                  <span style={{ display: 'flex', alignItems: 'center' }}>
-                    {`$ ${numberToString(
-                      process != 'sell'
-                        ? precio.price
-                        : precio.price *
-                            (1 + p.product.brand.rentabilidad) *
-                            1.21
-                    )}`}
-                  </span>
+                  <ProtectedComponent listAccesss={[1, 2]}>
+                    <span style={{ display: 'flex', alignItems: 'center' }}>
+                      {`$ ${numberToString(
+                        process != 'sell'
+                          ? precio.price
+                          : precio.price *
+                              (1 + p.product.brand.rentabilidad) *
+                              1.21
+                      )}`}
+                    </span>
+                  </ProtectedComponent>
                 </Table.Cell>
                 <Table.Cell>
                   <input
@@ -194,14 +201,16 @@ const CustomTable = (props) => {
                     dataItem={{ id: p.id }}
                   /> */}
                 </Table.Cell>
-                <Table.Cell>{`$ ${numberToString(
-                  process != 'sell'
-                    ? p.amount * precio.price
-                    : p.amount *
-                        (precio.price *
-                          (1 + p.product.brand.rentabilidad) *
-                          1.21)
-                )}`}</Table.Cell>
+                <Table.Cell>
+                  <ProtectedComponent listAccesss={[1, 2]}>{`$ ${numberToString(
+                    process != 'sell'
+                      ? p.amount * precio.price
+                      : p.amount *
+                          (precio.price *
+                            (1 + p.product.brand.rentabilidad) *
+                            1.21)
+                  )}`}</ProtectedComponent>
+                </Table.Cell>
                 <Table.Cell>
                   <div className={styles.butContainer}>
                     <IconButton
