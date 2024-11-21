@@ -22,7 +22,10 @@ import {
 } from '../redux/addAjustItems';
 import { getOrderAjust } from '../redux/orderAjust';
 import { updateStatusAjust } from '../request/orderAjustRequest';
-import { addRemOrderConfirmRequest, confirmBuyOrderRequest } from '../redux/searchOrders';
+import {
+  addRemOrderConfirmRequest,
+  confirmBuyOrderRequest,
+} from '../redux/searchOrders';
 
 function AddProductToBuyOrderContainer(props) {
   const [showAlert, setShowAlert] = useState(false);
@@ -78,15 +81,9 @@ function AddProductToBuyOrderContainer(props) {
     }
   };
   const updateCantOrderItem = async (dataOrderItem) => {
-    if (type !== 'ajuste') {
-      dispatch(updateCantItemsRequest(dataOrderItem)).then(() => {
-        dispatch(getBuyOrderRequest(actualOrder.data.id));
-      });
-    } else {
-      dispatch(updateCantAjustItemsRequest(dataOrderItem)).then(() => {
-        dispatch(getOrderAjust(actualOrder.data.id));
-      });
-    }
+    dispatch(updateCantItemsRequest(dataOrderItem)).then(() => {
+      dispatch(getBuyOrderRequest(actualOrder.data.id));
+    });
   };
   const updatePrecOrderItem = async (dataOrderItem) => {
     if (type !== 'ajuste') {
@@ -168,7 +165,7 @@ function AddProductToBuyOrderContainer(props) {
               showConfirmButton: false,
               timer: 1000,
             });
-            navigate('/search/buy')
+            navigate('/search/buy');
           })
           .catch((err) => {
             Swal.fire({

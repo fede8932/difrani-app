@@ -10,6 +10,7 @@ import {
 } from '../../utils';
 import CustomPopup from '../popup/CustomPopup';
 import IconButonUsersTable from '../iconButtonUsersTable/IconButonUsersTable';
+import { useSelector } from 'react-redux';
 
 const CustomTable = (props) => {
   let {
@@ -29,6 +30,9 @@ const CustomTable = (props) => {
     equivalenceId,
   } = props;
   // console.log(products);
+
+  const listSellOrder = useSelector((state) => state.listOrderItems).data;
+
   return (
     <Table color={color} key={color}>
       <Table.Header>
@@ -171,14 +175,24 @@ const CustomTable = (props) => {
                   </span>
                 </Table.Cell>
                 <Table.Cell>
-                  <TableInput
+                  <input
+                    className={styles.inputTable}
+                    type="number"
+                    key={i}
+                    step="1"
+                    value={p.amount}
+                    onChange={(e) => {
+                      fnUpdate({ id: p.id, editCamp: e.target.value });
+                    }}
+                  />
+                  {/* <TableInput
                     key={i}
                     type="number"
                     step="1"
                     defValue={p.amount}
                     fn={fnUpdate}
                     dataItem={{ id: p.id }}
-                  />
+                  /> */}
                 </Table.Cell>
                 <Table.Cell>{`$ ${numberToString(
                   process != 'sell'
@@ -207,7 +221,7 @@ const CustomTable = (props) => {
       ) : null}
       {type === 'list-sell' ? (
         <Table.Body>
-          {products.map((p, i) => {
+          {listSellOrder?.map((p, i) => {
             // console.log(p);
             return (
               <Table.Row key={i} style={{ height: '40px', maxHeight: '40px' }}>
@@ -259,7 +273,7 @@ const CustomTable = (props) => {
                       type="number"
                       key={i}
                       step="1"
-                      defaultValue={p.amount}
+                      value={p.amount}
                       onChange={(e) => {
                         fnUpdate({ id: p.id, editCamp: e.target.value });
                       }}

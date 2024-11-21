@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form';
 import { getSupplierRequest } from '../redux/supplier';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateBrandRequest } from '../redux/brand';
+import { getBrandByDataRequest } from '../redux/searchBrands';
 
 function EditBrandContainer(props) {
   const brand = props.brands[props.index];
@@ -14,6 +15,7 @@ function EditBrandContainer(props) {
   const editBrand = (data) => {
     data.brandId = brand.id;
     dispatch(updateBrandRequest(data)).then(() => {
+      dispatch(getBrandByDataRequest(null))
       props.closeModal();
     });
   };

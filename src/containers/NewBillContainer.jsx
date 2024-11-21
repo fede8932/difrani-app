@@ -23,11 +23,13 @@ import logoAfip from '../assets/afip/logo-vector-afip.jpg';
 import logoBlase from '../assets/logo/logoBlase.png';
 
 function NewBillContainer(props) {
-  const { closeModal, listOrder } = props;
+  const { closeModal/*, listOrder*/ } = props;
   const client = useSelector((state) => state.client.data);
   const order = useSelector((state) => state.newBuyOrder.data);
   const searchOrderLoading = useSelector((state) => state.searchOrders.loading);
   const filterSellOrder = useSelector((state) => state.filterSellOrder);
+
+  const listOrder = useSelector((state) => state.listOrderItems).data;
 
   // console.log(order);
 

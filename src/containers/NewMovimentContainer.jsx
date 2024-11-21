@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
   addPayToCurrentAcount,
   getMovementsByCurrentAcountId,
+  getMovementsByCurrentAcountIdX,
 } from '../redux/searchCurrentAcount';
 import {
   convertImageToBase64,
@@ -33,6 +34,7 @@ function NewMovimientContainer(props) {
   });
   // console.log(method);
   const itemList = useSelector((state) => state.listOrderItems);
+  const filterMovements = useSelector((state) => state.filterMovementsOrder);
   const { currentAcountId, acountState, ...rest } = props;
   // console.log(acountState);
   const listNcNoApply = useSelector((state) => state.movNoApply);
@@ -88,18 +90,22 @@ function NewMovimientContainer(props) {
     dispatch(addPayToCurrentAcount(payData))
       .then((res) => {
         const { payload } = res;
-        console.log(payload);
-        dispatch(
-          getMovementsByCurrentAcountId({
-            currentAcountId: currentAcountId,
-            pendingFilter: true,
-            // rows: 10,
-            // page: 1,
-          })
-        ).then((r) => {
+        // console.log(payload);
+        dispatch(getMovementsByCurrentAcountIdX(filterMovements)).then(()=>{
           setInactive(false);
           rest.closeModal();
-        });
+        })
+        // dispatch(
+        //   getMovementsByCurrentAcountId({
+        //     currentAcountId: currentAcountId,
+        //     pendingFilter: true,
+        //     // rows: 10,
+        //     // page: 1,
+        //   })
+        // ).then((r) => {
+        //   setInactive(false);
+        //   rest.closeModal();
+        // });
         if (payload.length < 1) {
           //aca va el error
         } else {

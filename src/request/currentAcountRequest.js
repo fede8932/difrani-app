@@ -140,3 +140,19 @@ export const addCancelToCurrentAcount = async (sendData) => {
     throw error;
   }
 };
+
+export const getPayDetail = async (movId) => {
+  try {
+    const { data } = await axios.get(
+      `${apiUrl}/api/movement/get/pay/detail/${movId}`,
+      { withCredentials: true }
+    );
+    // console.log(data);
+    return data;
+  } catch (error) {
+    if (error.response?.status == 401) {
+      window.location.href = '/';
+    }
+    throw error;
+  }
+};

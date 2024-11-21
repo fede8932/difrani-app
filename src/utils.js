@@ -169,6 +169,7 @@ export function tabBrands(brands) {
           id: item.id,
           code: item.code.toUpperCase(),
           name: item.name.toUpperCase(),
+          seFactura: item.seFactura,
           supplier:
             item.brandSuppliers[0]?.supplier?.razonSocial?.toUpperCase(),
           rentabilidad: `${item.rentabilidad * 100} %`,

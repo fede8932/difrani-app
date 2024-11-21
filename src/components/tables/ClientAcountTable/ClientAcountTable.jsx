@@ -42,9 +42,14 @@ import { ncAHtml } from '../../../templates/ncA';
 import { ncPresupHtml } from '../../../templates/ncPresupBlase';
 import { presupHtml } from '../../../templates/presupBlase';
 import { remitHtml } from '../../../templates/RemBlase';
+import { payDetail } from '../../../templates/payDetail';
 
 const CustomComp = ({ data }) => {
   // console.log(data);
+  const { list } = useSelector((state) => state.searchMovements).data?.movements;
+  // console.log(list[0])
+  // return <></>
+  const selectMov = list?.find(m => m.id == data.id)
   const dispatch = useDispatch();
   const onClick = () => {
     dispatch(marcMovementsByCurrentAcountId(data.id));
@@ -54,7 +59,7 @@ const CustomComp = ({ data }) => {
       <Checkbox
         disabled={checkActive(data)}
         onChange={onClick}
-        checked={data?.marc}
+        checked={selectMov?.marc}
       />
     </div>
   );
@@ -62,6 +67,9 @@ const CustomComp = ({ data }) => {
 
 const CustomActionComp = ({ data }) => {
   const [printLoading, setPrintLoading] = useState(false);
+  const { client } = useSelector((state) => state.searchMovements)?.data
+    ?.currentAcount;
+  // console.log(client);
   const rePrint = async (bill) => {
     // console.log(bill);
     let billRemDate = { type: null, date: null };
@@ -288,6 +296,25 @@ const CustomActionComp = ({ data }) => {
     }
     setPrintLoading(false);
   };
+
+  const printPayDetail = async (client, payData) => {
+    const nuevaVentana = window.open('', '', 'width=900,height=625');
+    const logoBlaseBase64 = await convertImageToBase64(logoBlase);
+
+    const containerRem = nuevaVentana.document.createElement('div');
+    nuevaVentana.document.body.appendChild(containerRem);
+    containerRem.innerHTML = payDetail(client, payData, logoBlaseBase64);
+    // Espera a que las imágenes se carguen antes de imprimir
+    await waitForImagesToLoad(nuevaVentana);
+    nuevaVentana.addEventListener('afterprint', () => {
+      nuevaVentana.close();
+    });
+    nuevaVentana.print();
+  };
+
+  const payReprint = async (movement) => {
+    printPayDetail(client, movement.payDetail);
+  };
   return (
     <div className={styles.buttonContainer}>
       <CustomModal
@@ -310,12 +337,19 @@ const CustomActionComp = ({ data }) => {
         className={styles.iconButton}
         type="button"
         onClick={() => {
-          // console.log(obj);
+          // console.log(data);
           if (data.billType == 2 || data.billType == 3 || data.billType == 8) {
             ncRePrint(data);
           }
-          if (data.billType == 0 || data.billType == 1 || data.billType == 6) {
+          if (
+            (data.billType == 0 && data.type != 2) ||
+            data.billType == 1 ||
+            data.billType == 6
+          ) {
             rePrint(data);
+          }
+          if (data.type == 2) {
+            payReprint(data);
           }
         }}
       >
@@ -331,7 +365,6 @@ const CustomActionComp = ({ data }) => {
 
 function ClientAcountTable(props) {
   // console.log(props);
-
   const [printLoading, setPrintLoading] = useState(false);
   const dispatch = useDispatch();
 
@@ -447,9 +480,11 @@ function ClientAcountTable(props) {
     };
   }, []);
 
-  const { loading, error, data } = useSelector(
-    (state) => state.searchMovements
-  );
+  const currentAcountState = useSelector((state) => state.searchMovements);
+
+  const data = useMemo(() => {
+    return currentAcountState.data;
+  }, [currentAcountState.data?.currentAcount]);
 
   // console.log(data.movements);
 

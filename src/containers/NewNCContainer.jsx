@@ -5,6 +5,7 @@ import QRCode from 'qrcode';
 import {
   getAcountById,
   getMovementsByCurrentAcountId,
+  getMovementsByCurrentAcountIdX,
 } from '../redux/searchCurrentAcount';
 import logoBlase from '../assets/logo/logoBlase.png';
 import {
@@ -48,6 +49,7 @@ function NewNCContainer(props) {
   };
 
   const billData = useSelector((state) => state.billItems).data;
+  const filterMovements = useSelector((state) => state.filterMovementsOrder);
 
   const listMov = acountState.data.movements.list.filter((mov) => mov.marc);
   const dispatch = useDispatch();
@@ -240,22 +242,24 @@ function NewNCContainer(props) {
       // console.log("res", res);
       printNC(res.payload, montoOfNC, montoPrNC, items, concept);
       rest.closeModal();
-      dispatch(getAcountById(currentAcountId))
-        .then(() => {
-          dispatch(
-            getMovementsByCurrentAcountId({
-              currentAcountId: currentAcountId,
-              rows: 10,
-              page: 1,
-              pendingFilter: true,
-            })
-          )
-            .then(() => {
-              // console.log("ok");
-            })
-            .catch((err) => console.log(err));
-        })
-        .catch((err) => console.log(err));
+      dispatch(getMovementsByCurrentAcountIdX(filterMovements))
+      // dispatch(getAcountById(currentAcountId))
+      //   .then(() => {
+      //     // dispatch(
+      //     //   getMovementsByCurrentAcountId({
+      //     //     currentAcountId: currentAcountId,
+      //     //     rows: 10,
+      //     //     page: 1,
+      //     //     pendingFilter: true,
+      //     //   })
+      //     // )
+      //     dispatch(getMovementsByCurrentAcountIdX(filterMovements))
+      //       .then(() => {
+      //         // console.log("ok");
+      //       })
+      //       .catch((err) => console.log(err));
+      //   })
+      //   .catch((err) => console.log(err));
       if (res.error) {
         Swal.fire({
           icon: 'error',

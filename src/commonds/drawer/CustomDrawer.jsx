@@ -85,7 +85,7 @@ const CustomDrawer = (props) => {
                     process="sell"
                     fnDelete={fnDelete}
                     color="teal"
-                    products={listOrder}
+                    // products={listOrder}
                     fnUpdate={fnUpdate}
                     fnPrUpdate={fnPrUpdate}
                     colum={[

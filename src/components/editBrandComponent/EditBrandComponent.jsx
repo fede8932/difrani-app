@@ -5,9 +5,11 @@ import CustomInput from '../../commonds/putInput/CustomInput';
 import CustomSelect from '../../commonds/select/CustomSelect';
 import { Button, Spinner } from 'react-bootstrap';
 import { convertirPorcentajeANumero } from '../../utils';
+import PutSelect from '../../commonds/putSelect/PutSelect';
 
 function EditBrandComponent(props) {
   const { brand, methods, handleSubmit, suppliers, loading } = props;
+  // console.log(brand)
   return (
     <div className={styles.editBrandContainer}>
       <FormProvider {...methods}>
@@ -51,10 +53,11 @@ function EditBrandComponent(props) {
             icon="fa-solid fa-percent"
             validate={{ required: true }}
           />
-          <CustomSelect
-            text="Factura"
+          <PutSelect
+            text="Selecioná una opción"
             name="seFactura"
             validate={{ required: true }}
+            defaultValue={brand.seFactura}
             arrayOptions={[
               { value: true, text: 'Facturar' },
               { value: false, text: 'No facturar' },

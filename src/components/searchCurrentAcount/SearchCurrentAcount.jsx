@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import styles from './searchCurrentAcount.module.css';
 import { Button, Label, Radio } from 'semantic-ui-react';
 import CustomModal from '../../commonds/customModal/CustomModal';
@@ -18,8 +18,11 @@ import Swal from 'sweetalert2';
 
 function SearchCurrentAcount(props) {
   const dispatch = useDispatch();
-  const { acountState, filterCheck, changeFilter } = props;
-  const { currentAcount } = acountState.data;
+  const acountState = useSelector((state) => state.searchMovements);
+
+  const currentAcount = useMemo(() => {
+    return acountState.data?.currentAcount;
+  }, [acountState.data?.currentAcount?.resume]);
 
   const [printPending, setPrintPending] = useState(false);
   const [normalize, setNormalize] = useState(false);

@@ -25,7 +25,7 @@ function AddProductToSellOrder(props) {
     fnDelete,
     fnUpdate,
     fnPrUpdate,
-    listOrder,
+    /*listOrder,*/
     order,
     cancel,
     type,
@@ -35,22 +35,11 @@ function AddProductToSellOrder(props) {
     equivalenceId,
   } = props;
 
-  const [ventanaAbierta, setVentanaAbierta] = useState(null);
   const customerDiscounts = useSelector((state) => state.client).data
     .customerDiscounts; // Se usa para renderizar el precio cuando es una venta
 
-  const abrirNuevaVentana = () => {
-    const nuevaVentana = window.open('', '', 'width=794,height=1123');
-    const container = nuevaVentana.document.createElement('div');
-    nuevaVentana.document.body.appendChild(container);
-    setVentanaAbierta(container);
-
-    ReactDOM.render(<PresupPDF list={listOrder} order={order} />, container);
-  };
-  // console.log(order.data);
-
   const client = useSelector((state) => state.client);
-  console.log(client);
+  // console.log(client);
   return (
     <FormProvider {...methods}>
       <form
@@ -154,7 +143,7 @@ function AddProductToSellOrder(props) {
                       fnDelete={fnDelete}
                       fnUpdate={fnUpdate}
                       fnPrUpdate={fnPrUpdate}
-                      listOrder={listOrder}
+                      // listOrder={listOrder}
                       orderAjust={'orderAjust'}
                     />
                   </div>
@@ -234,7 +223,6 @@ function AddProductToSellOrder(props) {
                       variant: 'primary',
                     }}
                     bodyModal={(props) => <NewBillContainer {...props} />}
-                    bodyProps={{ listOrder: listOrder }}
                   />
                 )}
               </div>

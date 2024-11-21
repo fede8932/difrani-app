@@ -31,7 +31,7 @@ function AddProductToSellOrderContainer(props) {
   const client = useSelector((state) => state.client);
   const navigate = useNavigate();
   const productPages = useSelector((state) => state.product);
-  const listOrderItems = useSelector((state) => state.listOrderItems);
+  // const listOrderItems = useSelector((state) => state.listOrderItems);
   const dispatch = useDispatch();
   const searchProd = (data) => {
     setText(data.dataSearch);
@@ -162,7 +162,7 @@ function AddProductToSellOrderContainer(props) {
       fnDelete={deleteOrder}
       fnUpdate={updateCantOrderItem}
       fnPrUpdate={updatePrecOrderItem}
-      listOrder={listOrderItems.data}
+      // listOrder={listOrderItems.data}
       order={actualOrder}
       cancel={cancelar}
       confirmFn={updateOrder}

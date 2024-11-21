@@ -26,7 +26,6 @@ function SearchCurrentAcountContainer(props) {
     setFilterCheck(newStatus);
   };
   const dispatch = useDispatch();
-  const acountState = useSelector((state) => state.searchMovements);
 
   const location = useLocation();
   const currentPath = location.pathname;
@@ -53,7 +52,6 @@ function SearchCurrentAcountContainer(props) {
     <SearchCurrentAcount
       filterCheck={filterCheck}
       changeFilter={changeFilter}
-      acountState={acountState}
       checked={checkToggle}
     />
   );
