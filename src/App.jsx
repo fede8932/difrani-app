@@ -332,7 +332,7 @@ function App() {
                     <Route
                       path="control/orden"
                       element={
-                        <ProtectedView listAccesss={[1, 2, 5, 7]}>
+                        <ProtectedView listAccesss={[1, 2, 5, 6, 7]}>
                           <SearchControlOrder />
                         </ProtectedView>
                       }
