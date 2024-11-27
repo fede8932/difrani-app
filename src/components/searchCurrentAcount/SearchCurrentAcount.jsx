@@ -156,7 +156,7 @@ function SearchCurrentAcount(props) {
       </div>
       <div className={styles.tableContainer}>
         <span className={styles.subTitle}>Detalle de movimientos</span>
-        <ProtectedComponent listAccesss={[1, 2, 5]}>
+        <ProtectedComponent listAccesss={[1, 2, 5, 6]}>
           <div className={styles.buttonMovContainer}>
             <div style={{ display: 'flex', position: 'relative' }}>
               <CustomModal

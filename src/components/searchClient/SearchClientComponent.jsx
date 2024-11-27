@@ -82,7 +82,7 @@ function SearchClientComponent(props) {
                 </Button>
               </div>
               <div>
-                <ProtectedComponent listAccesss={[1]}>
+                <ProtectedComponent listAccesss={[1, 2, 5, 6]}>
                   <CustomModal
                     title="Descargar reporte de facturación"
                     size="lg"
