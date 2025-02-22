@@ -7,7 +7,7 @@ import Spinner from 'react-bootstrap/esm/Spinner';
 import RoleTableContainer from '../../containers/RoleTableContainer';
 
 function SearchSellerComponent(props) {
-  const { methods, onSubmit, result, resetSearch, clientsResumePrint } = props;
+  const { methods, onSubmit, result, resetSearch, clientsResumePrint, changePage } = props;
   return (
     <FormProvider {...methods}>
       <form
@@ -79,6 +79,7 @@ function SearchSellerComponent(props) {
             clientsResumePrint={clientsResumePrint}
             result={result}
             type="seller"
+            changePageFn={changePage}
           />
         </div>
       </form>

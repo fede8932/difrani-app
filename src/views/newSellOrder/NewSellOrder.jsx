@@ -33,7 +33,7 @@ function NewSellOrder(props) {
       <div className={styles.stepContainer}>
         <CustomStep steps={steps} type="client" view={view} />
       </div>
-      <div style={{ marginTop: '12px' }}>
+      <div style={{ marginTop: '12px'}}>
         {type !== 'sale' ? (
           <>
             {view == 0 ? (

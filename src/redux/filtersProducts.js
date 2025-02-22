@@ -6,9 +6,10 @@ const initialState = {
   description: null,
   columnOrder: 'article',
   order: 'asc',
-  pageSize: 50,
+  pageSize: 100,
   page: 1,
   equivalenceId: null,
+  supplierId: null,
 };
 
 const filtersProductsSlice = createSlice({
@@ -37,6 +38,7 @@ const filtersProductsSlice = createSlice({
       state.pageSize = 50;
       state.page = 1;
       state.equivalenceId = null;
+      state.supplierId = null;
     },
   },
 });

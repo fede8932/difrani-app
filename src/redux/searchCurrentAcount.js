@@ -8,6 +8,7 @@ const movementsState = {
       supplier: { razonSocial: '' },
     },
     movements: { list: [], totalRows: 0, totalPages: 1 },
+    totalMarc: 0,
   },
   error: '',
 };
@@ -41,16 +42,22 @@ const movementsSlice = createSlice({
   initialState: movementsState,
   reducers: {
     marcMovementsByCurrentAcountId: (state, action) => {
+      let total = 0;
       const newList = state.data.movements.list.map((mov) => {
         if (mov?.id == action.payload) {
           mov.marc = !mov.marc;
         }
+        if (mov.marc) {
+          total += mov.saldoPend;
+        }
         return mov;
       });
+      state.data.totalMarc = total;
       state.data.movements.list = newList;
     },
     resetMovementsByCurrentAcountId: (state) => {
       state.loading = false;
+      state.totalMarc = 0;
       state.data = {
         currentAcount: {
           client: { razonSocial: '' },
@@ -71,8 +78,8 @@ const movementsSlice = createSlice({
     },
     [getAcountById.fulfilled]: (state, action) => {
       state.loading = false;
-      state.error = "";
-      const { movements , ...caData } = action.payload;
+      state.error = '';
+      const { movements, ...caData } = action.payload;
       state.data.currentAcount = caData;
     },
     [getMovementsByCurrentAcountId.pending]: (state, action) => {

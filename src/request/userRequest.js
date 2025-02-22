@@ -72,3 +72,29 @@ export const searchUserRequest = async (sendInfo) => {
     throw error;
   }
 };
+
+export const changeUserPass = async (sendInfo) => {
+  try {
+    const url = `${apiUrl}/api/users/login/update/pass`;
+    const { data } = await axios.post(url, sendInfo, { withCredentials: true });
+    return data;
+  } catch (error) {
+    if (error.response?.status == 401) {
+      window.location.href = '/';
+    }
+    throw error;
+  }
+};
+
+export const logOutCookiesRequest = async () => {
+  try {
+    const url = `${apiUrl}/api/users/login/logout`;
+    const { data } = await axios.get(url, { withCredentials: true });
+    return data;
+  } catch (error) {
+    if (error.response?.status == 401) {
+      window.location.href = '/';
+    }
+    throw error;
+  }
+};

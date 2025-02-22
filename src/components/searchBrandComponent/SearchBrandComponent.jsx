@@ -10,6 +10,9 @@ import { tabBrands } from '../../utils';
 import CustomModal from '../../commonds/customModal/CustomModal';
 import EditBrandContainer from '../../containers/EditBrandContainer';
 import AddSupplierToBrandContainer from '../../containers/AddSupplierToBrandContainer';
+import ProtectedComponent from '../../protected/protectedComponent/ProtectedComponent';
+import IconButonUsersTable from '../../commonds/iconButtonUsersTable/IconButonUsersTable';
+import BrandsTable from '../tables/brandsTable/BrandsTable';
 
 function SearchBrandComponent(props) {
   const { onSubmit, methods, brands, status, resetSearch, toggleEcommerce } =
@@ -23,12 +26,10 @@ function SearchBrandComponent(props) {
     { title: 'Acciones', width: '8%', renderProp: null },
   ];
   return (
-    <FormProvider {...methods}>
-      <form
+      <div
         className={styles.formContainer}
-        onSubmit={methods.handleSubmit(onSubmit)}
-      >
-        <div className={styles.subFormContainer}>
+      ><BrandsTable />
+        {/* <div className={styles.subFormContainer}>
           <div className={styles.inputContainer}>
             <span className={styles.subTitle}>Campos de filtrado</span>
             <div className={styles.searchContainer}>
@@ -73,9 +74,9 @@ function SearchBrandComponent(props) {
               </Button>
             </div>
           </div>
-        </div>
-        <div className={styles.tableContainer}>
-          <span className={styles.subTitle}>Detalle de productos</span>
+        </div> */}
+        {/* <div className={styles.tableContainer}>
+          <span className={styles.subTitle}>Detalle de marcas</span>
           <NativeTableContainer
             toggleEcommerce={toggleEcommerce}
             columns={tableColumns}
@@ -127,41 +128,42 @@ function SearchBrandComponent(props) {
                   bodyProps: { brands: tabBrands(brands).list },
                 },
               },
+              {
+                component: (props) => 
+                  <ProtectedComponent listAccesss={[1, 2]}>
+                    <IconButonUsersTable
+                      popupText="Ofertas"
+                      fn={() => {
+                        navigate(`/equivalences/${data.id}`);
+                      }}
+                      icon="fa-solid fa-scale-balanced"
+                      iconInitialStyle="iconStyleBlue"
+                    />
+                  </ProtectedComponent>,
+                props: {
+                  title: 'Editar proveedores',
+                  size: 'lg',
+                  actionButton: (
+                    <button
+                      style={{ margin: '1px 0px 0px 7px' }}
+                      className={styles.iconButton}
+                      type="button"
+                    >
+                      <i
+                        className={`fa-solid fa-user-plus ${styles.blueIcon} ${styles.customModalIcon}`}
+                      ></i>
+                    </button>
+                  ),
+                  bodyModal: (props) => (
+                    <AddSupplierToBrandContainer {...props} />
+                  ),
+                  bodyProps: { brands: tabBrands(brands).list },
+                },
+              },
             ]}
           />
-          {/*
-                        <CustomModal
-                          title="Editar proveedores"
-                          size="lg"
-                          actionButton={
-                            <button
-                              style={{ margin: "1px 0px 0px 7px" }}
-                              className={styles.iconButton}
-                              type="button"
-                            >
-                              <i
-                                className={`fa-solid fa-user-plus ${styles.blueIcon} ${styles.customModalIcon}`}
-                              ></i>
-                            </button>
-                          }
-                          bodyModal={(props) => (
-                            <AddSupplierToBrandContainer {...props} />
-                          )}
-                          bodyProps={{ brand: obj }}
-                          />*/}
-          {/* <LongTableContainer
-            colum={[
-              { title: "Código", ancho: { width: "10%" } },
-              { title: "Nombre", ancho: { width: "10%" } },
-              { title: "Proveedor", ancho: { width: "10%" } },
-              { title: "Acciones", ancho: { width: "10%" } },
-            ]}
-            data={brands}
-            type="brand"
-          /> */}
-        </div>
-      </form>
-    </FormProvider>
+        </div> */}
+      </div>
   );
 }
 

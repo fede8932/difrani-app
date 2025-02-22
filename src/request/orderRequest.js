@@ -38,6 +38,22 @@ export const addOrderItem = async (dataOrder) => {
     throw error;
   }
 };
+export const addOrderItemSearchProd = async (dataOrder) => {
+  try {
+    const { productId, brandId, clientId, cantidad } = dataOrder;
+    // console.log(type);
+    let url = `${apiUrl}/api/purchase/order/items/v2/${clientId}?productId=${productId}&brandId=${brandId}&cantidad=${cantidad}`;
+
+    // console.log(url);
+    const { data } = await axios.post(url, null, { withCredentials: true });
+    return data;
+  } catch (error) {
+    if (error.response?.status == 401) {
+      window.location.href = '/';
+    }
+    throw error;
+  }
+};
 export const deleteOrderItem = async (id) => {
   try {
     const { data } = await axios.delete(
@@ -135,12 +151,10 @@ export const getOrderItems = async (orderId) => {
 };
 export const updateOrderItem = async (dataItem) => {
   try {
-    const { id, editCamp } = dataItem;
-    const { data } = await axios.put(
-      `${apiUrl}/api/purchase/order/items/${id}?cantidad=${editCamp}`,
-      null,
-      { withCredentials: true }
-    );
+    const { id, editCamp, sell } = dataItem;
+    let url = `${apiUrl}/api/purchase/order/items/${id}?cantidad=${editCamp}`;
+    url = sell ? `${url}&sell=${true}` : url;
+    const { data } = await axios.put(url, null, { withCredentials: true });
     return data;
   } catch (error) {
     if (error.response?.status == 401) {
@@ -469,7 +483,7 @@ export const NewNCForOrder = async (sendData) => {
     ...send
   } = sendData;
   try {
-    console.log(send);
+    // console.log(send);
     const { data } = await axios.post(
       `${apiUrl}/api/movement/nc/${currentAcountId}?motivo=${motivo}&concepto=${concepto}&tipo_de_documento=${tipo_de_documento}&tipo_de_factura=${tipo_de_factura}&type=${type}`,
       send,
@@ -492,6 +506,24 @@ export const confirmSellOrderWBill = async (sendData) => {
     const { data } = await axios.post(
       `${apiUrl}/api/movement/extra?concepto=tipo_de_factura=${tipo_de_factura}&type=${type}`,
       send,
+      { withCredentials: true }
+    );
+    return data;
+  } catch (error) {
+    if (error.response?.status == 401) {
+      window.location.href = '/';
+    }
+    if (error.response?.status == 401) {
+      window.location.href = '/';
+    }
+    throw error;
+  }
+};
+export const deleteMarcOrderItems = async (sendData) => {
+  try {
+    const { data } = await axios.put(
+      `${apiUrl}/api/purchase/order/remove/marc/items`,
+      sendData,
       { withCredentials: true }
     );
     return data;
@@ -534,13 +566,14 @@ export const printBillRequest = async (orderId) => {
     throw error;
   }
 };
-export const getBillDataRequest = async (cbte, billType) => {
+export const getBillDataRequest = async (cbte, billType, ptoVta) => {
   try {
     const { data } = await axios.post(
       `${apiUrl}/api/movement/bill/get/data`,
       {
         cbte: cbte,
         billType: billType,
+        ptoVta: ptoVta ?? null,
       },
       { withCredentials: true }
     );
@@ -567,12 +600,11 @@ export const printNCRequest = async (orderId, ncNum) => {
     throw error;
   }
 };
-export const printNCByNumRequest = async (ncNum, currentAcountId) => {
+export const printNCByNumRequest = async (ncNum, currentAcountId, ptoVta) => {
   try {
-    const { data } = await axios.get(
-      `${apiUrl}/api/movement/nc/data/num/${ncNum}/${currentAcountId}`,
-      { withCredentials: true }
-    );
+    let url = `${apiUrl}/api/movement/nc/data/num/${ncNum}/${currentAcountId}`;
+    url = ptoVta ? `${url}?ptoVta=${ptoVta}` : url;
+    const { data } = await axios.get(url, { withCredentials: true });
     // console.log("verdata", data);
     return data;
   } catch (error) {
@@ -727,6 +759,88 @@ export const getListProductsClient = async (send) => {
       : `${apiUrl}/api/purchase/order/list/buy/products/${currentAcountId}`;
     const { data } = await axios.get(url, { withCredentials: true });
     return data;
+  } catch (error) {
+    if (error.response?.status == 401) {
+      window.location.href = '/';
+    }
+    throw error;
+  }
+};
+export const addOrderItemsByFile = async (sendData) => {
+  try {
+    const { orderId, file } = sendData;
+    const formData = new FormData();
+    formData.append('file', file);
+    const url = `${apiUrl}/api/purchase/order/add/items/file/${orderId}`;
+    const { data } = await axios.post(url, formData, {
+      withCredentials: true, // Para incluir cookies si es necesario
+      headers: {
+        'Content-Type': 'multipart/form-data', // Asegurar que el servidor lo interprete correctamente
+      },
+    });
+    return data;
+  } catch (error) {
+    if (error.response?.status == 401) {
+      window.location.href = '/';
+    }
+    throw error;
+  }
+};
+export const searchPendings = async (sendFilters) => {
+  try {
+    const url = `${apiUrl}/api/pending/search`;
+    const { data } = await axios.post(url, sendFilters);
+    return data;
+  } catch (error) {
+    if (error.response?.status == 401) {
+      window.location.href = '/';
+    }
+    throw error;
+  }
+};
+
+export const getPendingReport = async (filter) => {
+  try {
+    const res = await axios.post(`${apiUrl}/api/pending/file`, filter, {
+      responseType: 'blob',
+    });
+    return res;
+  } catch (error) {
+    if (error.response?.status == 401) {
+      window.location.href = '/';
+    }
+    throw error;
+  }
+};
+
+export const delPending = async (id) => {
+  try {
+    const res = await axios.delete(`${apiUrl}/api/pending/del/${id}`);
+    return res;
+  } catch (error) {
+    if (error.response?.status == 401) {
+      window.location.href = '/';
+    }
+    throw error;
+  }
+};
+
+export const delPendingReg = async (id) => {
+  try {
+    const res = await axios.delete(`${apiUrl}/api/pending/registry/${id}`);
+    return res.data;
+  } catch (error) {
+    if (error.response?.status == 401) {
+      window.location.href = '/';
+    }
+    throw error;
+  }
+};
+
+export const newPending = async (sendData) => {
+  try {
+    const res = await axios.post(`${apiUrl}/api/pending/add`, sendData);
+    return res;
   } catch (error) {
     if (error.response?.status == 401) {
       window.location.href = '/';

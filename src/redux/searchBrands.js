@@ -9,10 +9,6 @@ export const getBrandByDataRequest = createAsyncThunk(
   'GET_BRAND_DATA',
   brandRequest.getBrandsByData
 );
-export const toggleEcommerceBrandRequest = createAsyncThunk(
-  'TOGGLE_ECOMMERCE_BRAND',
-  brandRequest.toggleEcommerce
-);
 export const addSupplierToBrandRequest = createAsyncThunk(
   'ADD_SUPPLIER_TO_BRAND',
   brandRequest.addSupplierToBrand
@@ -36,19 +32,6 @@ const searchBrandSlice = createSlice({
     [getBrandByDataRequest.fulfilled]: (state, action) => {
       state.loading = false;
       state.data = action.payload;
-    },
-    [toggleEcommerceBrandRequest.rejected]: (state, action) => {
-      state.error = action.error.message;
-    },
-    [toggleEcommerceBrandRequest.fulfilled]: (state, action) => {
-      const newList = state.data.map((item) => {
-        if (item.id == action.payload) {
-          item.ecommerce = !item.ecommerce;
-        }
-        return item;
-      });
-      state.error = '';
-      state.data = newList;
     },
     [addSupplierToBrandRequest.pending]: (state, action) => {
       state.loading = true;

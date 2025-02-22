@@ -9,17 +9,20 @@ import { getClientIdRequest, resetAllClientRequest } from '../redux/client';
 function EditClientViewContainer(props) {
   const { client, close, clientId } = props;
   // console.log(client);
-  const { loading } = useSelector((state) => state.searchClients);
+  // const { loading } = useSelector((state) => state.searchClients);
 
-  const sendClient = clientId
-    ? useSelector((state) => state.client).data
-    : client;
+  const { data, loading } = useSelector((state) => state.client);
+
+  const sendClient = data;
 
   const sellers = useSelector((state) => state.seller);
+
+  // console.log(sellers)
   const methods = useForm();
   const dispatch = useDispatch();
   const updateClient = (data) => {
     const { iva, sellerId, ...clientData } = data;
+    clientData.acceptPending = sendClient.acceptPending;
     clientData.iva = iva != '' ? iva : sendClient.iva;
     clientData.sellerId =
       sellerId != '' ? Number(sellerId) : sendClient.sellerId;
@@ -33,11 +36,11 @@ function EditClientViewContainer(props) {
     });
   };
   useEffect(() => {
-    dispatch(getSellersRequest());
-    if (clientId) {
-      dispatch(getClientIdRequest(clientId));
-    }
-    return () => dispatch(resetAllClientRequest());
+    dispatch(getSellersRequest())
+    dispatch(getClientIdRequest(client.id));
+    return () => {
+      dispatch(resetAllClientRequest());
+    };
   }, []);
   return (
     <EditClientViewComponent

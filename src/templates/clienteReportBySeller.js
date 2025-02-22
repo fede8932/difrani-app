@@ -1,75 +1,77 @@
-import { fechaConverter } from "../utils";
+import { fechaConverter } from '../utils';
 
 export const clienteReportBySeller = async (cuil, name, lastName, clients) => {
   function convertirFecha(fechaISO) {
     const fecha = new Date(fechaISO);
-    const dia = String(fecha.getDate()).padStart(2, "0");
-    const mes = String(fecha.getMonth() + 1).padStart(2, "0"); // Los meses empiezan desde 0
+    const dia = String(fecha.getDate()).padStart(2, '0');
+    const mes = String(fecha.getMonth() + 1).padStart(2, '0'); // Los meses empiezan desde 0
     const anio = fecha.getFullYear();
 
     return `${dia}/${mes}/${anio}`;
   }
   function formatoNumero(valor) {
     const numero = parseFloat(valor).toFixed(2);
-    let [entero, decimales] = numero.split(".");
-    entero = entero.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    let [entero, decimales] = numero.split('.');
+    entero = entero.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
     return `${entero},${decimales}`;
   }
 
   const lista = clients.map((c) => {
-    const items = c.currentAcount.movements?.map((i) => {
-      let concep = "";
-      if (i.type == 0) {
-        //type = 0 es factura o presupuesto
-        if (i.billType == 0) {
-          //billType = 0 es presupuesto
-          concep = "Presupuesto";
+    if (c?.currentAcount?.resume < -0.5) {
+      const items = c.currentAcount.movements?.map((i) => {
+        let concep = '';
+        if (i.type == 0) {
+          //type = 0 es factura o presupuesto
+          if (i.billType == 0) {
+            //billType = 0 es presupuesto
+            concep = 'Presupuesto';
+          }
         }
-      }
-      if (i.type == 0) {
-        //type = 0 es factura o presupuesto
-        if (i.billType != 0) {
-          //billType = 0 es presupuesto
-          concep = "Factura";
+        if (i.type == 0) {
+          //type = 0 es factura o presupuesto
+          if (i.billType != 0) {
+            //billType = 0 es presupuesto
+            concep = 'Factura';
+          }
         }
-      }
-      if (i.type == 1) {
-        //type = 1 es nc oficial
-        concep = "Nota de crédito";
-      }
-      if (i.type == 3) {
-        //type = 1 es nc oficial
-        concep = "Nota de crédito X";
-      }
-      return `<tr>
-      <td>${convertirFecha(i?.fecha)}</td>
-      <td>${i?.numComprobante}</td>
-      <td>${concep}</td>
-      <td>$${formatoNumero(i?.total)}</td>
-    </tr>`;
-    });
-    return `<div>
-        <h3>Cliente: ${c?.razonSocial}</h3>
-        <table>
-          <thead>
-            <tr>
-              <th>Fecha</th>
-              <th>Comprobante</th>
-              <th>Concepto</th>
-              <th>Total</th>
-            </tr>
-          </thead>
-          <tbody>
-            ${items}
-          </tbody>
-          <tfoot>
-            <tr>
-              <td colspan="3" class="total">Total:</td>
-              <td>$${formatoNumero(c?.currentAcount?.resume)}</td>
-            </tr>
-          </tfoot>
-        </table>
-      </div>`;
+        if (i.type == 1) {
+          //type = 1 es nc oficial
+          concep = 'Nota de crédito';
+        }
+        if (i.type == 3) {
+          //type = 1 es nc oficial
+          concep = 'Nota de crédito X';
+        }
+        return `<tr>
+        <td>${convertirFecha(i?.fecha)}</td>
+        <td>${i?.numComprobante}</td>
+        <td>${concep}</td>
+        <td>$${i?.saldoPend ? `${formatoNumero(i?.saldoPend)} ${i?.saldoPend == i?.total ? '' : '(P)'}` : formatoNumero(i?.total)}</td>
+      </tr>`;
+      });
+      return `<div>
+          <h3>Cliente: ${c?.razonSocial}</h3>
+          <table>
+            <thead>
+              <tr>
+                <th>Fecha</th>
+                <th>Comprobante</th>
+                <th>Concepto</th>
+                <th>Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${items}
+            </tbody>
+            <tfoot>
+              <tr>
+                <td colspan="3" class="total">Total:</td>
+                <td>$${formatoNumero(c?.currentAcount?.resume)}</td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>`;
+    }
   });
 
   return `<!DOCTYPE html>

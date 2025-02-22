@@ -17,6 +17,10 @@ export const deleteOrderItemsRequest = createAsyncThunk(
   'DELETE_ITEM',
   orderRequest.deleteOrderItem
 );
+export const deleteNoMarcOrderItemsRequest = createAsyncThunk(
+  'DELETE_NO_MARC_ITEMS',
+  orderRequest.deleteMarcOrderItems
+);
 export const deleteSellOrderItemsRequest = createAsyncThunk(
   'DELETE_SELL_ITEM',
   orderRequest.deleteSellOrderItem
@@ -54,6 +58,15 @@ const newOrderItem = createSlice({
       state.loading = false;
       state.error = '';
       state.data = [];
+    },
+    toggleNoRemove: (state, action) => {
+      const newList = state.data.map((item) => {
+        if (item.id == action.payload) {
+          item.noRemove = !item.noRemove;
+        }
+        return item;
+      });
+      state.data = newList;
     },
   },
   extraReducers: {
@@ -94,6 +107,7 @@ const newOrderItem = createSlice({
     [getOrderItemsRequest.fulfilled]: (state, action) => {
       const newState = action.payload.map((item) => {
         item.marc = false;
+        item.noRemove = false;
         return item;
       });
       state.loading = false;
@@ -119,6 +133,21 @@ const newOrderItem = createSlice({
     },
     [deleteOrderItemsRequest.fulfilled]: (state, action) => {
       state.data = action.payload;
+      state.loading = false;
+    },
+    [deleteNoMarcOrderItemsRequest.pending]: (state, action) => {
+      state.loading = true;
+    },
+    [deleteNoMarcOrderItemsRequest.rejected]: (state, action) => {
+      state.loading = false;
+      state.error = action.error.message;
+    },
+    [deleteNoMarcOrderItemsRequest.fulfilled]: (state, action) => {
+      const newList = [...state.data].filter((item) => {
+        if (action.payload.findIndex((id) => id == item.id) == -1) return true;
+        return false;
+      });
+      state.data = newList;
       state.loading = false;
     },
     [deleteSellOrderItemsRequest.pending]: (state, action) => {
@@ -189,6 +218,6 @@ const newOrderItem = createSlice({
   },
 });
 
-export const { resetAddOrderItems } = newOrderItem.actions;
+export const { resetAddOrderItems, toggleNoRemove } = newOrderItem.actions;
 
 export default newOrderItem.reducer;

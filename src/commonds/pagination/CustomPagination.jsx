@@ -5,7 +5,7 @@ const CustomPagination = (props) => {
   const { pages, changeFn, initPage } = props;
   const [activePage, setActivePage] = useState(initPage);
   const onPageChange = (e, d) => {
-    console.log(d);
+    // console.log(d);
     setActivePage(d.activePage);
     changeFn(d.activePage);
   };

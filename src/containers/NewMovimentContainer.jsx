@@ -4,11 +4,11 @@ import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   addPayToCurrentAcount,
-  getMovementsByCurrentAcountId,
   getMovementsByCurrentAcountIdX,
 } from '../redux/searchCurrentAcount';
 import {
   convertImageToBase64,
+  convertirStringANumero,
   filterMovsId,
   obtenerIds,
   redondearADosDecimales,
@@ -26,12 +26,31 @@ import { addCancelToCurrentAcount } from '../request/currentAcountRequest';
 
 function NewMovimientContainer(props) {
   const [inactive, setInactive] = useState(false);
-  const [selectState, setSelectState] = useState('p');
-  const [method, setMethod] = useState({
-    method: 2,
-    fecha: new Date().toISOString(),
-    fechaCobro: null,
+  const [cantTransf, setCantTransf] = useState(1);
+  //Estado de activación de métodos de pago
+  const [payMethod, setPayMethod] = useState({
+    efectivo: true,
+    cheque: false,
+    transferencia: false,
   });
+
+  //
+  const [payChDate, setPayChDate] = useState([
+    {
+      fecha: new Date().toISOString(),
+      fechaCobro: null,
+    },
+  ]);
+
+  const changePayMethod = (name) => {
+    let newPayMethod = { ...payMethod };
+    newPayMethod[name] = !newPayMethod[name];
+    //Si todas las propiedades son false no hago nada
+    if (!Object.values(newPayMethod).every((value) => !value)) {
+      setPayMethod(newPayMethod);
+    }
+  };
+
   // console.log(method);
   const itemList = useSelector((state) => state.listOrderItems);
   const filterMovements = useSelector((state) => state.filterMovementsOrder);
@@ -50,51 +69,97 @@ function NewMovimientContainer(props) {
     dispatch(marcToggleNoApplyRequest(movId));
   };
   const saveMoviment = (data) => {
-    setInactive(true);
-    if (
-      method.fecha == null ||
-      (method.method == 1 && method.fechaCobro == null)
-    ) {
-      Swal.fire({
-        icon: 'error',
-        title: 'Oops...',
-        text: 'La fecha seleccionada es incorrecta',
-      });
-      return;
+    let pcdLap = 0;
+    //Acá lanzamos error cuando hay problemas con las fechas
+    while (pcdLap < payChDate.length) {
+      if (
+        payChDate[pcdLap].fecha == null &&
+        payChDate[pcdLap].fechaCobro == null
+      ) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'La fecha seleccionada es incorrecta',
+        });
+        return;
+      }
+      pcdLap++;
     }
+
+    setInactive(true); // Esto es para desacrtivar el boton de submit
+
+    let dataCheque = { active: payMethod.cheque, cheques: [] };
+    // console.log(payChDate)
+    for (let i = 0; i < payChDate.length; i++) {
+      dataCheque.active = payMethod.cheque;
+      const cheqData = {
+        date: payChDate[i].fecha,
+        efectiveDate: payChDate[i].fechaCobro,
+        entidad: data[`chBanco-${i}`],
+        importe: convertirStringANumero(data[`chImporte-${i}`]),
+        numero: data[`numCheque-${i}`],
+      };
+      dataCheque.cheques.push(cheqData);
+    }
+
+    let dataTran = { active: payMethod.transferencia, trans: [] };
+
+    for (let i = 0; i < cantTransf; i++) {
+      dataTran.active = payMethod.transferencia;
+      const bankData = {
+        numOperation: data[`numOperation-${i}`],
+        entidad: data[`trBanco-${i}`],
+        importe: convertirStringANumero(data[`trImporte-${i}`]),
+      };
+      dataTran.trans.push(bankData);
+    }
+    const efectiveData = {
+      active: payMethod.efectivo,
+      importe: convertirStringANumero(data.efImporte),
+    };
+
+    let totalPay = efectiveData.active ? efectiveData.importe : 0;
+    totalPay = dataTran.active ? dataTran.trans.reduce((acum, tran) => acum + tran.importe, totalPay) : totalPay;
+    totalPay = dataCheque.active ? dataCheque.cheques.reduce((acum, cheque) => acum + cheque.importe, totalPay) : totalPay;
+
+    // console.log(totalPay)
+
     let saldoPend =
       redondearADosDecimales(
         listMov?.reduce((acum, mov) => acum + mov.saldoPend, 0)
       ) - listNcNoApply.montoTotal;
     // return;
     saldoPend = checked ? saldoPend * (1 - 0.06) : saldoPend;
-    if (saldoPend < Number(data.importe)) {
+    if (
+      saldoPend < totalPay
+    ) {
       Swal.fire({
         icon: 'error',
         title: 'Oops...',
         text: 'El importe no puede superar el saldo pendiente',
       });
+      setInactive(false);
       return;
     }
     const payData = {
-      amount: Number(data.importe),
+      pay: {
+        dataTran: dataTran.active ? dataTran.trans : [],
+        dataCheque: dataCheque.active ? dataCheque.cheques : [],
+        dataEfective: efectiveData.active ? efectiveData.importe : 0,
+      },
       billIdList: filterMovsId(listMov),
       discount: checked,
       ncIdList: obtenerIds(listNoApplyMarc),
-      method: method,
       comprobanteVendedor: data.comprobanteVendedor,
-      numOperation: data.numOperation,
-      banco: data.banco,
-      numCheque: data.numCheque,
     };
     dispatch(addPayToCurrentAcount(payData))
       .then((res) => {
         const { payload } = res;
         // console.log(payload);
-        dispatch(getMovementsByCurrentAcountIdX(filterMovements)).then(()=>{
+        dispatch(getMovementsByCurrentAcountIdX(filterMovements)).then(() => {
           setInactive(false);
           rest.closeModal();
-        })
+        });
         // dispatch(
         //   getMovementsByCurrentAcountId({
         //     currentAcountId: currentAcountId,
@@ -159,20 +224,22 @@ function NewMovimientContainer(props) {
   return (
     <NewMoviment
       {...rest}
-      setMethod={setMethod}
-      method={method}
+      setPayChDate={setPayChDate}
+      payChDate={payChDate}
       listMov={listMov}
       listNcNoApply={listNcNoApply}
       methods={methods}
       onSubmit={saveMoviment}
-      selectState={selectState}
-      setSelectState={setSelectState}
       setChecked={setChecked}
       checked={checked}
       itemList={itemList}
       marcToggle={marcToggle}
       cancelFactFn={cancelFactFn}
       inactive={inactive}
+      payMethod={payMethod}
+      changePayMethod={changePayMethod}
+      cantTransf={cantTransf}
+      setCantTransf={setCantTransf}
     />
   );
 }

@@ -36,7 +36,7 @@ function SubFormAddClientComponent(props) {
             navigate('/search/client');
             return;
           }
-          navigate('/');
+          navigate('/search/client');
         }}
         style={{
           backgroundColor: '#673ab7',

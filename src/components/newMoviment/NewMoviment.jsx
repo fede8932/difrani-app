@@ -8,36 +8,35 @@ import Button from 'react-bootstrap/esm/Button';
 import {
   compareNCListFactList,
   filterOrders,
-  redondearADosDecimales,
+  numberToString,
 } from '../../utils';
-import { Checkbox } from 'semantic-ui-react';
+import { Checkbox, Divider } from 'semantic-ui-react';
 import RoleTableContainer from '../../containers/RoleTableContainer';
-import { useSelector } from 'react-redux';
 import { Spinner } from 'react-bootstrap';
 import { DatePicker } from 'antd';
 
 function NewMoviment(props) {
   const {
     methods,
-    method,
-    setMethod,
     onSubmit,
-    selectState,
-    setSelectState,
     listMov,
     checked,
     setChecked,
     listNcNoApply,
+    payMethod,
     marcToggle,
-    maxPay,
     cancelFactFn,
     inactive,
+    changePayMethod,
+    payChDate,
+    setPayChDate,
+    cantTransf,
+    setCantTransf,
   } = props;
-  // console.log(listMov);
-  // console.log(itemList);
-  const loading = useSelector((state) => state.searchOrders).loading;
+
+  // const loading = useSelector((state) => state.searchOrders).loading;
   const [applyNc, setApplyNc] = useState(false);
-  const [movType, setMovType] = useState(1);
+  const [movType, setMovType] = useState(null);
   const handleMovSelect = (e) => {
     setMovType(e);
     if (e == 2) {
@@ -62,13 +61,15 @@ function NewMoviment(props) {
           <div>
             <i class="fa-solid fa-file-invoice"></i>
             <span style={{ marginLeft: '5px' }}>
-              Saldo pendiente: $
-              {/* {redondearADosDecimales(
+              Saldo máximo: $
+              {numberToString(
                 checked
-                  ? listMov?.reduce((acum, mov) => acum + mov.saldoPend, 0) *
+                  ? (listMov?.reduce((acum, mov) => acum + mov.saldoPend, 0) -
+                      listNcNoApply.montoTotal) *
                       (1 - 0.06)
-                  : listMov?.reduce((acum, mov) => acum + mov.saldoPend, 0)
-              )} */}
+                  : listMov?.reduce((acum, mov) => acum + mov.saldoPend, 0) -
+                      listNcNoApply.montoTotal
+              )}
             </span>
           </div>
         </div>
@@ -89,37 +90,46 @@ function NewMoviment(props) {
           {movType == 1 ? (
             <>
               <span>Medio de pago</span>
-              <CustomSelect
-                defaultValue={2}
-                text="Selecccionar el método de pago"
-                name="method"
-                validate={{ required: true }}
-                arrayOptions={[
-                  { value: 1, text: 'Cheque' },
-                  { value: 2, text: 'Efectivo' },
-                  { value: 3, text: 'Transferencia' },
-                ]}
-                fnSelect={(e) => {
-                  console.log(e);
-                  let newMethod = { ...method };
-                  // console.log(newMethod);
-                  newMethod.method = Number(e);
-                  setMethod(newMethod);
-                }}
-              />
-              <div className={styles.divInputCont2}>
-                {/* <DatePicker
-                  placeholder="Fecha de ingreso"
-                  className={styles.pickStyle}
-                  onChange={(date) => {
-                    if (date) {
-                      let newMethod = { ...method };
-                      newMethod.fecha = date.toISOString(); // Convierte la fecha al formato ISO
-                      setMethod(newMethod);
-                    }
+              <div className={styles.checkCont}>
+                <Checkbox
+                  label="Efectivo"
+                  checked={payMethod.efectivo}
+                  onChange={() => {
+                    changePayMethod('efectivo');
                   }}
-                  getPopupContainer={(trigger) => trigger.parentNode}
-                /> */}
+                />
+                <Checkbox
+                  label="Cheque"
+                  checked={payMethod.cheque}
+                  onChange={() => {
+                    changePayMethod('cheque');
+                  }}
+                />
+                <Checkbox
+                  label="Transferencia"
+                  checked={payMethod.transferencia}
+                  onChange={() => {
+                    changePayMethod('transferencia');
+                  }}
+                />
+                <div className={styles.seisCont}>
+                  <Checkbox
+                    label="Aplicar descuento del 6% por pago en término"
+                    onClick={() => setChecked(!checked)}
+                    checked={checked}
+                  />
+                </div>
+                <div>
+                  <Checkbox
+                    style={{ marginBottom: '10px' }}
+                    label="Aplicar NC"
+                    onClick={() => setApplyNc(!applyNc)}
+                    checked={applyNc}
+                  />
+                  <br />
+                </div>
+              </div>
+              <div className={styles.divInputCont2}>
                 <CustomInput
                   name="comprobanteVendedor"
                   type="text"
@@ -129,116 +139,190 @@ function NewMoviment(props) {
                   validate={{ required: true }}
                 />
               </div>
-              {method.method == 3 || method.method == 1 ? (
-                <div className={styles.divInputCont2}>
-                  {method.method == 3 ? (
-                    <CustomInput
-                      name="numOperation"
-                      type="text"
-                      width="small"
-                      placeholder="Ingrese el número de operación"
-                      icon="fa-solid fa-arrow-down-up-across-line"
-                      validate={{ required: true }}
+              <Divider />
+              {applyNc ? (
+                <div style={{ position: 'relative' }}>
+                  <span className={styles.pLabel}>Nota de crédito</span>
+                  <div className={styles.ncTableCont}>
+                    <RoleTableContainer
+                      slim
+                      colum={[
+                        { title: 'Marcar', width: '20%' },
+                        { title: 'Fecha', width: '25%' },
+                        { title: 'Comprobante', width: '30%' },
+                        { title: 'Monto', width: '25%' },
+                      ]}
+                      marcToggle={marcToggle}
+                      result={listNcNoApply.data}
+                      type="noApply"
+                      checked={checked}
+                      omitPaginator={true}
                     />
-                  ) : null}
-                  <CustomInput
-                    name="banco"
-                    type="text"
-                    width={method.method == 3 ? 'xsmall' : 'small'}
-                    placeholder="Ingrese el nombre del banco"
-                    icon="fa-solid fa-building-columns"
-                    validate={{ required: true }}
-                  />
+                  </div>
+                  <div style={{ marginTop: '15px' }}>
+                    <Divider />
+                  </div>
                 </div>
               ) : null}
-              {method.method == 1 ? (
-                <div className={styles.divInputCont2}>
-                  <DatePicker
-                    placeholder="Fecha de cobro"
-                    className={styles.pickStyle}
-                    onChange={(date) => {
-                      if (date) {
-                        let newMethod = { ...method };
-                        newMethod.fechaCobro = date.toISOString(); // Convierte la fecha al formato ISO
-                        setMethod(newMethod);
-                      }
-                    }}
-                    getPopupContainer={(trigger) => trigger.parentNode}
-                  />
-                  <CustomInput
-                    name="numCheque"
-                    type="text"
-                    width="xsmall"
-                    placeholder="Ingrese el número de cheque"
-                    icon="fa-solid fa-money-check"
-                    validate={{ required: true }}
-                  />
+              {payMethod.transferencia ? (
+                <div style={{ position: 'relative' }}>
+                  <span className={styles.pLabel}>Transferencia</span>
+                  {Array(cantTransf)
+                    .fill(null)
+                    .map((_, i) => (
+                      <>
+                        <div className={styles.divInputCont2}>
+                          <CustomInput
+                            name={`numOperation-${i}`}
+                            type="text"
+                            width="small"
+                            placeholder="Ingrese el número de operación"
+                            icon="fa-solid fa-arrow-down-up-across-line"
+                            validate={{ required: true }}
+                          />
+                          <CustomInput
+                            name={`trBanco-${i}`}
+                            type="text"
+                            width="xsmall"
+                            placeholder="Ingrese el nombre del banco"
+                            icon="fa-solid fa-building-columns"
+                            validate={{ required: true }}
+                          />
+                        </div>
+                        <div>
+                          <EditInput
+                            formatNum
+                            name={`trImporte-${i}`}
+                            type="text"
+                            width="complete"
+                            placeholder={`Ingrese el monto de la transferencia`}
+                            icon="fa-solid fa-hand-holding-dollar"
+                            validate={{ required: true }}
+                          />
+                        </div>
+                      </>
+                    ))}
+                  <div className={styles.addButtonCont}>
+                    <button
+                      type="button"
+                      className={styles.addButton}
+                      onClick={() => setCantTransf(cantTransf + 1)}
+                    >
+                      <i class="fa-solid fa-plus"></i>
+                    </button>
+                  </div>
+                  <Divider />
                 </div>
               ) : null}
-              <Checkbox
-                style={{ marginBottom: '10px' }}
-                label="Aplicar nota de crédito"
-                onClick={() => setApplyNc(!applyNc)}
-                checked={applyNc}
-              />
-              <br />
+              {payMethod.cheque ? (
+                <div style={{ position: 'relative' }}>
+                  <span className={styles.pLabel}>Cheque</span>
+                  {payChDate.map((_, i) => (
+                      <>
+                        <div className={styles.divInputCont2}>
+                          <DatePicker
+                            placeholder="Fecha de cobro"
+                            className={styles.pickStyle}
+                            onChange={(date) => {
+                              if (date) {
+                                let newpayChDate = [...payChDate];
+                                newpayChDate[i].fechaCobro = date.toISOString(); // Convierte la fecha al formato ISO
+                                setPayChDate(newpayChDate);
+                              }
+                            }}
+                            getPopupContainer={(trigger) => trigger.parentNode}
+                          />
+                          <CustomInput
+                            name={`numCheque-${i}`}
+                            type="text"
+                            width="xsmall"
+                            placeholder="Ingrese el número de cheque"
+                            icon="fa-solid fa-money-check"
+                            validate={{ required: true }}
+                          />
+                        </div>
+                        <div className={styles.divInputCont2}>
+                          <CustomInput
+                            name={`chBanco-${i}`}
+                            type="text"
+                            width="small"
+                            placeholder="Ingrese el nombre del banco"
+                            icon="fa-solid fa-building-columns"
+                            validate={{ required: true }}
+                          />
+                          <EditInput
+                            formatNum
+                            name={`chImporte-${i}`}
+                            type="text"
+                            width="xsmall"
+                            placeholder={`Ingrese el monto del cheque`}
+                            icon="fa-solid fa-hand-holding-dollar"
+                            validate={{ required: true }}
+                          />
+                        </div>
+                      </>
+                    ))}
+
+                  <div className={styles.addButtonCont}>
+                    <button
+                      type="button"
+                      className={styles.addButton}
+                      onClick={() => {
+                        let newChequeState = [...payChDate];
+                        newChequeState.push({
+                          fecha: new Date().toISOString(),
+                          fechaCobro: null,
+                        });
+                        setPayChDate(newChequeState);
+                      }}
+                    >
+                      <i class="fa-solid fa-plus"></i>
+                    </button>
+                  </div>
+                  <Divider />
+                </div>
+              ) : null}
             </>
-          ) : null}
-          {applyNc ? (
-            <div className={styles.ncTableCont}>
-              <RoleTableContainer
-                colum={[
-                  { title: 'Marcar', width: '20%' },
-                  { title: 'Fecha', width: '25%' },
-                  { title: 'Comprobante', width: '30%' },
-                  { title: 'Monto', width: '25%' },
-                ]}
-                marcToggle={marcToggle}
-                result={listNcNoApply.data}
-                type="noApply"
-                checked={checked}
-                omitPaginator={true}
-              />
+          ) : movType == 2 ? (
+            <div style={{ position: 'relative' }}>
+              <div className={styles.ncTableCont}>
+                <RoleTableContainer
+                  slim
+                  colum={[
+                    { title: 'Marcar', width: '20%' },
+                    { title: 'Fecha', width: '25%' },
+                    { title: 'Comprobante', width: '30%' },
+                    { title: 'Monto', width: '25%' },
+                  ]}
+                  marcToggle={marcToggle}
+                  result={listNcNoApply.data}
+                  type="noApply"
+                  checked={checked}
+                  omitPaginator={true}
+                />
+              </div>
+              <div style={{ marginTop: '25px' }}>
+                <Divider />
+              </div>
             </div>
           ) : null}
-          {movType == 1 ? (
-            <>
-              <span>{`Monto del movimiento *Máx $${redondearADosDecimales(
-                checked
-                  ? (listMov?.reduce((acum, mov) => acum + mov.saldoPend, 0) -
-                      listNcNoApply.montoTotal) *
-                      (1 - 0.06)
-                  : listMov?.reduce((acum, mov) => acum + mov.saldoPend, 0) -
-                      listNcNoApply.montoTotal
-              )}`}</span>
-              <EditInput
-                defaultValue={
-                  checked
-                    ? listMov?.reduce((acum, mov) => acum + mov.saldoPend, 0) *
-                      (1 - 0.06)
-                    : listMov?.reduce((acum, mov) => acum + mov.saldoPend, 0)
-                }
-                name="importe"
-                type="text"
-                width="complete"
-                placeholder={`Ingrese el monto ${
-                  selectState == 'nc' ? 'sin iva ' : ''
-                }del movimiento`}
-                icon="fa-solid fa-hand-holding-dollar"
-                validate={{ required: true }}
-              />
-            </>
+          {payMethod.efectivo && movType == 1 ? (
+            <div style={{ position: 'relative' }}>
+              <span className={styles.pLabel}>Efectivo</span>
+              <div style={{ paddingTop: '15px' }}>
+                <EditInput
+                  formatNum
+                  name="efImporte"
+                  type="text"
+                  width="complete"
+                  placeholder="Ingrese el monto en efectivo"
+                  icon="fa-solid fa-hand-holding-dollar"
+                  validate={{ required: true }}
+                />
+              </div>
+            </div>
           ) : null}
           <div className={styles.buttonContainer}>
-            {movType == 1 ? (
-              <Checkbox
-                label="Aplicar descuento del 6% por pago en término"
-                onClick={() => setChecked(!checked)}
-                checked={checked}
-              />
-            ) : (
-              <div></div>
-            )}
             {movType == 1 ? (
               <Button
                 disabled={

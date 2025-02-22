@@ -1,6 +1,8 @@
 import axios from 'axios';
 const apiUrl = import.meta.env.VITE_API_URL;
 
+let cancelTokenSource = null;
+
 export const createProduct = async (productData) => {
   try {
     // Crear un objeto FormData para enviar los datos del producto y las imágenes
@@ -96,15 +98,32 @@ export const searchProducts = async (productData) => {
 };
 export const searchExtraProducts = async (productData) => {
   try {
+    // Cancelar la solicitud anterior si existe
+    if (cancelTokenSource) {
+      cancelTokenSource.cancel('Cancelando la solicitud anterior.');
+    }
+
+    // Crear un nuevo token de cancelación
+    cancelTokenSource = axios.CancelToken.source();
+
     const url = `${apiUrl}/api/productos/search`;
-    const products = await axios.post(url, productData, {
+    const response = await axios.post(url, productData, {
       withCredentials: true,
+      cancelToken: cancelTokenSource.token, // Asociar el token de cancelación
     });
-    return products.data;
+
+    // Restablecer el token después de una solicitud exitosa
+    cancelTokenSource = null;
+
+    return response.data;
   } catch (error) {
-    if (error.response?.status == 401) {
+    if (axios.isCancel(error)) {
+      console.log('Solicitud cancelada:', error.message);
+    } else if (error.response?.status === 401) {
       window.location.href = '/';
     }
+    // Restablecer el token en caso de error
+    cancelTokenSource = null;
     throw error;
   }
 };
@@ -138,8 +157,7 @@ export const searchOneProduct = async (productData) => {
 };
 export const updateStock = async (productData) => {
   try {
-    const { items } = productData;
-    // console.log(items)
+    const { items, controlOrderId } = productData;
     const newItems = items.map((item) => {
       const newItem = {
         productId: item.productId,
@@ -150,7 +168,7 @@ export const updateStock = async (productData) => {
     });
     const { data } = await axios.put(
       `${apiUrl}/api/productos/update/stock/add`,
-      { items: newItems },
+      { items: newItems, controlOrderId: controlOrderId },
       { withCredentials: true }
     );
     return data;

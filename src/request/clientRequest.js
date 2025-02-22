@@ -37,10 +37,20 @@ export const getClients = async (idReq) => {
     });
     const arrayClients = data.map((client) => {
       return {
-        text: client.razonSocial,
+        label: client.razonSocial.toUpperCase(),
+        text: client.razonSocial.toUpperCase(),
         value: idReq ? client.id : client.razonSocial,
         id: client.id,
       };
+    });
+    arrayClients.sort((a, b) => {
+      if (a.text < b.text) {
+        return -1;
+      }
+      if (a.text > b.text) {
+        return 1;
+      }
+      return 0;
     });
     return arrayClients;
   } catch (error) {
@@ -99,6 +109,7 @@ export const getClientByData = async (dataSearch) => {
 export const updateClientById = async (dataUpdate) => {
   try {
     const { id, ...infoUpdate } = dataUpdate;
+    // console.log(infoUpdate)
     const { data } = await axios.put(
       `${apiUrl}/api/client/update/${id}`,
       infoUpdate,

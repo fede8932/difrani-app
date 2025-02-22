@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import * as sellerRequest from '../request/sellerRequest';
 const sellerState = {
   loading: false,
-  data: { registros: [], selectTotal: 0, selectComision: 0 },
+  data: { registros: [], selectTotal: 0, selectComision: 0, checkAll: false },
   error: '',
 };
 export const getSellerResumeRequest = createAsyncThunk(
@@ -40,6 +40,27 @@ const sellerResumeSlice = createSlice({
         return tot;
       }, 0);
     },
+    setAllMarc: (state, action) => {
+      let newReg = state.data.registros.map((reg) => {
+        if (!reg.liquidada) {
+          reg.marc = action.payload;
+        }
+        return reg;
+      });
+      state.data.selectTotal = newReg.reduce((tot, reg) => {
+        if (reg.marc && !reg.liquidada) {
+          return tot + reg.monto;
+        }
+        return tot;
+      }, 0);
+      state.data.selectComision = newReg.reduce((tot, reg) => {
+        if (reg.marc && !reg.liquidada) {
+          return tot + reg.comision;
+        }
+        return tot;
+      }, 0);
+      state.data.checkAll = action.payload
+    },
     resetMarc: (state, action) => {
       const newReg = state.data.registros.map((reg) => {
         if (action.payload.includes(reg.id)) {
@@ -50,6 +71,7 @@ const sellerResumeSlice = createSlice({
       state.data.selectTotal = 0;
       state.data.selectComision = 0;
       state.data.registros = newReg;
+      state.data.checkAll = false;
     },
   },
   extraReducers: {
@@ -92,6 +114,6 @@ const sellerResumeSlice = createSlice({
   },
 });
 
-export const { setMarc, resetMarc } = sellerResumeSlice.actions;
+export const { setMarc, resetMarc, setAllMarc } = sellerResumeSlice.actions;
 
 export default sellerResumeSlice.reducer;

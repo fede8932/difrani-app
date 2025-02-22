@@ -6,16 +6,28 @@ import { FormProvider } from 'react-hook-form';
 import Spinner from 'react-bootstrap/esm/Spinner';
 import CustomSelect from '../../commonds/select/CustomSelect';
 import Form from 'react-bootstrap/Form';
-import { Button as SemanticButton } from 'semantic-ui-react';
+import { Checkbox, Button as SemanticButton } from 'semantic-ui-react';
 import { useNavigate } from 'react-router';
 import ProtectedComponent from '../../protected/protectedComponent/ProtectedComponent';
 import PutCustomTextArea from '../../commonds/putTextArea/PutCustomTextArea';
+import { useDispatch } from 'react-redux';
+import { changeInput } from '../../redux/client';
 
 function EditClientViewComponent(props) {
   const { client, update, methods, loading, sellers } = props;
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   // console.log(client);
   const [readOnly, setReadOnly] = useState(true);
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    dispatch(changeInput({ name, value }));
+  };
+
+  const handleChequedChange = (e, d) => {
+    const { checked, name } = d;
+    dispatch(changeInput({ name, value: checked }));
+  };
   return (
     <div className={styles.editContainer}>
       <div className={styles.dataContainer}>
@@ -40,43 +52,70 @@ function EditClientViewComponent(props) {
         <span>
           IVA:<span className={styles.dataUser}>{client?.iva}</span>
         </span>
-        <Form.Check // prettier-ignore
-          type="switch"
-          id="custom-switch"
-          label="Editar"
-          onChange={() => {
-            setReadOnly(!readOnly);
-          }}
-        />
+        <ProtectedComponent listAccesss={[1, 2, 5, 6]}>
+          <Form.Check // prettier-ignore
+            type="switch"
+            id="custom-switch"
+            label="Editar"
+            onChange={() => {
+              setReadOnly(!readOnly);
+            }}
+          />
+        </ProtectedComponent>
       </div>
       <FormProvider {...methods}>
         <form
-          onSubmit={methods.handleSubmit(update)}
+          onChange={handleInputChange}
           className={styles.formContainer}
         >
           <div className={styles.inputContainer}>
             <div className={styles.leftInputContainer}>
-              <span className={styles.inputLabel}>Nombre</span>
+              <div
+                style={{
+                  display: 'flex',
+                  width: '100%',
+                  justifyContent: 'space-between',
+                }}
+              >
+                <div style={{ width: '50%', padding: '0px 0px 0px 5px' }}>
+                  <span className={styles.inputLabel}>Nombre</span>
+                  <CustomInput
+                    readOnly={readOnly}
+                    name="name"
+                    type="text"
+                    width="complete"
+                    placeholder="Nombre"
+                    icon="fa-solid fa-id-card"
+                    validate={{ required: true }}
+                    value={client?.user?.name}
+                  />
+                </div>
+                <div style={{ width: '50%', padding: '0px 0px 0px 5px' }}>
+                  <span className={styles.inputLabel}>Apellido</span>
+                  <CustomInput
+                    readOnly={readOnly}
+                    name="lastName"
+                    type="text"
+                    width="complete"
+                    placeholder="Apellido"
+                    icon="fa-solid fa-id-card"
+                    validate={{ required: true }}
+                    value={client?.user?.lastName}
+                  />
+                </div>
+              </div>
+              <span className={styles.inputLabel}>Razon Social</span>
               <CustomInput
                 readOnly={readOnly}
-                name="name"
+                name="razonSocial"
                 type="text"
                 width="large"
-                placeholder="Nombre"
-                icon="fa-solid fa-id-card"
-                validate={{ required: true }}
-                defaultValue={client?.user?.name}
-              />
-              <span className={styles.inputLabel}>Apellido</span>
-              <CustomInput
-                readOnly={readOnly}
-                name="lastName"
-                type="text"
-                width="large"
-                placeholder="Apellido"
-                icon="fa-solid fa-id-card"
-                validate={{ required: true }}
-                defaultValue={client?.user?.lastName}
+                placeholder="Razón social"
+                icon="fa-regular fa-envelope"
+                validate={{
+                  required: true,
+                }}
+                value={client?.razonSocial}
               />
               <span className={styles.inputLabel}>Email</span>
               <CustomInput
@@ -93,7 +132,7 @@ function EditClientViewComponent(props) {
                     message: 'Ingrese un correo electrónico válido',
                   },
                 }}
-                defaultValue={client?.user?.email}
+                value={client?.user?.email}
               />
 
               <div
@@ -113,7 +152,7 @@ function EditClientViewComponent(props) {
                     placeholder="Cuil"
                     icon="fa-solid fa-id-card"
                     validate={{ required: true }}
-                    defaultValue={client?.cuit}
+                    value={client?.cuit}
                   />
                 </div>
                 <div style={{ width: '50%', padding: '0px 0px 0px 5px' }}>
@@ -128,7 +167,7 @@ function EditClientViewComponent(props) {
                     validate={{
                       required: true,
                     }}
-                    defaultValue={client?.telefono}
+                    value={client?.telefono}
                   />
                 </div>
               </div>
@@ -141,7 +180,7 @@ function EditClientViewComponent(props) {
                 placeholder="Localidad"
                 icon="fa-solid fa-location-dot"
                 validate={{ required: true, maxLength: 25 }}
-                defaultValue={client?.localidad}
+                value={client?.localidad}
               />
             </div>
             <div className={styles.rigthInputContainer}>
@@ -154,7 +193,7 @@ function EditClientViewComponent(props) {
                 placeholder="Calle"
                 icon="fa-solid fa-location-dot"
                 validate={{ required: true, maxLength: 25 }}
-                defaultValue={client?.calle}
+                value={client?.calle}
               />
               <div
                 style={{
@@ -173,7 +212,7 @@ function EditClientViewComponent(props) {
                     placeholder="Altura"
                     icon="fa-solid fa-location-dot"
                     validate={{ required: true, maxLength: 10 }}
-                    defaultValue={client?.altura}
+                    value={client?.altura}
                   />
                 </div>
                 <div style={{ width: '50%', padding: '0px 0px 0px 5px' }}>
@@ -186,7 +225,7 @@ function EditClientViewComponent(props) {
                     placeholder="Código postal"
                     icon="fa-solid fa-location-dot"
                     validate={{ required: true, maxLength: 10 }}
-                    defaultValue={client?.codigoPostal}
+                    value={client?.codigoPostal}
                   />
                 </div>
               </div>
@@ -204,8 +243,8 @@ function EditClientViewComponent(props) {
                     name="sellerId"
                     text="Seleccioná un vendedor"
                     arrayOptions={sellers}
-                    validate={{ required: false }}
-                    defaultValue={client?.sellerId}
+                    //validate={{ required: false }}
+                    value={client?.sellerId}
                   />
                 </div>
                 <div style={{ width: '50%', padding: '0px 0px 0px 5px' }}>
@@ -223,17 +262,31 @@ function EditClientViewComponent(props) {
                       { value: 'NoGravado', text: 'NoGravado' },
                       { value: 'Final', text: 'Final' },
                     ]}
-                    validate={{ required: false }}
-                    defaultValue={client?.iva}
+                    //validate={{ required: false }}
+                    value={client?.iva}
                   />
                 </div>
               </div>
               <div style={{ width: '100%', padding: '0px 0px 0px 5px' }}>
+                <div
+                  style={{
+                    marginBottom: '8px',
+                    display: 'flex',
+                    justifyContent: 'flex-end',
+                  }}
+                >
+                  <Checkbox
+                    label="Acepta pendiente"
+                    checked={client?.acceptPending}
+                    name="acceptPending"
+                    onChange={handleChequedChange}
+                  />
+                </div>
                 <span className={styles.inputLabel}>Comentarios</span>
                 <PutCustomTextArea
                   width="large"
                   name="comentarios"
-                  defaultValue={client?.comentarios}
+                  value={client?.comentarios}
                 />
               </div>
             </div>
@@ -265,8 +318,8 @@ function EditClientViewComponent(props) {
                 </SemanticButton>
               </ProtectedComponent>
               <Button
-                disabled={readOnly}
-                type="submit"
+                onClick={methods.handleSubmit(update)}
+                type="button"
                 style={{
                   backgroundColor: '#673ab7',
                   border: '1px solid #673ab7',

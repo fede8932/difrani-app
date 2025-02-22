@@ -54,6 +54,21 @@ function EditProduct(props) {
             />
           </div>
         </ProtectedComponent>
+        <ProtectedComponent listAccesss={[1, 2]}>
+          <div className={styles.medium}>
+            <label>Precio</label>
+            <CustomInput
+              readOnly={false}
+              name="price"
+              type="text"
+              width="large"
+              placeholder="Precio"
+              icon="fa-solid fa-id-card"
+              validate={{ required: true }}
+              defaultValue={product?.data?.price?.price}
+            />
+          </div>
+        </ProtectedComponent>
         <div>
           <label>Descripción</label>
           <CustomInput
@@ -68,10 +83,12 @@ function EditProduct(props) {
           />
         </div>
         <div style={{ marginBottom: '10px' }}>
-          <FileInput
-            selectedFiles={files.selectedFiles}
-            setSelectedFiles={files.setSelectedFiles}
-          />
+          <ProtectedComponent listAccesss={[1, 2, 5, 6]}>
+            <FileInput
+              selectedFiles={files.selectedFiles}
+              setSelectedFiles={files.setSelectedFiles}
+            />
+          </ProtectedComponent>
         </div>
         <div className={styles.buttoContainer}>
           <Button

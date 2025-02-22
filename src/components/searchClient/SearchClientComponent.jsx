@@ -9,6 +9,7 @@ import CustomModal from '../../commonds/customModal/CustomModal';
 import { Popup } from 'semantic-ui-react';
 import BillReport from '../facturaReports/BillReport';
 import ProtectedComponent from '../../protected/protectedComponent/ProtectedComponent';
+import { getClientsId, getClientsMovements } from '../../request/sellerRequest';
 
 function SearchClientComponent(props) {
   const {
@@ -18,7 +19,24 @@ function SearchClientComponent(props) {
     redirectEditPercents,
     resetSearch,
     changePageFn,
+    sellerId,
   } = props;
+
+  const listClientDownload = async () => {
+    try {
+      getClientsId(sellerId);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  const listClientMovementsDownload = async () => {
+    try {
+      getClientsMovements();
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <FormProvider {...methods}>
       <form
@@ -82,7 +100,32 @@ function SearchClientComponent(props) {
                 </Button>
               </div>
               <div>
-                <ProtectedComponent listAccesss={[1, 2, 5, 6]}>
+                {sellerId ? (
+                  <div style={{ marginRight: '10px', display: 'inline-block' }}>
+                    <buton
+                      className={styles.iconB}
+                      onClick={listClientDownload}
+                    >
+                      <i className="fa-solid fa-file-export"></i>
+                      <span style={{ marginLeft: '4px' }}>Exportar lista</span>
+                    </buton>
+                  </div>
+                ) : null}
+                {!sellerId ? (
+                  <ProtectedComponent listAccesss={[1, 2]}>
+                    <buton
+                      style={{ marginRight: '10px' }}
+                      className={styles.iconB}
+                      onClick={() => listClientMovementsDownload()}
+                    >
+                      <i className="fa-solid fa-list-check"></i>
+                      <span style={{ marginLeft: '4px' }}>
+                        Descargar resumen
+                      </span>
+                    </buton>
+                  </ProtectedComponent>
+                ) : null}
+                <ProtectedComponent listAccesss={[1, 2]}>
                   <CustomModal
                     title="Descargar reporte de facturación"
                     size="lg"
@@ -95,6 +138,7 @@ function SearchClientComponent(props) {
                       </buton>
                     }
                     bodyModal={(props) => <BillReport {...props} />}
+                    bodyProps={{ sellerId: sellerId }}
                   />
                 </ProtectedComponent>
               </div>

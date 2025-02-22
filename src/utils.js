@@ -82,17 +82,31 @@ export function ajustOrderString(num) {
 }
 
 //Funcion que recibe un array de descuentos/recargos y el objeto brandProduct. Retorna un obj con el precio y precio + iva a renderizar con el descuento/recargo correspondiente (redondeado a 2 decimales)
-export function discountApplication(discountArray, product) {
+export function discountApplication(discountArray, product, noRound) {
   let initPrice = product.price.price * (1 + product.brand.rentabilidad);
-  discountArray.map((discount) => {
+  discountArray?.map((discount) => {
     if (product.brand.brandId == discount.brandId) {
       initPrice *= 1 + discount.porcentaje;
     }
   });
   const endPrice = initPrice * 1.21;
   return {
-    initPrice: redondearADosDecimales(initPrice),
-    endPrice: redondearADosDecimales(endPrice),
+    initPrice: noRound ? initPrice : redondearADosDecimales(initPrice),
+    endPrice: noRound ? endPrice : redondearADosDecimales(endPrice),
+  };
+}
+//Funcion que recibe un array de descuentos/recargos y el objeto brandProduct. Retorna un obj con el precio y precio + iva a renderizar con el descuento/recargo correspondiente (redondeado a 2 decimales)
+export function discountApplicationV2(discountArray, product, noRound) {
+  let initPrice = product.price.price * (1 + product.brand.rentabilidad);
+  discountArray?.map((discount) => {
+    if (product.brand.id == discount.brandId) {
+      initPrice *= 1 + discount.porcentaje;
+    }
+  });
+  const endPrice = initPrice * 1.21;
+  return {
+    initPrice: noRound ? initPrice : redondearADosDecimales(initPrice),
+    endPrice: noRound ? endPrice : redondearADosDecimales(endPrice),
   };
 }
 
@@ -467,6 +481,29 @@ export const checkActive = (obj) => {
   return true;
 };
 
+export const newPayButtonActive = (list) => {
+  // Verificar si todos los objetos tienen marc como falso
+  const allMarcFalse = list.every((item) => item.marc === false);
+
+  if (allMarcFalse) {
+    return true;
+  }
+
+  // Filtrar los objetos donde marc es verdadero
+  const markedItems = list.filter((item) => item.marc === true);
+
+  // Verificar si hay inconsistencias en el valor de esOferta (ignorar null)
+  const hasInconsistentEsOferta =
+    markedItems.some((item) => item.esOferta === true) &&
+    markedItems.some((item) => item.esOferta === false);
+
+  if (markedItems.length > 1 && hasInconsistentEsOferta) {
+    return true;
+  }
+
+  return false;
+};
+
 export function compareNCListFactList(factList, ncList) {
   let totalFact = 0;
   let totalNc = 0;
@@ -510,7 +547,11 @@ export function numberToString(numero) {
   let [entero, decimal] = numero.toString().split('.');
 
   // Formatear la parte entera con punto como separador de miles
-  const options = { minimumFractionDigits: 0, maximumFractionDigits: 0, useGrouping: true };
+  const options = {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+    useGrouping: true,
+  };
   entero = Number(entero).toLocaleString('es-ES', options);
 
   // Asegurar que la parte decimal tenga siempre dos dígitos
@@ -518,4 +559,20 @@ export function numberToString(numero) {
 
   // Combinar las partes formateadas
   return `${entero},${decimal}`; // Nota: Hemos cambiado la coma por un punto
+}
+export function searchInList(arrayString, string1, string2) {
+  return arrayString.every(
+    (word) => string1.includes(word) || string2.includes(word)
+  );
+}
+export function convertirStringANumero(input) {
+  if (typeof input !== 'string') {
+    return 0;
+  }
+
+  // Reemplaza los puntos como separadores de miles y cambia la coma decimal a un punto
+  const numero = input.replace(/\./g, '').replace(',', '.');
+
+  // Convierte el string resultante en un número flotante
+  return parseFloat(numero);
 }

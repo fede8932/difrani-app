@@ -3,7 +3,7 @@ import styles from './simpleInputFile.module.css';
 import { Button, Spinner } from 'react-bootstrap';
 
 function SimpleInputFile(props) {
-  const { setFile, importLoading } = props;
+  const { setFile, importLoading, text, extStyle } = props;
   const fileInputRef = useRef(null);
 
   const handleButtonClick = () => {
@@ -20,13 +20,13 @@ function SimpleInputFile(props) {
   return (
     <Button
       onClick={handleButtonClick}
-      className={styles.button}
+      className={`${styles.button} ${extStyle ? styles.extButton : ''}`}
       variant="success"
     >
       {importLoading ? (
         <Spinner animation="border" size="sm" />
       ) : (
-        'Importar compra'
+        <span>{text ?? 'Importar compra'}</span>
       )}
       <input
         type="file"

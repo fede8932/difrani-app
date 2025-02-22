@@ -12,6 +12,7 @@ function CustomSearch(props) {
   const [classResContainer, setClassResContainer] =
     useState('resContainerNone');
   const inputRef = useRef();
+  const debounceRef = useRef(null);
 
   const handleDocumentClick = (event) => {
     // Verifica si el clic fue fuera del componente y del input
@@ -21,11 +22,21 @@ function CustomSearch(props) {
     }
   };
 
+
   const handleInputChange = (event) => {
-    dispatch(getAllClientsByTextRequest(event.target.value)).then(() => {
-      setClassResContainer('resContainer');
-    });
-    // Aquí puedes agregar la lógica de búsqueda según el valor del input
+    const value = event.target.value;
+
+    // Limpia el debounce previo si existe
+    if (debounceRef.current) {
+      clearTimeout(debounceRef.current);
+    }
+
+    // Configura el nuevo debounce
+    debounceRef.current = setTimeout(() => {
+      dispatch(getAllClientsByTextRequest(value)).then(() => {
+        setClassResContainer('resContainer');
+      });
+    }, 300); // 300ms de espera
   };
   const onSelect = (id) => {
     dispatch(getClientIdRequest(id)).then(() => {
@@ -40,6 +51,9 @@ function CustomSearch(props) {
     // Limpia el escucha de clic cuando el componente se desmonta
     return () => {
       document.removeEventListener('click', handleDocumentClick);
+      if (debounceRef.current) {
+        clearTimeout(debounceRef.current);
+      }
     };
   }, []); // El array vacío indica que este efecto se ejecuta solo al montar y desmontar el componente
   return (

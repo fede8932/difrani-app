@@ -225,7 +225,7 @@
 .buttonSearchCotainer {
   width: 100%;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
 }
 .inputSearchContainer {
   display: flex;
@@ -236,7 +236,7 @@
   margin-top: -10px;
   width: 100%;
   padding: 0px 7px;
-  height: calc(100vh - 420px);
+  height: calc(100vh - 400px);
   overflow-y: auto;
 }
 .tableProdContainer::-webkit-scrollbar {
@@ -345,4 +345,7 @@
   margin-left: 5px;
   font-size: 14px;
   font-weight: 500;
+}
+.buttonInfoContainer{
+  height: 50px;
 }

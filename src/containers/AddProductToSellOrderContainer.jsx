@@ -63,7 +63,9 @@ function AddProductToSellOrderContainer(props) {
   };
 
   const updateCantOrderItem = async (dataOrderItem) => {
-    dispatch(updateCantItemsRequest(dataOrderItem)).then(() => {
+    const sendInfo = { ...dataOrderItem };
+    sendInfo.sell = true;
+    dispatch(updateCantItemsRequest(sendInfo)).then(() => {
       dispatch(getBuyOrderRequest(actualOrder.data.id));
     });
   };
@@ -144,6 +146,9 @@ function AddProductToSellOrderContainer(props) {
   }, [equivalenceId]);
 
   useEffect(() => {
+    if (!actualOrder?.data?.id) {
+      navigate('/search/sell');
+    }
     return () => {
       dispatch(resetAddOrderItems(null));
       dispatch(resetPendingSave(null));

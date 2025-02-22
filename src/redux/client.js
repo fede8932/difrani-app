@@ -3,6 +3,7 @@ import * as clientRequest from '../request/clientRequest';
 const userState = {
   loading: false,
   data: null,
+  selectClient: null,
   error: '',
 };
 export const clientCreateRequest = createAsyncThunk(
@@ -16,6 +17,10 @@ export const getClientRequest = createAsyncThunk(
 );
 export const getClientIdRequest = createAsyncThunk(
   'GET_CLIENT_ID',
+  clientRequest.getClientById
+);
+export const getClientIdRequestNew = createAsyncThunk(
+  'GET_CLIENT_ID_NEW',
   clientRequest.getClientById
 );
 
@@ -32,6 +37,30 @@ export const resetAllClientRequest = createAsyncThunk(
 const clientSlice = createSlice({
   name: 'client',
   initialState: userState,
+  reducers: {
+    changeInput: (state, action) => {
+      let client = { ...state.data };
+      const { name, value } = action.payload;
+      if (client[name] !== null && client[name] !== undefined) {
+        client[name] = value;
+      } else if (
+        client.user[name] !== null &&
+        client.user[name] !== undefined
+      ) {
+        client.user[name] = value;
+      }
+      state.data = client;
+    },
+    resetClientState: (state) => {
+      state.loading = false;
+      state.error = '';
+      state.data = null;
+      state.selectClient = null;
+    },
+    resetSelectClientState: (state) => {
+      state.selectClient = null;
+    },
+  },
   extraReducers: {
     [clientCreateRequest.pending]: (state, action) => {
       state.loading = true;
@@ -78,6 +107,18 @@ const clientSlice = createSlice({
       state.error = '';
       state.data = action.payload;
     },
+    [getClientIdRequestNew.pending]: (state, action) => {
+      state.loading = true;
+    },
+    [getClientIdRequestNew.rejected]: (state, action) => {
+      state.loading = false;
+      state.error = action.error.message;
+    },
+    [getClientIdRequestNew.fulfilled]: (state, action) => {
+      state.loading = false;
+      state.error = '';
+      state.selectClient = action.payload;
+    },
     [resetAllClientRequest.pending]: (state, action) => {
       state.loading = true;
     },
@@ -92,5 +133,7 @@ const clientSlice = createSlice({
     },
   },
 });
+
+export const { changeInput, resetClientState, resetSelectClientState } = clientSlice.actions;
 
 export default clientSlice.reducer;

@@ -14,6 +14,7 @@ import { setFilterProduct } from '../../../redux/filtersProducts';
 import {
   getResumeLiquidationRequest,
   getSellerResumeRequest,
+  setAllMarc,
   setMarc,
 } from '../../../redux/sellerResume';
 import { setFilterComis } from '../../../redux/filtersComis';
@@ -34,67 +35,23 @@ const CustomComp = ({ data }) => {
   );
 };
 
-// const HeaderInput = (props) => {
-//   const { title, name } = props;
-//   const dispatch = useDispatch();
-//   const filterProducts = useSelector((state) => state.filterProduct);
-//   const [inp, setInp] = useState(false);
-//   const inputRef = useRef(null);
-
-//   const onTitleClick = () => {
-//     setInp(true);
-//   };
-//   const onInputChange = (e) => {
-//     const value = e.target.value;
-//     dispatch(setFilterProduct({ name: "page", value: 1 }));
-//     dispatch(setFilterProduct({ name, value }));
-//     if (value == "") {
-//       setInp(false);
-//     }
-//   };
-
-//   const handleClickOutside = () => {
-//     if (!filterProducts[name]) {
-//       setInp(false);
-//     }
-//   };
-
-//   useEffect(() => {
-//     if (inp && inputRef.current) {
-//       inputRef.current.focus();
-//     }
-//   }, [inp]);
-
-//   useEffect(() => {
-//     if (inp) {
-//       document.addEventListener("mousedown", handleClickOutside);
-//     }
-//     return () => {
-//       document.removeEventListener("mousedown", handleClickOutside);
-//     };
-//   }, [filterProducts, inp]);
-
-//   return inp ? (
-//     <input
-//       ref={inputRef}
-//       className={styles.input}
-//       value={filterProducts[name]}
-//       onChange={onInputChange}
-//     />
-//   ) : (
-//     <span onClick={onTitleClick}>{title}</span>
-//   );
-// };
-
 function ComitionsTable(props) {
   const { liqId } = props;
   const sellerId = Number(useLocation().pathname.split('/')[3]);
   const dispatch = useDispatch();
+  const { loading, error, data } = useSelector((state) => state.sellerResume);
+  const checkAllChange = (d) => {
+    dispatch(setAllMarc(d.checked));
+  };
 
   let columnInitialState = [
     {
       headerName: 'Fecha',
-      valueGetter: (params) => convertirFechaISOaDDMMYYYY(params.data.fecha),
+      cellRenderer: ({ data }) => (
+        <span className={data.esOferta ? styles.greenRow : ''}>
+          {convertirFechaISOaDDMMYYYY(data.fecha)}
+        </span>
+      ),
       flex: 1,
       filterParams: {
         filterOptions: ['contains'], // Solo opción 'contains'
@@ -103,7 +60,11 @@ function ComitionsTable(props) {
     },
     {
       headerName: 'Concepto',
-      valueGetter: (params) => params.data.concepto,
+      cellRenderer: ({ data }) => (
+        <span className={data.esOferta ? styles.greenRow : ''}>
+          {data.concepto}
+        </span>
+      ),
       flex: 2,
       filterParams: {
         filterOptions: ['contains'], // Solo opción 'contains'
@@ -112,7 +73,11 @@ function ComitionsTable(props) {
     },
     {
       headerName: 'Cliente',
-      valueGetter: (params) => params.data.cliente,
+      cellRenderer: ({ data }) => (
+        <span className={data.esOferta ? styles.greenRow : ''}>
+          {data.cliente}
+        </span>
+      ),
       flex: 2,
       filterParams: {
         filterOptions: ['contains'], // Solo opción 'contains'
@@ -121,15 +86,22 @@ function ComitionsTable(props) {
     },
     {
       headerName: 'Monto',
-      valueGetter: (params) => `$ ${redondearADosDecimales(params.data.monto)}`,
+      cellRenderer: ({ data }) => (
+        <span
+          className={data.esOferta ? styles.greenRow : ''}
+        >{`$ ${redondearADosDecimales(data.monto)}`}</span>
+      ),
       filter: false,
       flex: 1,
       sortable: false,
     },
     {
       headerName: 'Comisión',
-      valueGetter: (params) =>
-        `$ ${redondearADosDecimales(params.data.comision)}`,
+      cellRenderer: ({ data }) => (
+        <span className={data.esOferta ? styles.greenRow : ''}>
+          {`$ ${redondearADosDecimales(data.comision)}`}
+        </span>
+      ),
       filter: false,
       flex: 1,
     },
@@ -137,7 +109,9 @@ function ComitionsTable(props) {
 
   if (!liqId) {
     columnInitialState.push({
-      headerName: 'Liquidada',
+      headerComponent: () => {
+        return <Checkbox onChange={(e, d) => checkAllChange(d)} />;
+      },
       cellRenderer: (params) => <CustomComp data={params.data} />,
       field: 'id',
       sortable: false,
@@ -155,7 +129,6 @@ function ComitionsTable(props) {
     };
   }, []);
 
-  const { loading, error, data } = useSelector((state) => state.sellerResume);
   const [pending, setPending] = useState(true);
 
   // console.log(data);
@@ -180,16 +153,20 @@ function ComitionsTable(props) {
 
   return (
     <div
-      className={'ag-theme-quartz'}
-      style={!liqId ? { height: 600, marginTop: '-20px' } : { height: 520 }}
+      className="ag-theme-quartz"
+      style={
+        !liqId ? { height: '500px', marginTop: '-20px' } : { height: '500px' }
+      }
     >
-      <Checkbox
-        style={{ margin: '0px 0px 5px 0px' }}
-        toggle
-        label="Pendiente"
-        checked={pending}
-        onChange={(e, d) => setPending(d.checked)}
-      />
+      {!liqId ? (
+        <Checkbox
+          style={{ margin: '0px 0px 5px 0px' }}
+          toggle
+          label="Pendiente"
+          checked={pending}
+          onChange={(e, d) => setPending(d.checked)}
+        />
+      ) : null}
       <AgGridReact
         rowData={data.registros}
         columnDefs={columnDefs}
@@ -208,6 +185,11 @@ function ComitionsTable(props) {
                   { key: 50, value: 50, text: 50 },
                   { key: 100, value: 100, text: 100 },
                   { key: 500, value: 500, text: 500 },
+                  {
+                    key: data.totalResults,
+                    value: data.totalResults,
+                    text: 'Todo',
+                  },
                 ]}
               />
             </div>

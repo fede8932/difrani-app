@@ -32,12 +32,13 @@ function SearchPickingOrderContainer(props) {
         inicio,
         fin
       );
-
+      const type = pickingOrder.purchaseOrder?.oferta ? 'NPO' : 'NP';
       const htmlContent = nPedHtml(
         pickingOrder,
         i + 1,
         totalPages,
-        itemsPagina
+        itemsPagina,
+        type
       );
 
       // Escribe el contenido HTML en la ventana

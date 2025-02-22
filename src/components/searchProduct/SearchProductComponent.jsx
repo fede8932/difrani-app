@@ -1,16 +1,33 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './searchProduct.module.css';
 import Button from 'react-bootstrap/esm/Button';
 import Spinner from 'react-bootstrap/esm/Spinner';
-import { useNavigate } from 'react-router';
-import ProtectedComponent from '../../protected/protectedComponent/ProtectedComponent';
 import { useDispatch, useSelector } from 'react-redux';
 import { getFileProducts } from '../../request/productRequest';
 import ProductsTable from '../tables/productsTable/ProductsTable';
 import { resetFilterProduct } from '../../redux/filtersProducts';
+import { AutoComplete } from 'antd';
+import {
+  getClientIdRequestNew,
+  getClientRequest,
+  resetClientState,
+  resetSelectClientState,
+} from '../../redux/client';
+import Swal from 'sweetalert2';
+import { addOrderItemSearchProd } from '../../request/orderRequest';
 
 function SearchProductComponent(props) {
-  const { resetSearch, deleteProduct } = props;
+  const { deleteProduct } = props;
+  const [textClient, setTextClient] = useState('');
+  const [listClient, setListClient] = useState([]);
+  const [selectClientId, setSelectClientId] = useState(null);
+
+  const clients = useSelector((state) => state.client).data;
+
+  const customerDiscounts = useSelector((state) => state.client)?.selectClient
+    ?.customerDiscounts; // Se usa para renderizar el precio cuando es una venta
+
+  // console.log(customerDiscounts);
 
   const dispatch = useDispatch();
 
@@ -52,12 +69,85 @@ function SearchProductComponent(props) {
     }
   };
 
-  // console.log(user);
+  const onChange = (d) => {
+    setTextClient(d);
+  };
 
-  const navigate = useNavigate();
-  // console.log(tabProducts(products.data));
+  const onSelect = (value, options) => {
+    setTextClient(options?.label ?? '');
+    setSelectClientId(value);
+  };
+
+  const addProduct = (productId, brandId) => {
+    addOrderItemSearchProd({
+      clientId: selectClientId,
+      productId: productId,
+      brandId: brandId,
+      cantidad: 1,
+    })
+      .then((res) => {
+        if (res.error) {
+          Swal.fire({
+            icon: 'error',
+            title: 'Error...',
+            text: `Error: ${res.error.message}`,
+          });
+          return;
+        }
+        Swal.fire({
+          title: 'Agregado',
+          icon: 'success',
+          draggable: true,
+        });
+      })
+      .catch((err) => {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error...',
+          text: `Error: ${err.message}`,
+        });
+      });
+  };
+
+  useEffect(() => {
+    dispatch(getClientRequest(true));
+    return () => {
+      resetClientState();
+    };
+  }, []);
+
+  useEffect(() => {
+    selectClientId ? dispatch(getClientIdRequestNew(selectClientId)) : null;
+  }, [selectClientId]);
+
+  useEffect(() => {
+    if (textClient == '' || !textClient) {
+      setListClient(clients);
+      setSelectClientId(null);
+      dispatch(resetSelectClientState());
+      return;
+    }
+    let newClientsList = [...clients].filter((c) => {
+      return (
+        c.label && c.label?.toLowerCase().includes(textClient?.toLowerCase())
+      );
+    });
+    setListClient(newClientsList);
+  }, [textClient, clients]);
+
   return (
     <div className={styles.formContainer}>
+      <AutoComplete
+        value={textClient}
+        options={listClient}
+        style={{
+          width: 300,
+        }}
+        onSelect={onSelect}
+        // onSearch={(text) => setAnotherOptions(getPanelValue(text))}
+        onChange={onChange}
+        placeholder="Seleccionar cliente"
+      />
       <div className={styles.subFormContainer}>
         <Button
           disabled={listDownloadPending}
@@ -91,7 +181,12 @@ function SearchProductComponent(props) {
         </Button>
       </div>
       <div className={styles.table}>
-        <ProductsTable deleteProduct={deleteProduct} />
+        <ProductsTable
+          deleteProduct={deleteProduct}
+          selectClientId={selectClientId}
+          customerDiscounts={customerDiscounts}
+          addProduct={addProduct}
+        />
       </div>
     </div>
   );

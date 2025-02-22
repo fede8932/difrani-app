@@ -189,6 +189,12 @@ function NewNCContainer(props) {
     items,
     concept
   ) => {
+    if (typeof montoOfNC === 'string') {
+      montoOfNC = Number(montoOfNC.replace(/,/g, '.'));
+    }
+    if (typeof montoPrNC === 'string') {
+      montoPrNC = Number(montoPrNC.replace(/,/g, '.'));
+    }
     // console.log(montoOfNC, montoPrNC, motive);
     const facturaType =
       acountState.data.currentAcount.client.iva == 'Monotributista'
@@ -237,12 +243,11 @@ function NewNCContainer(props) {
             sendData.productsId.push(i.productId);
           }
         });
-
     dispatch(NewNCSellOrderRequest(sendData)).then((res) => {
       // console.log("res", res);
       printNC(res.payload, montoOfNC, montoPrNC, items, concept);
       rest.closeModal();
-      dispatch(getMovementsByCurrentAcountIdX(filterMovements))
+      dispatch(getMovementsByCurrentAcountIdX(filterMovements));
       // dispatch(getAcountById(currentAcountId))
       //   .then(() => {
       //     // dispatch(

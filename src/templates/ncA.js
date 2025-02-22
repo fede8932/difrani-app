@@ -2,9 +2,9 @@ import {
   formatFactDate,
   formatNumberWithLeadingZeros,
   redondearADosDecimales,
-} from "../utils";
-import logoAfip from "../assets/afip/logo-vector-afip.jpg";
-import logoBlase from "../assets/logo/logoBlase.png";
+} from '../utils';
+import logoAfip from '../assets/afip/logo-vector-afip.jpg';
+import logoBlase from '../assets/logo/logoBlase.png';
 
 export const ncAHtml = (
   billData,
@@ -224,15 +224,15 @@ export const ncAHtml = (
           <div class="dataEmisor">
             <img class="logo" src=${logoBlase} alt="logo">
             <div class="infoEminContainer">
-              <span class="infoEmisTex">DIFRANI AUTOPARTES</span>
-              <span class="infoEmisTex">RUTA 28 396, G.RODRIGUEZ. CP: 1748</span>
-              <span class="infoEmisTex">1132948959</span>
-              <span class="infoEmisTex">VENTAS@DIFRANI.COM</span>
+              <span class="infoEmisTex">De Blase Distribuidora</span>
+              <span class="infoEmisTex">Don Bosco 2175, Morón. CP: 1708</span>
+              <span class="infoEmisTex">4460-5972</span>
+              <span class="infoEmisTex">ventas@blasedistribuidora.com</span>
               <span class="infoEmisTex">IVA: Responsable Inscripto</span>
             </div>
           </div>
           <div class="factCode">
-            <div class="tipeFact">${billData.CbteTipo == 3 ? "A" : "B"}</div>
+            <div class="tipeFact">${billData.CbteTipo == 3 ? 'A' : 'B'}</div>
             <span class="cod">Código N°: 0${billData.CbteTipo}</span>
           </div>
         </div>
@@ -249,9 +249,9 @@ export const ncAHtml = (
           </div>
           <div class="fechaFact">FECHA:${formatFactDate(billData.CbteFch)}</div>
           <div class="datFisc">
-              <p>C.U.I.T:<span>20352483983</span></p>
-            <p>IIBB:<span>20352483983</span></p>
-            <p>Inicio de actividades:<span>12/2023</span></p>
+            <p>C.U.I.T:<span>20164364837</span></p>
+            <p>IIBB:<span>20164364837</span></p>
+            <p>Inicio de actividades:<span>10/01/1992</span></p>
           </div>
         </div>
       </div>

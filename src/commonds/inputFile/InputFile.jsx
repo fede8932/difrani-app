@@ -8,8 +8,8 @@ const FileInput = (props) => {
   const handleFileChange = (event) => {
     const files = Array.from(event.target.files);
     // Limitar la cantidad de archivos seleccionados a 3
-    if (files.length > 3) {
-      alert('Solo puedes seleccionar hasta 3 archivos.');
+    if (files.length > 1) {
+      alert('Solo puedes seleccionar hasta 1 archivo.');
       return;
     }
     setSelectedFiles(files);

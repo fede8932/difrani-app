@@ -2,14 +2,12 @@ import React from 'react';
 import styles from './editBrand.module.css';
 import { FormProvider } from 'react-hook-form';
 import CustomInput from '../../commonds/putInput/CustomInput';
-import CustomSelect from '../../commonds/select/CustomSelect';
 import { Button, Spinner } from 'react-bootstrap';
-import { convertirPorcentajeANumero } from '../../utils';
 import PutSelect from '../../commonds/putSelect/PutSelect';
 
 function EditBrandComponent(props) {
   const { brand, methods, handleSubmit, suppliers, loading } = props;
-  // console.log(brand)
+  console.log(brand)
   return (
     <div className={styles.editBrandContainer}>
       <FormProvider {...methods}>
@@ -23,7 +21,7 @@ function EditBrandComponent(props) {
             />
           )*/}
           <CustomInput
-            defaultValue={brand.code}
+            defaultValue={brand?.code}
             name="code"
             type="text"
             width="complete"
@@ -32,7 +30,7 @@ function EditBrandComponent(props) {
             validate={{ required: true, maxLength: 25 }}
           />
           <CustomInput
-            defaultValue={brand.name}
+            defaultValue={brand?.name}
             name="name"
             type="text"
             width="complete"
@@ -42,9 +40,9 @@ function EditBrandComponent(props) {
           />
           <CustomInput
             defaultValue={
-              brand.rentabilidad
-                ? convertirPorcentajeANumero(brand.rentabilidad)
-                : null
+              brand?.rentabilidad
+                ? brand.rentabilidad * 100
+                : 0
             }
             name="rentabilidad"
             type="number"
@@ -57,7 +55,7 @@ function EditBrandComponent(props) {
             text="Selecioná una opción"
             name="seFactura"
             validate={{ required: true }}
-            defaultValue={brand.seFactura}
+            defaultValue={brand?.seFactura}
             arrayOptions={[
               { value: true, text: 'Facturar' },
               { value: false, text: 'No facturar' },

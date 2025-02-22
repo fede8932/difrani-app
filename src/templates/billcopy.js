@@ -1,4 +1,4 @@
-import logo from "../assets/afip/logo-vector-afip.jpg";
+import logo from '../assets/afip/logo-vector-afip.jpg';
 
 export const billHtml = () => {
   return `<!DOCTYPE html>

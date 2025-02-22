@@ -23,6 +23,7 @@ function EditProductContainer(props) {
 
   const productUpdate = (data) => {
     data.stock = data.stock ? Number(data.stock) : null;
+    data.price = data.price ? Number(data.price) : null;
     if (selectedFiles.length > 0) {
       data.images = selectedFiles;
     }

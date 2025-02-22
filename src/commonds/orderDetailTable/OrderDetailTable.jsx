@@ -34,13 +34,13 @@ const OrderDetailTable = (props) => {
               <Table.Cell>{item.product.brand.name.toUpperCase()}</Table.Cell>
               <Table.Cell style={{ fontSize: '12px' }}>
                 {`$ ${numberToString(
-                  data.type != 'Sell' ? item.buyPrice : item.sellPrice
+                  data.type != 1 ? item.buyPrice : item.sellPrice
                 )}`}
               </Table.Cell>
               <Table.Cell>{item.amount}</Table.Cell>
               <Table.Cell style={{ fontSize: '12px' }}>
                 {`$ ${numberToString(
-                  data.type != 'Sell'
+                  data.type != 1
                     ? item.buyPrice * item.amount
                     : item.sellPrice * item.amount
                 )}`}

@@ -3,7 +3,7 @@ import {
   formatFactDate,
   formatNumberWithLeadingZeros,
   redondearADosDecimales,
-} from "../utils";
+} from '../utils';
 
 export const ncPresupHtml = (
   movimentData,
@@ -16,9 +16,9 @@ export const ncPresupHtml = (
 ) => {
   const des = descrip
     ? {
-        product: { article: "0001", description: descrip },
-        amount: "1",
-        sellPrice: "-",
+        product: { article: '0001', description: descrip },
+        amount: '1',
+        sellPrice: '-',
       }
     : {};
   const list = products.length > 0 ? products : [des];
@@ -30,9 +30,9 @@ export const ncPresupHtml = (
                 0,
                 45
               )}</td>
-              <td>$${redondearADosDecimales(movimentData.total)}</td>
+              <td>$${redondearADosDecimales(item?.sellPrice)}</td>
               <td>$${
-                item?.sellPrice != "-"
+                item?.sellPrice != '-'
                   ? redondearADosDecimales(item?.amount * item?.sellPrice)
                   : redondearADosDecimales(movimentData.total)
               }</td>
@@ -229,11 +229,11 @@ export const ncPresupHtml = (
           <div class="dataEmisor">
             <img class="logo" src="${logoBlaseBase64}" alt="logo" />
             <div class="infoEminContainer">
-              <span class="infoEmisTex">DIFRANI AUTOPARTES</span>
-              <span class="infoEmisTex">RUTA 28 396, GRAL RODRIGUEZ. CP: 1748</span>
-              <span class="infoEmisTex">1132948959</span>
-              <span class="infoEmisTex">VENTAS@DIFRANI.COM</span>
-            </div>
+              <span class="infoEmisTex">De Blase Distribuidora</span>
+              <span class="infoEmisTex">Don Bosco 2175, Morón. CP: 1708</span>
+              <span class="infoEmisTex">4460-5972</span>
+              <span class="infoEmisTex">ventas@blasedistribuidora.com</span>
+              <span class="infoEmisTex">IVA: Responsable Inscripto</span>
             </div>
           </div>
           <div class="factCode">

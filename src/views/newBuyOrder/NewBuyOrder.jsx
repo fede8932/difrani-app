@@ -36,7 +36,9 @@ function NewBuyOrder(props) {
       </div>
       <div style={{ marginTop: '12px' }}>
         {view == 0 ? <FormSelectProveedorContainer nextFn={setView} /> : null}
-        {view == 1 ? <AddProductToBuyOrderContainer nextFn={setView} /> : null}
+        {view == 1 ? (
+          <AddProductToBuyOrderContainer nextFn={setView} sType="buy" />
+        ) : null}
       </div>
     </div>
   );

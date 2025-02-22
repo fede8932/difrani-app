@@ -164,3 +164,65 @@ export const createLiquidationRequest = async (sendInfo) => {
     throw error;
   }
 };
+
+export const getClientsId = async (id) => {
+  try {
+    const response = await axios.get(`${apiUrl}/api/seller/get/clients/${id}`, {
+      withCredentials: true,
+      responseType: 'blob', // Importante: Configura la respuesta como blob para archivos
+    });
+
+    // Crear una URL para el archivo descargado
+    const url = window.URL.createObjectURL(new Blob([response.data]));
+
+    // Crear un enlace para descargar el archivo
+    const link = document.createElement('a');
+    link.href = url;
+
+    // Configurar el nombre del archivo (puedes personalizar esto según sea necesario)
+    link.setAttribute('download', `clients_${id}.xlsx`);
+    document.body.appendChild(link);
+    link.click();
+
+    // Limpiar el enlace después de su uso
+    link.parentNode.removeChild(link);
+
+    return true; // Indica éxito
+  } catch (error) {
+    if (error.response?.status === 401) {
+      window.location.href = '/';
+    }
+    throw error;
+  }
+};
+
+export const getClientsMovements = async () => {
+  try {
+    const response = await axios.get(`${apiUrl}/api/movement/pending/clients`, {
+      withCredentials: true,
+      responseType: 'blob', // Importante: Configura la respuesta como blob para archivos
+    });
+
+    // Crear una URL para el archivo descargado
+    const url = window.URL.createObjectURL(new Blob([response.data]));
+
+    // Crear un enlace para descargar el archivo
+    const link = document.createElement('a');
+    link.href = url;
+
+    // Configurar el nombre del archivo (puedes personalizar esto según sea necesario)
+    link.setAttribute('download', `client_movements.xlsx`);
+    document.body.appendChild(link);
+    link.click();
+
+    // Limpiar el enlace después de su uso
+    link.parentNode.removeChild(link);
+
+    return true; // Indica éxito
+  } catch (error) {
+    if (error.response?.status === 401) {
+      window.location.href = '/';
+    }
+    throw error;
+  }
+};

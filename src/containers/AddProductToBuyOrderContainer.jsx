@@ -17,11 +17,9 @@ import { useLocation } from 'react-router-dom';
 import {
   addAjustItemsRequest,
   deleteAjustItemsRequest,
-  updateCantAjustItemsRequest,
   updatePriceAjustItemsRequest,
 } from '../redux/addAjustItems';
 import { getOrderAjust } from '../redux/orderAjust';
-import { updateStatusAjust } from '../request/orderAjustRequest';
 import {
   addRemOrderConfirmRequest,
   confirmBuyOrderRequest,
@@ -29,7 +27,7 @@ import {
 
 function AddProductToBuyOrderContainer(props) {
   const [showAlert, setShowAlert] = useState(false);
-  const { type } = props;
+  const { type, sType } = props;
   const { pathname } = useLocation();
   const navigate = useNavigate();
   const actualOrder = useSelector((state) => state.newBuyOrder);
@@ -37,7 +35,6 @@ function AddProductToBuyOrderContainer(props) {
   const listOrderItems = useSelector((state) => state.listOrderItems);
   const methods = useForm();
   const dispatch = useDispatch();
-  const productPages = useSelector((state) => state.product);
   const searchProd = (data) => {
     data.supplierId = actualOrder.data.supplierId;
     dispatch(searchProductRequest(data));
@@ -133,22 +130,16 @@ function AddProductToBuyOrderContainer(props) {
 
   const recepOrder = (orderId) => {
     Swal.fire({
-      title: 'Ingresa el valor de remito',
-      input: 'text',
+      title: 'Estás seguro?',
+      text: 'Vas a generar una orden de control',
+      icon: 'warning',
       showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
       confirmButtonText: 'Confirmar',
-      cancelButtonText: 'Cancelar',
-      inputValidator: (value) => {
-        if (!value) {
-          return 'El número de remito es obligatorio';
-        }
-        if (!/^\d+$/.test(value)) {
-          return 'El valor debe contener solo números';
-        }
-      },
     }).then((result) => {
       if (result.isConfirmed) {
-        dispatch(addRemOrderConfirmRequest({ orderId, remito: result.value }))
+        dispatch(addRemOrderConfirmRequest({ orderId, remito: null }))
           .then((res) => {
             if (res.error) {
               Swal.fire({
@@ -179,22 +170,16 @@ function AddProductToBuyOrderContainer(props) {
   };
 
   useEffect(() => {
-    dispatch(
-      searchProductRequest({
-        dataSearch: '',
-        supplierId: actualOrder.data.supplierId,
-      })
-    );
-    if (type == 'ajuste') {
-      dispatch(getOrderItemsRequest(actualOrder.data.id));
+    if (!actualOrder?.data?.id) {
+      navigate('/search/buy');
     }
   }, []);
+
   return (
     <AddProductToOrder
       {...props}
       methods={methods}
       onSubmit={searchProd}
-      productPages={productPages}
       fnAdd={addProductToOrder}
       fnInfo={infoProduct}
       fnDelete={deleteOrder}

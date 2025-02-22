@@ -49,7 +49,9 @@ function SearchClientContainer(props) {
   const changePage = (page) => {
     let data = { ...searchData };
     data.page = page;
-    setSearchData(data);
+    (data.sellerId = isNaN(Number(sellerId)) ? null : sellerId),
+      setSearchData(data);
+    console.log(data);
     dispatch(getClientssByTextRequest(data));
   };
 
@@ -60,20 +62,20 @@ function SearchClientContainer(props) {
   };
 
   const resetSearch = () => {
-    navigate('/search/client');
-    setSellerId(null);
     const data = {
       text: 'null',
       page: 1,
       pageSize: 10,
       orderByColumn: 'id',
-      seller: sellerId,
+      sellerId: isNaN(Number(sellerId)) ? null : sellerId,
     };
+    setSearchData(data);
     dispatch(getClientssByTextRequest(data));
   };
 
   return (
     <SearchClientComponent
+      sellerId={isNaN(Number(sellerId)) ? null : sellerId}
       methods={methods}
       onSubmit={searchClient}
       result={result}

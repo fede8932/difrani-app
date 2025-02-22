@@ -1,6 +1,6 @@
-import { fechaConverter } from "../utils";
+import { fechaConverter } from '../utils';
 
-export const nPedHtml = (pickingOrder, pag, pages, items) => {
+export const nPedHtml = (pickingOrder, pag, pages, items, type) => {
   const itemsHtml = items
     .map(
       (item) => `
@@ -13,9 +13,9 @@ export const nPedHtml = (pickingOrder, pag, pages, items) => {
     </tr>
   `
     )
-    .join("");
+    .join('');
   // Agrega un salto de página antes de cada nueva sección de contenido, excepto la última
-  const pageBreak = pag < pages ? '<div class="page-break"></div>' : "";
+  const pageBreak = pag < pages ? '<div class="page-break"></div>' : '';
 
   return `<!DOCTYPE html>
   <html lang="en">
@@ -65,7 +65,6 @@ export const nPedHtml = (pickingOrder, pag, pages, items) => {
           justify-content: center;
           width: 70px;
           height: 70px;
-          border: 2px solid black;
           font-size: 50px;
           font-weight: 600;
         }
@@ -244,7 +243,7 @@ export const nPedHtml = (pickingOrder, pag, pages, items) => {
             </div>
           </div>
           <div class="factCode">
-            <div class="tipeFact">NP</div>
+            <div class="tipeFact">${type}</div>
             <span class="cod">No valido como factura</span>
           </div>
         </div>

@@ -18,7 +18,7 @@ function CustomSelect(props) {
     control,
     formState: { errors },
   } = useFormContext();
-  console.log(arrayOptions);
+  // console.log(arrayOptions);
 
   return (
     <Controller

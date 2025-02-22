@@ -3,11 +3,8 @@ import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-quartz.css';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  resetProductSearch,
-  searchProductsExtraRequest,
-} from '../../../redux/product';
-import { numberToString, redondearADosDecimales } from '../../../utils';
+import { searchProductsExtraRequest } from '../../../redux/product';
+import { discountApplicationV2, numberToString } from '../../../utils';
 import { Pagination, Select } from 'semantic-ui-react';
 import styles from './productsTables.module.css';
 import ActionModalContainer from '../../../containers/ActionModalContainer';
@@ -18,13 +15,13 @@ import IconButonUsersTable from '../../../commonds/iconButtonUsersTable/IconButo
 import { useNavigate } from 'react-router';
 import {
   resetEquivFilter,
-  resetFilterProduct,
   setEquivFilter,
   setFilterProduct,
 } from '../../../redux/filtersProducts';
+import AddManualPendingContainer from '../../../containers/AddManualPendingContainer';
 
 const CustomComp = ({ data, props }) => {
-  const { deleteProduct } = props;
+  const { deleteProduct, selectClientId, addProduct } = props;
   const navigate = useNavigate();
   return (
     <div className={styles.buttonContainer}>
@@ -47,6 +44,44 @@ const CustomComp = ({ data, props }) => {
           bodyModal={(props) => (
             <EditProductContainer {...props} id={data.id} />
           )}
+        />
+      </ProtectedComponent>
+      <ProtectedComponent listAccesss={[1, 2]}>
+        <IconButonUsersTable
+          popupText="Ofertas"
+          fn={() => navigate(`/product/sale/${data.id}`)}
+          icon="fa-solid fa-piggy-bank"
+          iconInitialStyle={
+            data.sales?.findIndex((s) => s.status) > -1 ||
+            data.brand.sales?.findIndex((s) => s.status) > -1
+              ? 'iconStyleTeal'
+              : 'iconStyleBlack'
+          }
+        />
+      </ProtectedComponent>
+      <ProtectedComponent listAccesss={[1, 2, 5, 6]}>
+        <CustomModal
+          title="Agregar pendientes"
+          size="lg"
+          actionButton={
+            <buton className={styles.iconC}>
+              <i class="fa-solid fa-clock-rotate-left"></i>
+            </buton>
+          }
+          bodyModal={(props) => (
+            <AddManualPendingContainer {...props} id={data.id} />
+          )}
+        />
+      </ProtectedComponent>
+      <ProtectedComponent listAccesss={[1, 2, 5, 6]}>
+        <IconButonUsersTable
+          disabled={!selectClientId}
+          popupText="Agregar a orden"
+          fn={() => addProduct(data.id, data.brand.id)}
+          icon="fa-solid fa-cart-plus"
+          iconInitialStyle={
+            !selectClientId ? 'iconStyleGrey' : 'iconStyleGreen'
+          }
         />
       </ProtectedComponent>
       <ProtectedComponent listAccesss={[1, 2]}>
@@ -121,6 +156,7 @@ const HeaderInput = (props) => {
     }
 
     debounceTimeoutRef.current = setTimeout(() => {
+      dispatch(setFilterProduct({ name: 'equivalenceId', value: null }));
       dispatch(setFilterProduct({ name: 'page', value: 1 }));
       dispatch(setFilterProduct({ name, value }));
       if (value === '') {
@@ -163,7 +199,8 @@ const HeaderInput = (props) => {
 };
 
 function ProductsTable(props) {
-  const { deleteProduct } = props;
+  const { deleteProduct, selectClientId, customerDiscounts, addProduct } =
+    props;
   const filterProducts = useSelector((state) => state.filterProduct);
 
   const dispatch = useDispatch();
@@ -205,9 +242,16 @@ function ProductsTable(props) {
       },
     },
     {
+      headerName: 'Ubicación',
+      field: 'location',
+      sortable: false,
+      filter: false,
+      width: 90,
+    },
+    {
       headerName: 'Equivalencias',
       cellRenderer: (params) => <Equivalences data={params.data} />,
-      field: 'id',
+      field: 'equiv',
       sortable: false,
       filter: false,
       width: 125,
@@ -217,7 +261,11 @@ function ProductsTable(props) {
       field: 'price',
       cellRenderer: (params) => (
         <ProtectedComponent listAccesss={[1, 2]}>
-          <span>{params.data.price ? `$ ${numberToString(params.data.price.price)}` : ''}</span>
+          <span>
+            {params.data.price
+              ? `$ ${numberToString(params.data.price.price)}`
+              : ''}
+          </span>
         </ProtectedComponent>
       ),
       filter: false,
@@ -230,20 +278,24 @@ function ProductsTable(props) {
       valueGetter: (params) =>
         params.data.stock ? params.data.stock.stock : '',
       filter: false,
-      width: 90,
+      width: 70,
     },
     {
       headerName: 'Acciones',
       cellRenderer: (params) => (
         <CustomComp
           data={params.data}
-          props={{ deleteProduct: deleteProduct }}
+          props={{
+            deleteProduct: deleteProduct,
+            selectClientId: selectClientId,
+            addProduct: addProduct,
+          }}
         />
       ),
-      field: 'id',
+      field: 'actions',
       sortable: false,
       filter: false,
-      width: 125,
+      width: 165,
     },
     {
       headerName: 'Precio',
@@ -251,11 +303,25 @@ function ProductsTable(props) {
       sortable: false,
       cellRenderer: (params) => (
         <ProtectedComponent listAccesss={[1, 2, 5, 6]}>
-          <span>{params.data.price && params.data.brand
-          ? `$ ${numberToString(
-              params.data.price.price * (1 + params.data.brand.rentabilidad)
-            )}`
-          : ''}</span>
+          {selectClientId ? (
+            <span>
+              {params.data.price && params.data.brand
+                ? `$ ${numberToString(
+                    discountApplicationV2(customerDiscounts, params.data, true)
+                      .initPrice
+                  )}`
+                : ''}
+            </span>
+          ) : (
+            <span>
+              {params.data.price && params.data.brand
+                ? `$ ${numberToString(
+                    params.data.price.price *
+                      (1 + params.data.brand.rentabilidad)
+                  )}`
+                : ''}
+            </span>
+          )}
         </ProtectedComponent>
       ),
       filter: false,
@@ -267,23 +333,30 @@ function ProductsTable(props) {
       sortable: false,
       cellRenderer: (params) => (
         <ProtectedComponent listAccesss={[1, 2, 3, 5, 6]}>
-          <span>{params.data.price && params.data.brand
-          ? `$ ${numberToString(
-              params.data.price.price *
-                (1 + params.data.brand.rentabilidad) *
-                1.21
-            )}`
-          : ''}</span>
+          {selectClientId ? (
+            <span>
+              {params.data.price && params.data.brand
+                ? `$ ${numberToString(
+                    discountApplicationV2(customerDiscounts, params.data, true)
+                      .endPrice
+                  )}`
+                : ''}
+            </span>
+          ) : (
+            <span>
+              {params.data.price && params.data.brand
+                ? `$ ${numberToString(
+                    params.data.price.price *
+                      (1 + params.data.brand.rentabilidad) *
+                      1.21
+                  )}`
+                : ''}
+            </span>
+          )}
         </ProtectedComponent>
       ),
       filter: false,
       width: 155,
-    },
-    {
-      headerName: 'Ubicación',
-      field: 'location',
-      sortable: false,
-      filter: false,
     },
   ]);
 
@@ -308,6 +381,80 @@ function ProductsTable(props) {
   const changePage = (e, d) => {
     dispatch(setFilterProduct({ name: 'page', value: d.activePage }));
   };
+
+  useEffect(() => {
+    setColumnDefs((prevColumnDefs) => {
+      return prevColumnDefs?.map((colDef) => {
+        if (colDef.field === 'sellPrice') {
+          return {
+            ...colDef,
+            cellRenderer: (params) => (
+              <ProtectedComponent listAccesss={[1, 2, 5, 6]}>
+                {selectClientId ? (
+                  <span>
+                    {params.data.price && params.data.brand
+                      ? `$ ${numberToString(discountApplicationV2(customerDiscounts, params.data, true).initPrice)}`
+                      : ''}
+                  </span>
+                ) : (
+                  <span>
+                    {params.data.price && params.data.brand
+                      ? `$ ${numberToString(
+                          params.data.price.price *
+                            (1 + params.data.brand.rentabilidad)
+                        )}`
+                      : ''}
+                  </span>
+                )}
+              </ProtectedComponent>
+            ),
+          };
+        }
+        if (colDef.field === 'sellPriceIva') {
+          return {
+            ...colDef,
+            cellRenderer: (params) => (
+              <ProtectedComponent listAccesss={[1, 2, 5, 6]}>
+                {selectClientId ? (
+                  <span>
+                    {params.data.price && params.data.brand
+                      ? `$ ${numberToString(discountApplicationV2(customerDiscounts, params.data, true).endPrice)}`
+                      : ''}
+                  </span>
+                ) : (
+                  <span>
+                    {params.data.price && params.data.brand
+                      ? `$ ${numberToString(
+                          params.data.price.price *
+                            (1 + params.data.brand.rentabilidad) *
+                            1.21
+                        )}`
+                      : ''}
+                  </span>
+                )}
+              </ProtectedComponent>
+            ),
+          };
+        }
+        if (colDef.field === 'actions') {
+          return {
+            ...colDef,
+            cellRenderer: (params) => (
+              <CustomComp
+                data={params.data}
+                props={{
+                  deleteProduct: deleteProduct,
+                  selectClientId: selectClientId,
+                  addProduct: addProduct,
+                }}
+              />
+            ),
+          };
+        }
+        return colDef;
+      });
+    });
+  }, [selectClientId, customerDiscounts]);
 
   return (
     <div className={'ag-theme-quartz'} style={{ height: 665 }}>

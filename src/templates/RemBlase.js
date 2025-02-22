@@ -1,4 +1,4 @@
-import { fechaConverter } from "../utils";
+import { fechaConverter } from '../utils';
 
 export const remitHtml = (
   order,
@@ -6,7 +6,8 @@ export const remitHtml = (
   list,
   pageNumber,
   pagesTotal,
-  logoBlaseBase64
+  logoBlaseBase64,
+  billDate
 ) => {
   const lista = list.map((item) => {
     return `<tr>
@@ -207,10 +208,11 @@ export const remitHtml = (
           <div class="dataEmisor">
             <img class="logo" src="${logoBlaseBase64}" alt="logo" />
             <div class="infoEminContainer">
-              <span class="infoEmisTex">DIFRANI AUTOPARTES</span>
-              <span class="infoEmisTex">RUTA 28 396, GRAL RODRIGUEZ. CP: 1748</span>
-              <span class="infoEmisTex">1132948959</span>
-              <span class="infoEmisTex">VENTAS@DIFRANI.COM</span>
+              <span class="infoEmisTex">De Hernan Blasevich</span>
+              <span class="infoEmisTex">Don Bosco 2175, Morón. CP: 1708</span>
+              <span class="infoEmisTex">4460-5972</span>
+              <span class="infoEmisTex">ventas@blasedistribuidora.com</span>
+              <span class="infoEmisTex">IVA: Responsable Inscripto</span>
             </div>
           </div>
           <div class="factCode">
@@ -225,7 +227,9 @@ export const remitHtml = (
             </div>
             <div class="numberFact"></div>
           </div>
-          <div class="fechaFact">FECHA: ${fechaConverter()}</div>
+          <div class="fechaFact">FECHA: ${
+            billDate?.date ? billDate.date : fechaConverter()
+          }</div>
           <div class="datFisc">
           <span>Pagina ${pageNumber} de ${pagesTotal}</span>
           </div>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './addProduct.module.css';
 import Button from 'react-bootstrap/esm/Button';
 import Spinner from 'react-bootstrap/esm/Spinner';
@@ -9,13 +9,20 @@ import CustomDrawer from '../../commonds/drawer/CustomDrawer';
 import AlertSuccess from '../../commonds/alertSuccess/AlerSuccess';
 import { numberToString } from '../../utils';
 import ProtectedComponent from '../../protected/protectedComponent/ProtectedComponent';
+import SimpleInputFile from '../../commonds/simpleInputFile/SimpleInputFile';
+import Swal from 'sweetalert2';
+import { addOrderItemsByFile } from '../../request/orderRequest';
+import { getBuyOrderRequest } from '../../redux/newOrder';
+import { useDispatch, useSelector } from 'react-redux';
+import { getOrderItemsRequest } from '../../redux/addOrderItems';
+import { orderStatus } from '../../enum/StatusOrderEnum';
+import AddProductsTable from '../tables/addProductsTable/AddProductsTable';
 
 function AddProductToOrder(props) {
   const {
     setView,
     methods,
     onSubmit,
-    productPages,
     fnAdd,
     fnInfo,
     fnDelete,
@@ -32,36 +39,95 @@ function AddProductToOrder(props) {
     recep,
   } = props;
   // console.log(productPages.data);
+  const [file, setFile] = useState(null);
+  const [loading, setLoading] = useState(false);
+
+  const actualOrder = useSelector((state) => state.newBuyOrder);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (file) {
+      Swal.fire({
+        title: 'Estás seguro?',
+        text: 'Vas a importar un archivo de productos a la lista!',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Confirmar',
+        cancelButtonText: 'Cancelar',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          setLoading(true);
+          addOrderItemsByFile({
+            orderId: order.data.id,
+            file: file,
+          })
+            .then((res) => {
+              if (res.error) {
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Ocurrió un error',
+                  text: `Error: ... ${res.error.message}`,
+                });
+                return;
+              }
+              dispatch(getBuyOrderRequest(order.data.id)).then(() => {
+                dispatch(getOrderItemsRequest(order.data.id)).then(() => {
+                  Swal.fire({
+                    title: 'Actualizado!',
+                    text: 'Orden actualizada',
+                    icon: 'success',
+                  });
+                });
+              });
+            })
+            .catch((err) => {
+              Swal.fire({
+                icon: 'error',
+                title: 'Ocurrió un error',
+                text: `Error: ... ${err.message}`,
+              });
+            })
+            .finally(() => {
+              setLoading(false);
+              setFile(null);
+            });
+        }
+      });
+    }
+  }, [file]);
+
   return (
-    <FormProvider {...methods}>
-      <form className={styles.addProductContainer}>
-        <div className={styles.prodToOrderContainer}>
-          <div className={styles.infoProvContainer}>
-            <span className={styles.labelInfoProv}>
-              <i className="fa-solid fa-file-signature"></i> Razon Social:
-              <span className={styles.textInfoProv}>
-                {order.data.supplier.razonSocial.toUpperCase()}
+    <div className={styles.addProductContainer}>
+      <div className={styles.prodToOrderContainer}>
+        <div className={styles.infoProvContainer}>
+          <span className={styles.labelInfoProv}>
+            <i className="fa-solid fa-file-signature"></i> Razon Social:
+            <span className={styles.textInfoProv}>
+              {order?.data?.supplier?.razonSocial.toUpperCase()}
+            </span>
+          </span>
+          <span className={styles.labelInfoProv}>
+            <i className="fa-regular fa-id-card"></i> CUIT:
+            <span className={styles.textInfoProv}>
+              {order?.data?.supplier?.cuit}
+            </span>
+          </span>
+          <span className={styles.labelInfoProv}>
+            <i className="fa-solid fa-store"></i> Nº de compra:
+            <span className={styles.textInfoProv}>{order.data.numero}</span>
+          </span>
+          {type == 'ajuste' ? (
+            <div className={styles.infoCostoCont}>
+              <span className={styles.precioLabel}>
+                <i className="fa-solid fa-file-invoice"></i> ID Ajuste:
               </span>
-            </span>
-            <span className={styles.labelInfoProv}>
-              <i className="fa-regular fa-id-card"></i> CUIT:
-              <span className={styles.textInfoProv}>
-                {order.data.supplier.cuit}
-              </span>
-            </span>
-            <span className={styles.labelInfoProv}>
-              <i className="fa-solid fa-store"></i> Nº de compra:
-              <span className={styles.textInfoProv}>{order.data.numero}</span>
-            </span>
-            {type == 'ajuste' ? (
-              <div className={styles.infoCostoCont}>
-                <span className={styles.precioLabel}>
-                  <i className="fa-solid fa-file-invoice"></i> ID Ajuste:
-                </span>
-                <span className={styles.precioText}>{orderAjust.data.id}</span>
-              </div>
-            ) : null}
-            <ProtectedComponent listAccesss={[1, 2]} >
+              <span className={styles.precioText}>{orderAjust.data.id}</span>
+            </div>
+          ) : null}
+          <ProtectedComponent listAccesss={[1, 2]}>
             <>
               <div className={styles.infoCostoCont}>
                 <span className={styles.precioLabel}>
@@ -93,116 +159,81 @@ function AddProductToOrder(props) {
                     : numberToString(order.data.total)
                 }`}</span>
               </div>
-            </></ProtectedComponent>
-          </div>
+            </>
+          </ProtectedComponent>
         </div>
-        <div className={styles.tableProdContainerPrinc}>
-          <div className={styles.searchContainer}>
-            <span className={styles.subTitle}>Buscador de productos</span>
-            <div className={styles.searchTableContainer}>
-              <div className={styles.alertContainer}>
-                {showAlert && (
-                  <AlertSuccess text={'Actualizado'} visible={showAlert} />
-                )}
-              </div>
-              <div className={styles.buttonSearchCotainer}>
-                <div className={styles.inputSearchContainer}>
-                  <CustomInput
-                    name="dataSearch"
-                    type="text"
-                    width="medium"
-                    placeholder="Artículo"
-                    icon="fa-solid fa-magnifying-glass"
-                    validate={{ required: true }}
-                  />
-                  <Button
-                    type="button"
-                    onClick={methods.handleSubmit(onSubmit)}
-                    style={{
-                      backgroundColor: '#673ab7',
-                      border: '1px solid #673ab7',
-                      height: '47px',
-                      marginLeft: '20px',
-                      width: '100px',
-                    }}
-                  >
-                    {!productPages.loading ? (
-                      'Buscar'
-                    ) : (
-                      <Spinner animation="border" variant="light" size="sm" />
-                    )}
-                  </Button>
-                </div>
-                <div className={styles.buttonInfoContainer}>
-                  <CustomDrawer
-                    type={type}
-                    orderType="OC"
-                    fnDelete={fnDelete}
-                    fnUpdate={fnUpdate}
-                    fnPrUpdate={fnPrUpdate}
-                    listOrder={listOrder}
-                    orderAjust={orderAjust}
-                  />
-                </div>
-              </div>
-              <div className={styles.tableProdContainer}>
-                <CustomTable
-                  type="search"
-                  color="blue"
-                  products={productPages.data}
-                  fnAdd={fnAdd}
-                  fnInfo={fnInfo}
-                  colum={[
-                    { title: 'Artículo', width: '10%' },
-                    { title: 'Descripción', width: '50%' },
-                    { title: 'Marca', width: '10%' },
-                    { title: 'Precio Uni', width: '15%' },
-                    { title: 'Stock', width: '10%' },
-                    { title: 'Acción', width: '5%' },
-                  ]}
-                />
-              </div>
+      </div>
+      <div className={styles.tableProdContainerPrinc}>
+        <div className={styles.searchTableContainer}>
+          <div className={styles.alertContainer}>
+            {showAlert && (
+              <AlertSuccess text={'Actualizado'} visible={showAlert} />
+            )}
+          </div>
+          <div className={styles.buttonSearchCotainer}>
+            <div className={styles.buttonInfoContainer}>
+              <SimpleInputFile
+                text="Importar"
+                setFile={setFile}
+                importLoading={loading}
+                extStyle
+              />
+              <CustomDrawer
+                type={type}
+                orderType="OC"
+                fnDelete={fnDelete}
+                fnUpdate={fnUpdate}
+                fnPrUpdate={fnPrUpdate}
+                listOrder={listOrder}
+                orderAjust={orderAjust}
+              />
             </div>
           </div>
+          <div className={styles.tableProdContainer}>
+            <AddProductsTable
+              supplierId={actualOrder?.data?.supplierId}
+              fnAdd={fnAdd}
+            />
+          </div>
         </div>
-        <div className={styles.buttonContainer}>
-          {path == '/edit/buy' ? null : (
-            <Button
-              className={`${styles.buttonStyle} ${styles.buttonStyleBack}`}
-              variant="danger"
-              onClick={() => {
-                !type == 'ajuste' ? setView('General') : goPath('/search/buy');
-              }}
-            >
-              Atras
-            </Button>
-          )}
-          {order?.data?.status == 'Open' ? (
-            <Button
-              disabled={order.data.subTotal <= 0 ? true : false}
-              className={`${styles.buttonStyle} ${styles.buttonStyleNext}`}
-              variant="primary"
-              onClick={() => {
-                fnEnd();
-              }}
-            >
-              Confirmar
-            </Button>
-          ) : order?.data?.status == 'Confirm' ? (
-            <Button
-              disabled={order.data.subTotal <= 0 ? true : false}
-              className={`${styles.buttonStyle} ${styles.buttonStyleNext}`}
-              variant="primary"
-              onClick={() => {
-                recep(order.data.id);
-              }}
-            >
-              Recibir
-            </Button>
-          ) : null}
-        </div>
-      </form>
-    </FormProvider>
+      </div>
+      <div className={styles.buttonContainer}>
+        {path == '/edit/buy' ? null : (
+          <Button
+            className={`${styles.buttonStyle} ${styles.buttonStyleBack}`}
+            variant="danger"
+            onClick={() => {
+              !type == 'ajuste' ? setView('General') : goPath('/search/buy');
+            }}
+          >
+            Atras
+          </Button>
+        )}
+        {orderStatus[order?.data?.status] == 'Open' ? (
+          <Button
+            disabled={order.data.subTotal <= 0 ? true : false}
+            className={`${styles.buttonStyle} ${styles.buttonStyleNext}`}
+            variant="primary"
+            onClick={() => {
+              fnEnd();
+            }}
+          >
+            Confirmar
+          </Button>
+        ) : orderStatus[order?.data?.status] == 'Confirm' ? (
+          <Button
+            disabled={order.data.subTotal <= 0 ? true : false}
+            className={`${styles.buttonStyle} ${styles.buttonStyleNext}`}
+            variant="primary"
+            onClick={() => {
+              recep(order.data.id);
+            }}
+          >
+            Recibir
+          </Button>
+        ) : null}
+      </div>
+    </div>
   );
 }
 

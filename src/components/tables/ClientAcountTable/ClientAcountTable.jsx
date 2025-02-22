@@ -14,7 +14,7 @@ import {
   presDateIsoTostringDate,
 } from '../../../utils';
 import logoAfip from '../../../assets/afip/logo-vector-afip.jpg';
-import { Checkbox, Label, Pagination, Popup, Select } from 'semantic-ui-react';
+import { Checkbox, Pagination, Select } from 'semantic-ui-react';
 import styles from './clientAcountTables.module.css';
 import {
   getBillDataRequest,
@@ -29,7 +29,6 @@ import {
   setFilterMovements,
 } from '../../../redux/filtersMovements';
 import {
-  getAcountById,
   getMovementsByCurrentAcountIdX,
   marcMovementsByCurrentAcountId,
   resetMovementsByCurrentAcountId,
@@ -46,10 +45,11 @@ import { payDetail } from '../../../templates/payDetail';
 
 const CustomComp = ({ data }) => {
   // console.log(data);
-  const { list } = useSelector((state) => state.searchMovements).data?.movements;
+  const { list } = useSelector((state) => state.searchMovements).data
+    ?.movements;
   // console.log(list[0])
   // return <></>
-  const selectMov = list?.find(m => m.id == data.id)
+  const selectMov = list?.find((m) => m.id == data.id);
   const dispatch = useDispatch();
   const onClick = () => {
     dispatch(marcMovementsByCurrentAcountId(data.id));
@@ -66,6 +66,7 @@ const CustomComp = ({ data }) => {
 };
 
 const CustomActionComp = ({ data }) => {
+  // console.log(data)
   const [printLoading, setPrintLoading] = useState(false);
   const { client } = useSelector((state) => state.searchMovements)?.data
     ?.currentAcount;
@@ -83,7 +84,7 @@ const CustomActionComp = ({ data }) => {
     let nuevaVentana;
     //FACTURA A
     if (billType == 1 || billType == 6) {
-      const billData = await getBillDataRequest(numComprobante, billType);
+      const billData = await getBillDataRequest(numComprobante, billType, data.ptoVta);
       numRemito = billData.billData.ResultGet.CbteDesde;
       billRemDate.type = 'f';
       billRemDate.date = billDateTostringDate(
@@ -216,7 +217,7 @@ const CustomActionComp = ({ data }) => {
     const { currentAcountId, numComprobante, billType } = nc;
     const logoBlaseBase64 = await convertImageToBase64(logoBlase);
     if (billType == 1 || billType == 8 || billType == 3) {
-      const ncData = await printNCByNumRequest(numComprobante, currentAcountId);
+      const ncData = await printNCByNumRequest(numComprobante, currentAcountId, data.ptoVta);
       const ncDetail = await getBillByIdRequest(nc.id);
       const items = ncDetail.ncOrderItems;
       const client = ncDetail.currentAcount.client;
@@ -303,6 +304,7 @@ const CustomActionComp = ({ data }) => {
 
     const containerRem = nuevaVentana.document.createElement('div');
     nuevaVentana.document.body.appendChild(containerRem);
+    // console.log(payData);
     containerRem.innerHTML = payDetail(client, payData, logoBlaseBase64);
     // Espera a que las imágenes se carguen antes de imprimir
     await waitForImagesToLoad(nuevaVentana);
@@ -380,8 +382,11 @@ function ClientAcountTable(props) {
     },
     {
       headerName: 'Fecha',
-      valueGetter: (params) =>
-        convertirFechaISOaDDMMYYYYHHMM(params.data.fecha),
+      cellRenderer: (params) => (
+        <span className={params.data.esOferta ? styles.greenRow : ''}>
+          {convertirFechaISOaDDMMYYYYHHMM(params.data.fecha)}
+        </span>
+      ),
       flex: 1,
       filterParams: {
         filterOptions: ['contains'], // Solo opción 'contains'
@@ -390,76 +395,93 @@ function ClientAcountTable(props) {
     },
     {
       headerName: 'Concepto',
-      valueGetter: (params) => {
-        return getBillType(MovTypeEnum[params.data.type], params.data.billType);
-      },
+      cellRenderer: (params) => (
+        <span className={params.data.esOferta ? styles.greenRow : ''}>
+          {getBillType(MovTypeEnum[params.data.type], params.data.billType)}
+        </span>
+      ),
       filter: false,
       flex: 1,
       sortable: false,
     },
     {
       headerName: 'Factura/N-Crédito',
-      valueGetter: (params) => {
-        return getBillType(
-          MovTypeEnum[params.data.type],
-          params.data.billType
-        ) != 'Pago' &&
+      cellRenderer: (params) => (
+        <span className={params.data.esOferta ? styles.greenRow : ''}>
+          {getBillType(MovTypeEnum[params.data.type], params.data.billType) !=
+            'Pago' &&
           getBillType(MovTypeEnum[params.data.type], params.data.billType) !=
             'Descuento'
-          ? params.data.numComprobante
-          : '-';
-      },
+            ? params.data.numComprobante
+            : '-'}
+        </span>
+      ),
       filter: false,
       flex: 1,
       sortable: false,
     },
     {
       headerName: 'Factura Asoc.',
-      valueGetter: (params) => {
-        return getBillType(
-          MovTypeEnum[params.data.type],
-          params.data.billType
-        ) == 'Pago' ||
+      cellRenderer: (params) => (
+        <span className={params.data.esOferta ? styles.greenRow : ''}>
+          {getBillType(MovTypeEnum[params.data.type], params.data.billType) ==
+            'Pago' ||
           getBillType(MovTypeEnum[params.data.type], params.data.billType) ==
             'Nota de crédito' ||
           getBillType(MovTypeEnum[params.data.type], params.data.billType) ==
             'Devolución'
-          ? params.data.bills.map((b, i) => {
-              if (i > 0) {
-                return `-${b.numComprobante}`;
-              }
-              return b.numComprobante;
-            })
-          : '-';
-      },
+            ? params.data.bills.map((b, i) => {
+                if (i > 0) {
+                  return `-${b.numComprobante}`;
+                }
+                return b.numComprobante;
+              })
+            : '-'}
+        </span>
+      ),
       filter: false,
       flex: 1,
       sortable: false,
     },
     {
       headerName: 'Cbte del Sist.',
-      valueGetter: (params) => params.data.payDetail?.id,
+      cellRenderer: (params) => (
+        <span className={params.data.esOferta ? styles.greenRow : ''}>
+          {params.data.payDetail?.id}
+        </span>
+      ),
       filter: false,
       flex: 1,
     },
     {
       headerName: 'Cbte del Vdor.',
-      valueGetter: (params) => params.data.payDetail?.comprobanteVendedor,
+      cellRenderer: (params) => (
+        <span className={params.data.esOferta ? styles.greenRow : ''}>
+          {params.data.payDetail?.comprobanteVendedor}
+        </span>
+      ),
       filter: false,
       flex: 1,
     },
     {
       headerName: 'Monto',
-      valueGetter: (params) => `$${numberToString(params.data.total)}`,
+      cellRenderer: (params) => (
+        <span
+          className={params.data.esOferta ? styles.greenRow : ''}
+        >{`$${numberToString(params.data.total)}`}</span>
+      ),
       filter: false,
       flex: 1,
     },
     {
       headerName: 'Pendiente',
-      valueGetter: (params) =>
-        params?.data?.saldoPend
-          ? `$${numberToString(params?.data?.saldoPend)}`
-          : '-',
+      cellRenderer: (params) => (
+        <span className={params.data.esOferta ? styles.greenRow : ''}>
+          {params?.data?.saldoPend
+            ? `$${numberToString(params?.data?.saldoPend)}`
+            : '-'}
+        </span>
+      ),
       filter: false,
       flex: 1,
     },

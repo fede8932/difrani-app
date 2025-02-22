@@ -162,7 +162,7 @@ function NewBillContainer(props) {
     nuevaVentana.print();
   };
   const newBill = () => {
-    const facturaType = client.iva == 'Monotributista' ? 'B' : 'A';
+    const facturaType = client.iva == 'Monotributista' ? 'A' : 'A';
     let sendData = {
       concepto: 'Productos',
       type: 'Factura',
@@ -173,7 +173,7 @@ function NewBillContainer(props) {
       importe_excento: 0,
       // ivaCalculado: redondearADosDecimales((totalFacturado / 1.21) * 0.21),
       purchaseOrderId: order.id,
-      salePoint: 1,
+      salePoint: 13,
       iva: 21,
       importe_no_facturado: totalNoFacturado,
     };
@@ -181,10 +181,11 @@ function NewBillContainer(props) {
       closeModal();
       if (res.error) {
         Swal.fire({
-          icon: 'error',
-          title: 'No facturado',
-          text: 'Es posible alguno de los artículos no tenga stock',
+          icon: 'warning',
+          title: 'No emitimos la factura',
+          text: 'Generamos los registros de pendientes y eliminamos la orden de monto cero.',
         });
+        navigate('/search/sell')
       } else {
         printBill(res.payload, totalFacturado, totalNoFacturado);
         dispatch(searchSellOrderRequest(filterSellOrder)).then((res) => {

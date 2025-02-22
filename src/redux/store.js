@@ -49,6 +49,11 @@ import selectBillSlice from './selectedBill';
 import billItemsReducer from './billItems';
 import pendingSaveReducer from './pendingSave';
 import filterSellReportReducer from './filtersSellReports';
+import filtersBrandReducer from './filtersBrands'
+import brandResultsReducers from './searchBrandsExtra'
+import filterPendingReducers from './filtersPending'
+import pendingReducers from './pending'
+import billsProductsReducers from './bilssByProducts'
 
 const store = configureStore({
   middleware: (getDefaultMiddleware) =>
@@ -104,6 +109,11 @@ const store = configureStore({
     filterMovementsOrder: filtersMovementsSlice,
     pendingSave: pendingSaveReducer,
     filterSellReport: filterSellReportReducer,
+    filterBrand: filtersBrandReducer,
+    brandResults: brandResultsReducers,
+    filterPending: filterPendingReducers,
+    pendings: pendingReducers,
+    billsByProducts: billsProductsReducers,
   },
 });
 

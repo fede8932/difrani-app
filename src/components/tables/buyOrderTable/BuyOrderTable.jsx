@@ -81,9 +81,9 @@ const CustomActionComp = ({
           <button
             style={{ margin: '1px 0px 0px 7px' }}
             className={styles.iconButton}
-            disabled={
-              data.status == 'Open' || data.status == 'Confirm' ? false : true
-            }
+            // disabled={
+            //   data.status == 'Open' || data.status == 'Confirm' ? false : true
+            // }
             onClick={() => {
               setOrder(data.id, data.clientId);
             }}
@@ -93,7 +93,7 @@ const CustomActionComp = ({
               className={`fa-regular fa-pen-to-square fa-lg ${
                 data.status == 'Open' || data.status == 'Confirm'
                   ? styles.blueIcon
-                  : styles.greyIcon
+                  : styles.blueIcon //styles.greyIcon
               }`}
             ></i>
           </button>
@@ -210,7 +210,7 @@ function BuyOrderTable(props) {
     },
     {
       headerName: 'Proveedor',
-      headerComponent: () => <HeaderInput title="Proveedor" name={'client'} />,
+      headerComponent: () => <HeaderInput title="Proveedor" name={'supplier'} />,
       valueGetter: (params) => params.data.supplier?.razonSocial,
       flex: 2,
       filterParams: {
@@ -269,7 +269,7 @@ function BuyOrderTable(props) {
               Confirmada
             </Label>
           ) : null}
-          {params.data.status == 'Ajusted' ? (
+          {params.data.status == 'Stocked' ? (
             <Label
               color="teal"
               style={{
@@ -279,7 +279,7 @@ function BuyOrderTable(props) {
                 justifyContent: 'center',
               }}
             >
-              Ajustada
+              En Stock
             </Label>
           ) : null}
           {params.data.status == 'Cancel' ? (

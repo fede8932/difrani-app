@@ -4,10 +4,8 @@ import 'ag-grid-community/styles/ag-theme-quartz.css';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  convertirFechaISOaDDMMYYYY,
   convertirFechaISOaDDMMYYYYHHMM,
   numberToString,
-  redondearADosDecimales,
 } from '../../../utils';
 import { Checkbox, Label, Pagination, Popup, Select } from 'semantic-ui-react';
 import styles from './comitionsTable.module.css';
@@ -35,7 +33,7 @@ const CustomComp = ({ data }) => {
   return (
     <div className={styles.buttonContainer}>
       <Checkbox
-        disabled={data.status == 'Sent' ? true : false}
+        disabled={data.oferta ? true :data.status == 'Sent' ? true : false}
         onChange={onClick}
         checked={data?.marc}
       />
@@ -225,7 +223,7 @@ function SellOrderTable(props) {
     },
     {
       headerName: 'Fecha',
-      valueGetter: (params) => convertirFechaISOaDDMMYYYYHHMM(params.data.date),
+      cellRenderer: (params) => <span className={params.data.oferta? styles.greeText : ""}>{convertirFechaISOaDDMMYYYYHHMM(params.data.date)}</span>,
       flex: 1,
       filterParams: {
         filterOptions: ['contains'], // Solo opción 'contains'
@@ -236,7 +234,7 @@ function SellOrderTable(props) {
       headerName: 'Número',
       field: 'numero',
       headerComponent: () => <HeaderInput title="Número" name={'number'} />,
-      valueGetter: (params) => params.data.numero,
+      cellRenderer: (params) => <span className={params.data.oferta? styles.greeText : ""}>{params.data.numero}</span>,
       flex: 2,
       filterParams: {
         filterOptions: ['contains'], // Solo opción 'contains'
@@ -246,7 +244,7 @@ function SellOrderTable(props) {
     {
       headerName: 'Cliente',
       headerComponent: () => <HeaderInput title="Cliente" name={'client'} />,
-      valueGetter: (params) => params.data.client?.razonSocial,
+      cellRenderer: (params) => <span className={params.data.oferta? styles.greeText : ""}>{params.data.client?.razonSocial?.toUpperCase()}</span>,
       flex: 2,
       filterParams: {
         filterOptions: ['contains'], // Solo opción 'contains'
@@ -255,14 +253,14 @@ function SellOrderTable(props) {
     },
     {
       headerName: 'SubTotal',
-      valueGetter: (params) => `$ ${numberToString(params.data.subTotal)}`,
+      cellRenderer: (params) => <span className={params.data.oferta? styles.greeText : ""}>{`$ ${numberToString(params.data.subTotal)}`}</span>,
       filter: false,
       flex: 1,
       sortable: false,
     },
     {
       headerName: 'Total (c/IVA)',
-      valueGetter: (params) => `$ ${numberToString(params.data.total)}`,
+      cellRenderer: (params) => <span className={params.data.oferta? styles.greeText : ""}>{`$ ${numberToString((params.data.total))}`}</span>,
       filter: false,
       flex: 1,
     },

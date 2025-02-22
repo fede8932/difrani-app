@@ -1,11 +1,11 @@
-import logo from "../assets/logo/logoBlase.png";
-import { fechaConverter } from "../utils";
+import logo from '../assets/logo/logoBlase.png';
+import { fechaConverter } from '../utils';
 
 export const clientReport = (data, items, page, pages) => {
   function convertirFecha(fechaISO) {
     const fecha = new Date(fechaISO);
-    const dia = String(fecha.getDate()).padStart(2, "0");
-    const mes = String(fecha.getMonth() + 1).padStart(2, "0"); // Los meses empiezan desde 0
+    const dia = String(fecha.getDate()).padStart(2, '0');
+    const mes = String(fecha.getMonth() + 1).padStart(2, '0'); // Los meses empiezan desde 0
     const anio = fecha.getFullYear();
 
     return `${dia}/${mes}/${anio}`;
@@ -15,10 +15,10 @@ export const clientReport = (data, items, page, pages) => {
     const numero = parseFloat(valor).toFixed(2);
 
     // Separamos la parte entera de la parte decimal
-    let [entero, decimales] = numero.split(".");
+    let [entero, decimales] = numero.split('.');
 
     // Agregamos puntos de miles (millones, miles, cientos)
-    entero = entero.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    entero = entero.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
 
     // Retornamos el número en el formato solicitado
     return `${entero},${decimales}`;
@@ -26,34 +26,35 @@ export const clientReport = (data, items, page, pages) => {
   const { saldo, client } = data;
   const lista = items.map((item) => {
     // console.log(item);
-    let concep = "";
+    let concep = '';
     if (item.type == 0) {
       //type = 0 es factura o presupuesto
       if (item.billType == 0) {
         //billType = 0 es presupuesto
-        concep = "Presupuesto";
+        concep = 'Presupuesto';
       }
     }
     if (item.type == 0) {
       //type = 0 es factura o presupuesto
       if (item.billType != 0) {
         //billType = 0 es presupuesto
-        concep = "Factura";
+        concep = 'Factura';
       }
     }
     if (item.type == 1) {
       //type = 1 es nc oficial
-      concep = "Nota de crédito";
+      concep = 'Nota de crédito';
     }
     if (item.type == 3) {
       //type = 1 es nc oficial
-      concep = "Nota de crédito X";
+      concep = 'Nota de crédito X';
     }
     return `<tr>
               <td>${convertirFecha(item?.fecha)}</td>
               <td class="descrip">${item?.numComprobante}</td>
               <td class="descrip">${concep}</td>
-              <td>$${formatoNumero(item?.total)}</td>
+              <td class="descrip">${formatoNumero(item?.total)}</td>
+              <td>$${item?.saldoPend? `${formatoNumero(item?.saldoPend)} ${item?.saldoPend == item?.total ? "" : "(P)"}` : formatoNumero(item?.total)}</td>
             </tr>`;
   });
   return `<!DOCTYPE html>
@@ -281,6 +282,7 @@ export const clientReport = (data, items, page, pages) => {
                   <th>COMPROBANTE</th>
                   <th>CONCEPTO</th>
                   <th>IMPORTE</th>
+                  <th>PENDIENTE</th>
               </tr>
               ${lista}
        </table>

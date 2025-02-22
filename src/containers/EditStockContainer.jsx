@@ -22,7 +22,7 @@ function EditStockContainer({ id, close }) {
   const confirm = async (controlOrderId) => {
     setLoading(true);
     try {
-      await updateStock({ items: controlOrder.data.items });
+      await updateStock({ items: controlOrder.data.items, controlOrderId: controlOrderId });
       dispatch(updateControlOrderRequest(controlOrderId)).then(() => {
         close();
       }).then(()=> {

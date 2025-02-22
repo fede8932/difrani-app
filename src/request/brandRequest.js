@@ -54,6 +54,18 @@ export const getBrandsByData = async (text) => {
     throw error;
   }
 };
+export const searchBrandsExtra = async (filters) => {
+  try {
+    const url = `${apiUrl}/api/brand/search/extra`;
+    const { data } = await axios.post(url, filters, { withCredentials: true });
+    return data;
+  } catch (error) {
+    if (error.response?.status == 401) {
+      window.location.href = '/';
+    }
+    throw error;
+  }
+};
 export const toggleEcommerce = async (id) => {
   try {
     const url = `${apiUrl}/api/brand/toggle/ecommerce/${id}`;
@@ -173,6 +185,20 @@ export const getAllBrandToTable = async (clientId) => {
       `${apiUrl}/api/discounts?clientId=${clientId}`,
       { withCredentials: true }
     );
+    return data;
+  } catch (error) {
+    if (error.response?.status == 401) {
+      window.location.href = '/';
+    }
+    throw error;
+  }
+};
+
+export const getBrandById = async (id) => {
+  try {
+    const { data } = await axios.get(`${apiUrl}/api/brand/get/unique/${id}`, {
+      withCredentials: true,
+    });
     return data;
   } catch (error) {
     if (error.response?.status == 401) {

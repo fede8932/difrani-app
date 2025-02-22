@@ -232,6 +232,20 @@ function SideBarComponent(props) {
             ],
           }}
         />
+        <CustomAcordion
+          props={{
+            textButton: 'Pendientes',
+            icon01: 'fa-solid fa-business-time',
+            items: [
+              {
+                textButton: 'Lista de pendientes',
+                fn: () => {
+                  fnNavigate('/pending');
+                },
+              },
+            ],
+          }}
+        />
       </div>
     </div>
   );

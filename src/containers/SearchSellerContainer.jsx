@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import SearchSellerComponent from '../components/searchSeller/SearchSellerComponent';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
@@ -9,29 +9,45 @@ import { clienteReportBySeller } from '../templates/clienteReportBySeller';
 function SearchSellerContainer(props) {
   const methods = useForm();
   const dispatch = useDispatch();
+  const [page, setPage] = useState(1);
+  const [text, setText] = useState(null);
+
   const searchSeller = (data) => {
-    const carcterInicial = parseInt(data.text.substring(0, 1), 10);
-    if (isNaN(carcterInicial)) {
-      data.by = 'name';
-    } else {
-      data.by = 'cuil';
-    }
-    data.page = 1;
-    data.pageSize = 10;
-    data.orderByColumn = 'id';
-    dispatch(getSellersByTextRequest(data));
+    setText(data.text);
+    setPage(1)
+    // const carcterInicial = parseInt(data.text.substring(0, 1), 10);
+    // if (isNaN(carcterInicial)) {
+    //   data.by = 'name';
+    // } else {
+    //   data.by = 'cuil';
+    // }
+    // data.page = 1;
+    // data.pageSize = 10;
+    // data.orderByColumn = 'id';
+    // console.log(data);
+    // dispatch(getSellersByTextRequest(data));
   };
   const result = useSelector((state) => state.searchSellers);
+
   useEffect(() => {
-    const data = {
-      text: 'null',
+    let data = {
+      text: text,
       by: 'cuil',
-      page: 1,
+      page: page,
       pageSize: 10,
       orderByColumn: 'id',
     };
+    if (text) {
+      const carcterInicial = parseInt(text?.substring(0, 1), 10);
+      if (isNaN(carcterInicial)) {
+        data.by = 'name';
+      } else {
+        data.by = 'cuil';
+      }
+    }
     dispatch(getSellersByTextRequest(data));
-  }, []);
+  }, [page, text]);
+
   const resetSearch = () => {
     const data = {
       text: 'null',
@@ -66,6 +82,10 @@ function SearchSellerContainer(props) {
     }
   };
 
+  const changePage = (p) => {
+    setPage(p);
+  };
+
   return (
     <SearchSellerComponent
       methods={methods}
@@ -73,6 +93,7 @@ function SearchSellerContainer(props) {
       result={result}
       resetSearch={resetSearch}
       clientsResumePrint={clientsResumePrint}
+      changePage={changePage}
     />
   );
 }

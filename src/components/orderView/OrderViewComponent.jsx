@@ -6,6 +6,7 @@ import { Button, Spinner } from 'react-bootstrap';
 import { useNavigate } from 'react-router';
 import ProtectedComponent from '../../protected/protectedComponent/ProtectedComponent';
 import { numberToString } from '../../utils';
+import { orderStatus, typeOrder } from '../../enum/StatusOrderEnum';
 
 function OrderViewComponent(props) {
   const { close, order, addFact, printBill, confirmFn } = props;
@@ -17,7 +18,7 @@ function OrderViewComponent(props) {
   return (
     <div className={styles.editContainer}>
       <div className={styles.dataContainer}>
-        {order.type != 'Sell' ? (
+        {typeOrder[order.type] != "Sell" ? (
           <span className={styles.inputLabel}>
             ID Orden:<span className={styles.dataUser}>{order.id}</span>
           </span>
@@ -28,15 +29,15 @@ function OrderViewComponent(props) {
         <span>
           Tipo:
           <span className={styles.dataUser}>
-            {order.type != 'Sell' ? 'COMPRA' : 'VENTA'}
+            {typeOrder[order.type] != "Sell" ? 'COMPRA' : 'VENTA'}
           </span>
         </span>
         <span>
-          {order.type == 'Buy' ? 'Proveedor:' : 'Cliente:'}
+          {typeOrder[order.type] == "Buy" ? 'Proveedor:' : 'Cliente:'}
           <span className={styles.dataUser}>
-            {order.type == 'Buy'
-              ? order.supplier.razonSocial.toUpperCase()
-              : order.client.razonSocial.toUpperCase()}
+            {typeOrder[order.type] == "Buy"
+              ? order.supplier?.razonSocial?.toUpperCase()
+              : order.client?.razonSocial?.toUpperCase()}
           </span>
         </span>
         <span>
@@ -45,10 +46,11 @@ function OrderViewComponent(props) {
             order.subTotal
           )}`}</span>
         </span>
+        {order.oferta ? <Label color="green">Oferta</Label> : null}
         <div>
-          <Label color="blue">{order.status}</Label>
+          <Label color="blue">{orderStatus[order.status]}</Label>
         </div>
-        {order.type == 'Sell' && order.status == 'Sent' ? (
+        {typeOrder[order.type] == "Sell" && orderStatus[order.status] == 'Sent' ? (
           <Button
             disabled={true}
             type="button"
@@ -84,7 +86,7 @@ function OrderViewComponent(props) {
         />
       </div>
       <div className={styles.buttonContainer}>
-        {order.status == 'Recived' && order.movements.length == 0 ? (
+        {orderStatus[order.status] == 'Recived' && order.movements.length == 0 ? (
           <ProtectedComponent listAccesss={[1, 2, 5]}>
             <Button
               onClick={() => {
@@ -102,10 +104,10 @@ function OrderViewComponent(props) {
             </Button>
           </ProtectedComponent>
         ) : null}
-        {order.status == 'Open' && order.movements.length == 0 ? (
+        {orderStatus[order.status] == 'Open' && order.movements.length == 0 ? (
           <Button
             onClick={() => {
-              confirmFn(order.id, 'Confirm', order.type);
+              confirmFn(order.id, 'Confirm', typeOrder[order.type]);
             }}
             style={{
               backgroundColor: '#673ab7',

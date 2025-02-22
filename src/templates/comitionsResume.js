@@ -2,8 +2,8 @@ import {
   convertirFechaISOaDDMMYYYY,
   formatearFecha,
   redondearADosDecimales,
-} from "../utils";
-import logoBlase from "../assets/logo/logoBlase.png";
+} from '../utils';
+import logoBlase from '../assets/logo/logoBlase.png';
 
 export const comitionResume = (resume, items, page, pages) => {
   // console.log(resume);
@@ -256,8 +256,8 @@ export const comitionResume = (resume, items, page, pages) => {
         <div><span>Total vendido: <span>$ ${redondearADosDecimales(
           resume.subTotal
         )}</span></span></div><div><span>Total comision: <span>$ ${redondearADosDecimales(
-    resume.comision
-  )}</span></span></div>
+          resume.comision
+        )}</span></span></div>
       </div>
     </body>
   </html>

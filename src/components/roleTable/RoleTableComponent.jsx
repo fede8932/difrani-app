@@ -44,11 +44,12 @@ function RoleTableComponent(props) {
     printLoading,
     ncRePrint,
     clientsResumePrint,
+    slim,
   } = props;
-  
+
   const navigate = useNavigate();
   return (
-    <div className={styles.container}>
+    <div className={!slim ? styles.container : styles.containerSlim}>
       <Table className={`table ${styles.table}`} color="teal">
         <Table.Header>
           <Table.Row>
@@ -268,7 +269,7 @@ function RoleTableComponent(props) {
                   style={{ padding: '6px 10px', verticalAlign: 'middle' }}
                 >
                   {obj?.currentAcount?.acountNumber != '' ? (
-                    <ProtectedComponent listAccesss={[1, 2, 5]}>
+                    <ProtectedComponent listAccesss={[1, 2, 5, 6]}>
                       <div
                         style={{
                           display: 'flex',
@@ -685,7 +686,7 @@ function RoleTableComponent(props) {
                 <Table.Cell
                   style={{ padding: '6px 10px', verticalAlign: 'middle' }}
                 >
-                  {`N° ${obj.numRemito}`}
+                  {/* {`N° ${obj.numRemito}`} */}-
                 </Table.Cell>
                 <Table.Cell
                   style={{ padding: '6px 10px', verticalAlign: 'middle' }}

@@ -224,6 +224,10 @@ function PickingTable(props) {
 
   const [columnDefs, setColumnDefs] = useState(columnInitialState);
 
+  const onColumnMoved = (event) => {
+    console.log(event)
+  };
+
   const defaultColDef = useMemo(() => {
     return {
       // filter: "agTextColumnFilter",
@@ -237,6 +241,19 @@ function PickingTable(props) {
 
   const filterPickings = useSelector((state) => state.filterPickings);
 
+  const [debouncedFilter, setDebouncedFilter] = useState(filterPickings);
+  // Para hacer el debounce con un delay de 500ms
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedFilter(filterPickings);
+    }, 500); // 500ms de delay
+
+    // Limpia el timeout si el filtro cambia antes de los 500ms
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [filterPickings]);
+
   const selectChange = (e, d) => {
     dispatch(setFilterPickinngs({ name: 'pageSize', value: d.value }));
   };
@@ -245,8 +262,10 @@ function PickingTable(props) {
   };
 
   useEffect(() => {
-    dispatch(searchPickingOrderRequest(filterPickings));
-  }, [filterPickings]);
+    if (debouncedFilter) {
+      dispatch(searchPickingOrderRequest(debouncedFilter));
+    }
+  }, [debouncedFilter, dispatch]);
   useEffect(() => {
     return () => {
       dispatch(resetFilterPickinngs());
@@ -262,6 +281,7 @@ function PickingTable(props) {
         rowData={data.pickingOrders}
         columnDefs={columnDefs}
         defaultColDef={defaultColDef}
+        onColumnMoved={onColumnMoved}
       />
       <div className={styles.paginationContainer}>
         <span>{`Se encontraron ${data.totalPages} páginas con ${data.totalRows} resultados.`}</span>

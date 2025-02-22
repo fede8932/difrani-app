@@ -5,6 +5,14 @@
   flex-direction: column;
   justify-content: space-between;
 }
+.containerSlim {
+  overflow-y: auto;
+  min-height: 200px;
+  max-height: 490px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
 .linkSpan:hover {
   color: blue;
   text-decoration: underline;

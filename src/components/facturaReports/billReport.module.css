@@ -12,10 +12,18 @@
 }
 .check{
     margin-top: 20px;
+    margin-left: 20px;
 }
 .buttonCont{
     width: 95%;
     display: flex;
     justify-content: flex-end;
     margin-bottom: 10px;
+}
+.checkCont{
+    width: 300px;
+    margin-top: 10px;
+    margin-left: 15px;
+    display: flex;
+    justify-content: space-between;
 }

@@ -11,7 +11,7 @@ import { setPendingSave } from '../redux/pendingSave';
 function FormSelectClientContainer(props) {
   const { type, nextFn } = props;
   const navigate = useNavigate();
-  const client = useSelector((state) => state.client);
+  const {selectClient} = useSelector((state) => state.client);
   const order = useSelector((state) => state.newBuyOrder);
   const dispatch = useDispatch();
   const searchClient = (text) => {
@@ -33,7 +33,7 @@ function FormSelectClientContainer(props) {
           updateClientStatusOrder({
             id: order.data.id,
             status: 'Confirm',
-            clientId: client.data.id,
+            clientId: selectClient?.id,
           }).then(() => {
             Swal.fire(
               'Orden de venta',
@@ -46,7 +46,7 @@ function FormSelectClientContainer(props) {
         }
       });
     } else {
-      dispatch(newSellOrderRequest(client.data.id)).then(({ payload }) => {
+      dispatch(newSellOrderRequest(selectClient?.id)).then(({ payload }) => {
         dispatch(setPendingSave({ pending: true, orderId: payload.id }));
         nextFn(1);
       });
@@ -57,7 +57,6 @@ function FormSelectClientContainer(props) {
     <FormSelectClientSellOrder
       {...props}
       searchClient={searchClient}
-      client={client.data}
       confirmFn={confirm}
     />
   );

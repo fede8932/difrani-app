@@ -1,8 +1,13 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './customDrawer.module.css';
 import { Drawer, Space } from 'antd';
 import InfoButton from '../infoButton/InfoButton';
 import CustomTable from '../table/CustomTable';
+import { Input } from 'semantic-ui-react';
+import { searchInList } from '../../utils';
+import { deleteNoMarcOrderItemsRequest } from '../../redux/addOrderItems';
+import { useDispatch } from 'react-redux';
+import { Button } from 'react-bootstrap';
 const CustomDrawer = (props) => {
   const {
     type,
@@ -17,6 +22,11 @@ const CustomDrawer = (props) => {
   // console.log(listOrder); // Llega OK
   // console.log(orderAjust);
 
+  const [filterList, setFilterList] = useState(listOrder);
+  const [searchValue, setSearchValue] = useState('');
+
+  const dispatch = useDispatch();
+
   const [open, setOpen] = useState(false);
   const showDrawer = () => {
     setOpen(true);
@@ -24,10 +34,41 @@ const CustomDrawer = (props) => {
   const onClose = () => {
     setOpen(false);
   };
+
+  const handleSearchChange = (e, d) => {
+    setSearchValue(e.target.value);
+  };
+
+  useEffect(() => {
+    if (searchValue == '') {
+      setFilterList(listOrder);
+      return;
+    }
+    const keys = searchValue.trim().toLowerCase().split(/\s+/);
+    const newList = listOrder.filter((item) =>
+      searchInList(
+        keys,
+        item.product.article.toLowerCase(),
+        item.product.description.toLowerCase()
+      )
+    );
+    setFilterList(newList);
+  }, [searchValue, listOrder]);
+
+  const deleteNoMarc = () => {
+    let listId = [];
+    let lap = 0;
+    while (lap < listOrder.length) {
+      if (!listOrder[lap].noRemove) listId.push(listOrder[lap].id);
+      lap++;
+    }
+    dispatch(deleteNoMarcOrderItemsRequest(listId));
+  };
+  
   return (
     <>
       <InfoButton
-        text={orderType === 'OC' ? 'Dellade de compra' : 'Detalle de venta'}
+        text={orderType === 'OC' ? 'Detalle de compra' : 'Detalle de venta'}
         onClick={showDrawer}
       />
       <Drawer
@@ -45,6 +86,19 @@ const CustomDrawer = (props) => {
         extra={<Space></Space>}
       >
         <div>
+          <Input
+            placeholder="Search..."
+            loading={false}
+            onChange={handleSearchChange}
+            value={searchValue}
+          />
+          <Button
+            style={{ marginLeft: '35px', marginTop: '-5px' }}
+            variant="danger"
+            onClick={deleteNoMarc}
+          >
+            Eliminar no marcado
+          </Button>
           {orderType === 'OC' ? (
             <div>
               <div className={styles.listContainer}>
@@ -57,14 +111,15 @@ const CustomDrawer = (props) => {
                     color="teal"
                     products={
                       type !== 'ajuste'
-                        ? listOrder
+                        ? filterList
                         : orderAjust.data.ajustOrderItems
                     }
                     fnUpdate={fnUpdate}
                     fnPrUpdate={fnPrUpdate}
                     colum={[
+                      { title: 'Check', width: '2%' },
                       { title: 'Artículo', width: '26%' },
-                      { title: 'Marca', width: '20%' },
+                      { title: 'Marca', width: '18%' },
                       { title: 'Precio', width: '17%' },
                       { title: 'Cantidad', width: '10%' },
                       { title: 'Subtotal', width: '22%' },
@@ -85,10 +140,11 @@ const CustomDrawer = (props) => {
                     process="sell"
                     fnDelete={fnDelete}
                     color="teal"
-                    // products={listOrder}
+                    products={filterList}
                     fnUpdate={fnUpdate}
                     fnPrUpdate={fnPrUpdate}
                     colum={[
+                      { title: 'Check', width: '2%' },
                       { title: 'Artículo', width: '25%' },
                       { title: 'Marca', width: '20%' },
                       { title: 'Precio', width: '17%' },

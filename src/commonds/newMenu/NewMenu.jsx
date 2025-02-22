@@ -1,12 +1,12 @@
-import React from "react";
+import React from 'react';
 import {
   DropdownMenu,
   DropdownItem,
   DropdownDivider,
   Dropdown,
-} from "semantic-ui-react";
-import CustomMenu from "../menu/CustomMenu";
-import ProtectedComponent from "../../protected/protectedComponent/ProtectedComponent";
+} from 'semantic-ui-react';
+import CustomMenu from '../menu/CustomMenu';
+import ProtectedComponent from '../../protected/protectedComponent/ProtectedComponent';
 const redirect_url = import.meta.env.VITE_REDIRECT_URL;
 const entorno = import.meta.env.VITE_ENTORNO;
 
@@ -26,29 +26,29 @@ function NewMenu(props) {
           }}
         />
         <DropdownDivider />
-        {entorno !== "BLASE" ? (
+        {entorno !== 'BLASE' ? (
           <ProtectedComponent listAccesss={[1]}>
             <DropdownItem
               text="Ir a Blase"
               onClick={() =>
-                redirectToGoogle("https://admin.blasedistribuidora.shop/")
+                redirectToGoogle('https://admin.blasedistribuidora.com')
               }
             />
           </ProtectedComponent>
         ) : null}
-        {entorno !== "DIFRANI" ? (
+        {entorno !== 'DIFRANI' ? (
           <ProtectedComponent listAccesss={[1]}>
             <DropdownItem
               text="Ir a Difrani"
-              onClick={() => redirectToGoogle("https://system.difrani.com")}
+              onClick={() => redirectToGoogle('https://system.difrani.com')}
             />
           </ProtectedComponent>
         ) : null}
-        {entorno !== "ALOSPITS" ? (
+        {entorno !== 'ALOSPITS' ? (
           <ProtectedComponent listAccesss={[1]}>
             <DropdownItem
               text="Ir a Alospits"
-              onClick={() => redirectToGoogle("https://admin.alospits.com")}
+              onClick={() => redirectToGoogle('https://admin.alospits.com')}
             />
           </ProtectedComponent>
         ) : null}

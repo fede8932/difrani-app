@@ -3,7 +3,7 @@ import styles from './customTextArea.module.css';
 import { useFormContext } from 'react-hook-form';
 
 function PutCustomTextArea(props) {
-  const { width, name, obligatorio, defaultValue } = props;
+  const { width, name, obligatorio, defaultValue, value } = props;
   const { register } = useFormContext();
   const inputRef = useRef(null);
   const [classDivContainer, setClassDivContainer] = useState('inputContainer');
@@ -19,7 +19,7 @@ function PutCustomTextArea(props) {
       className={`${styles[classDivContainer]} ${styles[width]}`}
     >
       <textarea
-        defaultValue={defaultValue}
+        value={value ?? defaultValue}
         onFocus={() => {
           setClassDivContainer('inputContainerActive');
         }}
@@ -27,7 +27,7 @@ function PutCustomTextArea(props) {
         {...register(name, { required: obligatorio })}
         className={styles.input}
         {...props}
-        maxLength={160}
+        maxLength={300}
       />
     </div>
   );

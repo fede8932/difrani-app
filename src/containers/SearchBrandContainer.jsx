@@ -4,7 +4,6 @@ import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   getBrandByDataRequest,
-  toggleEcommerceBrandRequest,
 } from '../redux/searchBrands';
 
 function SearchBrandContainer(props) {
@@ -16,9 +15,6 @@ function SearchBrandContainer(props) {
   };
   const resetSearch = () => {
     dispatch(getBrandByDataRequest(null));
-  };
-  const toggleEcommerce = (id) => {
-    dispatch(toggleEcommerceBrandRequest(id));
   };
 
   useEffect(() => {
@@ -32,7 +28,6 @@ function SearchBrandContainer(props) {
       brands={filterBrand.data}
       status={filterBrand.loading}
       resetSearch={resetSearch}
-      toggleEcommerce={toggleEcommerce}
     />
   );
 }

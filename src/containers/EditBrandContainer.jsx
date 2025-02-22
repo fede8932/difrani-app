@@ -7,7 +7,9 @@ import { updateBrandRequest } from '../redux/brand';
 import { getBrandByDataRequest } from '../redux/searchBrands';
 
 function EditBrandContainer(props) {
-  const brand = props.brands[props.index];
+  // console.log(props);
+  const { brand, closeModal } = props;
+  // console.log(brand)
   const methods = useForm();
   const dispatch = useDispatch();
   const suppliers = useSelector((state) => state.supplier);
@@ -15,8 +17,8 @@ function EditBrandContainer(props) {
   const editBrand = (data) => {
     data.brandId = brand.id;
     dispatch(updateBrandRequest(data)).then(() => {
-      dispatch(getBrandByDataRequest(null))
-      props.closeModal();
+      dispatch(getBrandByDataRequest(null));
+      closeModal();
     });
   };
 

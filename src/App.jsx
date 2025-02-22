@@ -6,7 +6,7 @@ import SideBarContainer from './containers/SideBarContainer';
 import { useDispatch, useSelector } from 'react-redux';
 import { persistUser, persistUserMe } from './redux/user';
 import AddUser from './views/addUser/AddUser';
-import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
 import Dashbord from './views/dashbord/Dashbord';
 import AddClient from './views/addClient/AddClient';
 import AddSupplier from './views/addSupplier/AddSupplier';
@@ -37,9 +37,11 @@ import Equivalences from './views/equivalences/Equivalences';
 import ProtectedView from './protected/protectedView/ProtectedView';
 import AddOtherUser from './views/addOtherUser/AddUser';
 import notifSound from './assets/notif/ding-126626.mp3';
-import { toast } from 'react-toastify';
 import SearchUsers from './views/searchUsers/SearchUsers';
-import { billHtml } from './templates/billcopy';
+import BrandSale from './views/brandSale/BrandSale';
+import BloquedModal from './components/bloquedModal/BloquedModal';
+import ChangePass from './components/changePass/ChangePass';
+import SellPending from './views/sellPending/SellPending';
 
 function App() {
   const signalHub = `${import.meta.env.VITE_API_URL}/${
@@ -108,6 +110,9 @@ function App() {
             <LoginView />
           ) : (
             <>
+              <BloquedModal title="Cambiar contraseña">
+                <ChangePass />
+              </BloquedModal>
               <NavbarContainer />
               <div className="panelSubContainer">
                 <SideBarContainer />
@@ -385,7 +390,31 @@ function App() {
                         </ProtectedView>
                       }
                     />
+                    <Route
+                      path="brand/sale/*"
+                      element={
+                        <ProtectedView listAccesss={[1, 2]}>
+                          <BrandSale />
+                        </ProtectedView>
+                      }
+                    />
+                    <Route
+                      path="product/sale/*"
+                      element={
+                        <ProtectedView listAccesss={[1, 2]}>
+                          <BrandSale type="product" />
+                        </ProtectedView>
+                      }
+                    />
                     <Route path="pdf/aux" element={<billHtml />} />
+                    <Route
+                      path="pending"
+                      element={
+                        <ProtectedView listAccesss={[1, 2, 5, 6]}>
+                          <SellPending />
+                        </ProtectedView>
+                      }
+                    />
                   </Routes>
                 </div>
               </div>

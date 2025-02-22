@@ -10,8 +10,12 @@ import {
 } from '../../utils';
 import CustomPopup from '../popup/CustomPopup';
 import IconButonUsersTable from '../iconButtonUsersTable/IconButonUsersTable';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import ProtectedComponent from '../../protected/protectedComponent/ProtectedComponent';
+import {
+  deleteNoMarcOrderItemsRequest,
+  toggleNoRemove,
+} from '../../redux/addOrderItems';
 
 const CustomTable = (props) => {
   let {
@@ -32,7 +36,8 @@ const CustomTable = (props) => {
   } = props;
   // console.log(products);
 
-  const listSellOrder = useSelector((state) => state.listOrderItems).data;
+  // const listSellOrder = useSelector((state) => state.listOrderItems).data;
+  const dispatch = useDispatch();
 
   return (
     <Table color={color} key={color}>
@@ -166,6 +171,14 @@ const CustomTable = (props) => {
             const precio = p.product.price;
             return (
               <Table.Row key={i} style={{ height: '40px', maxHeight: '40px' }}>
+                <Table.Cell>
+                  {
+                    <Checkbox
+                      checked={p.noRemove}
+                      onClick={() => dispatch(toggleNoRemove(p.id))}
+                    />
+                  }
+                </Table.Cell>
                 <Table.Cell>{p.product.article}</Table.Cell>
                 <Table.Cell>{p?.product?.brand?.name}</Table.Cell>
                 <Table.Cell>
@@ -189,7 +202,8 @@ const CustomTable = (props) => {
                     step="1"
                     value={p.amount}
                     onChange={(e) => {
-                      fnUpdate({ id: p.id, editCamp: e.target.value });
+                      if (e.target.value != 0)
+                        fnUpdate({ id: p.id, editCamp: e.target.value });
                     }}
                   />
                   {/* <TableInput
@@ -230,36 +244,41 @@ const CustomTable = (props) => {
       ) : null}
       {type === 'list-sell' ? (
         <Table.Body>
-          {listSellOrder?.map((p, i) => {
-            // console.log(p);
-            return (
-              <Table.Row key={i} style={{ height: '40px', maxHeight: '40px' }}>
-                <Table.Cell
-                  style={
-                    p.amount > p.product.stock.stock ? { color: 'red' } : null
-                  }
+          {
+            /*listSellOrder*/ products?.map((p, i) => {
+              // console.log(p);
+              return (
+                <Table.Row
+                  key={i}
+                  style={{ height: '40px', maxHeight: '40px' }}
                 >
-                  {p.product.article}
-                </Table.Cell>
-                <Table.Cell
-                  style={
-                    p.amount > p.product.stock.stock ? { color: 'red' } : null
-                  }
-                >
-                  {p.product.brand?.name}
-                </Table.Cell>
-                <Table.Cell
-                  style={
-                    p.amount > p.product.stock.stock ? { color: 'red' } : null
-                  }
-                >
-                  <span style={{ display: 'flex', alignItems: 'center' }}>
-                    {`$ ${numberToString(p?.sellPrice /* * 1.21*/)}`}
-                  </span>
-                </Table.Cell>
-                <Table.Cell>
-                  <div className={styles.inpChangeCont}>
-                    {/* <button
+                  <Table.Cell>{<Checkbox checked={p.noRemove} />}</Table.Cell>
+                  <Table.Cell
+                    style={
+                      p.amount > p.product.stock.stock ? { color: 'red' } : null
+                    }
+                  >
+                    {p.product.article}
+                  </Table.Cell>
+                  <Table.Cell
+                    style={
+                      p.amount > p.product.stock.stock ? { color: 'red' } : null
+                    }
+                  >
+                    {p.product.brand?.name}
+                  </Table.Cell>
+                  <Table.Cell
+                    style={
+                      p.amount > p.product.stock.stock ? { color: 'red' } : null
+                    }
+                  >
+                    <span style={{ display: 'flex', alignItems: 'center' }}>
+                      {`$ ${numberToString(p?.sellPrice /* * 1.21*/)}`}
+                    </span>
+                  </Table.Cell>
+                  <Table.Cell>
+                    <div className={styles.inpChangeCont}>
+                      {/* <button
                       className={styles.inputChange}
                       onClick={() => {
                         if (p.amount > 1) {
@@ -269,7 +288,7 @@ const CustomTable = (props) => {
                     >
                       <i className="fa-solid fa-minus"></i>
                     </button> */}
-                    {/* <TableInput
+                      {/* <TableInput
                       key={i}
                       type="number"
                       step="1"
@@ -277,17 +296,18 @@ const CustomTable = (props) => {
                       fn={fnUpdate}
                       dataItem={{ id: p.id }}
                     /> */}
-                    <input
-                      className={styles.inputTable}
-                      type="number"
-                      key={i}
-                      step="1"
-                      value={p.amount}
-                      onChange={(e) => {
-                        fnUpdate({ id: p.id, editCamp: e.target.value });
-                      }}
-                    />
-                    {/* <button
+                      <input
+                        className={styles.inputTable}
+                        type="number"
+                        key={i}
+                        step="1"
+                        value={p.amount}
+                        onChange={(e) => {
+                          if (e.target.value != 0)
+                            fnUpdate({ id: p.id, editCamp: e.target.value });
+                        }}
+                      />
+                      {/* <button
                       className={styles.inputChange}
                       onClick={() => {
                         if (p.product.stock.stock > p.amount) {
@@ -297,33 +317,34 @@ const CustomTable = (props) => {
                     >
                       <i className="fa-solid fa-plus"></i>
                     </button> */}
-                  </div>
-                </Table.Cell>
-                <Table.Cell
-                  style={
-                    p.amount > p.product.stock.stock
-                      ? { color: 'red', fontSize: '11px' }
-                      : { fontSize: '10px' }
-                  }
-                >{`$ ${numberToString(
-                  p.amount * p.sellPrice /* * 1.21*/
-                )}`}</Table.Cell>
-                <Table.Cell>
-                  <div className={styles.butContainer}>
-                    <IconButton
-                      key={i}
-                      type="delete"
-                      icon="fa-regular fa-trash-can"
-                      iconInitialStyle={'iconStyleRed'}
-                      fn={fnDelete}
-                      itemId={p.id}
-                      product={{ product: p, brand: p.brand }}
-                    />
-                  </div>
-                </Table.Cell>
-              </Table.Row>
-            );
-          })}
+                    </div>
+                  </Table.Cell>
+                  <Table.Cell
+                    style={
+                      p.amount > p.product.stock.stock
+                        ? { color: 'red', fontSize: '11px' }
+                        : { fontSize: '10px' }
+                    }
+                  >{`$ ${numberToString(
+                    p.amount * p.sellPrice /* * 1.21*/
+                  )}`}</Table.Cell>
+                  <Table.Cell>
+                    <div className={styles.butContainer}>
+                      <IconButton
+                        key={i}
+                        type="delete"
+                        icon="fa-regular fa-trash-can"
+                        iconInitialStyle={'iconStyleRed'}
+                        fn={fnDelete}
+                        itemId={p.id}
+                        product={{ product: p, brand: p.brand }}
+                      />
+                    </div>
+                  </Table.Cell>
+                </Table.Row>
+              );
+            })
+          }
         </Table.Body>
       ) : null}
       {type === 'fact' ? (

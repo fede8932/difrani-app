@@ -6,6 +6,7 @@ const initialState = {
   rangeDate: null,
   clientId: null,
   brandId: null,
+  code: null,
 };
 
 const filtersSellReportSlice = createSlice({
@@ -25,6 +26,7 @@ const filtersSellReportSlice = createSlice({
       state.rangeDate = null;
       state.clientId = null;
       state.brandId = null;
+      state.code = null;
     },
   },
 });

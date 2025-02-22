@@ -6,9 +6,10 @@ import CustomSearch from '../../commonds/search/CustomSearch';
 import NewMenu from '../../commonds/newMenu/NewMenu';
 import { useDispatch, useSelector } from 'react-redux';
 import { sendLogoutRequest } from '../../redux/user';
+import { logOutCookiesRequest } from '../../request/userRequest';
 
 function NavbarComponent(props) {
-  const { fnSidebar } = props;
+  const { fnSidebar, atrasFn } = props;
   const Rol = {
     1: 'System',
     2: 'Admin',
@@ -48,6 +49,17 @@ function NavbarComponent(props) {
           }}
         />
       </div>
+      <div style={{marginLeft: "10px"}}>
+        <CustomButton
+          props={{
+            buttonStyle: 'menuButton',
+            icon: 'fa-solid fa-arrow-left',
+            iconStyle: 'menuIconVio',
+            iconHoverStyle: 'menuIconBla',
+            fnSidebar: atrasFn,
+          }}
+        />
+      </div>
       <div className={styles.barContainer}>
         <div style={{ display: 'flex', width: '950px', alignItems: 'center' }}>
           <CustomSearch />
@@ -67,7 +79,9 @@ function NavbarComponent(props) {
               console.log('no hay fn');
             }}
             logOutFn={() => {
-              dispatch(sendLogoutRequest());
+              logOutCookiesRequest().then(() => {
+                window.location.reload();
+              });
             }}
           />
         </div>

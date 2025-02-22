@@ -2,8 +2,9 @@ import {
   fechaConverter,
   formatFactDate,
   formatNumberWithLeadingZeros,
+  presDateIsoTostringDate,
   redondearADosDecimales,
-} from "../utils";
+} from '../utils';
 
 export const presupHtml = (
   movimentData,
@@ -13,7 +14,7 @@ export const presupHtml = (
   pageNumber,
   totalPages
 ) => {
-  console.log("orden-->", order);
+  // console.log("mov-->", movimentData);
   const subTotal = order.purchaseOrderItems.reduce((acum, item) => {
     if (!item.fact) {
       acum += item.sellPrice * item.amount;
@@ -228,9 +229,9 @@ export const presupHtml = (
           <div class="dataEmisor">
             <img class="logo" src="${logoBlaseBase64}" alt="logo" />
             <div class="infoEminContainer">
-              <span class="infoEmisTex">DIFRANI AUTOPARTES - RUTA 28 396, GRAL RODRIGUEZ. CP: 1748</span>
-              <span class="infoEmisTex">1132948959</span>
-              <span class="infoEmisTex">VENTAS@DIFRANI.COM</span>
+              <span class="infoEmisTex">Don Bosco 2175, Morón. CP: 1708</span>
+              <span class="infoEmisTex">4460-5972</span>
+              <span class="infoEmisTex">ventas@blasedistribuidora.com</span>
             </div>
           </div>
           <div class="factCode">
@@ -249,7 +250,7 @@ export const presupHtml = (
               8
             )}</span></div>
           </div>
-          <div class="fechaFact">FECHA: ${fechaConverter(
+          <div class="fechaFact">FECHA: ${presDateIsoTostringDate(
             movimentData.fecha
           )}</div>
           <div class="datFisc">

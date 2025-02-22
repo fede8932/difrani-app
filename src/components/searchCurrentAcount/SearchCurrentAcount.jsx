@@ -5,20 +5,35 @@ import CustomModal from '../../commonds/customModal/CustomModal';
 import NewMovimientContainer from '../../containers/NewMovimentContainer';
 import CustomMenu from '../customMenu/CustomMenu';
 import NewNCContainer from '../../containers/NewNCContainer';
-import { numberToString } from '../../utils';
+import { newPayButtonActive, numberToString } from '../../utils';
 import ProtectedComponent from '../../protected/protectedComponent/ProtectedComponent';
 import { Spinner } from 'react-bootstrap';
-import { getPendingReq } from '../../request/movNoApplyRequest';
+import {
+  getPendingByRangeReq,
+  getPendingReq,
+} from '../../request/movNoApplyRequest';
 import { clientReport } from '../../templates/reporteCuentaCliente';
 import ClientAcountTable from '../tables/ClientAcountTable/ClientAcountTable';
 import { setFilterMovements } from '../../redux/filtersMovements';
 import { useDispatch, useSelector } from 'react-redux';
 import { normalizeResumeRequest } from '../../request/currentAcountRequest';
 import Swal from 'sweetalert2';
+import FilterPendingDownload from '../filterPendingDownload/FilterPendingDownload';
+import FilterPayDownload from '../filterPayPDownload/FilterPayDownload';
+import { useLocation } from 'react-router';
+import {
+  getBillReportRequest,
+  getPayReportRequest,
+} from '../../request/billRequest';
 
 function SearchCurrentAcount(props) {
   const dispatch = useDispatch();
   const acountState = useSelector((state) => state.searchMovements);
+  // console.log(acountState);
+  const location = useLocation();
+
+  // Obtén la parte final de la URL
+  const currentAcountId = location.pathname.split('/').filter(Boolean).pop();
 
   const currentAcount = useMemo(() => {
     return acountState.data?.currentAcount;
@@ -29,14 +44,21 @@ function SearchCurrentAcount(props) {
 
   const filterMovements = useSelector((state) => state.filterMovementsOrder);
 
-  const getPending = async () => {
+  const getPending = async (sendData) => {
+    const { range, radio } = sendData;
     setPrintPending(true);
     try {
-      const pending = await getPendingReq(currentAcount.id);
-      // console.log(pending);
+      const pending =
+        range?.length > 0
+          ? await getPendingByRangeReq({
+              currentAcountId: currentAcount.id,
+              range: range,
+              filter: radio,
+            })
+          : await getPendingReq(currentAcount.id); // console.log(pending);
       const nuevaVentana = window.open('', '', 'width=900,height=1250');
-
       const items = pending.movements;
+      // console.log(items)
       const itemsPerPage = 14; // Número de ítems por página
       const totalPages = Math.ceil(items?.length / itemsPerPage);
 
@@ -62,6 +84,30 @@ function SearchCurrentAcount(props) {
             ).style.pageBreakBefore = 'always';
         }
       }
+    } catch (err) {
+    } finally {
+      setPrintPending(false);
+    }
+  };
+
+  const getPays = async (sendData) => {
+    console.log(sendData.range);
+
+    // Convertir las fechas al formato 'YYYY-MM-DD'
+    const [day1, month1, year1] = sendData.range[0].split('-');
+    const [day2, month2, year2] = sendData.range[1].split('-');
+
+    const initDate = new Date(`${year1}-${month1}-${day1}`);
+    const endDate = new Date(`${year2}-${month2}-${day2}`);
+
+    console.log(initDate, endDate);
+    try {
+      setPrintPending(true);
+      await getPayReportRequest({
+        currentAcountId: Number(currentAcountId),
+        initDate: initDate,
+        endDate: endDate,
+      });
     } catch (err) {
     } finally {
       setPrintPending(false);
@@ -156,7 +202,7 @@ function SearchCurrentAcount(props) {
       </div>
       <div className={styles.tableContainer}>
         <span className={styles.subTitle}>Detalle de movimientos</span>
-        <ProtectedComponent listAccesss={[1, 2, 5, 6]}>
+        <ProtectedComponent listAccesss={[1, 2, 5]}>
           <div className={styles.buttonMovContainer}>
             <div style={{ display: 'flex', position: 'relative' }}>
               <CustomModal
@@ -164,11 +210,14 @@ function SearchCurrentAcount(props) {
                 size="lg"
                 actionButton={
                   <Button
-                    disabled={
-                      !acountState.data?.movements?.list?.some(
-                        (mov) => mov.marc
-                      )
-                    }
+                    disabled={newPayButtonActive(
+                      acountState.data.movements.list
+                    )}
+                    // disabled={
+                    //   !acountState.data?.movements?.list?.some(
+                    //     (mov) => mov.marc
+                    //   )
+                    // }
                   >
                     Nuevo pago
                   </Button>
@@ -296,7 +345,14 @@ function SearchCurrentAcount(props) {
               </div>
             </div>
             <div>
-              <ProtectedComponent listAccesss={[1]} >
+              <span
+                style={{ fontWeight: '600', fontSize: '15px', color: 'green' }}
+              >
+                ${numberToString(acountState?.data.totalMarc)}
+              </span>
+            </div>
+            <div>
+              <ProtectedComponent listAccesss={[1]}>
                 <Button
                   disabled={normalize}
                   type="button"
@@ -311,7 +367,21 @@ function SearchCurrentAcount(props) {
                   )}
                 </Button>
               </ProtectedComponent>
-              <Button
+              <CustomModal
+                title="Imprimir facturas y Notas de crédito"
+                size="lg"
+                actionButton={<Button>Facturas</Button>}
+                bodyModal={FilterPendingDownload}
+                bodyProps={{ submitFn: getPending }}
+              />
+              <CustomModal
+                title="Imprimir pagos y descuentos"
+                size="lg"
+                actionButton={<Button>Pagos</Button>}
+                bodyModal={FilterPayDownload}
+                bodyProps={{ submitFn: getPays }}
+              />
+              {/* <Button
                 type="button"
                 onClick={() => {
                   getPending();
@@ -320,9 +390,9 @@ function SearchCurrentAcount(props) {
                 {printPending ? (
                   <Spinner animation="border" size="sm" />
                 ) : (
-                  'Imprimir pendiente'
+                  'Pendiente'
                 )}
-              </Button>
+              </Button> */}
             </div>
           </div>
         </ProtectedComponent>

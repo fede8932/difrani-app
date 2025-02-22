@@ -1,17 +1,46 @@
-import { redondearADosDecimales } from "../utils";
+import { redondearADosDecimales } from '../utils';
 
 export const payDetail = (client, payData, logo) => {
+  const {
+    bancoCH,
+    bancoTR,
+    comprobanteVendedor,
+    fechaCH,
+    fechaCobro,
+    montoCH,
+    montoEF,
+    montoTR,
+    numCheque,
+    numOperation,
+  } = payData;
+
+  function formatDates(input) {
+    // Divide la cadena en las dos fechas
+    const dates = input.split('|');
+
+    // Convierte cada fecha al formato "dd-MM-yyyy"
+    const formattedDates = dates.map((date) => {
+      const d = new Date(date); // Crea un objeto Date
+      const day = String(d.getDate()).padStart(2, '0'); // Día con 2 dígitos
+      const month = String(d.getMonth() + 1).padStart(2, '0'); // Mes con 2 dígitos
+      const year = d.getFullYear(); // Año
+      return `${day}-${month}-${year}`;
+    });
+
+    // Une las fechas formateadas con "|"
+    return formattedDates.join('|');
+  }
   function isoToDdMmAaaa(isoString) {
     const fecha = new Date(isoString);
-    const dia = fecha.getDate().toString().padStart(2, "0"); // Obtiene el día y agrega un 0 si es necesario
-    const mes = (fecha.getMonth() + 1).toString().padStart(2, "0"); // Los meses en JavaScript van de 0 a 11, por eso sumamos 1
+    const dia = fecha.getDate().toString().padStart(2, '0'); // Obtiene el día y agrega un 0 si es necesario
+    const mes = (fecha.getMonth() + 1).toString().padStart(2, '0'); // Los meses en JavaScript van de 0 a 11, por eso sumamos 1
     const anio = fecha.getFullYear();
     return `${dia}-${mes}-${anio}`;
   }
   function obtenerFechaHoy() {
     const hoy = new Date();
-    const dia = String(hoy.getDate()).padStart(2, "0");
-    const mes = String(hoy.getMonth() + 1).padStart(2, "0"); // Los meses comienzan en 0
+    const dia = String(hoy.getDate()).padStart(2, '0');
+    const mes = String(hoy.getMonth() + 1).padStart(2, '0'); // Los meses comienzan en 0
     const anio = hoy.getFullYear();
     return `${dia}-${mes}-${anio}`;
   }
@@ -115,7 +144,7 @@ export const payDetail = (client, payData, logo) => {
         }
         .clientContainer {
           width: 100%;
-          height: 135px;
+          /* height: 135px; */
           border: 1px solid black;
           margin: 10px 0px;
           display: flex;
@@ -216,7 +245,7 @@ export const payDetail = (client, payData, logo) => {
         <div class="dataFact">
           <div class="factCont">
             <div class="hojaCont">
-              <span>DETALLE DE PAGO:</span><span>${payData.id}</span>
+              <span>DETALLE DE PAGO:</span><span>${payData?.id}</span>
             </div>
             <div class="numberFact"></div>
           </div>
@@ -234,29 +263,33 @@ export const payDetail = (client, payData, logo) => {
         </div>
         <div class="ivaClient">
           <span class="clientInfoText">Comprobante de Vdor<span class="clientInfoTextDos">${
-            payData.comprobanteVendedor
+            comprobanteVendedor
           }</span></span>
-          <span class="clientInfoText">Num ${
-            payData.payType == 2 ? "-" : payData.payType == 1 ? "Cheque" : "OP"
-          } <span class="clientInfoTextDos">${
-    payData.numCheque
-      ? payData.numCheque
-      : payData.numOperation
-      ? payData.numOperation
-      : ""
-  }</span></span>
+          <span class="clientInfoText">Efectivo: <span class="clientInfoTextDos">${montoEF}</span></span>
         </div>
         <div class="ivaClient">
-        <span class="clientInfoText">Fecha de cobro<span class="clientInfoTextDos">${
-          payData.payType == 1 ? isoToDdMmAaaa(payData.fechaCobro) : ""
-        }</span></span>
-          <span class="clientInfoText">Banco:<span class="clientInfoTextDos">${
-            payData.banco
-          }</span></span>
+        <span class="clientInfoText">Banco Transf:<span class="clientInfoTextDos">${bancoTR}</span></span>
+          <span class="clientInfoText">Monto Transf:<span class="clientInfoTextDos">${montoTR}</span></span>
+        </div>
+        <div class="ivaClient">
+          <span class="clientInfoText">Núm de operación: <span class="clientInfoTextDos">${numOperation}</span></span>
+        </div>
+        <div class="ivaClient">
+          <span class="clientInfoText">Fecha de cheques: <span class="clientInfoTextDos">${formatDates(fechaCH)}</span></span>
+        </div>
+        <div class="ivaClient">
+          <span class="clientInfoText">Fechas de cobro: <span class="clientInfoTextDos">${formatDates(fechaCobro)}</span></span>
+        </div>
+        <div class="ivaClient">
+          <span class="clientInfoText">Núm de cheques: <span class="clientInfoTextDos">${numCheque}</span></span>
+        </div>
+        <div class="ivaClient">
+        <span class="clientInfoText">Banco de cheque:<span class="clientInfoTextDos">${bancoCH}</span></span>
+          <span class="clientInfoText">Monto cheque:<span class="clientInfoTextDos">${montoCH}</span></span>
         </div>
         <div class="ivaClient">
           <span class="clientInfoText">Total:<span class="clientInfoTextDos">$${redondearADosDecimales(
-            payData.monto
+            montoEF + montoTR + montoCH
           )}</span></span>
           <span class="clientInfoText">Responsable:<span class="clientInfoTextDos">_______________________________</span></span>
         </div>
