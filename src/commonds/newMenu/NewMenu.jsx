@@ -31,7 +31,7 @@ function NewMenu(props) {
             <DropdownItem
               text="Ir a Blase"
               onClick={() =>
-                redirectToGoogle('https://admin.blasedistribuidora.com')
+                redirectToGoogle('https://admin.blasedistribuidora.shop')
               }
             />
           </ProtectedComponent>
