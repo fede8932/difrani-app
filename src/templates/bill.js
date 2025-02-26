@@ -250,11 +250,10 @@ export const billHtml = async (
           <div class="dataEmisor">
             <img class="logo" src=${logoBlaseBase64} alt="logo">
             <div class="infoEminContainer">
-              <span class="infoEmisTex">De Blase Distribuidora</span>
-              <span class="infoEmisTex">Don Bosco 2175, Morón. CP: 1708</span>
-              <span class="infoEmisTex">4460-5972</span>
-              <span class="infoEmisTex">ventas@blasedistribuidora.com</span>
-              <span class="infoEmisTex">IVA: Responsable Inscripto</span>
+              <span class="infoEmisTex">DIFRANI AUTOPARTES</span>
+              <span class="infoEmisTex">RUTA 28 396, G.RODRIGUEZ. CP: 1748</span>
+              <span class="infoEmisTex">1132948959</span>
+              <span class="infoEmisTex">VENTAS@DIFRANI.COM</span>
             </div>
           </div>
           <div class="factCode">
@@ -278,11 +277,11 @@ export const billHtml = async (
           )}</div>
           <div class="datFisc">
             <div class="afipInfoDivCont">
-              <p>C.U.I.T:<span>20164364837</span></p>
-              <p>Pto Venta:<span>00008</span></p>
+              <p>C.U.I.T:<span>20352483983</span></p>
+              <p>Pto Venta:<span>00006</span></p>
             </div>
-            <p>IIBB:<span>20164364837</span></p>
-            <p>Inicio de actividades:<span>10/01/1992</span></p>
+            <p>IIBB:<span>20352483983</span></p>
+            <p>Inicio de actividades:<span>12/2023</span></p>
           </div>
         </div>
       </div>

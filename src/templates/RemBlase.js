@@ -208,11 +208,10 @@ export const remitHtml = (
           <div class="dataEmisor">
             <img class="logo" src="${logoBlaseBase64}" alt="logo" />
             <div class="infoEminContainer">
-              <span class="infoEmisTex">De Hernan Blasevich</span>
-              <span class="infoEmisTex">Don Bosco 2175, Morón. CP: 1708</span>
-              <span class="infoEmisTex">4460-5972</span>
-              <span class="infoEmisTex">ventas@blasedistribuidora.com</span>
-              <span class="infoEmisTex">IVA: Responsable Inscripto</span>
+              <span class="infoEmisTex">DIFRANI AUTOPARTES</span>
+              <span class="infoEmisTex">RUTA 28 396, GRAL RODRIGUEZ. CP: 1748</span>
+              <span class="infoEmisTex">1132948959</span>
+              <span class="infoEmisTex">VENTAS@DIFRANI.COM</span>
             </div>
           </div>
           <div class="factCode">
