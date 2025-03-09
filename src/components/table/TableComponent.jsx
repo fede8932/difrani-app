@@ -2,6 +2,7 @@ import React from 'react';
 import styles from './table.module.css';
 import { Table, Label, Popup } from 'semantic-ui-react';
 import { useSelector } from 'react-redux';
+import { redondearADosDecimales } from '../../utils';
 
 function TableComponent(props) {
   const { brands, indicadores, delFn } = props;
@@ -62,7 +63,7 @@ function TableComponent(props) {
                       border: '2px solid #B6B6B6',
                     }}
                     content={brand.notas}
-                    trigger={<span>{`${brand.porcentaje * 100} %`}</span>}
+                    trigger={<span>{`${redondearADosDecimales(brand.porcentaje * 100)} %`}</span>}
                   />
                 ) : null}
               </Table.Cell>
