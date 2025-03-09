@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from "axios";
 const apiUrl = import.meta.env.VITE_API_URL;
 
 export const sendLoginRequest = async (data) => {
@@ -13,7 +13,9 @@ export const sendLoginRequest = async (data) => {
 };
 export const updateUserStatusRequest = async (id) => {
   try {
-    const { data } = await axios.put(`${apiUrl}/api/users/status/${id}`);
+    const { data } = await axios.put(`${apiUrl}/api/users/status/${id}`, null, {
+      withCredentials: true, // incluir cookies en la solicitud
+    });
     return data;
   } catch (error) {
     throw error;
@@ -36,7 +38,7 @@ export const resetPassRequest = async (id) => {
 
 export const sendLogoutRequest = async () => {
   try {
-    localStorage.removeItem('user');
+    localStorage.removeItem("user");
     return null;
   } catch (error) {
     console.log(err);
@@ -52,9 +54,9 @@ export const persistUserRequest = async () => {
     return data;
   } catch (error) {
     if (error.response && error.response.status === 401) {
-      console.log('No autorizado: El token es inválido o ha expirado.');
+      console.log("No autorizado: El token es inválido o ha expirado.");
     } else {
-      console.log('Error inesperado:', error.message);
+      console.log("Error inesperado:", error.message);
     }
     throw error; // Propaga el error si necesitas manejarlo en otro lugar
   }
@@ -67,7 +69,7 @@ export const searchUserRequest = async (sendInfo) => {
     return data;
   } catch (error) {
     if (error.response?.status == 401) {
-      window.location.href = '/';
+      window.location.href = "/";
     }
     throw error;
   }
@@ -80,7 +82,7 @@ export const changeUserPass = async (sendInfo) => {
     return data;
   } catch (error) {
     if (error.response?.status == 401) {
-      window.location.href = '/';
+      window.location.href = "/";
     }
     throw error;
   }
@@ -93,7 +95,7 @@ export const logOutCookiesRequest = async () => {
     return data;
   } catch (error) {
     if (error.response?.status == 401) {
-      window.location.href = '/';
+      window.location.href = "/";
     }
     throw error;
   }
