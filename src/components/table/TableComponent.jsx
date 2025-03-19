@@ -63,7 +63,7 @@ function TableComponent(props) {
                       border: '2px solid #B6B6B6',
                     }}
                     content={brand.notas}
-                    trigger={<span>{`${redondearADosDecimales(brand.porcentaje) * 100} %`}</span>}
+                    trigger={<span>{`${brand.porcentaje * 100} %`}</span>}
                   />
                 ) : null}
               </Table.Cell>
