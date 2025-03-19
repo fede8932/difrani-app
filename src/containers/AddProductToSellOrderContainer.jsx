@@ -115,7 +115,7 @@ function AddProductToSellOrderContainer(props) {
         updateClientStatusOrder({
           id: orderId,
           status: status,
-          clientId: client.data.id,
+          clientId: client.selectClient?.id,
         }).then(() => {
           Swal.fire({
             position: 'center',

@@ -238,8 +238,8 @@ export const nPedHtml = (pickingOrder, pag, pages, items, type) => {
           <div class="dataEmisor">
             <img class="logo" src="../assets//logo/logoBlase.png" alt="logo" />
             <div class="infoEminContainer">
-              <span class="infoEmisTex">Don Bosco 2175, Morón. CP: 1708</span>
-              <span class="infoEmisTex">4460-5972</span>
+              <span class="infoEmisTex">"-</span>
+              <span class="infoEmisTex">"-</span>
             </div>
           </div>
           <div class="factCode">
