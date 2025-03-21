@@ -103,7 +103,7 @@ function NewBillContainer(props) {
 
       const factItems = order.purchaseOrderItems.filter((poi) => !poi.fact);
 
-      const itemsPerPage = 10; // Número de ítems por página
+      const itemsPerPage = 16; // Número de ítems por página
       const totalPages = Math.ceil(factItems.length / itemsPerPage);
 
       for (let i = 0; i < factItems.length; i += itemsPerPage) {

@@ -251,7 +251,7 @@ function RoleTableContainer(props) {
         (poi) => !poi.fact
       );
 
-      const itemsPerPage = 10; // Número de ítems por página
+      const itemsPerPage = 16; // Número de ítems por página
       const totalPresPages = Math.ceil(factPresItems.length / itemsPerPage);
 
       nuevaVentana = window.open('', '', 'width=900,height=1250');

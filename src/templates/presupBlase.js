@@ -1,10 +1,8 @@
 import {
-  fechaConverter,
-  formatFactDate,
   formatNumberWithLeadingZeros,
   presDateIsoTostringDate,
   redondearADosDecimales,
-} from '../utils';
+} from "../utils";
 
 export const presupHtml = (
   movimentData,
@@ -151,6 +149,7 @@ export const presupHtml = (
         .tableContainer {
           width: 100%;
           height: 520px;
+          zoom: 0.88;
         }
         .afipDataDosContainer {
           width: 100%;
