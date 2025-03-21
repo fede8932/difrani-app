@@ -149,7 +149,7 @@ export const presupHtml = (
         .tableContainer {
           width: 100%;
           height: 520px;
-          zoom: 0.88;
+          zoom: 0.85;
         }
         .afipDataDosContainer {
           width: 100%;

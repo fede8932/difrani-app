@@ -143,7 +143,7 @@ const CustomActionComp = ({ data }) => {
       billRemDate.type = 'p';
       billRemDate.date = presDateIsoTostringDate(presData.fecha);
 
-      const itemsPerPage = 16; // Número de ítems por página
+      const itemsPerPage = 12; // Número de ítems por página
       const totalPresPages = Math.ceil(factPresItems.length / itemsPerPage);
 
       nuevaVentana = window.open('', '', 'width=900,height=1250');
