@@ -135,6 +135,7 @@ export const billHtml = async (
           margin-top: 2px;
         }
         .clientContainer {
+          position: relative;
           width: 100%;
           height: 185px;
           border: 1px solid black;
@@ -238,6 +239,10 @@ export const billHtml = async (
       .header th:nth-child(4) { /* PRECIO UNIT. */
         width: 12%;
       }
+
+      .rSocialClass{
+        position: absolute;
+      }
     
       .header th:nth-child(5) { /* IMPORTE */
         width: 13%;
@@ -286,7 +291,7 @@ export const billHtml = async (
         </div>
       </div>
       <div class="clientContainer">
-          <span class="clientInfoText">Razon Social: <span class="clientInfoTextDos">${
+          <span class="clientInfoText">Razon Social: <span class="clientInfoTextDos rSocialClass">${
             order.client.razonSocial
           }</span></span>
           <span class="clientInfoText">Dirección<span class="clientInfoTextDos">${`${order.client.calle} ${order.client.altura}, ${order.client.localidad}`}</span></span>

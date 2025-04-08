@@ -238,9 +238,9 @@ export const blaseNContr = (controlOrder, pag, pages, items) => {
       <div class="encabezado">
         <div class="leftCont">
           <div class="dataEmisor">
-            <img class="logo" src="../assets//logo/logoBlase.png" alt="logo" />
+            <img class="logo" src="../assets/logo/logoBlase.png" alt="logo" />
             <div class="infoEminContainer">
-              <span class="infoEmisTex">Don Bosco 2175, Morón. CP: 1708</span>
+              <span class="infoEmisTex">Ruta 28 396, Gral Rodriguez. CP: 1748</span>
               <span class="infoEmisTex">4460-5972</span>
             </div>
           </div>

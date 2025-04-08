@@ -207,10 +207,10 @@ export const comitionResume = (resume, items, page, pages) => {
           <div class="dataEmisor">
             <img class="logo" src=${logoBlase} alt="logo">
             <div class="infoEminContainer">
-              <span class="infoEmisTex">De Blase Distribuidora</span>
-              <span class="infoEmisTex">Don Bosco 2175, Morón. CP: 1708</span>
+              <span class="infoEmisTex">De Damian Blasevich</span>
+              <span class="infoEmisTex">Ruta 28 396, Gral Rodriguez. CP: 1748</span>
               <span class="infoEmisTex">4460-5972</span>
-              <span class="infoEmisTex">ventas@blasedistribuidora.com</span>
+              <span class="infoEmisTex">ventas@difrani.com</span>
             </div>
           </div>
           <div class="factCode">

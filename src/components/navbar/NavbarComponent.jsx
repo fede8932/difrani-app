@@ -28,7 +28,7 @@ function NavbarComponent(props) {
         <div>
           <div style={{ position: 'relative' }}>
             <img className={styles.logo} src={logo} alt="Logo" />
-            <h1 className={styles.title}>Ad panel</h1>
+            {/* <h1 className={styles.title}>Ad panel</h1> */}
           </div>
           <span className={styles.userInfo}>
             {`<${

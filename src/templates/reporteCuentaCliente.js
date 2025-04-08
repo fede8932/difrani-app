@@ -245,8 +245,8 @@ export const clientReport = (data, items, page, pages) => {
           <div class="dataEmisor">
             <img class="logo" src=${logo} alt="logo" />
             <div class="infoEminContainer">
-              <span class="infoEmisTex">De Hernan Blasevich</span>
-              <span class="infoEmisTex">Don Bosco 2175, Morón. CP: 1708</span>
+              <span class="infoEmisTex">De Damian Blasevich</span>
+              <span class="infoEmisTex">Ruta 28 396, Gral Rodriguez. CP: 1748</span>
             </div>
           </div>
           <div class="factCode">

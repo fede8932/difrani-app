@@ -1,11 +1,11 @@
-import React from 'react';
-import styles from './sidebar.module.css';
-import CustomButton from '../../commonds/button/CustomButton';
-import Separador from '../../commonds/separador/Separador';
-import CustomAcordion from '../../commonds/acordion/CustomAcordion';
-import { falseNotificStatus } from '../../redux/webSocketNotification';
-import { useDispatch } from 'react-redux';
-import ProtectedComponent from '../../protected/protectedComponent/ProtectedComponent';
+import React from "react";
+import styles from "./sidebar.module.css";
+import CustomButton from "../../commonds/button/CustomButton";
+import Separador from "../../commonds/separador/Separador";
+import CustomAcordion from "../../commonds/acordion/CustomAcordion";
+import { falseNotificStatus } from "../../redux/webSocketNotification";
+import { useDispatch } from "react-redux";
+import ProtectedComponent from "../../protected/protectedComponent/ProtectedComponent";
 
 function SideBarComponent(props) {
   const { status, fnNavigate, notific } = props;
@@ -15,7 +15,7 @@ function SideBarComponent(props) {
   return (
     <div
       className={`${styles.sidebarContainer} ${
-        status ? '' : `${styles.close}`
+        status ? "" : `${styles.close}`
       }`}
     >
       <ProtectedComponent listAccesss={[1]}>
@@ -23,48 +23,60 @@ function SideBarComponent(props) {
           <h5 className={styles.sideTitle}>Dashboard</h5>
           <CustomButton
             props={{
-              buttonStyle: 'sideOptionButton',
-              icon: 'fas fa-tachometer-alt',
-              iconStyle: 'sideIconGri',
-              iconHoverStyle: 'sideIconVio',
-              textButton: 'Dashboard',
+              buttonStyle: "sideOptionButton",
+              icon: "fas fa-tachometer-alt",
+              iconStyle: "sideIconGri",
+              iconHoverStyle: "sideIconVio",
+              textButton: "Dashboard",
               fnSidebar: () => {
-                fnNavigate('/');
+                fnNavigate("/");
+              },
+            }}
+          />
+          <CustomButton
+            props={{
+              buttonStyle: "sideOptionButton",
+              icon: "fa-solid fa-industry",
+              iconStyle: "sideIconGri",
+              iconHoverStyle: "sideIconVio",
+              textButton: "Producción",
+              fnSidebar: () => {
+                window.open("https://admin.difrani.com", "_blank");
               },
             }}
           />
         </div>
       </ProtectedComponent>
-      <Separador props={{ clase: 'sideSeparador' }} />
+      <Separador props={{ clase: "sideSeparador" }} />
       <div className={styles.section}>
         <h5 className={styles.sideTitle}>Registrar</h5>
         <CustomAcordion
           props={{
-            textButton: 'Usuarios',
-            icon01: 'fa-solid fa-user',
+            textButton: "Usuarios",
+            icon01: "fa-solid fa-user",
             items: [
               {
-                textButton: 'Registrar vendedor',
+                textButton: "Registrar vendedor",
                 fn: () => {
-                  fnNavigate('/add/seller');
+                  fnNavigate("/add/seller");
                 },
               },
               {
-                textButton: 'Registrar cliente',
+                textButton: "Registrar cliente",
                 fn: () => {
-                  fnNavigate('/add/client');
+                  fnNavigate("/add/client");
                 },
               },
               {
-                textButton: 'Registrar proveedor',
+                textButton: "Registrar proveedor",
                 fn: () => {
-                  fnNavigate('/add/supplier');
+                  fnNavigate("/add/supplier");
                 },
               },
               {
-                textButton: 'Registrar usuario',
+                textButton: "Registrar usuario",
                 fn: () => {
-                  fnNavigate('/add/user');
+                  fnNavigate("/add/user");
                 },
               },
             ],
@@ -72,49 +84,49 @@ function SideBarComponent(props) {
         />
         <CustomAcordion
           props={{
-            textButton: 'Marca Producto',
-            icon01: 'fa fa-box',
+            textButton: "Marca Producto",
+            icon01: "fa fa-box",
             items: [
               {
-                textButton: 'Registrar marca',
+                textButton: "Registrar marca",
                 fn: () => {
-                  fnNavigate('/add/brand');
+                  fnNavigate("/add/brand");
                 },
               },
               {
-                textButton: 'Registrar producto',
+                textButton: "Registrar producto",
                 fn: () => {
-                  fnNavigate('/add/product');
+                  fnNavigate("/add/product");
                 },
               },
             ],
           }}
         />
       </div>
-      <Separador props={{ clase: 'sideSeparador' }} />
+      <Separador props={{ clase: "sideSeparador" }} />
       <div className={styles.section}>
         <h5 className={styles.sideTitle}>Administración</h5>
         <CustomAcordion
           props={{
-            textButton: 'Usuarios',
-            icon01: 'fa fa-smile',
+            textButton: "Usuarios",
+            icon01: "fa fa-smile",
             items: [
               {
-                textButton: 'Buscar vendedor',
+                textButton: "Buscar vendedor",
                 fn: () => {
-                  fnNavigate('search/seller');
+                  fnNavigate("search/seller");
                 },
               },
               {
-                textButton: 'Buscar cliente',
+                textButton: "Buscar cliente",
                 fn: () => {
-                  fnNavigate('search/client');
+                  fnNavigate("search/client");
                 },
               },
               {
-                textButton: 'Buscar usuarios',
+                textButton: "Buscar usuarios",
                 fn: () => {
-                  fnNavigate('search/users');
+                  fnNavigate("search/users");
                 },
               },
             ],
@@ -122,43 +134,43 @@ function SideBarComponent(props) {
         />
         <CustomAcordion
           props={{
-            textButton: 'Proveedores',
-            icon01: 'fa fa-dolly',
+            textButton: "Proveedores",
+            icon01: "fa fa-dolly",
             items: [
               {
-                textButton: 'Buscar proveedor',
+                textButton: "Buscar proveedor",
                 fn: () => {
-                  fnNavigate('search/supplier');
+                  fnNavigate("search/supplier");
                 },
               },
               {
-                textButton: 'Representantes',
+                textButton: "Representantes",
                 fn: () => {
-                  fnNavigate('search/supplier/representative');
+                  fnNavigate("search/supplier/representative");
                 },
               },
             ],
           }}
         />
       </div>
-      <Separador props={{ clase: 'sideSeparador' }} />
+      <Separador props={{ clase: "sideSeparador" }} />
       <div className={styles.section}>
         <h5 className={styles.sideTitle}>Registros</h5>
         <CustomAcordion
           props={{
-            textButton: 'Marca Producto',
-            icon01: 'fa-solid fa-box-open',
+            textButton: "Marca Producto",
+            icon01: "fa-solid fa-box-open",
             items: [
               {
-                textButton: 'Marcas',
+                textButton: "Marcas",
                 fn: () => {
-                  fnNavigate('/search/brand');
+                  fnNavigate("/search/brand");
                 },
               },
               {
-                textButton: 'Productos',
+                textButton: "Productos",
                 fn: () => {
-                  fnNavigate('/search/product');
+                  fnNavigate("/search/product");
                 },
               },
             ],
@@ -166,19 +178,19 @@ function SideBarComponent(props) {
         />
         <CustomAcordion
           props={{
-            textButton: 'Compras',
-            icon01: 'fa fa-tag',
+            textButton: "Compras",
+            icon01: "fa fa-tag",
             items: [
               {
-                textButton: 'Nueva orden de compra',
+                textButton: "Nueva orden de compra",
                 fn: () => {
-                  fnNavigate('/new/buy');
+                  fnNavigate("/new/buy");
                 },
               },
               {
-                textButton: 'Buscar orden de compra',
+                textButton: "Buscar orden de compra",
                 fn: () => {
-                  fnNavigate('/search/buy');
+                  fnNavigate("/search/buy");
                 },
               },
             ],
@@ -187,26 +199,26 @@ function SideBarComponent(props) {
         <CustomAcordion
           props={{
             notific: { notific: newSell.data, index: 1 },
-            textButton: 'Ventas',
-            icon01: 'fa fa-smile',
+            textButton: "Ventas",
+            icon01: "fa fa-smile",
             items: [
               {
-                textButton: 'Nuevo pedido',
+                textButton: "Nuevo pedido",
                 fn: () => {
-                  fnNavigate('/new/sell');
+                  fnNavigate("/new/sell");
                 },
               },
               {
-                textButton: 'Buscar pedidos',
+                textButton: "Buscar pedidos",
                 fn: () => {
-                  fnNavigate('/search/sell');
+                  fnNavigate("/search/sell");
                   dispatch(falseNotificStatus());
                 },
               },
               {
-                textButton: 'Reporte de ventas',
+                textButton: "Reporte de ventas",
                 fn: () => {
-                  fnNavigate('/report/sell');
+                  fnNavigate("/report/sell");
                 },
               },
             ],
@@ -214,19 +226,19 @@ function SideBarComponent(props) {
         />
         <CustomAcordion
           props={{
-            textButton: 'Picking',
-            icon01: 'fa fa-dolly',
+            textButton: "Picking",
+            icon01: "fa fa-dolly",
             items: [
               {
-                textButton: 'Buscar Orden de control',
+                textButton: "Buscar Orden de control",
                 fn: () => {
-                  fnNavigate('/control/orden');
+                  fnNavigate("/control/orden");
                 },
               },
               {
-                textButton: 'Buscar Orden de pedido',
+                textButton: "Buscar Orden de pedido",
                 fn: () => {
-                  fnNavigate('/picking/orden');
+                  fnNavigate("/picking/orden");
                 },
               },
             ],
@@ -234,13 +246,13 @@ function SideBarComponent(props) {
         />
         <CustomAcordion
           props={{
-            textButton: 'Pendientes',
-            icon01: 'fa-solid fa-business-time',
+            textButton: "Pendientes",
+            icon01: "fa-solid fa-business-time",
             items: [
               {
-                textButton: 'Lista de pendientes',
+                textButton: "Lista de pendientes",
                 fn: () => {
-                  fnNavigate('/pending');
+                  fnNavigate("/pending");
                 },
               },
             ],

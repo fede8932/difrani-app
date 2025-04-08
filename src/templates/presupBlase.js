@@ -136,7 +136,12 @@ export const presupHtml = (
         .datFisc {
           margin-top: 2px;
         }
+
+        .rSocialClass{
+          position: absolute;
+        }
         .clientContainer {
+          position: relative;
           width: 100%;
           height: 185px;
           border: 1px solid black;
@@ -258,7 +263,7 @@ export const presupHtml = (
       </div>
       <div class="clientContainer">
         <div class="ivaClient">
-          <span class="clientInfoText">Razon Social: <span class="clientInfoTextDos">${
+          <span class="clientInfoText">Razon Social: <span class="clientInfoTextDos rSocialClass">${
             order.client.razonSocial
           }</span></span>
           <span class="clientInfoText">Teléfono: <span class="clientInfoTextDos">${
