@@ -3,22 +3,12 @@ const apiUrl = import.meta.env.VITE_API_URL;
 
 export const clientRegister = async (datos) => {
   try {
-    let { name, lastName, email, ...dataClient } = datos;
-    const dataUser = {
-      name: name,
-      lastName: lastName,
-      email: email,
-      password: `${lastName}1234`,
-      roleId: 4,
-    };
-    const userId = await axios.post(`${apiUrl}/api/users`, dataUser, {
-      withCredentials: true,
-    });
-    dataClient.userId = userId.data;
+    let {...dataClient } = datos;
     dataClient.altura = Number(dataClient.altura);
     dataClient.codigoPostal = Number(dataClient.codigoPostal);
     dataClient.sellerId = Number(dataClient.sellerId);
-    const client = await axios.post(`${apiUrl}/api/client`, dataClient, {
+    // console.log(dataClient);
+    const client = await axios.post(`${apiUrl}/api/client/add`, dataClient, {
       withCredentials: true,
     });
     return client.data;
