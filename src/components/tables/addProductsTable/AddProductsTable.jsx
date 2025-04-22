@@ -151,6 +151,24 @@ function AddProductsTable(props) {
       },
     },
     {
+      headerName: 'Acciones',
+      cellRenderer: (params) => (
+        <CustomComp data={params.data} props={{ fnAdd: fnAdd }} />
+      ),
+      field: 'id',
+      sortable: false,
+      filter: false,
+      width: 125,
+    },
+    {
+      headerName: 'Stock',
+      field: 'stock',
+      valueGetter: (params) =>
+        params.data.stock ? params.data.stock.stock : '',
+      filter: false,
+      width: 90,
+    },
+    {
       headerName: 'Descripción',
       field: 'description',
       headerComponent: () => (
@@ -196,24 +214,6 @@ function AddProductsTable(props) {
       filter: false,
       width: 135,
       sortable: false,
-    },
-    {
-      headerName: 'Stock',
-      field: 'stock',
-      valueGetter: (params) =>
-        params.data.stock ? params.data.stock.stock : '',
-      filter: false,
-      width: 90,
-    },
-    {
-      headerName: 'Acciones',
-      cellRenderer: (params) => (
-        <CustomComp data={params.data} props={{ fnAdd: fnAdd }} />
-      ),
-      field: 'id',
-      sortable: false,
-      filter: false,
-      width: 125,
     },
     {
       headerName: 'Equivalencias',
