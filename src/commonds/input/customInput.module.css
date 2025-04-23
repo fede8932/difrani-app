@@ -35,6 +35,10 @@
 .xsmall {
   width: 50%;
 }
+.xmedium {
+  width: 68%;
+  min-width: 280px;
+}
 .medium {
   width: 75%;
   min-width: 280px;
