@@ -1,17 +1,17 @@
-import React, { useState } from 'react';
-import styles from './editClientView.module.css';
-import Button from 'react-bootstrap/esm/Button';
-import CustomInput from '../../commonds/putInput/CustomInput';
-import { FormProvider } from 'react-hook-form';
-import Spinner from 'react-bootstrap/esm/Spinner';
-import CustomSelect from '../../commonds/select/CustomSelect';
-import Form from 'react-bootstrap/Form';
-import { Checkbox, Button as SemanticButton } from 'semantic-ui-react';
-import { useNavigate } from 'react-router';
-import ProtectedComponent from '../../protected/protectedComponent/ProtectedComponent';
-import PutCustomTextArea from '../../commonds/putTextArea/PutCustomTextArea';
-import { useDispatch } from 'react-redux';
-import { changeInput } from '../../redux/client';
+import React, { useState } from "react";
+import styles from "./editClientView.module.css";
+import Button from "react-bootstrap/esm/Button";
+import CustomInput from "../../commonds/putInput/CustomInput";
+import { FormProvider } from "react-hook-form";
+import Spinner from "react-bootstrap/esm/Spinner";
+import CustomSelect from "../../commonds/select/CustomSelect";
+import Form from "react-bootstrap/Form";
+import { Checkbox, Button as SemanticButton } from "semantic-ui-react";
+import { useNavigate } from "react-router";
+import ProtectedComponent from "../../protected/protectedComponent/ProtectedComponent";
+import PutCustomTextArea from "../../commonds/putTextArea/PutCustomTextArea";
+import { useDispatch } from "react-redux";
+import { changeInput } from "../../redux/client";
 
 function EditClientViewComponent(props) {
   const { client, update, methods, loading, sellers } = props;
@@ -64,20 +64,17 @@ function EditClientViewComponent(props) {
         </ProtectedComponent>
       </div>
       <FormProvider {...methods}>
-        <form
-          onChange={handleInputChange}
-          className={styles.formContainer}
-        >
+        <form onChange={handleInputChange} className={styles.formContainer}>
           <div className={styles.inputContainer}>
             <div className={styles.leftInputContainer}>
               <div
                 style={{
-                  display: 'flex',
-                  width: '100%',
-                  justifyContent: 'space-between',
+                  display: "flex",
+                  width: "100%",
+                  justifyContent: "space-between",
                 }}
               >
-                <div style={{ width: '50%', padding: '0px 0px 0px 5px' }}>
+                <div style={{ width: "50%", padding: "0px 0px 0px 5px" }}>
                   <span className={styles.inputLabel}>Nombre</span>
                   <CustomInput
                     readOnly={readOnly}
@@ -90,7 +87,7 @@ function EditClientViewComponent(props) {
                     value={client?.user?.name}
                   />
                 </div>
-                <div style={{ width: '50%', padding: '0px 0px 0px 5px' }}>
+                <div style={{ width: "50%", padding: "0px 0px 0px 5px" }}>
                   <span className={styles.inputLabel}>Apellido</span>
                   <CustomInput
                     readOnly={readOnly}
@@ -129,7 +126,7 @@ function EditClientViewComponent(props) {
                   required: true,
                   pattern: {
                     value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                    message: 'Ingrese un correo electrónico válido',
+                    message: "Ingrese un correo electrónico válido",
                   },
                 }}
                 value={client?.user?.email}
@@ -137,12 +134,12 @@ function EditClientViewComponent(props) {
 
               <div
                 style={{
-                  display: 'flex',
-                  width: '100%',
-                  justifyContent: 'space-between',
+                  display: "flex",
+                  width: "100%",
+                  justifyContent: "space-between",
                 }}
               >
-                <div style={{ width: '50%', padding: '0px 0px 0px 5px' }}>
+                <div style={{ width: "50%", padding: "0px 0px 0px 5px" }}>
                   <span className={styles.inputLabel}>CUIL</span>
                   <CustomInput
                     readOnly={readOnly}
@@ -155,7 +152,7 @@ function EditClientViewComponent(props) {
                     value={client?.cuit}
                   />
                 </div>
-                <div style={{ width: '50%', padding: '0px 0px 0px 5px' }}>
+                <div style={{ width: "50%", padding: "0px 0px 0px 5px" }}>
                   <span className={styles.inputLabel}>Teléfono</span>
                   <CustomInput
                     readOnly={readOnly}
@@ -171,17 +168,34 @@ function EditClientViewComponent(props) {
                   />
                 </div>
               </div>
-              <span className={styles.inputLabel}>Localidad</span>
-              <CustomInput
-                readOnly={readOnly}
-                name="localidad"
-                type="text"
-                width="large"
-                placeholder="Localidad"
-                icon="fa-solid fa-location-dot"
-                validate={{ required: true, maxLength: 25 }}
-                value={client?.localidad}
-              />
+              <div style={{ display: "flex", width: "100%" }}>
+                <div style={{ width: "50%", padding: "0px 0px 0px 5px" }}>
+                  <span className={styles.inputLabel}>Localidad</span>
+                  <CustomInput
+                    readOnly={readOnly}
+                    name="localidad"
+                    type="text"
+                    width="complete"
+                    placeholder="Localidad"
+                    icon="fa-solid fa-location-dot"
+                    validate={{ required: true, maxLength: 25 }}
+                    value={client?.localidad}
+                  />
+                </div>
+                <div style={{ width: "50%", padding: "0px 0px 0px 5px" }}>
+                  <span className={styles.inputLabel}>Provincia</span>
+                  <CustomInput
+                    readOnly={readOnly}
+                    name="state"
+                    type="text"
+                    width="complete"
+                    placeholder="Provincia"
+                    icon="fa-solid fa-location-dot"
+                    validate={{ required: true, maxLength: 25 }}
+                    value={client?.state}
+                  />
+                </div>
+              </div>
             </div>
             <div className={styles.rigthInputContainer}>
               <span className={styles.inputLabel}>Calle</span>
@@ -197,12 +211,12 @@ function EditClientViewComponent(props) {
               />
               <div
                 style={{
-                  display: 'flex',
-                  width: '100%',
-                  justifyContent: 'space-between',
+                  display: "flex",
+                  width: "100%",
+                  justifyContent: "space-between",
                 }}
               >
-                <div style={{ width: '50%', padding: '0px 5px 0px 0px' }}>
+                <div style={{ width: "50%", padding: "0px 5px 0px 0px" }}>
                   <span className={styles.inputLabel}>Altura</span>
                   <CustomInput
                     readOnly={readOnly}
@@ -215,7 +229,7 @@ function EditClientViewComponent(props) {
                     value={client?.altura}
                   />
                 </div>
-                <div style={{ width: '50%', padding: '0px 0px 0px 5px' }}>
+                <div style={{ width: "50%", padding: "0px 0px 0px 5px" }}>
                   <span className={styles.inputLabel}>Código postal</span>
                   <CustomInput
                     readOnly={readOnly}
@@ -231,12 +245,12 @@ function EditClientViewComponent(props) {
               </div>
               <div
                 style={{
-                  display: 'flex',
-                  width: '100%',
-                  justifyContent: 'space-between',
+                  display: "flex",
+                  width: "100%",
+                  justifyContent: "space-between",
                 }}
               >
-                <div style={{ width: '50%', padding: '0px 5px 0px 0px' }}>
+                <div style={{ width: "50%", padding: "0px 5px 0px 0px" }}>
                   <span className={styles.inputLabel}>Vendedor</span>
                   <CustomSelect
                     readOnly={readOnly}
@@ -247,32 +261,32 @@ function EditClientViewComponent(props) {
                     value={client?.sellerId}
                   />
                 </div>
-                <div style={{ width: '50%', padding: '0px 0px 0px 5px' }}>
+                <div style={{ width: "50%", padding: "0px 0px 0px 5px" }}>
                   <span className={styles.inputLabel}>IVA</span>
                   <CustomSelect
                     name="iva"
                     text="Seleccioná el tipo de iva"
                     arrayOptions={[
                       {
-                        value: 'ResponsableInscripto',
-                        text: 'ResponsableInscripto',
+                        value: "ResponsableInscripto",
+                        text: "ResponsableInscripto",
                       },
-                      { value: 'Monotributista', text: 'Monotributista' },
-                      { value: 'Excento', text: 'Excento' },
-                      { value: 'NoGravado', text: 'NoGravado' },
-                      { value: 'Final', text: 'Final' },
+                      { value: "Monotributista", text: "Monotributista" },
+                      { value: "Excento", text: "Excento" },
+                      { value: "NoGravado", text: "NoGravado" },
+                      { value: "Final", text: "Final" },
                     ]}
                     //validate={{ required: false }}
                     value={client?.iva}
                   />
                 </div>
               </div>
-              <div style={{ width: '100%', padding: '0px 0px 0px 5px' }}>
+              <div style={{ width: "100%", padding: "0px 0px 0px 5px" }}>
                 <div
                   style={{
-                    marginBottom: '8px',
-                    display: 'flex',
-                    justifyContent: 'flex-end',
+                    marginBottom: "8px",
+                    display: "flex",
+                    justifyContent: "flex-end",
                   }}
                 >
                   <Checkbox
@@ -321,15 +335,15 @@ function EditClientViewComponent(props) {
                 onClick={methods.handleSubmit(update)}
                 type="button"
                 style={{
-                  backgroundColor: '#673ab7',
-                  border: '1px solid #673ab7',
-                  height: '35px',
-                  width: '100px',
-                  marginLeft: '10px',
+                  backgroundColor: "#673ab7",
+                  border: "1px solid #673ab7",
+                  height: "35px",
+                  width: "100px",
+                  marginLeft: "10px",
                 }}
               >
                 {!loading ? (
-                  'Actualizar'
+                  "Actualizar"
                 ) : (
                   <Spinner animation="border" variant="light" size="sm" />
                 )}
