@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import styles from './addProduct.module.css';
 import Button from 'react-bootstrap/esm/Button';
 import { FormProvider } from 'react-hook-form';
@@ -168,7 +168,7 @@ function AddProductToSellOrder(props) {
                     className: `${styles.buttonStyle} ${styles.buttonStyleNext}`,
                     variant: 'primary',
                   }}
-                  bodyModal={(props) => <NewBillContainer {...props} />}
+                  bodyModal={useCallback((props) => <NewBillContainer {...props} />, [order])}
                 />
               )}
             </div>
