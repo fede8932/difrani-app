@@ -159,9 +159,9 @@ const HeaderInput = (props) => {
       dispatch(setFilterProduct({ name: 'equivalenceId', value: null }));
       dispatch(setFilterProduct({ name: 'page', value: 1 }));
       dispatch(setFilterProduct({ name, value }));
-      if (value === '') {
-        setInp(false);
-      }
+      // if (value === '') {
+      //   setInp(false);
+      // }
     }, 500); // El valor 500 representa el tiempo de espera en milisegundos
   };
 

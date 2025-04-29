@@ -70,9 +70,9 @@ const HeaderInput = (props) => {
           { name, value },
         ])
       );
-      if (value === '') {
-        setInp(false);
-      }
+      // if (value === '') {
+      //   setInp(false);
+      // }
     }, 500); // El valor 500 representa el tiempo de espera en milisegundos
   };
 
