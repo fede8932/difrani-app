@@ -44,3 +44,15 @@
 .greenRow {
   color: green;
 }
+.green{
+  background-color: rgba(92, 255, 86, 0.28);
+}
+.blue{
+  background-color: rgba(19, 72, 156, 0.28);
+}
+.yellow{
+  background-color: rgba(255, 219, 86, 0.28);
+}
+.red{
+  background-color: rgba(255, 86, 86, 0.28);
+}

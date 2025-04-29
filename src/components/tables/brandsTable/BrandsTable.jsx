@@ -67,9 +67,9 @@ const HeaderInput = (props) => {
     debounceTimeoutRef.current = setTimeout(() => {
       dispatch(setFilterBrand({ name: 'page', value: 1 }));
       dispatch(setFilterBrand({ name, value }));
-      if (value === '') {
-        setInp(false);
-      }
+      // if (value === '') {
+      //   setInp(false);
+      // }
     }, 500); // El valor 500 representa el tiempo de espera en milisegundos
   };
 

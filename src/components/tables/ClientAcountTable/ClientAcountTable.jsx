@@ -12,6 +12,7 @@ import {
   getBillType,
   numberToString,
   presDateIsoTostringDate,
+  selectStylesByDate,
 } from '../../../utils';
 import logoAfip from '../../../assets/afip/logo-vector-afip.jpg';
 import { Checkbox, Pagination, Select } from 'semantic-ui-react';
@@ -545,6 +546,7 @@ function ClientAcountTable(props) {
         rowData={data?.movements?.list}
         columnDefs={columnDefs}
         defaultColDef={defaultColDef}
+        getRowClass={(params) => params.data.pending ? styles[selectStylesByDate(params?.data?.fecha)] : ""}
       />
       <div className={styles.paginationContainer}>
         <span>{`Se encontraron ${data?.movements?.totalPages} páginas con ${data?.movements?.totalRows} resultados.`}</span>

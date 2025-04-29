@@ -28,12 +28,16 @@ const CustomComp = ({ data, props }) => {
           title="Editar usuario"
           size="xl"
           actionButton={
-            <button style={{ all: 'unset' }}>
+            <button
+              style={{ all: 'unset' }}
+              disabled={data.role?.id != 3}
+            >
               <Popup
+                disabled={data.role?.id != 3}
                 content="Editar usuario"
                 trigger={
                   <i
-                    className={`fa-solid fa-pen-to-square ${styles.iicon}`}
+                    className={`fa-solid fa-pen-to-square ${data.role?.id != 3 ? styles.iiconG : styles.iicon}`}
                   ></i>
                 }
               />
