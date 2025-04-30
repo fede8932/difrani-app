@@ -21,6 +21,7 @@ import { presupHtml } from '../templates/presupBlase.js';
 import { remitHtml } from '../templates/RemBlase.js';
 import logoAfip from '../assets/afip/logo-vector-afip.jpg';
 import logoBlase from '../assets/logo/logoBlase.png';
+import { billRHtml } from '../templates/billRProvis.js';
 
 function NewBillContainer(props) {
   const { closeModal/*, listOrder*/ } = props;
@@ -77,6 +78,30 @@ function NewBillContainer(props) {
         const pageItems = factItems.slice(i, i + itemsPerPage);
 
         const render = await billHtml(
+          billData.billData.ResultGet,
+          order,
+          codigoQR,
+          pageItems,
+          pageNumber,
+          totalPages,
+          logoAfipBase64,
+          logoBlaseBase64
+        );
+
+        const containerFact = nuevaVentana.document.createElement('div');
+        nuevaVentana.document.body.appendChild(containerFact);
+
+        containerFact.innerHTML = render;
+        nuevaVentana.document.body.appendChild(
+          nuevaVentana.document.createElement('div')
+        ).style.pageBreakBefore = 'always';
+      }
+
+      for (let i = 0; i < factItems.length; i += itemsPerPage) {
+        const pageNumber = Math.floor(i / itemsPerPage) + 1;
+        const pageItems = factItems.slice(i, i + itemsPerPage);
+
+        const render = await billRHtml(
           billData.billData.ResultGet,
           order,
           codigoQR,

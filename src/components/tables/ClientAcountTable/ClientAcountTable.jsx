@@ -43,6 +43,7 @@ import { ncPresupHtml } from '../../../templates/ncPresupBlase';
 import { presupHtml } from '../../../templates/presupBlase';
 import { remitHtml } from '../../../templates/RemBlase';
 import { payDetail } from '../../../templates/payDetail';
+import { billRHtml } from '../../../templates/billRProvis';
 
 const CustomComp = ({ data }) => {
   // console.log(data);
@@ -107,6 +108,35 @@ const CustomActionComp = ({ data }) => {
         const pageItems = factItems.slice(i, i + itemsPerPage);
 
         const render = await billHtml(
+          billData.billData.ResultGet,
+          purchaseOrder,
+          codigoQR,
+          pageItems,
+          pageNumber,
+          totalPages,
+          logoAfipBase64,
+          logoBlaseBase64
+        );
+        const containerFact = nuevaVentana.document.createElement('div');
+        containerFact.innerHTML = render;
+
+        // Agregar el contenido generado a la ventana
+        nuevaVentana.document.body.appendChild(containerFact);
+
+        // Si no es la última página, agregar un salto de página
+        if (pageNumber < totalPages) {
+          const pageBreak = nuevaVentana.document.createElement('div');
+          pageBreak.style.pageBreakAfter = 'always'; // Salto de página después del contenido
+          nuevaVentana.document.body.appendChild(pageBreak);
+        }
+      }
+
+      // ahora imprimimos los REMITOS R
+      for (let i = 0; i < factItems.length; i += itemsPerPage) {
+        const pageNumber = Math.floor(i / itemsPerPage) + 1;
+        const pageItems = factItems.slice(i, i + itemsPerPage);
+
+        const render = await billRHtml(
           billData.billData.ResultGet,
           purchaseOrder,
           codigoQR,
