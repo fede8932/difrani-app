@@ -26,12 +26,11 @@ function AddProductToSellOrderContainer(props) {
   const [text, setText] = useState(null);
   const methods = useForm();
   const actualOrder = useSelector((state) => state.newBuyOrder);
-  const pendingSave = useSelector((state) => state.pendingSave);
-  // console.log(pendingSave);
+  
   const client = useSelector((state) => state.client);
   const navigate = useNavigate();
   const productPages = useSelector((state) => state.product);
-  // const listOrderItems = useSelector((state) => state.listOrderItems);
+  
   const dispatch = useDispatch();
   const searchProd = (data) => {
     setText(data.dataSearch);
@@ -167,7 +166,6 @@ function AddProductToSellOrderContainer(props) {
       fnDelete={deleteOrder}
       fnUpdate={updateCantOrderItem}
       fnPrUpdate={updatePrecOrderItem}
-      // listOrder={listOrderItems.data}
       order={actualOrder}
       cancel={cancelar}
       confirmFn={updateOrder}

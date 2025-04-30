@@ -1,36 +1,42 @@
-import { AgGridReact } from 'ag-grid-react';
-import 'ag-grid-community/styles/ag-grid.css';
-import 'ag-grid-community/styles/ag-theme-quartz.css';
-import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { searchProductsExtraRequest } from '../../../redux/product';
-import { discountApplication, numberToString } from '../../../utils';
-import { Pagination, Select } from 'semantic-ui-react';
-import styles from './productsTables.module.css';
-// import ActionModalContainer from '../../../containers/ActionModalContainer';
-import ProtectedComponent from '../../../protected/protectedComponent/ProtectedComponent';
-// import CustomModal from '../../../commonds/customModal/CustomModal';
-// import EditProductContainer from '../../../containers/EditProductContainer';
-import IconButonUsersTable from '../../../commonds/iconButtonUsersTable/IconButonUsersTable';
-import { useNavigate } from 'react-router';
+import { AgGridReact } from "ag-grid-react";
+import "ag-grid-community/styles/ag-grid.css";
+import "ag-grid-community/styles/ag-theme-quartz.css";
+import React, { useEffect, useMemo, useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { searchProductsExtraRequest } from "../../../redux/product";
+import { discountApplication, numberToString } from "../../../utils";
+import { Pagination, Select } from "semantic-ui-react";
+import styles from "./productsTables.module.css";
+import ProtectedComponent from "../../../protected/protectedComponent/ProtectedComponent";
+import CustomModal from "../../../commonds/customModal/CustomModal";
+import IconButonUsersTable from "../../../commonds/iconButtonUsersTable/IconButonUsersTable";
 import {
   resetEquivFilter,
   resetFilterProduct,
   setEquivFilter,
   setFilterProduct,
-} from '../../../redux/filtersProducts';
-import IconButton from '../../../commonds/iconButton/IconButon';
+} from "../../../redux/filtersProducts";
+import AddProductToOrderModal from "../../addProductToOrderInModal/AddProductToOrderModal";
 
 const CustomComp = ({ data, props }) => {
-  const { fnAdd } = props;
+  const { typeOrder } = props;
   return (
     <div className={styles.buttonContainer}>
-      <IconButton
-        icon="fa-solid fa-arrow-right-to-bracket"
-        iconInitialStyle="iconStyleBlue"
-        fn={fnAdd}
-        product={{ product: data, brand: data.brand }}
-        style={{ marginLeft: '5px' }}
+      <CustomModal
+        title="Agregar producto"
+        size="sm"
+        actionButton={
+          <buton>
+            <i
+              className={`fa-solid fa-arrow-right-to-bracket ${styles.iconStyleBlue}`}
+            ></i>
+          </buton>
+        }
+        actionProps={{
+          className: `${styles.buttonStyle} ${styles.buttonStyleNext}`,
+          variant: "primary",
+        }}
+        bodyModal={(props) => <AddProductToOrderModal data={data} typeOrder={typeOrder} {...props} />}
       />
     </div>
   );
@@ -44,7 +50,7 @@ const Equivalences = ({ data, props }) => {
     <div className={styles.buttonContainer}>
       <IconButonUsersTable
         disabled={/*!data.equivalenceId*/ true}
-        popupText={equivalenceId ? 'Quitar filtro' : 'Ver equivalencias'}
+        popupText={equivalenceId ? "Quitar filtro" : "Ver equivalencias"}
         fn={() => {
           equivalenceId
             ? dispatch(resetEquivFilter())
@@ -52,15 +58,15 @@ const Equivalences = ({ data, props }) => {
         }}
         icon={
           /*equivalenceId*/ false
-            ? 'fa-regular fa-eye-slash'
-            : 'fa-regular fa-eye'
+            ? "fa-regular fa-eye-slash"
+            : "fa-regular fa-eye"
         }
         iconInitialStyle={
           /*!data.equivalenceId*/ true
-            ? 'iconStyleGrey'
+            ? "iconStyleGrey"
             : equivalenceId
-              ? 'iconStyleRed'
-              : 'iconStyleBlue'
+              ? "iconStyleRed"
+              : "iconStyleBlue"
         }
       />
     </div>
@@ -89,8 +95,8 @@ const HeaderInput = (props) => {
     }
 
     debounceTimeoutRef.current = setTimeout(() => {
-      dispatch(setFilterProduct({ name: 'equivalenceId', value: null }));
-      dispatch(setFilterProduct({ name: 'page', value: 1 }));
+      dispatch(setFilterProduct({ name: "equivalenceId", value: null }));
+      dispatch(setFilterProduct({ name: "page", value: 1 }));
       dispatch(setFilterProduct({ name, value }));
       // if (value === '') {
       //   setInp(false);
@@ -112,10 +118,10 @@ const HeaderInput = (props) => {
 
   useEffect(() => {
     if (inp) {
-      document.addEventListener('mousedown', handleClickOutside);
+      document.addEventListener("mousedown", handleClickOutside);
     }
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [filterProducts, inp]);
 
@@ -132,7 +138,7 @@ const HeaderInput = (props) => {
 };
 
 function AddProductsTable(props) {
-  const { supplierId, fnAdd, customerDiscounts } = props;
+  const { supplierId, typeOrder, customerDiscounts } = props;
   const filterProducts = useSelector((state) => state.filterProduct);
 
   const dispatch = useDispatch();
@@ -141,48 +147,48 @@ function AddProductsTable(props) {
 
   const [columnDefs, setColumnDefs] = useState([
     {
-      headerName: 'Artículo',
-      field: 'article',
-      headerComponent: () => <HeaderInput title="Artículo" name={'article'} />,
+      headerName: "Artículo",
+      field: "article",
+      headerComponent: () => <HeaderInput title="Artículo" name={"article"} />,
       width: 150,
       filterParams: {
-        filterOptions: ['contains'], // Solo opción 'contains'
+        filterOptions: ["contains"], // Solo opción 'contains'
         suppressFilterButton: true, // Ocultar el botón del menú del filtro
       },
     },
     {
-      headerName: 'Descripción',
-      field: 'description',
+      headerName: "Descripción",
+      field: "description",
       headerComponent: () => (
-        <HeaderInput title="Descripción" name={'description'} />
+        <HeaderInput title="Descripción" name={"description"} />
       ),
       width: 650,
       filterParams: {
-        filterOptions: ['contains'], // Solo opción 'contains'
+        filterOptions: ["contains"], // Solo opción 'contains'
         suppressFilterButton: true, // Ocultar el botón del menú del filtro
       },
     },
     {
-      headerName: 'Marca',
-      field: 'brand',
-      headerComponent: () => <HeaderInput title="Marca" name={'brand'} />,
+      headerName: "Marca",
+      field: "brand",
+      headerComponent: () => <HeaderInput title="Marca" name={"brand"} />,
       valueGetter: (params) =>
-        params.data.brand ? params.data.brand.name : '',
+        params.data.brand ? params.data.brand.name : "",
       filterParams: {
-        filterOptions: ['contains'], // Solo opción 'contains'
+        filterOptions: ["contains"], // Solo opción 'contains'
         suppressFilterButton: true, // Ocultar el botón del menú del filtro
       },
     },
     {
-      headerName: supplierId ? 'Costo' : 'Precio',
-      field: 'price',
+      headerName: supplierId ? "Costo" : "Precio",
+      field: "price",
       cellRenderer: (params) => (
         <ProtectedComponent listAccesss={[1, 2]}>
           {supplierId ? (
             <span>
               {params.data.price
                 ? `$ ${numberToString(params.data.price.price)}`
-                : ''}
+                : ""}
             </span>
           ) : (
             <span>
@@ -198,27 +204,27 @@ function AddProductsTable(props) {
       sortable: false,
     },
     {
-      headerName: 'Stock',
-      field: 'stock',
+      headerName: "Stock",
+      field: "stock",
       valueGetter: (params) =>
-        params.data.stock ? params.data.stock.stock : '',
+        params.data.stock ? params.data.stock.stock : "",
       filter: false,
       width: 90,
     },
     {
-      headerName: 'Acciones',
+      headerName: "Acciones",
       cellRenderer: (params) => (
-        <CustomComp data={params.data} props={{ fnAdd: fnAdd }} />
+        <CustomComp data={params.data} props={{ typeOrder: typeOrder }} />
       ),
-      field: 'id',
+      field: "id",
       sortable: false,
       filter: false,
       width: 125,
     },
     {
-      headerName: 'Equivalencias',
+      headerName: "Equivalencias",
       cellRenderer: (params) => <Equivalences data={params.data} />,
-      field: 'id',
+      field: "id",
       sortable: false,
       filter: false,
       width: 135,
@@ -242,9 +248,9 @@ function AddProductsTable(props) {
 
   useEffect(() => {
     if (supplierId) {
-      dispatch(setFilterProduct({ name: 'supplierId', value: supplierId }));
+      dispatch(setFilterProduct({ name: "supplierId", value: supplierId }));
       return () => {
-        dispatch(setFilterProduct({ name: 'supplierId', value: null }));
+        dispatch(setFilterProduct({ name: "supplierId", value: null }));
       };
     }
   }, [supplierId]);
@@ -256,15 +262,15 @@ function AddProductsTable(props) {
   }, [supplierId]);
 
   const selectChange = (e, d) => {
-    dispatch(setFilterProduct({ name: 'pageSize', value: d.value }));
+    dispatch(setFilterProduct({ name: "pageSize", value: d.value }));
   };
   const changePage = (e, d) => {
-    dispatch(setFilterProduct({ name: 'page', value: d.activePage }));
+    dispatch(setFilterProduct({ name: "page", value: d.activePage }));
   };
 
   return (
-    <div className={'ag-theme-quartz'} style={{ height: 495 }}>
-      <div className={'ag-theme-quartz'} style={{ height: '90%' }}>
+    <div className={"ag-theme-quartz"} style={{ height: 495 }}>
+      <div className={"ag-theme-quartz"} style={{ height: "90%" }}>
         <AgGridReact
           rowData={products.data.list}
           columnDefs={columnDefs}
@@ -274,7 +280,7 @@ function AddProductsTable(props) {
       <div className={styles.paginationContainer}>
         <span>{`Se encontraron ${products.data.totalPages} páginas con ${products.data.totalRows} resultados.`}</span>
         <div className={styles.pagination}>
-          <div style={{ marginRight: '10px' }}>
+          <div style={{ marginRight: "10px" }}>
             <Select
               width="10px"
               defaultValue={filterProducts.pageSize}
