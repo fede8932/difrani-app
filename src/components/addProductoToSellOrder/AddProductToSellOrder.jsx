@@ -1,7 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import styles from './addProduct.module.css';
 import Button from 'react-bootstrap/esm/Button';
-import { FormProvider } from 'react-hook-form';
 import CustomDrawer from '../../commonds/drawer/CustomDrawer';
 import { useSelector } from 'react-redux';
 import CustomModal from '../../commonds/customModal/CustomModal';
@@ -13,13 +12,10 @@ import AddProductsTable from '../tables/addProductsTable/AddProductsTable';
 function AddProductToSellOrder(props) {
   const {
     nextFn,
-    methods,
-    onSubmit,
     fnDelete,
     fnUpdate,
     fnPrUpdate,
     fnAdd,
-    /*listOrder,*/
     order,
     cancel,
     type,
@@ -94,30 +90,8 @@ function AddProductToSellOrder(props) {
           <div className={styles.searchTableContainer}>
             <AddProductsTable
               customerDiscounts={customerDiscounts}
-              fnAdd={fnAdd}
+              typeOrder="sell"
             />
-            {/* <div className={styles.tableProdContainer}>
-                  <CustomTable
-                    equivalenceId={equivalenceId}
-                    setEquivalenceId={setEquivalenceId}
-                    type="search-sell"
-                    process="sell"
-                    color="blue"
-                    products={productPages.data.list}
-                    customerDiscounts={customerDiscounts}
-                    fnAdd={fnAdd}
-                    fnInfo={fnInfo}
-                    colum={[
-                      { title: 'Artículo', width: '8%' },
-                      { title: 'Descripción', width: '42%' },
-                      { title: 'Marca', width: '16%' },
-                      { title: 'Precio', width: '10%' },
-                      { title: 'Precio c/IVA', width: '10%' },
-                      { title: 'Stock', width: '3%' },
-                      { title: 'Acción', width: '7%' },
-                    ]}
-                  />
-                </div> */}
           </div>
         </div>
       </div>

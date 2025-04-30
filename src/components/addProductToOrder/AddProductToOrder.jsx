@@ -192,7 +192,7 @@ function AddProductToOrder(props) {
           <div className={styles.tableProdContainer}>
             <AddProductsTable
               supplierId={actualOrder?.data?.supplierId}
-              fnAdd={fnAdd}
+              typeOrder="buy"
             />
           </div>
         </div>
