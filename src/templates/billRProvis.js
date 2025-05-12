@@ -261,13 +261,13 @@ export const billRHtml = async (
           </div>
           <div class="factCode">
             <div class="tipeFact">R</div>
-            <span class="cod">Código N°: 0${billData.CbteTipo}</span>
+            <span class="cod">Código N°:</span>
           </div>
         </div>
         <div class="dataFact">
           <div class="factCont">
             <div class="hojaCont">
-              <span>FACTURA</span>
+              <span>REMITO</span>
               <span>HOJA ${pageNumber} DE ${pagesTotal}</span>
             </div>
             <div class="numberFact"><span>${formatNumberWithLeadingZeros(
