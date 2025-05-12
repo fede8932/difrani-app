@@ -1,9 +1,9 @@
-import { AgGridReact } from 'ag-grid-react';
-import 'ag-grid-community/styles/ag-grid.css';
-import 'ag-grid-community/styles/ag-theme-quartz.css';
-import React, { useEffect, useMemo, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import logoBlase from '../../../assets/logo/logoBlase.png';
+import { AgGridReact } from "ag-grid-react";
+import "ag-grid-community/styles/ag-grid.css";
+import "ag-grid-community/styles/ag-theme-quartz.css";
+import React, { useEffect, useMemo, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import logoBlase from "../../../assets/logo/logoBlase.png";
 import {
   billDateTostringDate,
   checkActive,
@@ -13,37 +13,37 @@ import {
   numberToString,
   presDateIsoTostringDate,
   selectStylesByDate,
-} from '../../../utils';
-import logoAfip from '../../../assets/afip/logo-vector-afip.jpg';
-import { Checkbox, Pagination, Select } from 'semantic-ui-react';
-import styles from './clientAcountTables.module.css';
+} from "../../../utils";
+import logoAfip from "../../../assets/afip/logo-vector-afip.jpg";
+import { Checkbox, Pagination, Select } from "semantic-ui-react";
+import styles from "./clientAcountTables.module.css";
 import {
   getBillDataRequest,
   printNCByNumRequest,
   printNCPresByNumRequest,
   rePrintPresRequest,
-} from '../../../request/orderRequest';
-import QRCode from 'qrcode';
-import { billHtml } from '../../../templates/bill';
+} from "../../../request/orderRequest";
+import QRCode from "qrcode";
+import { billHtml } from "../../../templates/bill";
 import {
   resetFilterMovements,
   setFilterMovements,
-} from '../../../redux/filtersMovements';
+} from "../../../redux/filtersMovements";
 import {
   getMovementsByCurrentAcountIdX,
   marcMovementsByCurrentAcountId,
   resetMovementsByCurrentAcountId,
-} from '../../../redux/searchCurrentAcount';
-import { MovTypeEnum } from '../../../enum/MovEnum';
-import CustomModal from '../../../commonds/customModal/CustomModal';
-import BillViewModalContainer from '../../../containers/BillViewModalContainer';
-import { getBillByIdRequest } from '../../../request/billRequest';
-import { ncAHtml } from '../../../templates/ncA';
-import { ncPresupHtml } from '../../../templates/ncPresupBlase';
-import { presupHtml } from '../../../templates/presupBlase';
-import { remitHtml } from '../../../templates/RemBlase';
-import { payDetail } from '../../../templates/payDetail';
-import { billRHtml } from '../../../templates/billRProvis';
+} from "../../../redux/searchCurrentAcount";
+import { MovTypeEnum } from "../../../enum/MovEnum";
+import CustomModal from "../../../commonds/customModal/CustomModal";
+import BillViewModalContainer from "../../../containers/BillViewModalContainer";
+import { getBillByIdRequest } from "../../../request/billRequest";
+import { ncAHtml } from "../../../templates/ncA";
+import { ncPresupHtml } from "../../../templates/ncPresupBlase";
+import { presupHtml } from "../../../templates/presupBlase";
+import { remitHtml } from "../../../templates/RemBlase";
+import { payDetail } from "../../../templates/payDetail";
+import { billRHtml } from "../../../templates/billRProvis";
 
 const CustomComp = ({ data }) => {
   // console.log(data);
@@ -86,9 +86,13 @@ const CustomActionComp = ({ data }) => {
     let nuevaVentana;
     //FACTURA A
     if (billType == 1 || billType == 6) {
-      const billData = await getBillDataRequest(numComprobante, billType, data.ptoVta);
+      const billData = await getBillDataRequest(
+        numComprobante,
+        billType,
+        data.ptoVta
+      );
       numRemito = billData.billData.ResultGet.CbteDesde;
-      billRemDate.type = 'f';
+      billRemDate.type = "f";
       billRemDate.date = billDateTostringDate(
         billData.billData.ResultGet.CbteFch
       );
@@ -100,7 +104,7 @@ const CustomActionComp = ({ data }) => {
       const factItems = fItems;
       const itemsPerPage = 10; // Número de ítems por página
       const totalPages = Math.ceil(factItems.length / itemsPerPage);
-      nuevaVentana = window.open('', '', 'width=900,height=1250');
+      nuevaVentana = window.open("", "", "width=900,height=1250");
 
       // Primero imprimimos las facturas
       for (let i = 0; i < factItems.length; i += itemsPerPage) {
@@ -117,7 +121,7 @@ const CustomActionComp = ({ data }) => {
           logoAfipBase64,
           logoBlaseBase64
         );
-        const containerFact = nuevaVentana.document.createElement('div');
+        const containerFact = nuevaVentana.document.createElement("div");
         containerFact.innerHTML = render;
 
         // Agregar el contenido generado a la ventana
@@ -125,8 +129,8 @@ const CustomActionComp = ({ data }) => {
 
         // Si no es la última página, agregar un salto de página
         if (pageNumber < totalPages) {
-          const pageBreak = nuevaVentana.document.createElement('div');
-          pageBreak.style.pageBreakAfter = 'always'; // Salto de página después del contenido
+          const pageBreak = nuevaVentana.document.createElement("div");
+          pageBreak.style.pageBreakAfter = "always"; // Salto de página después del contenido
           nuevaVentana.document.body.appendChild(pageBreak);
         }
       }
@@ -146,7 +150,7 @@ const CustomActionComp = ({ data }) => {
           logoAfipBase64,
           logoBlaseBase64
         );
-        const containerFact = nuevaVentana.document.createElement('div');
+        const containerFact = nuevaVentana.document.createElement("div");
         containerFact.innerHTML = render;
 
         // Agregar el contenido generado a la ventana
@@ -154,8 +158,8 @@ const CustomActionComp = ({ data }) => {
 
         // Si no es la última página, agregar un salto de página
         if (pageNumber < totalPages) {
-          const pageBreak = nuevaVentana.document.createElement('div');
-          pageBreak.style.pageBreakAfter = 'always'; // Salto de página después del contenido
+          const pageBreak = nuevaVentana.document.createElement("div");
+          pageBreak.style.pageBreakAfter = "always"; // Salto de página después del contenido
           nuevaVentana.document.body.appendChild(pageBreak);
         }
       }
@@ -171,13 +175,13 @@ const CustomActionComp = ({ data }) => {
       const factPresItems = purchaseOrder.purchaseOrderItems.filter(
         (poi) => !poi.fact
       );
-      billRemDate.type = 'p';
+      billRemDate.type = "p";
       billRemDate.date = presDateIsoTostringDate(presData.fecha);
 
       const itemsPerPage = 12; // Número de ítems por página
       const totalPresPages = Math.ceil(factPresItems.length / itemsPerPage);
 
-      nuevaVentana = window.open('', '', 'width=900,height=1250');
+      nuevaVentana = window.open("", "", "width=900,height=1250");
 
       for (let i = 0; i < factPresItems.length; i += itemsPerPage) {
         const pagePresNumber = Math.floor(i / itemsPerPage) + 1;
@@ -191,54 +195,56 @@ const CustomActionComp = ({ data }) => {
           pagePresNumber,
           totalPresPages
         );
-        const containerPres = nuevaVentana.document.createElement('div');
+        const containerPres = nuevaVentana.document.createElement("div");
         nuevaVentana.document.body.appendChild(containerPres);
 
         containerPres.innerHTML = render;
         nuevaVentana.document.body.appendChild(
-          nuevaVentana.document.createElement('div')
-        ).style.pageBreakBefore = 'always';
+          nuevaVentana.document.createElement("div")
+        ).style.pageBreakBefore = "always";
       }
       // nuevaVentana.document.body.appendChild(
       //   nuevaVentana.document.createElement("div")
       // ).style.pageBreakBefore = "always";
     }
 
-    // Después imprimimos los remitos
-    const itemsRemPage = 14;
-    const totalRemPages = Math.ceil(
-      purchaseOrder.purchaseOrderItems.length / itemsRemPage
-    );
-
-    for (
-      let i = 0;
-      i < purchaseOrder.purchaseOrderItems.length;
-      i += itemsRemPage
-    ) {
-      const pageNumber = Math.floor(i / itemsRemPage) + 1;
-      const pageItems = purchaseOrder.purchaseOrderItems.slice(
-        i,
-        i + itemsRemPage
+    if (billType == 0) {
+      // Después imprimimos los remitos
+      const itemsRemPage = 14;
+      const totalRemPages = Math.ceil(
+        purchaseOrder.purchaseOrderItems.length / itemsRemPage
       );
 
-      const containerRem = nuevaVentana.document.createElement('div');
-      containerRem.innerHTML = remitHtml(
-        purchaseOrder,
-        numRemito,
-        pageItems,
-        pageNumber,
-        totalRemPages,
-        logoBlaseBase64,
-        billRemDate
-      );
+      for (
+        let i = 0;
+        i < purchaseOrder.purchaseOrderItems.length;
+        i += itemsRemPage
+      ) {
+        const pageNumber = Math.floor(i / itemsRemPage) + 1;
+        const pageItems = purchaseOrder.purchaseOrderItems.slice(
+          i,
+          i + itemsRemPage
+        );
 
-      nuevaVentana.document.body.appendChild(containerRem);
+        const containerRem = nuevaVentana.document.createElement("div");
+        containerRem.innerHTML = remitHtml(
+          purchaseOrder,
+          numRemito,
+          pageItems,
+          pageNumber,
+          totalRemPages,
+          logoBlaseBase64,
+          billRemDate
+        );
 
-      // Si no es la última página, agregar un salto de página
-      if (pageNumber < totalRemPages) {
-        const pageBreak = nuevaVentana.document.createElement('div');
-        pageBreak.style.pageBreakAfter = 'always'; // Salto de página después del contenido
-        nuevaVentana.document.body.appendChild(pageBreak);
+        nuevaVentana.document.body.appendChild(containerRem);
+
+        // Si no es la última página, agregar un salto de página
+        if (pageNumber < totalRemPages) {
+          const pageBreak = nuevaVentana.document.createElement("div");
+          pageBreak.style.pageBreakAfter = "always"; // Salto de página después del contenido
+          nuevaVentana.document.body.appendChild(pageBreak);
+        }
       }
     }
     setPrintLoading(false);
@@ -248,7 +254,11 @@ const CustomActionComp = ({ data }) => {
     const { currentAcountId, numComprobante, billType } = nc;
     const logoBlaseBase64 = await convertImageToBase64(logoBlase);
     if (billType == 1 || billType == 8 || billType == 3) {
-      const ncData = await printNCByNumRequest(numComprobante, currentAcountId, data.ptoVta);
+      const ncData = await printNCByNumRequest(
+        numComprobante,
+        currentAcountId,
+        data.ptoVta
+      );
       const ncDetail = await getBillByIdRequest(nc.id);
       const items = ncDetail.ncOrderItems;
       const client = ncDetail.currentAcount.client;
@@ -257,7 +267,7 @@ const CustomActionComp = ({ data }) => {
 
       const itemsPerPage = 10; // Número de ítems por página
       const totalPages = Math.ceil(items.length / itemsPerPage);
-      let nuevaVentana = window.open('', '', 'width=900,height=1250');
+      let nuevaVentana = window.open("", "", "width=900,height=1250");
 
       for (
         let i = 0;
@@ -278,13 +288,13 @@ const CustomActionComp = ({ data }) => {
           nc.concept
         );
 
-        const containerFact = nuevaVentana.document.createElement('div');
+        const containerFact = nuevaVentana.document.createElement("div");
         nuevaVentana.document.body.appendChild(containerFact);
 
         containerFact.innerHTML = render;
         nuevaVentana.document.body.appendChild(
-          nuevaVentana.document.createElement('div')
-        ).style.pageBreakBefore = 'always';
+          nuevaVentana.document.createElement("div")
+        ).style.pageBreakBefore = "always";
       }
     }
     if (billType == 2) {
@@ -316,30 +326,30 @@ const CustomActionComp = ({ data }) => {
           presData.concept
         );
 
-        const nuevaVentana = window.open('', '', 'width=900,height=1250');
-        const containerPres = nuevaVentana.document.createElement('div');
+        const nuevaVentana = window.open("", "", "width=900,height=1250");
+        const containerPres = nuevaVentana.document.createElement("div");
         nuevaVentana.document.body.appendChild(containerPres);
 
         containerPres.innerHTML = render;
         nuevaVentana.document.body.appendChild(
-          nuevaVentana.document.createElement('div')
-        ).style.pageBreakBefore = 'always';
+          nuevaVentana.document.createElement("div")
+        ).style.pageBreakBefore = "always";
       }
     }
     setPrintLoading(false);
   };
 
   const printPayDetail = async (client, payData) => {
-    const nuevaVentana = window.open('', '', 'width=900,height=625');
+    const nuevaVentana = window.open("", "", "width=900,height=625");
     const logoBlaseBase64 = await convertImageToBase64(logoBlase);
 
-    const containerRem = nuevaVentana.document.createElement('div');
+    const containerRem = nuevaVentana.document.createElement("div");
     nuevaVentana.document.body.appendChild(containerRem);
     // console.log(payData);
     containerRem.innerHTML = payDetail(client, payData, logoBlaseBase64);
     // Espera a que las imágenes se carguen antes de imprimir
     await waitForImagesToLoad(nuevaVentana);
-    nuevaVentana.addEventListener('afterprint', () => {
+    nuevaVentana.addEventListener("afterprint", () => {
       nuevaVentana.close();
     });
     nuevaVentana.print();
@@ -355,7 +365,7 @@ const CustomActionComp = ({ data }) => {
         size="xl"
         actionButton={
           <button
-            style={{ margin: '1px 0px 0px 7px' }}
+            style={{ margin: "1px 0px 0px 7px" }}
             className={styles.iconButton}
             type="button"
           >
@@ -366,7 +376,7 @@ const CustomActionComp = ({ data }) => {
         bodyProps={{ movId: data.id }}
       />
       <button
-        style={{ margin: '1px 0px 0px 7px' }}
+        style={{ margin: "1px 0px 0px 7px" }}
         className={styles.iconButton}
         type="button"
         onClick={() => {
@@ -403,31 +413,31 @@ function ClientAcountTable(props) {
 
   let columnInitialState = [
     {
-      headerName: 'Check',
+      headerName: "Check",
       cellRenderer: (params) => <CustomComp data={params.data} />,
       flex: 0.5,
       filterParams: {
-        filterOptions: ['contains'], // Solo opción 'contains'
+        filterOptions: ["contains"], // Solo opción 'contains'
         suppressFilterButton: true, // Ocultar el botón del menú del filtro
       },
     },
     {
-      headerName: 'Fecha',
+      headerName: "Fecha",
       cellRenderer: (params) => (
-        <span className={params.data.esOferta ? styles.greenRow : ''}>
+        <span className={params.data.esOferta ? styles.greenRow : ""}>
           {convertirFechaISOaDDMMYYYYHHMM(params.data.fecha)}
         </span>
       ),
       flex: 1,
       filterParams: {
-        filterOptions: ['contains'], // Solo opción 'contains'
+        filterOptions: ["contains"], // Solo opción 'contains'
         suppressFilterButton: true, // Ocultar el botón del menú del filtro
       },
     },
     {
-      headerName: 'Concepto',
+      headerName: "Concepto",
       cellRenderer: (params) => (
-        <span className={params.data.esOferta ? styles.greenRow : ''}>
+        <span className={params.data.esOferta ? styles.greenRow : ""}>
           {getBillType(MovTypeEnum[params.data.type], params.data.billType)}
         </span>
       ),
@@ -436,15 +446,15 @@ function ClientAcountTable(props) {
       sortable: false,
     },
     {
-      headerName: 'Factura/N-Crédito',
+      headerName: "Factura/N-Crédito",
       cellRenderer: (params) => (
-        <span className={params.data.esOferta ? styles.greenRow : ''}>
+        <span className={params.data.esOferta ? styles.greenRow : ""}>
           {getBillType(MovTypeEnum[params.data.type], params.data.billType) !=
-            'Pago' &&
+            "Pago" &&
           getBillType(MovTypeEnum[params.data.type], params.data.billType) !=
-            'Descuento'
+            "Descuento"
             ? params.data.numComprobante
-            : '-'}
+            : "-"}
         </span>
       ),
       filter: false,
@@ -452,22 +462,22 @@ function ClientAcountTable(props) {
       sortable: false,
     },
     {
-      headerName: 'Factura Asoc.',
+      headerName: "Factura Asoc.",
       cellRenderer: (params) => (
-        <span className={params.data.esOferta ? styles.greenRow : ''}>
+        <span className={params.data.esOferta ? styles.greenRow : ""}>
           {getBillType(MovTypeEnum[params.data.type], params.data.billType) ==
-            'Pago' ||
+            "Pago" ||
           getBillType(MovTypeEnum[params.data.type], params.data.billType) ==
-            'Nota de crédito' ||
+            "Nota de crédito" ||
           getBillType(MovTypeEnum[params.data.type], params.data.billType) ==
-            'Devolución'
+            "Devolución"
             ? params.data.bills.map((b, i) => {
                 if (i > 0) {
                   return `-${b.numComprobante}`;
                 }
                 return b.numComprobante;
               })
-            : '-'}
+            : "-"}
         </span>
       ),
       filter: false,
@@ -475,9 +485,9 @@ function ClientAcountTable(props) {
       sortable: false,
     },
     {
-      headerName: 'Cbte del Sist.',
+      headerName: "Cbte del Sist.",
       cellRenderer: (params) => (
-        <span className={params.data.esOferta ? styles.greenRow : ''}>
+        <span className={params.data.esOferta ? styles.greenRow : ""}>
           {params.data.payDetail?.id}
         </span>
       ),
@@ -485,9 +495,9 @@ function ClientAcountTable(props) {
       flex: 1,
     },
     {
-      headerName: 'Cbte del Vdor.',
+      headerName: "Cbte del Vdor.",
       cellRenderer: (params) => (
-        <span className={params.data.esOferta ? styles.greenRow : ''}>
+        <span className={params.data.esOferta ? styles.greenRow : ""}>
           {params.data.payDetail?.comprobanteVendedor}
         </span>
       ),
@@ -495,29 +505,29 @@ function ClientAcountTable(props) {
       flex: 1,
     },
     {
-      headerName: 'Monto',
+      headerName: "Monto",
       cellRenderer: (params) => (
         <span
-          className={params.data.esOferta ? styles.greenRow : ''}
+          className={params.data.esOferta ? styles.greenRow : ""}
         >{`$${numberToString(params.data.total)}`}</span>
       ),
       filter: false,
       flex: 1,
     },
     {
-      headerName: 'Pendiente',
+      headerName: "Pendiente",
       cellRenderer: (params) => (
-        <span className={params.data.esOferta ? styles.greenRow : ''}>
+        <span className={params.data.esOferta ? styles.greenRow : ""}>
           {params?.data?.saldoPend
             ? `$${numberToString(params?.data?.saldoPend)}`
-            : '-'}
+            : "-"}
         </span>
       ),
       filter: false,
       flex: 1,
     },
     {
-      headerName: 'Acciones',
+      headerName: "Acciones",
       cellRenderer: (params) => <CustomActionComp data={params.data} />,
       filter: false,
       flex: 1,
@@ -545,10 +555,10 @@ function ClientAcountTable(props) {
   // console.log(filterMovements);
 
   const selectChange = (e, d) => {
-    dispatch(setFilterMovements({ name: 'pageSize', value: d.value }));
+    dispatch(setFilterMovements({ name: "pageSize", value: d.value }));
   };
   const changePage = (e, d) => {
-    dispatch(setFilterMovements({ name: 'page', value: d.activePage }));
+    dispatch(setFilterMovements({ name: "page", value: d.activePage }));
   };
 
   useEffect(() => {
@@ -569,19 +579,23 @@ function ClientAcountTable(props) {
 
   return (
     <div
-      className={'ag-theme-quartz'}
-      style={{ height: 480, marginTop: '5px' }}
+      className={"ag-theme-quartz"}
+      style={{ height: 480, marginTop: "5px" }}
     >
       <AgGridReact
         rowData={data?.movements?.list}
         columnDefs={columnDefs}
         defaultColDef={defaultColDef}
-        getRowClass={(params) => params.data.pending ? styles[selectStylesByDate(params?.data?.fecha)] : ""}
+        getRowClass={(params) =>
+          params.data.pending
+            ? styles[selectStylesByDate(params?.data?.fecha)]
+            : ""
+        }
       />
       <div className={styles.paginationContainer}>
         <span>{`Se encontraron ${data?.movements?.totalPages} páginas con ${data?.movements?.totalRows} resultados.`}</span>
         <div className={styles.pagination}>
-          <div style={{ marginRight: '10px' }}>
+          <div style={{ marginRight: "10px" }}>
             <Select
               width="10px"
               defaultValue={filterMovements.pageSize}
