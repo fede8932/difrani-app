@@ -4,12 +4,13 @@ import { addOrderItemsRequest } from "../../redux/addOrderItems";
 import { getBuyOrderRequest } from "../../redux/newOrder";
 import { setPendingSave } from "../../redux/pendingSave";
 import { Button } from "react-bootstrap";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 function AddProductToOrderModal(props) {
   const { data, closeModal, typeOrder } = props; //typeOrder es sell o buy
 
   const [inputValue, setInputValue] = useState("");
+  const inputRef = useRef(null); // 👈 referenciar el input
 
   const disabled = useMemo(
     () =>
@@ -23,7 +24,8 @@ function AddProductToOrderModal(props) {
 
   const dispatch = useDispatch();
 
-  const addProductToOrder = () => {
+  const addProductToOrder = (e) => {
+    e.preventDefault();
     const objSend = {
       productId: data.id,
       brandId: data.brandId,
@@ -38,18 +40,27 @@ function AddProductToOrderModal(props) {
       dispatch(setPendingSave({ pending: false, orderId: null }));
     });
   };
+
+  useEffect(() => {
+    // 👇 hacer foco cuando el componente se monta
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, []);
+
   return (
-    <div className={styles.container}>
+    <form className={styles.container} onSubmit={addProductToOrder}>
       <input
+        ref={inputRef} // 👈 asignar ref acá
         className={`${styles.input} form-control`}
         type="text"
         value={inputValue}
         onChange={(e) => setInputValue(e.target.value)}
       />
-      <Button type="button" disabled={disabled} onClick={addProductToOrder}>
+      <Button type="submit" disabled={disabled}>
         Agregar
       </Button>
-    </div>
+    </form>
   );
 }
 

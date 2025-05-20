@@ -115,7 +115,7 @@ function AddProductToSellOrder(props) {
             <div>
               {orderStatus[order.data.status] != 'Confirm' ? (
                 <Button
-                  disabled={order.data.subTotal < 1}
+                  // disabled={order.data.subTotal < 1}
                   className={`${styles.buttonStyle} ${styles.buttonStyleNext}`}
                   variant="primary"
                   onClick={() => {

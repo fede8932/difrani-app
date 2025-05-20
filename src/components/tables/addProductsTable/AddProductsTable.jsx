@@ -26,17 +26,32 @@ const CustomComp = ({ data, props }) => {
         title="Agregar producto"
         size="sm"
         actionButton={
-          <buton>
+          <div
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                console.log("enter");
+                e.preventDefault(); // previene efectos secundarios
+                e.stopPropagation(); // evita burbujeo innecesario
+                e.target.click(); // simula click
+              }
+            }}
+          >
             <i
               className={`fa-solid fa-arrow-right-to-bracket ${styles.iconStyleBlue}`}
             ></i>
-          </buton>
+          </div>
         }
         actionProps={{
           className: `${styles.buttonStyle} ${styles.buttonStyleNext}`,
           variant: "primary",
         }}
-        bodyModal={(props) => <AddProductToOrderModal data={data} typeOrder={typeOrder} {...props} />}
+        bodyModal={(props) => (
+          <AddProductToOrderModal
+            data={data}
+            typeOrder={typeOrder}
+            {...props}
+          />
+        )}
       />
     </div>
   );
@@ -157,26 +172,26 @@ function AddProductsTable(props) {
       },
     },
     {
-      headerName: 'Acciones',
+      headerName: "Acciones",
       cellRenderer: (params) => (
         <CustomComp data={params.data} props={{ typeOrder: typeOrder }} />
       ),
-      field: 'id',
+      field: "id",
       sortable: false,
       filter: false,
       width: 125,
     },
     {
-      headerName: 'Stock',
-      field: 'stock',
+      headerName: "Stock",
+      field: "stock",
       valueGetter: (params) =>
-        params.data.stock ? params.data.stock.stock : '',
+        params.data.stock ? params.data.stock.stock : "",
       filter: false,
       width: 90,
     },
     {
-      headerName: 'Descripción',
-      field: 'description',
+      headerName: "Descripción",
+      field: "description",
       headerComponent: () => (
         <HeaderInput title="Descripción" name={"description"} />
       ),
@@ -222,7 +237,7 @@ function AddProductsTable(props) {
       sortable: false,
     },
     {
-      headerName: 'Equivalencias',
+      headerName: "Equivalencias",
       cellRenderer: (params) => <Equivalences data={params.data} />,
       field: "id",
       sortable: false,

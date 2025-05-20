@@ -8,7 +8,7 @@ export default defineConfig({
     react(),
     VitePWA({
       manifest: {
-        name: "Ad Panel",
+        name: "Difrani Panel",
         short_name: "MyApp",
         description: "My Awesome App description",
         theme_color: "#ffffff",

@@ -29,6 +29,7 @@
   padding: 0px 5px;
 }
 .iconStyleBlue {
+  all: unset;
   color: #2185d0;
   font-size: 17px;
 }
