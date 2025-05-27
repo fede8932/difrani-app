@@ -2,6 +2,7 @@ import {
   billDateTostringDate,
   formatFactDate,
   formatNumberWithLeadingZeros,
+  numberToString,
   redondearADosDecimales,
 } from '../utils';
 // import logoAfip from "../assets/afip/logo-vector-afip.jpg";
@@ -27,8 +28,8 @@ export const billHtml = async (
                 0,
                 75
               )}</td>
-              <td>$${item?.sellPrice}</td>
-              <td>$${redondearADosDecimales(
+              <td>$${numberToString(item?.sellPrice)}</td>
+              <td>$${numberToString(
                 item?.amount * item?.sellPrice
               )}</td>
             </tr>`;
@@ -346,17 +347,17 @@ export const billHtml = async (
         </div>
         <div class="totalCont">
           <span class="pesosSpanCont"
-            >SUBTOTAL<span class="pesosSpan"></span>$${redondearADosDecimales(
+            >SUBTOTAL<span class="pesosSpan"></span>$${numberToString(
               billData.ImpNeto
             )}</span
           >
           <span class="pesosSpanCont"
-            >IVA 21%<span class="pesosSpan"></span>$${redondearADosDecimales(
+            >IVA 21%<span class="pesosSpan"></span>$${numberToString(
               billData.ImpNeto * 0.21
             )}</span
           >
           <span class="pesosSpanCont"
-            >TOTAL<span class="pesosSpan"></span>$${redondearADosDecimales(
+            >TOTAL<span class="pesosSpan"></span>$${numberToString(
               billData.ImpNeto * 1.21
             )}</span
           >

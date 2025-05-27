@@ -1,5 +1,6 @@
 import {
   formatNumberWithLeadingZeros,
+  numberToString,
   presDateIsoTostringDate,
   redondearADosDecimales,
 } from "../utils";
@@ -28,8 +29,8 @@ export const presupHtml = (
                 0,
                 75
               )}</td>
-              <td>$${item?.sellPrice}</td>
-              <td>$${redondearADosDecimales(
+              <td>$${numberToString(item?.sellPrice)}</td>
+              <td>$${numberToString(
                 item?.amount * item?.sellPrice
               )}</td>
             </tr>`;
@@ -315,7 +316,7 @@ export const presupHtml = (
         </div>
         <div class="totalCont">
           <span class="pesosSpanCont"
-            >SUBTOTAL<span class="pesosSpan"></span>${redondearADosDecimales(
+            >SUBTOTAL<span class="pesosSpan"></span>${numberToString(
               subTotal
             )}</span
           >
@@ -326,7 +327,7 @@ export const presupHtml = (
             >IVA 10.5%<span class="pesosSpan"></span>$0</span
           >
           <span class="pesosSpanCont"
-            >TOTAL<span class="pesosSpan"></span>${redondearADosDecimales(
+            >TOTAL<span class="pesosSpan"></span>${numberToString(
               subTotal
             )}</span
           >
