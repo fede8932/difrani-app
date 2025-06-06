@@ -17,6 +17,7 @@ import {
   numberToString,
   pickingOrderString,
   redondearADosDecimales,
+  selectStylesByDateClient,
 } from '../../utils';
 import CustomModal from '../../commonds/customModal/CustomModal';
 import { useNavigate } from 'react-router';
@@ -213,22 +214,46 @@ function RoleTableComponent(props) {
             result?.data?.clients?.map((obj, i) => (
               <Table.Row key={i}>
                 <Table.Cell
-                  style={{ padding: '0px 10px', verticalAlign: 'middle' }}
+                  style={{
+                    padding: '0px 10px',
+                    verticalAlign: 'middle',
+                    backgroundColor: selectStylesByDateClient(
+                      obj?.currentAcount?.movements[0]?.fecha
+                    ),
+                  }}
                 >
                   {obj.id}
                 </Table.Cell>
                 <Table.Cell
-                  style={{ padding: '0px 10px', verticalAlign: 'middle' }}
+                  style={{
+                    padding: '0px 10px',
+                    verticalAlign: 'middle',
+                    backgroundColor: selectStylesByDateClient(
+                      obj?.currentAcount?.movements[0]?.fecha
+                    ),
+                  }}
                 >
                   {obj.razonSocial ? obj.razonSocial.toUpperCase() : null}
                 </Table.Cell>
                 <Table.Cell
-                  style={{ padding: '0px 10px', verticalAlign: 'middle' }}
+                  style={{
+                    padding: '0px 10px',
+                    verticalAlign: 'middle',
+                    backgroundColor: selectStylesByDateClient(
+                      obj?.currentAcount?.movements[0]?.fecha
+                    ),
+                  }}
                 >
                   {obj.cuit ? obj.cuit.toUpperCase() : null}
                 </Table.Cell>
                 <Table.Cell
-                  style={{ padding: '0px 10px', verticalAlign: 'middle' }}
+                  style={{
+                    padding: '0px 10px',
+                    verticalAlign: 'middle',
+                    backgroundColor: selectStylesByDateClient(
+                      obj?.currentAcount?.movements[0]?.fecha
+                    ),
+                  }}
                 >
                   <Button
                     variant="link"
@@ -242,14 +267,26 @@ function RoleTableComponent(props) {
                   </Button>
                 </Table.Cell>
                 <Table.Cell
-                  style={{ padding: '0px 10px', verticalAlign: 'middle' }}
+                  style={{
+                    padding: '0px 10px',
+                    verticalAlign: 'middle',
+                    backgroundColor: selectStylesByDateClient(
+                      obj?.currentAcount?.movements[0]?.fecha
+                    ),
+                  }}
                 >
                   {obj?.currentAcount?.acountNumber != ''
                     ? `$ ${numberToString(obj?.currentAcount?.resume)}`
                     : ''}
                 </Table.Cell>
                 <Table.Cell
-                  style={{ padding: '0px 10px', verticalAlign: 'middle' }}
+                  style={{
+                    padding: '0px 10px',
+                    verticalAlign: 'middle',
+                    backgroundColor: selectStylesByDateClient(
+                      obj?.currentAcount?.movements[0]?.fecha
+                    ),
+                  }}
                 >
                   {obj?.currentAcount?.acountNumber != '' ? (
                     <div>
@@ -266,7 +303,13 @@ function RoleTableComponent(props) {
                   ) : null}
                 </Table.Cell>
                 <Table.Cell
-                  style={{ padding: '6px 10px', verticalAlign: 'middle' }}
+                  style={{
+                    padding: '0px 10px',
+                    verticalAlign: 'middle',
+                    backgroundColor: selectStylesByDateClient(
+                      obj?.currentAcount?.movements[0]?.fecha
+                    ),
+                  }}
                 >
                   {obj?.currentAcount?.acountNumber != '' ? (
                     <ProtectedComponent listAccesss={[1, 2, 5, 6]}>
