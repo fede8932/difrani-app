@@ -22,7 +22,7 @@ function EditClientViewContainer(props) {
   const dispatch = useDispatch();
   const updateClient = (data) => {
     const { iva, sellerId, ...clientData } = data;
-    clientData.acceptPending = sendClient.acceptPending !== null ? true : false;
+    clientData.acceptPending = sendClient.acceptPending != null ? true : false;
     clientData.iva = iva != '' ? iva : sendClient.iva;
     clientData.sellerId =
       sellerId != '' ? Number(sellerId) : sendClient.sellerId;
