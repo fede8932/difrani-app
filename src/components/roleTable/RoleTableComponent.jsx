@@ -17,7 +17,7 @@ import {
   numberToString,
   pickingOrderString,
   redondearADosDecimales,
-  selectStylesByDateClient,
+  selectStylesByDateClientV2,
 } from '../../utils';
 import CustomModal from '../../commonds/customModal/CustomModal';
 import { useNavigate } from 'react-router';
@@ -215,10 +215,11 @@ function RoleTableComponent(props) {
               <Table.Row key={i}>
                 <Table.Cell
                   style={{
+                    height: "40px",
                     padding: '0px 10px',
                     verticalAlign: 'middle',
-                    backgroundColor: selectStylesByDateClient(
-                      obj?.currentAcount?.movements[0]?.fecha
+                    backgroundColor: selectStylesByDateClientV2(
+                      obj?.currentAcount?.movements
                     ),
                   }}
                 >
@@ -228,8 +229,8 @@ function RoleTableComponent(props) {
                   style={{
                     padding: '0px 10px',
                     verticalAlign: 'middle',
-                    backgroundColor: selectStylesByDateClient(
-                      obj?.currentAcount?.movements[0]?.fecha
+                    backgroundColor: selectStylesByDateClientV2(
+                      obj?.currentAcount?.movements
                     ),
                   }}
                 >
@@ -239,8 +240,8 @@ function RoleTableComponent(props) {
                   style={{
                     padding: '0px 10px',
                     verticalAlign: 'middle',
-                    backgroundColor: selectStylesByDateClient(
-                      obj?.currentAcount?.movements[0]?.fecha
+                    backgroundColor: selectStylesByDateClientV2(
+                      obj?.currentAcount?.movements
                     ),
                   }}
                 >
@@ -250,8 +251,8 @@ function RoleTableComponent(props) {
                   style={{
                     padding: '0px 10px',
                     verticalAlign: 'middle',
-                    backgroundColor: selectStylesByDateClient(
-                      obj?.currentAcount?.movements[0]?.fecha
+                    backgroundColor: selectStylesByDateClientV2(
+                      obj?.currentAcount?.movements
                     ),
                   }}
                 >
@@ -270,8 +271,8 @@ function RoleTableComponent(props) {
                   style={{
                     padding: '0px 10px',
                     verticalAlign: 'middle',
-                    backgroundColor: selectStylesByDateClient(
-                      obj?.currentAcount?.movements[0]?.fecha
+                    backgroundColor: selectStylesByDateClientV2(
+                      obj?.currentAcount?.movements
                     ),
                   }}
                 >
@@ -283,8 +284,8 @@ function RoleTableComponent(props) {
                   style={{
                     padding: '0px 10px',
                     verticalAlign: 'middle',
-                    backgroundColor: selectStylesByDateClient(
-                      obj?.currentAcount?.movements[0]?.fecha
+                    backgroundColor: selectStylesByDateClientV2(
+                      obj?.currentAcount?.movements
                     ),
                   }}
                 >
@@ -306,8 +307,8 @@ function RoleTableComponent(props) {
                   style={{
                     padding: '0px 10px',
                     verticalAlign: 'middle',
-                    backgroundColor: selectStylesByDateClient(
-                      obj?.currentAcount?.movements[0]?.fecha
+                    backgroundColor: selectStylesByDateClientV2(
+                      obj?.currentAcount?.movements
                     ),
                   }}
                 >
