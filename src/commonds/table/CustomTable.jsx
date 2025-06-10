@@ -27,7 +27,6 @@ const CustomTable = (props) => {
     fnAdd,
     fnDelete,
     fnUpdate,
-    fnPrUpdate,
     type,
     process,
     addItemToBill,
@@ -278,30 +277,12 @@ const CustomTable = (props) => {
                   </Table.Cell>
                   <Table.Cell>
                     <div className={styles.inpChangeCont}>
-                      {/* <button
-                      className={styles.inputChange}
-                      onClick={() => {
-                        if (p.amount > 1) {
-                          fnUpdate({ id: p.id, editCamp: p.amount - 1 });
-                        }
-                      }}
-                    >
-                      <i className="fa-solid fa-minus"></i>
-                    </button> */}
-                      {/* <TableInput
-                      key={i}
-                      type="number"
-                      step="1"
-                      defValue={p.amount}
-                      fn={fnUpdate}
-                      dataItem={{ id: p.id }}
-                    /> */}
                       <input
                         className={styles.inputTable}
                         type="number"
                         key={i}
                         step="1"
-                        value={p.amount}
+                        defaultValue={p.amount}
                         onChange={(e) => {
                           if (e.target.value != 0)
                             fnUpdate({ id: p.id, editCamp: e.target.value });

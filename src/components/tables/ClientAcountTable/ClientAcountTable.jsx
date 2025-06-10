@@ -604,6 +604,7 @@ function ClientAcountTable(props) {
                 { key: 50, value: 50, text: 50 },
                 { key: 100, value: 100, text: 100 },
                 { key: 500, value: 500, text: 500 },
+                { key: 0, value: 0, text: "Todos" },
               ]}
             />
           </div>

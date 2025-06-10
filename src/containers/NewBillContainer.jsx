@@ -1,30 +1,30 @@
-import React from 'react';
-import NewBill from '../components/newBill/NewBill';
-import { useDispatch, useSelector } from 'react-redux';
+import React from "react";
+import NewBill from "../components/newBill/NewBill";
+import { useDispatch, useSelector } from "react-redux";
 import {
   convertImageToBase64,
   cuitTransformToNumber,
   redondearADosDecimales,
   waitForImagesToLoad,
-} from '../utils';
+} from "../utils";
 import {
   confirmSellOrderRequest,
   searchSellOrderRequest,
-} from '../redux/searchOrders';
-import { useNavigate } from 'react-router';
-import { factItemToggleRequest } from '../redux/addOrderItems';
-import Swal from 'sweetalert2';
-import { printBillRequest, printPresRequest } from '../request/orderRequest';
-import { billHtml } from '../templates/bill.js';
-import QRCode from 'qrcode';
-import { presupHtml } from '../templates/presupBlase.js';
-import { remitHtml } from '../templates/RemBlase.js';
-import logoAfip from '../assets/afip/logo-vector-afip.jpg';
-import logoBlase from '../assets/logo/logoBlase.png';
-import { billRHtml } from '../templates/billRProvis.js';
+} from "../redux/searchOrders";
+import { useNavigate } from "react-router";
+import { factItemToggleRequest } from "../redux/addOrderItems";
+import Swal from "sweetalert2";
+import { printBillRequest, printPresRequest } from "../request/orderRequest";
+import { billHtml } from "../templates/bill.js";
+import QRCode from "qrcode";
+import { presupHtml } from "../templates/presupBlase.js";
+import { remitHtml } from "../templates/RemBlase.js";
+import logoAfip from "../assets/afip/logo-vector-afip.jpg";
+import logoBlase from "../assets/logo/logoBlase.png";
+import { billRHtml } from "../templates/billRProvis.js";
 
 function NewBillContainer(props) {
-  const { closeModal/*, listOrder*/ } = props;
+  const { closeModal /*, listOrder*/ } = props;
   const client = useSelector((state) => state.client.data);
   const order = useSelector((state) => state.newBuyOrder.data);
   const searchOrderLoading = useSelector((state) => state.searchOrders.loading);
@@ -61,7 +61,7 @@ function NewBillContainer(props) {
     const logoAfipBase64 = await convertImageToBase64(logoAfip);
     const logoBlaseBase64 = await convertImageToBase64(logoBlase);
     // console.log(logoBlaseBase64);
-    const nuevaVentana = window.open('', '', 'width=900,height=1250');
+    const nuevaVentana = window.open("", "", "width=900,height=1250");
     // Obtener datos de la factura
     if (totalFacturado > 0) {
       const billData = await printBillRequest(order.id);
@@ -88,13 +88,13 @@ function NewBillContainer(props) {
           logoBlaseBase64
         );
 
-        const containerFact = nuevaVentana.document.createElement('div');
+        const containerFact = nuevaVentana.document.createElement("div");
         nuevaVentana.document.body.appendChild(containerFact);
 
         containerFact.innerHTML = render;
         nuevaVentana.document.body.appendChild(
-          nuevaVentana.document.createElement('div')
-        ).style.pageBreakBefore = 'always';
+          nuevaVentana.document.createElement("div")
+        ).style.pageBreakBefore = "always";
       }
 
       for (let i = 0; i < factItems.length; i += itemsPerPage) {
@@ -112,13 +112,13 @@ function NewBillContainer(props) {
           logoBlaseBase64
         );
 
-        const containerFact = nuevaVentana.document.createElement('div');
+        const containerFact = nuevaVentana.document.createElement("div");
         nuevaVentana.document.body.appendChild(containerFact);
 
         containerFact.innerHTML = render;
         nuevaVentana.document.body.appendChild(
-          nuevaVentana.document.createElement('div')
-        ).style.pageBreakBefore = 'always';
+          nuevaVentana.document.createElement("div")
+        ).style.pageBreakBefore = "always";
       }
     }
     if (totalNoFacturado > 0) {
@@ -144,55 +144,59 @@ function NewBillContainer(props) {
           totalPages
         );
 
-        const containerPres = nuevaVentana.document.createElement('div');
+        const containerPres = nuevaVentana.document.createElement("div");
         nuevaVentana.document.body.appendChild(containerPres);
 
         containerPres.innerHTML = render;
         nuevaVentana.document.body.appendChild(
-          nuevaVentana.document.createElement('div')
-        ).style.pageBreakBefore = 'always';
+          nuevaVentana.document.createElement("div")
+        ).style.pageBreakBefore = "always";
       }
       if (totalPages > 1) {
         nuevaVentana.document.body.appendChild(
-          nuevaVentana.document.createElement('div')
-        ).style.pageBreakBefore = 'always';
+          nuevaVentana.document.createElement("div")
+        ).style.pageBreakBefore = "always";
       }
     }
-    const itemsPerPage = 14;
-    const totalPages = Math.ceil(
-      order.purchaseOrderItems.length / itemsPerPage
-    );
-    for (let i = 0; i < order.purchaseOrderItems.length; i += itemsPerPage) {
-      const pageNumber = Math.floor(i / itemsPerPage) + 1;
-      const pageItems = order.purchaseOrderItems.slice(i, i + itemsPerPage);
-      const containerRem = nuevaVentana.document.createElement('div');
-      nuevaVentana.document.body.appendChild(containerRem);
-      containerRem.innerHTML = remitHtml(
-        order,
-        numRemito,
-        pageItems,
-        pageNumber,
-        totalPages,
-        logoBlaseBase64
+    if (totalFacturado > 0) {
+      const itemsPerPage = 14;
+      const totalPages = Math.ceil(
+        order.purchaseOrderItems.length / itemsPerPage
       );
-      nuevaVentana.document.body.appendChild(
-        nuevaVentana.document.createElement('div')
-      ).style.pageBreakBefore = 'always';
+      for (let i = 0; i < order.purchaseOrderItems.length; i += itemsPerPage) {
+        const pageNumber = Math.floor(i / itemsPerPage) + 1;
+        const pageItems = order.purchaseOrderItems.slice(i, i + itemsPerPage);
+        const containerRem = nuevaVentana.document.createElement("div");
+        nuevaVentana.document.body.appendChild(containerRem);
+        containerRem.innerHTML = remitHtml(
+          order,
+          numRemito,
+          pageItems,
+          pageNumber,
+          totalPages,
+          logoBlaseBase64
+        );
+        if (pageNumber < totalPages) {
+          const pageBreak = nuevaVentana.document.createElement("div");
+          pageBreak.style.pageBreakBefore = "always";
+          nuevaVentana.document.body.appendChild(pageBreak);
+        }
+      }
     }
     // Espera a que las imágenes se carguen antes de imprimir
     await waitForImagesToLoad(nuevaVentana);
-    nuevaVentana.addEventListener('afterprint', () => {
+    nuevaVentana.addEventListener("afterprint", () => {
       nuevaVentana.close();
     });
     nuevaVentana.print();
   };
   const newBill = () => {
-    const facturaType = client.iva == 'Monotributista' ? 'A' : 'A';
+    const facturaType = client.iva == "Monotributista" ? "A" : "A";
     let sendData = {
-      concepto: 'Productos',
-      type: 'Factura',
+      concepto: "Productos",
+      type: "Factura",
       tipo_de_factura: facturaType,
-      tipo_de_documento: 'CUIT',
+      tipo_de_documento: "CUIT",
       numero_de_documento: cuitTransformToNumber(client.cuit),
       importe_gravado: redondearADosDecimales(totalFacturado / 1.21),
       importe_excento: 0,
@@ -206,15 +210,15 @@ function NewBillContainer(props) {
       closeModal();
       if (res.error) {
         Swal.fire({
-          icon: 'warning',
-          title: 'No emitimos la factura',
-          text: 'Generamos los registros de pendientes y eliminamos la orden de monto cero.',
+          icon: "warning",
+          title: "No emitimos la factura",
+          text: "Generamos los registros de pendientes y eliminamos la orden de monto cero.",
         });
-        navigate('/search/sell')
+        navigate("/search/sell");
       } else {
         printBill(res.payload, totalFacturado, totalNoFacturado);
         dispatch(searchSellOrderRequest(filterSellOrder)).then((res) => {
-          navigate('/search/sell');
+          navigate("/search/sell");
         });
       }
     });
