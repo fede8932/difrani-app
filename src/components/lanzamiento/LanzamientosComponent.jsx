@@ -44,6 +44,10 @@ function LanzamientosComponent(props) {
           icon: "success",
           timer: 700,
           showConfirmButton: false,
+        }).then(() => {
+          setDetalles(""); // Limpiar input de texto
+          setImagen(null); // Limpiar imagen seleccionada
+          document.getElementById("imagen").value = null; // Limpiar input file manualmente
         });
       })
       .catch((err) => {
