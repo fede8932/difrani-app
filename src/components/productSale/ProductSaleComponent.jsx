@@ -21,7 +21,7 @@ function ProductSaleComponent(props) {
   const { methods, newSale, deleterSale, toogleStatusSale, changePriori } =
     props;
   const { data, loading } = useSelector((state) => state.selectProduct);
-  console.log(data);
+  // console.log(data);
 
   return (
     <div>

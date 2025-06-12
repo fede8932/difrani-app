@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from "axios";
 const apiUrl = import.meta.env.VITE_API_URL;
 
 let cancelTokenSource = null;
@@ -9,9 +9,9 @@ export const createProduct = async (productData) => {
     const formData = new FormData();
 
     // Agregar los datos del producto
-    formData.append('article', productData.code);
-    formData.append('description', productData.name);
-    formData.append('price', parseFloat(productData.listPrice));
+    formData.append("article", productData.code);
+    formData.append("description", productData.name);
+    formData.append("price", parseFloat(productData.listPrice));
 
     // Agregar las imágenes al FormData
     if (productData.images && productData.images.length > 0) {
@@ -26,16 +26,16 @@ export const createProduct = async (productData) => {
       formData,
       {
         headers: {
-          'Content-Type': 'multipart/form-data',
+          "Content-Type": "multipart/form-data",
         },
         withCredentials: true,
       }
     );
-    return 'Registrado';
+    return "Registrado";
   } catch (error) {
     if (error.response?.status == 401) {
       // console.log(error);
-      window.location.href = '/';
+      window.location.href = "/";
     }
     throw error;
   }
@@ -45,14 +45,14 @@ export const addProductsFile = async (sendData) => {
   try {
     const { file, check } = sendData;
     const formData = new FormData();
-    formData.append('file', file);
-    formData.append('check', JSON.stringify(check));
+    formData.append("file", file);
+    formData.append("check", JSON.stringify(check));
     const { data } = await axios.post(
       `${apiUrl}/api/productos/file`,
       formData,
       {
         headers: {
-          'Content-Type': 'multipart/form-data',
+          "Content-Type": "multipart/form-data",
           withCredentials: true,
         },
       }
@@ -60,7 +60,7 @@ export const addProductsFile = async (sendData) => {
     return data;
   } catch (error) {
     if (error.response?.status == 401) {
-      window.location.href = '/';
+      window.location.href = "/";
     }
     throw error;
   }
@@ -75,7 +75,7 @@ export const searchProduct = async (productData) => {
     return products.data;
   } catch (error) {
     if (error.response?.status == 401) {
-      window.location.href = '/';
+      window.location.href = "/";
     }
     throw error;
   }
@@ -91,7 +91,7 @@ export const searchProducts = async (productData) => {
     return products.data;
   } catch (error) {
     if (error.response?.status == 401) {
-      window.location.href = '/';
+      window.location.href = "/";
     }
     throw error;
   }
@@ -100,7 +100,7 @@ export const searchExtraProducts = async (productData) => {
   try {
     // Cancelar la solicitud anterior si existe
     if (cancelTokenSource) {
-      cancelTokenSource.cancel('Cancelando la solicitud anterior.');
+      cancelTokenSource.cancel("Cancelando la solicitud anterior.");
     }
 
     // Crear un nuevo token de cancelación
@@ -118,9 +118,9 @@ export const searchExtraProducts = async (productData) => {
     return response.data;
   } catch (error) {
     if (axios.isCancel(error)) {
-      console.log('Solicitud cancelada:', error.message);
+      console.log("Solicitud cancelada:", error.message);
     } else if (error.response?.status === 401) {
-      window.location.href = '/';
+      window.location.href = "/";
     }
     // Restablecer el token en caso de error
     cancelTokenSource = null;
@@ -136,7 +136,7 @@ export const searchProductPage = async (productData) => {
     return data;
   } catch (error) {
     if (error.response?.status == 401) {
-      window.location.href = '/';
+      window.location.href = "/";
     }
     throw error;
   }
@@ -150,7 +150,7 @@ export const searchOneProduct = async (productData) => {
     return data;
   } catch (error) {
     if (error.response?.status == 401) {
-      window.location.href = '/';
+      window.location.href = "/";
     }
     throw error;
   }
@@ -174,7 +174,7 @@ export const updateStock = async (productData) => {
     return data;
   } catch (error) {
     if (error.response?.status == 401) {
-      window.location.href = '/';
+      window.location.href = "/";
     }
     throw error;
   }
@@ -189,7 +189,7 @@ export const deleteProduct = async (productId) => {
     return data;
   } catch (error) {
     if (error.response?.status == 401) {
-      window.location.href = '/';
+      window.location.href = "/";
     }
     throw error;
   }
@@ -218,7 +218,7 @@ export const updateProduct = async (update) => {
       formData,
       {
         headers: {
-          'Content-Type': 'multipart/form-data',
+          "Content-Type": "multipart/form-data",
         },
         withCredentials: true,
       }
@@ -226,7 +226,7 @@ export const updateProduct = async (update) => {
     return data;
   } catch (error) {
     if (error.response?.status == 401) {
-      window.location.href = '/';
+      window.location.href = "/";
     }
     throw error;
   }
@@ -240,7 +240,7 @@ export const getProductId = async (id) => {
     return data;
   } catch (error) {
     if (error.response?.status == 401) {
-      window.location.href = '/';
+      window.location.href = "/";
     }
     throw error;
   }
@@ -254,7 +254,7 @@ export const getAllProduct = async () => {
     return products.data;
   } catch (error) {
     if (error.response?.status == 401) {
-      window.location.href = '/';
+      window.location.href = "/";
     }
     throw error;
   }
@@ -268,13 +268,31 @@ export const getFileProducts = async (filterProducts) => {
       filterProducts,
       {
         withCredentials: true,
-        responseType: 'blob', // Configura el tipo de respuesta esperado como 'blob'
+        responseType: "blob", // Configura el tipo de respuesta esperado como 'blob'
       }
     );
     return res;
   } catch (error) {
     if (error.response?.status == 401) {
-      window.location.href = '/';
+      window.location.href = "/";
+    }
+    throw error;
+  }
+};
+
+export const CreateNews = async (sendData) => {
+  try {
+    const { data } = await axios.post(
+      `${apiUrl}/api/productos/new/ad`,
+      sendData,
+      {
+        withCredentials: true,
+      }
+    );
+    return data;
+  } catch (error) {
+    if (error.response?.status === 401) {
+      window.location.href = "/";
     }
     throw error;
   }
