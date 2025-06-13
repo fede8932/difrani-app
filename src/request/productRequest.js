@@ -297,3 +297,37 @@ export const CreateNews = async (sendData) => {
     throw error;
   }
 };
+
+export const GetNewsByProductoId = async (productId) => {
+  try {
+    const { data } = await axios.get(
+      `${apiUrl}/api/productos/all/ad/${productId}`,
+      {
+        withCredentials: true,
+      }
+    );
+    return data;
+  } catch (error) {
+    if (error.response?.status === 401) {
+      window.location.href = "/";
+    }
+    throw error;
+  }
+};
+
+export const DeleteNewsById = async (id) => {
+  try {
+    const { data } = await axios.delete(
+      `${apiUrl}/api/productos/ad/${id}`,
+      {
+        withCredentials: true,
+      }
+    );
+    return data;
+  } catch (error) {
+    if (error.response?.status === 401) {
+      window.location.href = "/";
+    }
+    throw error;
+  }
+};

@@ -6,8 +6,21 @@ import {
   resetSelectProduct,
 } from "../../redux/selectProduct";
 import { useLocation } from "react-router";
-import { CreateNews } from "../../request/productRequest";
+import {
+  CreateNews,
+  DeleteNewsById,
+  GetNewsByProductoId,
+} from "../../request/productRequest";
 import Swal from "sweetalert2";
+import {
+  Icon,
+  Table,
+  TableBody,
+  TableCell,
+  TableHeader,
+  TableHeaderCell,
+  TableRow,
+} from "semantic-ui-react";
 
 function LanzamientosComponent(props) {
   const dispatch = useDispatch();
@@ -16,8 +29,11 @@ function LanzamientosComponent(props) {
   const { data, loading } = useSelector((state) => state.selectProduct);
   const [detalles, setDetalles] = useState("");
   const [imagen, setImagen] = useState(null);
+  const [pending, setPending] = useState(null);
+  const [newsList, setNewsList] = useState([]);
 
   const handleSubmit = (e) => {
+    setPending(true);
     e.preventDefault();
 
     const formData = new FormData();
@@ -59,12 +75,55 @@ function LanzamientosComponent(props) {
           showConfirmButton: false,
         });
         return;
-      });
+      })
+      .finally(() => setPending(false));
   };
+
+  const deleteAd = (id) => {
+    setPending(true);
+    DeleteNewsById(id)
+      .then((res) => {
+        if (res.error) {
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: `Ocurrió un error: ${res.error.message}`,
+            timer: 3000, // se cierra en 3 segundos
+            showConfirmButton: false,
+          });
+          return;
+        }
+        Swal.fire({
+          title: "Eliminado",
+          icon: "success",
+          timer: 700,
+          showConfirmButton: false,
+        });
+      })
+      .catch((err) => {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: `Ocurrió un error: ${err.message}`,
+          timer: 3000, // se cierra en 3 segundos
+          showConfirmButton: false,
+        });
+        return;
+      })
+      .finally(() => setPending(false));
+  };
+
   useEffect(() => {
     dispatch(getProductIdRequest(id));
     return () => dispatch(resetSelectProduct());
   }, []);
+
+  useEffect(() => {
+    if (id) {
+      GetNewsByProductoId(id).then((res) => setNewsList(res));
+    }
+  }, [id, pending]);
+
   return (
     <>
       <Row>
@@ -126,7 +185,45 @@ function LanzamientosComponent(props) {
             </button>
           </form>
         </Col>
-        <Col></Col>
+        <Col style={{ paddingTop: "10px" }}>
+          <Table celled striped>
+            <TableHeader>
+              <TableRow>
+                <TableHeaderCell colSpan="3">
+                  Lista de lanzamientos
+                </TableHeaderCell>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              <TableRow>
+                <TableCell collapsing>Imagen</TableCell>
+                <TableCell>Referencia</TableCell>
+                <TableCell collapsing textAlign="right">
+                  Acciones
+                </TableCell>
+              </TableRow>
+              {newsList.map((ad) => (
+                <TableRow>
+                  <TableCell collapsing>
+                    <a
+                      href={ad.image}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Link
+                    </a>
+                  </TableCell>
+                  <TableCell>{ad.detail}</TableCell>
+                  <TableCell collapsing textAlign="right">
+                    <div onClick={() => deleteAd(ad.id)}>
+                      <Icon name="trash" color="red" />
+                    </div>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </Col>
       </Row>
     </>
   );
