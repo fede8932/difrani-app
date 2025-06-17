@@ -30,7 +30,7 @@ export const ncPresupHtml = (
                 0,
                 45
               )}</td>
-              <td>$${redondearADosDecimales(item?.sellPrice)}</td>
+              <td>$${item?.sellPrice != '-' ? redondearADosDecimales(item?.sellPrice) : ""}</td>
               <td>$${
                 item?.sellPrice != '-'
                   ? redondearADosDecimales(item?.amount * item?.sellPrice)

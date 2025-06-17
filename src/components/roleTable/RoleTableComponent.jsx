@@ -1,11 +1,11 @@
-import React, { useMemo, useState } from 'react';
-import styles from './roleTable.module.css';
-import ActionModalContainer from '../../containers/ActionModalContainer';
-import { Checkbox, Label } from 'semantic-ui-react';
-import IconButonUsersTable from '../../commonds/iconButtonUsersTable/IconButonUsersTable';
-import Button from 'react-bootstrap/Button';
-import { Table } from 'semantic-ui-react';
-import CustomPagination from '../../commonds/pagination/CustomPagination';
+import React, { useMemo, useState } from "react";
+import styles from "./roleTable.module.css";
+import ActionModalContainer from "../../containers/ActionModalContainer";
+import { Checkbox, Label, Select } from "semantic-ui-react";
+import IconButonUsersTable from "../../commonds/iconButtonUsersTable/IconButonUsersTable";
+import Button from "react-bootstrap/Button";
+import { Table } from "semantic-ui-react";
+import CustomPagination from "../../commonds/pagination/CustomPagination";
 import {
   buyOrderString,
   checkActive,
@@ -18,13 +18,13 @@ import {
   pickingOrderString,
   redondearADosDecimales,
   selectStylesByDateClientV2,
-} from '../../utils';
-import CustomModal from '../../commonds/customModal/CustomModal';
-import { useNavigate } from 'react-router';
-import { MovTypeEnum } from '../../enum/MovEnum';
-import ProtectedComponent from '../../protected/protectedComponent/ProtectedComponent';
-import BillViewModalContainer from '../../containers/BillViewModalContainer';
-import { Spinner } from 'react-bootstrap';
+} from "../../utils";
+import CustomModal from "../../commonds/customModal/CustomModal";
+import { useNavigate } from "react-router";
+import { MovTypeEnum } from "../../enum/MovEnum";
+import ProtectedComponent from "../../protected/protectedComponent/ProtectedComponent";
+import BillViewModalContainer from "../../containers/BillViewModalContainer";
+import { Spinner } from "react-bootstrap";
 
 function RoleTableComponent(props) {
   const {
@@ -46,6 +46,8 @@ function RoleTableComponent(props) {
     ncRePrint,
     clientsResumePrint,
     slim,
+    pageSize,
+    setPageSize,
   } = props;
 
   const navigate = useNavigate();
@@ -67,21 +69,21 @@ function RoleTableComponent(props) {
           </Table.Row>
         </Table.Header>
         <Table.Body>
-          {type == 'seller' ? (
+          {type == "seller" ? (
             result.data.sellers.map((obj, i) => (
               <Table.Row key={i}>
                 <Table.Cell
-                  style={{ padding: '0px 10px', verticalAlign: 'middle' }}
+                  style={{ padding: "0px 10px", verticalAlign: "middle" }}
                 >
                   {obj.user.name.toUpperCase()}
                 </Table.Cell>
                 <Table.Cell
-                  style={{ padding: '0px 10px', verticalAlign: 'middle' }}
+                  style={{ padding: "0px 10px", verticalAlign: "middle" }}
                 >
                   {obj.user.lastName.toUpperCase()}
                 </Table.Cell>
                 <Table.Cell
-                  style={{ padding: '0px 10px', verticalAlign: 'middle' }}
+                  style={{ padding: "0px 10px", verticalAlign: "middle" }}
                 >
                   <span
                     className={styles.linkSpan}
@@ -91,14 +93,14 @@ function RoleTableComponent(props) {
                   </span>
                 </Table.Cell>
                 <Table.Cell
-                  style={{ padding: '0px 10px', verticalAlign: 'middle' }}
+                  style={{ padding: "0px 10px", verticalAlign: "middle" }}
                 >
                   {obj.user.id}
                 </Table.Cell>
                 <Table.Cell
-                  style={{ padding: '0px 10px', verticalAlign: 'middle' }}
+                  style={{ padding: "0px 10px", verticalAlign: "middle" }}
                 >
-                  {obj.user.id != '' ? (
+                  {obj.user.id != "" ? (
                     <>
                       {obj.user.status ? (
                         <Label color="green" horizontal>
@@ -113,15 +115,15 @@ function RoleTableComponent(props) {
                   ) : null}
                 </Table.Cell>
                 <Table.Cell
-                  style={{ padding: '6px 10px', verticalAlign: 'middle' }}
+                  style={{ padding: "6px 10px", verticalAlign: "middle" }}
                 >
-                  {obj.user.id != '' ? (
+                  {obj.user.id != "" ? (
                     <div>
                       <ProtectedComponent listAccesss={[1, 2]}>
                         <div
                           style={{
-                            display: 'flex',
-                            width: '130px',
+                            display: "flex",
+                            width: "130px",
                           }}
                         >
                           <ActionModalContainer
@@ -134,9 +136,9 @@ function RoleTableComponent(props) {
                           />
                           <div
                             style={{
-                              margin: '1px 0px 0px 8px',
-                              display: 'flex',
-                              alignItems: 'center',
+                              margin: "1px 0px 0px 8px",
+                              display: "flex",
+                              alignItems: "center",
                             }}
                           >
                             <IconButonUsersTable
@@ -150,9 +152,9 @@ function RoleTableComponent(props) {
                           </div>
                           <div
                             style={{
-                              margin: '1px 0px 0px 8px',
-                              display: 'flex',
-                              alignItems: 'center',
+                              margin: "1px 0px 0px 8px",
+                              display: "flex",
+                              alignItems: "center",
                             }}
                           >
                             <IconButonUsersTable
@@ -166,25 +168,25 @@ function RoleTableComponent(props) {
                           </div>
                           <div
                             style={{
-                              margin: '1px 0px 0px 8px',
-                              display: 'flex',
-                              alignItems: 'center',
+                              margin: "1px 0px 0px 8px",
+                              display: "flex",
+                              alignItems: "center",
                             }}
                           >
                             <IconButonUsersTable
                               popupText="Desactivar"
                               fn={() => {
-                                statusToogle(obj.user.id, 'seller');
+                                statusToogle(obj.user.id, "seller");
                               }}
                               icon={
                                 !obj.user.status
-                                  ? 'fa-solid fa-check'
-                                  : 'fa-solid fa-xmark'
+                                  ? "fa-solid fa-check"
+                                  : "fa-solid fa-xmark"
                               }
                               iconInitialStyle={
                                 !obj.user.status
-                                  ? 'iconStyleGreen'
-                                  : 'iconStyleRed'
+                                  ? "iconStyleGreen"
+                                  : "iconStyleRed"
                               }
                             />
                           </div>
@@ -202,7 +204,7 @@ function RoleTableComponent(props) {
                       </ProtectedComponent>
                     </div>
                   ) : (
-                    <div style={{ height: '21px' }}></div>
+                    <div style={{ height: "21px" }}></div>
                   )}
                 </Table.Cell>
               </Table.Row>
@@ -210,14 +212,14 @@ function RoleTableComponent(props) {
           ) : (
             <></>
           )}
-          {type == 'client' ? (
+          {type == "client" ? (
             result?.data?.clients?.map((obj, i) => (
               <Table.Row key={i}>
                 <Table.Cell
                   style={{
                     height: "40px",
-                    padding: '0px 10px',
-                    verticalAlign: 'middle',
+                    padding: "0px 10px",
+                    verticalAlign: "middle",
                     backgroundColor: selectStylesByDateClientV2(
                       obj?.currentAcount?.movements
                     ),
@@ -227,8 +229,8 @@ function RoleTableComponent(props) {
                 </Table.Cell>
                 <Table.Cell
                   style={{
-                    padding: '0px 10px',
-                    verticalAlign: 'middle',
+                    padding: "0px 10px",
+                    verticalAlign: "middle",
                     backgroundColor: selectStylesByDateClientV2(
                       obj?.currentAcount?.movements
                     ),
@@ -238,8 +240,8 @@ function RoleTableComponent(props) {
                 </Table.Cell>
                 <Table.Cell
                   style={{
-                    padding: '0px 10px',
-                    verticalAlign: 'middle',
+                    padding: "0px 10px",
+                    verticalAlign: "middle",
                     backgroundColor: selectStylesByDateClientV2(
                       obj?.currentAcount?.movements
                     ),
@@ -249,8 +251,8 @@ function RoleTableComponent(props) {
                 </Table.Cell>
                 <Table.Cell
                   style={{
-                    padding: '0px 10px',
-                    verticalAlign: 'middle',
+                    padding: "0px 10px",
+                    verticalAlign: "middle",
                     backgroundColor: selectStylesByDateClientV2(
                       obj?.currentAcount?.movements
                     ),
@@ -258,9 +260,9 @@ function RoleTableComponent(props) {
                 >
                   <Button
                     variant="link"
-                    style={{ padding: '0', textDecoration: 'none' }}
+                    style={{ padding: "0", textDecoration: "none" }}
                     onClick={() => {
-                      viewAcount(obj.currentAcount.id, 'client');
+                      viewAcount(obj.currentAcount.id, "client");
                     }}
                   >
                     {obj?.currentAcount?.acountNumber &&
@@ -269,27 +271,27 @@ function RoleTableComponent(props) {
                 </Table.Cell>
                 <Table.Cell
                   style={{
-                    padding: '0px 10px',
-                    verticalAlign: 'middle',
+                    padding: "0px 10px",
+                    verticalAlign: "middle",
                     backgroundColor: selectStylesByDateClientV2(
                       obj?.currentAcount?.movements
                     ),
                   }}
                 >
-                  {obj?.currentAcount?.acountNumber != ''
+                  {obj?.currentAcount?.acountNumber != ""
                     ? `$ ${numberToString(obj?.currentAcount?.resume)}`
-                    : ''}
+                    : ""}
                 </Table.Cell>
                 <Table.Cell
                   style={{
-                    padding: '0px 10px',
-                    verticalAlign: 'middle',
+                    padding: "0px 10px",
+                    verticalAlign: "middle",
                     backgroundColor: selectStylesByDateClientV2(
                       obj?.currentAcount?.movements
                     ),
                   }}
                 >
-                  {obj?.currentAcount?.acountNumber != '' ? (
+                  {obj?.currentAcount?.acountNumber != "" ? (
                     <div>
                       {obj?.user?.status ? (
                         <Label color="green" horizontal>
@@ -305,19 +307,19 @@ function RoleTableComponent(props) {
                 </Table.Cell>
                 <Table.Cell
                   style={{
-                    padding: '0px 10px',
-                    verticalAlign: 'middle',
+                    padding: "0px 10px",
+                    verticalAlign: "middle",
                     backgroundColor: selectStylesByDateClientV2(
                       obj?.currentAcount?.movements
                     ),
                   }}
                 >
-                  {obj?.currentAcount?.acountNumber != '' ? (
+                  {obj?.currentAcount?.acountNumber != "" ? (
                     <ProtectedComponent listAccesss={[1, 2, 5, 6]}>
                       <div
                         style={{
-                          display: 'flex',
-                          width: '130px',
+                          display: "flex",
+                          width: "130px",
                         }}
                       >
                         <ActionModalContainer
@@ -330,9 +332,9 @@ function RoleTableComponent(props) {
                         />
                         <div
                           style={{
-                            margin: '1px 0px 0px 8px',
-                            display: 'flex',
-                            alignItems: 'center',
+                            margin: "1px 0px 0px 8px",
+                            display: "flex",
+                            alignItems: "center",
                           }}
                         >
                           <IconButonUsersTable
@@ -346,26 +348,26 @@ function RoleTableComponent(props) {
                         </div>
                         <div
                           style={{
-                            margin: '1px 0px 0px 8px',
-                            display: 'flex',
-                            alignItems: 'center',
+                            margin: "1px 0px 0px 8px",
+                            display: "flex",
+                            alignItems: "center",
                           }}
                         >
                           <ProtectedComponent listAccesss={[1, 2]}>
                             <IconButonUsersTable
                               popupText="Desactivar"
                               fn={() => {
-                                statusToogle(obj.user.id, 'client');
+                                statusToogle(obj.user.id, "client");
                               }}
                               icon={
                                 !obj.user.status
-                                  ? 'fa-solid fa-check'
-                                  : 'fa-solid fa-xmark'
+                                  ? "fa-solid fa-check"
+                                  : "fa-solid fa-xmark"
                               }
                               iconInitialStyle={
                                 !obj.user.status
-                                  ? 'iconStyleGreen'
-                                  : 'iconStyleRed'
+                                  ? "iconStyleGreen"
+                                  : "iconStyleRed"
                               }
                             />
                           </ProtectedComponent>
@@ -373,7 +375,7 @@ function RoleTableComponent(props) {
                       </div>
                     </ProtectedComponent>
                   ) : (
-                    <div style={{ height: '21px' }}></div>
+                    <div style={{ height: "21px" }}></div>
                   )}
                 </Table.Cell>
               </Table.Row>
@@ -381,46 +383,46 @@ function RoleTableComponent(props) {
           ) : (
             <></>
           )}
-          {type == 'supplier' ? (
+          {type == "supplier" ? (
             result.data.suppliers.map((obj, i) => (
               <Table.Row key={i}>
                 <Table.Cell
-                  style={{ padding: '6px 10px', verticalAlign: 'middle' }}
+                  style={{ padding: "6px 10px", verticalAlign: "middle" }}
                 >
                   {obj.id}
                 </Table.Cell>
                 <Table.Cell
-                  style={{ padding: '6px 10px', verticalAlign: 'middle' }}
+                  style={{ padding: "6px 10px", verticalAlign: "middle" }}
                 >
                   {obj.razonSocial.toUpperCase()}
                 </Table.Cell>
                 <Table.Cell
-                  style={{ padding: '6px 10px', verticalAlign: 'middle' }}
+                  style={{ padding: "6px 10px", verticalAlign: "middle" }}
                 >
                   {obj.cuit}
                 </Table.Cell>
                 <Table.Cell
-                  style={{ padding: '6px 10px', verticalAlign: 'middle' }}
+                  style={{ padding: "6px 10px", verticalAlign: "middle" }}
                 >
                   <Button
                     variant="link"
-                    style={{ padding: '0', textDecoration: 'none' }}
+                    style={{ padding: "0", textDecoration: "none" }}
                     onClick={() => {
-                      viewAcount(obj.currentAcount.id, 'supplier');
+                      viewAcount(obj.currentAcount.id, "supplier");
                     }}
                   >
                     {obj.currentAcount.acountNumber}
                   </Button>
                 </Table.Cell>
                 <Table.Cell
-                  style={{ padding: '6px 10px', verticalAlign: 'middle' }}
+                  style={{ padding: "6px 10px", verticalAlign: "middle" }}
                 >
-                  {obj.id !== '' ? <>{`$ ${obj.currentAcount.resume}`}</> : ''}
+                  {obj.id !== "" ? <>{`$ ${obj.currentAcount.resume}`}</> : ""}
                 </Table.Cell>
                 <Table.Cell
-                  style={{ padding: '6px 10px', verticalAlign: 'middle' }}
+                  style={{ padding: "6px 10px", verticalAlign: "middle" }}
                 >
-                  {obj.id !== '' ? (
+                  {obj.id !== "" ? (
                     <>
                       {obj.status ? (
                         <Label color="green" horizontal>
@@ -435,13 +437,13 @@ function RoleTableComponent(props) {
                   ) : null}
                 </Table.Cell>
                 <Table.Cell
-                  style={{ padding: '6px 10px', verticalAlign: 'middle' }}
+                  style={{ padding: "6px 10px", verticalAlign: "middle" }}
                 >
-                  {obj.id !== '' ? (
+                  {obj.id !== "" ? (
                     <div
                       style={{
-                        display: 'flex',
-                        width: '130px',
+                        display: "flex",
+                        width: "130px",
                       }}
                     >
                       <ActionModalContainer
@@ -454,9 +456,9 @@ function RoleTableComponent(props) {
                       />
                       <div
                         style={{
-                          margin: '0px 0px 0px 8px',
-                          display: 'flex',
-                          alignItems: 'center',
+                          margin: "0px 0px 0px 8px",
+                          display: "flex",
+                          alignItems: "center",
                         }}
                       >
                         <ActionModalContainer
@@ -470,29 +472,29 @@ function RoleTableComponent(props) {
                       </div>
                       <div
                         style={{
-                          margin: '1px 0px 0px 8px',
-                          display: 'flex',
-                          alignItems: 'center',
+                          margin: "1px 0px 0px 8px",
+                          display: "flex",
+                          alignItems: "center",
                         }}
                       >
                         <IconButonUsersTable
                           popupText="Desactivar"
                           fn={() => {
-                            statusToogle(obj.id, 'supplier');
+                            statusToogle(obj.id, "supplier");
                           }}
                           icon={
                             !obj.status
-                              ? 'fa-solid fa-check'
-                              : 'fa-solid fa-xmark'
+                              ? "fa-solid fa-check"
+                              : "fa-solid fa-xmark"
                           }
                           iconInitialStyle={
-                            !obj.status ? 'iconStyleGreen' : 'iconStyleRed'
+                            !obj.status ? "iconStyleGreen" : "iconStyleRed"
                           }
                         />
                       </div>
                     </div>
                   ) : (
-                    <div style={{ height: '21px' }}></div>
+                    <div style={{ height: "21px" }}></div>
                   )}
                 </Table.Cell>
               </Table.Row>
@@ -500,7 +502,7 @@ function RoleTableComponent(props) {
           ) : (
             <></>
           )}
-          {type == 'repSupplier' ? (
+          {type == "repSupplier" ? (
             result.data.list.map((rep, i) => (
               <Table.Row key={i}>
                 <Table.Cell>
@@ -526,15 +528,15 @@ function RoleTableComponent(props) {
                 <Table.Cell>
                   <div
                     style={{
-                      display: 'flex',
-                      width: '130px',
+                      display: "flex",
+                      width: "130px",
                     }}
                   >
                     <div
                       style={{
-                        margin: '0px 0px 0px 8px',
-                        display: 'flex',
-                        alignItems: 'center',
+                        margin: "0px 0px 0px 8px",
+                        display: "flex",
+                        alignItems: "center",
                       }}
                     >
                       <ActionModalContainer
@@ -549,23 +551,23 @@ function RoleTableComponent(props) {
                     </div>
                     <div
                       style={{
-                        margin: '1px 0px 0px 8px',
-                        display: 'flex',
-                        alignItems: 'center',
+                        margin: "1px 0px 0px 8px",
+                        display: "flex",
+                        alignItems: "center",
                       }}
                     >
                       <IconButonUsersTable
                         popupText="Eliminar"
                         fn={() => {
-                          statusToogle(rep.id, 'repSupplier');
+                          statusToogle(rep.id, "repSupplier");
                         }}
                         icon={
                           !rep.status
-                            ? 'fa-solid fa-check'
-                            : 'fa-solid fa-xmark'
+                            ? "fa-solid fa-check"
+                            : "fa-solid fa-xmark"
                         }
                         iconInitialStyle={
-                          !rep.status ? 'iconStyleGreen' : 'iconStyleRed'
+                          !rep.status ? "iconStyleGreen" : "iconStyleRed"
                         }
                       />
                     </div>
@@ -576,7 +578,7 @@ function RoleTableComponent(props) {
           ) : (
             <></>
           )}
-          {type == 'acount' ? (
+          {type == "acount" ? (
             result.data.movements.list.map((obj, i) => (
               <Table.Row key={i}>
                 <Table.Cell>
@@ -589,7 +591,7 @@ function RoleTableComponent(props) {
                   />
                 </Table.Cell>
                 <Table.Cell
-                  style={{ padding: '6px 10px', verticalAlign: 'middle' }}
+                  style={{ padding: "6px 10px", verticalAlign: "middle" }}
                 >
                   {dateConverterWHour(obj.fecha)}
                 </Table.Cell>
@@ -599,62 +601,62 @@ function RoleTableComponent(props) {
                   {obj.purchaseOrder ? obj.purchaseOrder.numero : "No definido"}
                 </Table.Cell> */}
                 <Table.Cell
-                  style={{ padding: '6px 10px', verticalAlign: 'middle' }}
+                  style={{ padding: "6px 10px", verticalAlign: "middle" }}
                 >
                   {getBillType(MovTypeEnum[obj.type], obj.billType)}
                 </Table.Cell>
                 <Table.Cell
-                  style={{ padding: '6px 10px', verticalAlign: 'middle' }}
+                  style={{ padding: "6px 10px", verticalAlign: "middle" }}
                 >
-                  {getBillType(MovTypeEnum[obj.type], obj.billType) != 'Pago' &&
+                  {getBillType(MovTypeEnum[obj.type], obj.billType) != "Pago" &&
                   getBillType(MovTypeEnum[obj.type], obj.billType) !=
-                    'Descuento'
+                    "Descuento"
                     ? obj.numComprobante
-                    : '-'}
+                    : "-"}
                 </Table.Cell>
                 <Table.Cell
-                  style={{ padding: '6px 10px', verticalAlign: 'middle' }}
+                  style={{ padding: "6px 10px", verticalAlign: "middle" }}
                 >
-                  {getBillType(MovTypeEnum[obj.type], obj.billType) == 'Pago' ||
+                  {getBillType(MovTypeEnum[obj.type], obj.billType) == "Pago" ||
                   getBillType(MovTypeEnum[obj.type], obj.billType) ==
-                    'Nota de crédito' ||
+                    "Nota de crédito" ||
                   getBillType(MovTypeEnum[obj.type], obj.billType) ==
-                    'Devolución'
+                    "Devolución"
                     ? obj.bills.map((b, i) => {
                         if (i > 0) {
                           return `-${b.numComprobante}`;
                         }
                         return b.numComprobante;
                       })
-                    : '-'}
+                    : "-"}
                 </Table.Cell>
                 <Table.Cell
-                  style={{ padding: '6px 10px', verticalAlign: 'middle' }}
+                  style={{ padding: "6px 10px", verticalAlign: "middle" }}
                 >
                   {obj.payDetail?.id}
                 </Table.Cell>
                 <Table.Cell
-                  style={{ padding: '6px 10px', verticalAlign: 'middle' }}
+                  style={{ padding: "6px 10px", verticalAlign: "middle" }}
                 >
                   {obj.payDetail?.comprobanteVendedor}
                 </Table.Cell>
                 <Table.Cell
-                  style={{ padding: '6px 10px', verticalAlign: 'middle' }}
+                  style={{ padding: "6px 10px", verticalAlign: "middle" }}
                 >
                   {
                     <span
-                      style={{ color: `${obj.type ? 'green' : 'red'}` }}
+                      style={{ color: `${obj.type ? "green" : "red"}` }}
                     >{`$ ${redondearADosDecimales(obj.total)}`}</span>
                   }
                 </Table.Cell>
                 <Table.Cell
-                  style={{ padding: '6px 10px', verticalAlign: 'middle' }}
+                  style={{ padding: "6px 10px", verticalAlign: "middle" }}
                 >
                   {obj ? (
                     <div
                       style={{
-                        display: 'flex',
-                        width: '100%',
+                        display: "flex",
+                        width: "100%",
                       }}
                     >
                       <CustomModal
@@ -662,7 +664,7 @@ function RoleTableComponent(props) {
                         size="xl"
                         actionButton={
                           <button
-                            style={{ margin: '1px 0px 0px 7px' }}
+                            style={{ margin: "1px 0px 0px 7px" }}
                             className={styles.iconButton}
                             type="button"
                           >
@@ -677,7 +679,7 @@ function RoleTableComponent(props) {
                         bodyProps={{ movId: obj.id }}
                       />
                       <button
-                        style={{ margin: '1px 0px 0px 7px' }}
+                        style={{ margin: "1px 0px 0px 7px" }}
                         className={styles.iconButton}
                         type="button"
                         onClick={() => {
@@ -714,33 +716,33 @@ function RoleTableComponent(props) {
           ) : (
             <></>
           )}
-          {type == 'controlOrder' ? (
+          {type == "controlOrder" ? (
             result.data.controlOrders.map((obj, i) => (
               <Table.Row key={i}>
                 <Table.Cell
-                  style={{ padding: '6px 10px', verticalAlign: 'middle' }}
+                  style={{ padding: "6px 10px", verticalAlign: "middle" }}
                 >
                   {dateConverter(obj.createdAt)}
                 </Table.Cell>
                 <Table.Cell
-                  style={{ padding: '6px 10px', verticalAlign: 'middle' }}
+                  style={{ padding: "6px 10px", verticalAlign: "middle" }}
                 >
                   {controlOrderString(obj.id)}
                 </Table.Cell>
                 <Table.Cell
-                  style={{ padding: '6px 10px', verticalAlign: 'middle' }}
+                  style={{ padding: "6px 10px", verticalAlign: "middle" }}
                 >
                   {/* {`N° ${obj.numRemito}`} */}-
                 </Table.Cell>
                 <Table.Cell
-                  style={{ padding: '6px 10px', verticalAlign: 'middle' }}
+                  style={{ padding: "6px 10px", verticalAlign: "middle" }}
                 >
                   {buyOrderString(obj.purchaseOrderId)}
                 </Table.Cell>
                 <Table.Cell
-                  style={{ padding: '6px 10px', verticalAlign: 'middle' }}
+                  style={{ padding: "6px 10px", verticalAlign: "middle" }}
                 >
-                  {obj.status !== 'NoControlado' ? (
+                  {obj.status !== "NoControlado" ? (
                     <Label color="green" horizontal>
                       Controlado
                     </Label>
@@ -751,26 +753,26 @@ function RoleTableComponent(props) {
                   )}
                 </Table.Cell>
                 <Table.Cell
-                  style={{ padding: '6px 10px', verticalAlign: 'middle' }}
+                  style={{ padding: "6px 10px", verticalAlign: "middle" }}
                 >
-                  {obj.status !== 'NoControlado'
+                  {obj.status !== "NoControlado"
                     ? dateConverter(obj.updatedAt)
-                    : ''}
+                    : ""}
                 </Table.Cell>
                 <Table.Cell
-                  style={{ padding: '6px 10px', verticalAlign: 'middle' }}
+                  style={{ padding: "6px 10px", verticalAlign: "middle" }}
                 >
                   <div
                     style={{
-                      display: 'flex',
-                      width: '130px',
+                      display: "flex",
+                      width: "130px",
                     }}
                   >
                     <div
                       style={{
-                        margin: '1px 0px 0px 8px',
-                        display: 'flex',
-                        alignItems: 'center',
+                        margin: "1px 0px 0px 8px",
+                        display: "flex",
+                        alignItems: "center",
                       }}
                     >
                       <IconButonUsersTable
@@ -778,16 +780,16 @@ function RoleTableComponent(props) {
                         fn={async () => {
                           await printFn(obj.id);
                         }}
-                        icon={'fa-solid fa-print'}
-                        iconInitialStyle={'iconStyleBlue'}
+                        icon={"fa-solid fa-print"}
+                        iconInitialStyle={"iconStyleBlue"}
                       />
                     </div>
-                    {obj.status == 'NoControlado' ? (
+                    {obj.status == "NoControlado" ? (
                       <div
                         style={{
-                          margin: '1px 0px 0px 8px',
-                          display: 'flex',
-                          alignItems: 'center',
+                          margin: "1px 0px 0px 8px",
+                          display: "flex",
+                          alignItems: "center",
                         }}
                       >
                         <ActionModalContainer
@@ -808,31 +810,31 @@ function RoleTableComponent(props) {
           ) : (
             <></>
           )}
-          {type == 'pickingOrder' ? (
+          {type == "pickingOrder" ? (
             result.data.pickingOrders.map((obj, i) => (
               <Table.Row key={i}>
                 <Table.Cell
-                  style={{ padding: '6px 10px', verticalAlign: 'middle' }}
+                  style={{ padding: "6px 10px", verticalAlign: "middle" }}
                 >
                   {convertirFechaISOaDDMMYYYYHHMM(obj.createdAt)}
                 </Table.Cell>
                 <Table.Cell
-                  style={{ padding: '6px 10px', verticalAlign: 'middle' }}
+                  style={{ padding: "6px 10px", verticalAlign: "middle" }}
                 >
                   {pickingOrderString(obj.id)}
                 </Table.Cell>
                 <Table.Cell
-                  style={{ padding: '6px 10px', verticalAlign: 'middle' }}
+                  style={{ padding: "6px 10px", verticalAlign: "middle" }}
                 >
-                  {!obj.numRemito ? '' : `N° ${obj.numRemito}`}
+                  {!obj.numRemito ? "" : `N° ${obj.numRemito}`}
                 </Table.Cell>
                 <Table.Cell
-                  style={{ padding: '6px 10px', verticalAlign: 'middle' }}
+                  style={{ padding: "6px 10px", verticalAlign: "middle" }}
                 >
                   {buyOrderString(obj.purchaseOrderId)}
                 </Table.Cell>
                 <Table.Cell
-                  style={{ padding: '6px 10px', verticalAlign: 'middle' }}
+                  style={{ padding: "6px 10px", verticalAlign: "middle" }}
                 >
                   {obj.status ? (
                     <Label color="green" horizontal>
@@ -853,24 +855,24 @@ function RoleTableComponent(props) {
                   )}
                 </Table.Cell>
                 <Table.Cell
-                  style={{ padding: '6px 10px', verticalAlign: 'middle' }}
+                  style={{ padding: "6px 10px", verticalAlign: "middle" }}
                 >
-                  {obj.status ? dateConverter(obj.updatedAt) : ''}
+                  {obj.status ? dateConverter(obj.updatedAt) : ""}
                 </Table.Cell>
                 <Table.Cell
-                  style={{ padding: '6px 10px', verticalAlign: 'middle' }}
+                  style={{ padding: "6px 10px", verticalAlign: "middle" }}
                 >
                   <div
                     style={{
-                      display: 'flex',
-                      width: '130px',
+                      display: "flex",
+                      width: "130px",
                     }}
                   >
                     <div
                       style={{
-                        margin: '1px 0px 0px 8px',
-                        display: 'flex',
-                        alignItems: 'center',
+                        margin: "1px 0px 0px 8px",
+                        display: "flex",
+                        alignItems: "center",
                       }}
                     >
                       <IconButonUsersTable
@@ -879,18 +881,18 @@ function RoleTableComponent(props) {
                         fn={async () => {
                           await printFn(obj.id);
                         }}
-                        icon={'fa-solid fa-print'}
+                        icon={"fa-solid fa-print"}
                         iconInitialStyle={
-                          obj.status ? 'iconStyleGrey' : 'iconStyleBlue'
+                          obj.status ? "iconStyleGrey" : "iconStyleBlue"
                         }
                       />
                     </div>
                     {!obj.status ? (
                       <div
                         style={{
-                          margin: '1px 0px 0px 8px',
-                          display: 'flex',
-                          alignItems: 'center',
+                          margin: "1px 0px 0px 8px",
+                          display: "flex",
+                          alignItems: "center",
                         }}
                       >
                         <IconButonUsersTable
@@ -898,8 +900,8 @@ function RoleTableComponent(props) {
                           fn={() => {
                             updatePicking(obj.id);
                           }}
-                          icon={'fa-solid fa-clipboard-check'}
-                          iconInitialStyle={'iconStyleGreen'}
+                          icon={"fa-solid fa-clipboard-check"}
+                          iconInitialStyle={"iconStyleGreen"}
                         />
                       </div>
                     ) : null}
@@ -910,36 +912,36 @@ function RoleTableComponent(props) {
           ) : (
             <></>
           )}
-          {type == 'sellerAcount' ? (
+          {type == "sellerAcount" ? (
             result?.registros?.map((obj, i) => (
               <Table.Row key={i}>
                 <Table.Cell
-                  style={{ padding: '6px 10px', verticalAlign: 'middle' }}
+                  style={{ padding: "6px 10px", verticalAlign: "middle" }}
                 >
                   {dateConverter(obj?.fecha)}
                 </Table.Cell>
                 <Table.Cell
-                  style={{ padding: '6px 10px', verticalAlign: 'middle' }}
+                  style={{ padding: "6px 10px", verticalAlign: "middle" }}
                 >
-                  {obj ? obj?.concepto : 'No definido'}
+                  {obj ? obj?.concepto : "No definido"}
                 </Table.Cell>
                 <Table.Cell
-                  style={{ padding: '6px 10px', verticalAlign: 'middle' }}
+                  style={{ padding: "6px 10px", verticalAlign: "middle" }}
                 >
                   {obj?.cliente}
                 </Table.Cell>
                 <Table.Cell
-                  style={{ padding: '6px 10px', verticalAlign: 'middle' }}
+                  style={{ padding: "6px 10px", verticalAlign: "middle" }}
                 >
                   {`${
-                    obj?.concepto.substring(0, 2) == 'NC' ? '-' : ''
+                    obj?.concepto.substring(0, 2) == "NC" ? "-" : ""
                   }$${redondearADosDecimales(obj?.monto)}`}
                 </Table.Cell>
                 <Table.Cell
-                  style={{ padding: '6px 10px', verticalAlign: 'middle' }}
+                  style={{ padding: "6px 10px", verticalAlign: "middle" }}
                 >
                   {`${
-                    obj?.concepto.substring(0, 2) == 'NC' ? '-' : ''
+                    obj?.concepto.substring(0, 2) == "NC" ? "-" : ""
                   }$${redondearADosDecimales(obj?.comision)}`}
                 </Table.Cell>
               </Table.Row>
@@ -947,12 +949,12 @@ function RoleTableComponent(props) {
           ) : (
             <></>
           )}
-          {type == 'noApply' ? (
+          {type == "noApply" ? (
             result?.map((obj, i) => {
               return (
                 <Table.Row key={i}>
                   <Table.Cell
-                    style={{ padding: '6px 10px', verticalAlign: 'middle' }}
+                    style={{ padding: "6px 10px", verticalAlign: "middle" }}
                   >
                     <Checkbox
                       checked={obj.marc}
@@ -962,17 +964,17 @@ function RoleTableComponent(props) {
                     />
                   </Table.Cell>
                   <Table.Cell
-                    style={{ padding: '6px 10px', verticalAlign: 'middle' }}
+                    style={{ padding: "6px 10px", verticalAlign: "middle" }}
                   >
                     {dateConverter(obj?.fecha)}
                   </Table.Cell>
                   <Table.Cell
-                    style={{ padding: '6px 10px', verticalAlign: 'middle' }}
+                    style={{ padding: "6px 10px", verticalAlign: "middle" }}
                   >
                     {obj?.numComprobante}
                   </Table.Cell>
                   <Table.Cell
-                    style={{ padding: '6px 10px', verticalAlign: 'middle' }}
+                    style={{ padding: "6px 10px", verticalAlign: "middle" }}
                   >
                     ${obj?.total}
                   </Table.Cell>
@@ -982,12 +984,12 @@ function RoleTableComponent(props) {
           ) : (
             <></>
           )}
-          {type == 'ncMod' ? (
+          {type == "ncMod" ? (
             result?.map((obj, i) => {
               return (
                 <Table.Row key={i}>
                   <Table.Cell
-                    style={{ padding: '6px 10px', verticalAlign: 'middle' }}
+                    style={{ padding: "6px 10px", verticalAlign: "middle" }}
                   >
                     <Checkbox
                       checked={obj.marc}
@@ -998,45 +1000,45 @@ function RoleTableComponent(props) {
                   </Table.Cell>
                   <Table.Cell
                     style={{
-                      padding: '6px 10px',
-                      verticalAlign: 'middle',
-                      fontSize: '12px',
+                      padding: "6px 10px",
+                      verticalAlign: "middle",
+                      fontSize: "12px",
                     }}
                   >
                     {obj.product.brand.name}
                   </Table.Cell>
                   <Table.Cell
                     style={{
-                      padding: '6px 10px',
-                      verticalAlign: 'middle',
-                      fontSize: '12px',
+                      padding: "6px 10px",
+                      verticalAlign: "middle",
+                      fontSize: "12px",
                     }}
                   >
                     {obj.product.article}
                   </Table.Cell>
                   <Table.Cell
                     style={{
-                      padding: '6px 10px',
-                      verticalAlign: 'middle',
-                      fontSize: '10px',
+                      padding: "6px 10px",
+                      verticalAlign: "middle",
+                      fontSize: "10px",
                     }}
                   >
                     {obj.product.description.substring(0, 68)}
                   </Table.Cell>
                   <Table.Cell
                     style={{
-                      padding: '6px 10px',
-                      verticalAlign: 'middle',
-                      fontSize: '12px',
+                      padding: "6px 10px",
+                      verticalAlign: "middle",
+                      fontSize: "12px",
                     }}
                   >
                     ${redondearADosDecimales(obj.sellPrice)}
                   </Table.Cell>
                   <Table.Cell
                     style={{
-                      padding: '6px 10px',
-                      verticalAlign: 'middle',
-                      fontSize: '12px',
+                      padding: "6px 10px",
+                      verticalAlign: "middle",
+                      fontSize: "12px",
                     }}
                   >
                     <input
@@ -1046,7 +1048,7 @@ function RoleTableComponent(props) {
                       max={obj.max}
                       value={obj.amount}
                       type="number"
-                      style={{ width: '48px' }}
+                      style={{ width: "48px" }}
                       onChange={(e) => {
                         handleChangeCantNC(e, obj.id);
                       }}
@@ -1060,30 +1062,48 @@ function RoleTableComponent(props) {
           )}
         </Table.Body>
       </Table>
-      {type != 'sellerAcount' && type != 'ncMod' && type != 'noApply' ? (
+      {type != "sellerAcount" && type != "ncMod" && type != "noApply" ? (
         <div className={styles.pagContainer}>
           <span className={styles.resultSpan}>{`Se encontraron ${
-            type != 'acount'
+            type != "acount"
               ? result.data.totalRows
               : result.data.movements.totalRows
           } registros relacionados a la búsqueda.`}</span>
-          {omitPaginator ? null : (
-            <CustomPagination
-              changeFn={
-                changePageFn
-                  ? changePageFn
-                  : () => {
-                      console.log('no llega la fn...');
-                    }
-              }
-              initPage={1}
-              pages={
-                type != 'acount'
-                  ? result.data.totalPages
-                  : result.data.movements.totalPages
-              }
-            />
-          )}
+          <div>
+            {pageSize && false? (
+              <span style={{ width: "50px" }}>
+                <Select
+                  placeholder="Tamaño de página"
+                  value={pageSize}
+                  onChange={(e, data) => setPageSize(data.value)}
+                  options={[
+                    { key: 10, value: 10, text: "10" },
+                    { key: 20, value: 20, text: "20" },
+                    { key: 50, value: 50, text: "50" },
+                    { key: 100, value: 100, text: "100" },
+                    { key: 500, value: 500, text: "500" },
+                  ]}
+                />
+              </span>
+            ) : null}
+            {omitPaginator ? null : (
+              <CustomPagination
+                changeFn={
+                  changePageFn
+                    ? changePageFn
+                    : () => {
+                        console.log("no llega la fn...");
+                      }
+                }
+                initPage={1}
+                pages={
+                  type != "acount"
+                    ? result.data.totalPages
+                    : result.data.movements.totalPages
+                }
+              />
+            )}
+          </div>
         </div>
       ) : null}
     </div>

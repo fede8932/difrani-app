@@ -215,7 +215,7 @@ function LanzamientosComponent(props) {
                   </TableCell>
                   <TableCell>{ad.detail}</TableCell>
                   <TableCell collapsing textAlign="right">
-                    <div onClick={() => deleteAd(ad.id)}>
+                    <div onClick={() => deleteAd(ad.id)} style={{cursor: "pointer"}}>
                       <Icon name="trash" color="red" />
                     </div>
                   </TableCell>

@@ -344,13 +344,13 @@ export const billRHtml = async (
         </div>
         <div class="totalCont">
           <span class="pesosSpanCont"
-            >SUBTOTAL<span class="pesosSpan"></span>-</span
+            >-<span class="pesosSpan"></span>-</span
           >
           <span class="pesosSpanCont"
-            >IVA 21%<span class="pesosSpan"></span>-</span
+            >-<span class="pesosSpan"></span>-</span
           >
           <span class="pesosSpanCont"
-            >TOTAL<span class="pesosSpan"></span>-</span
+            >-<span class="pesosSpan"></span>-</span
           >
         </div>
       </div>

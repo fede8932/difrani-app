@@ -13,6 +13,7 @@ function AddBrandContainer(props) {
   const dispatch = useDispatch();
   const methods = useForm();
   const addBrand = (data) => {
+    data.seFactura = false;
     dispatch(brandCreateRequest(data))
       .then((res) => {
         if (res.error) {

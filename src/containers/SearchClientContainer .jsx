@@ -1,31 +1,32 @@
-import React, { useEffect, useState } from 'react';
-import SearchClientComponent from '../components/searchClient/SearchClientComponent';
-import { useForm } from 'react-hook-form';
-import { useDispatch, useSelector } from 'react-redux';
-import { getClientssByTextRequest } from '../redux/searchClient';
-import { useLocation, useNavigate } from 'react-router';
-import { getClientIdRequest, resetAllClientRequest } from '../redux/client';
+import React, { useEffect, useState } from "react";
+import SearchClientComponent from "../components/searchClient/SearchClientComponent";
+import { useForm } from "react-hook-form";
+import { useDispatch, useSelector } from "react-redux";
+import { getClientssByTextRequest } from "../redux/searchClient";
+import { useLocation, useNavigate } from "react-router";
+import { getClientIdRequest, resetAllClientRequest } from "../redux/client";
 
 function SearchClientContainer(props) {
   const location = useLocation();
   const [sellerId, setSellerId] = useState(
-    location.pathname.split('/').filter(Boolean).pop()
+    location.pathname.split("/").filter(Boolean).pop()
   );
   // console.log(sellerId);
 
   const methods = useForm();
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [pageSize, setPageSize] = useState(10);
   const [searchData, setSearchData] = useState({
-    text: 'null',
+    text: "null",
     page: 1,
-    pageSize: 10,
-    orderByColumn: 'id',
+    pageSize: pageSize,
+    orderByColumn: "id",
   });
   const searchClient = (data) => {
     data.page = 1;
-    data.pageSize = 10;
-    data.orderByColumn = 'id';
+    data.pageSize = pageSize;
+    data.orderByColumn = "id";
     data.text = data.campo;
     (data.sellerId = isNaN(Number(sellerId)) ? null : sellerId),
       setSearchData(data);
@@ -34,17 +35,17 @@ function SearchClientContainer(props) {
   const result = useSelector((state) => state.searchClients);
   useEffect(() => {
     const data = {
-      text: 'null',
+      text: "null",
       page: 1,
-      pageSize: 10,
-      orderByColumn: 'id',
+      pageSize: pageSize,
+      orderByColumn: "id",
       sellerId: isNaN(Number(sellerId)) ? null : sellerId,
     };
     dispatch(getClientssByTextRequest(data));
     return () => {
       dispatch(resetAllClientRequest());
     };
-  }, [sellerId]);
+  }, [sellerId, pageSize]);
 
   const changePage = (page) => {
     let data = { ...searchData };
@@ -62,11 +63,12 @@ function SearchClientContainer(props) {
   };
 
   const resetSearch = () => {
+    setPageSize(10)
     const data = {
-      text: 'null',
+      text: "null",
       page: 1,
       pageSize: 10,
-      orderByColumn: 'id',
+      orderByColumn: "id",
       sellerId: isNaN(Number(sellerId)) ? null : sellerId,
     };
     setSearchData(data);
@@ -75,6 +77,8 @@ function SearchClientContainer(props) {
 
   return (
     <SearchClientComponent
+      pageSize={pageSize}
+      setPageSize={setPageSize}
       sellerId={isNaN(Number(sellerId)) ? null : sellerId}
       methods={methods}
       onSubmit={searchClient}

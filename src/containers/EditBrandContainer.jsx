@@ -15,6 +15,7 @@ function EditBrandContainer(props) {
   const suppliers = useSelector((state) => state.supplier);
   const loading = useSelector((state) => state.brand).loading;
   const editBrand = (data) => {
+    data.seFactura = false;
     data.brandId = brand.id;
     dispatch(updateBrandRequest(data)).then(() => {
       dispatch(getBrandByDataRequest(null));

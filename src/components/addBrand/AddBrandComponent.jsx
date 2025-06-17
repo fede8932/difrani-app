@@ -40,7 +40,7 @@ function AddBrandComponent(props) {
                   validate={{ required: true }}
                   arrayOptions={suppliers}
                 />
-                <CustomSelect
+                {/* <CustomSelect
                   width="medium"
                   text="Factura"
                   name="seFactura"
@@ -49,7 +49,7 @@ function AddBrandComponent(props) {
                     { value: true, text: 'Facturar' },
                     { value: false, text: 'No facturar' },
                   ]}
-                />
+                /> */}
               </>
             )}
           </div>

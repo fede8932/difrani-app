@@ -591,31 +591,30 @@ export function selectStylesByDate(fechaStr) {
 }
 
 export function selectStylesByDateClient(fechaStr) {
-  if (!fechaStr) return "rgba(86, 255, 158, 0.3)";
+  if (!fechaStr) return "";
   const fecha = new Date(fechaStr);
   const hoy = new Date();
   // Calcular la diferencia en milisegundos
   const diferenciaMs = hoy - fecha;
   // Convertir la diferencia a días
   const dias = Math.floor(diferenciaMs / (1000 * 60 * 60 * 24));
-  if (dias < 10) return "rgba(86, 255, 158, 0.3)";
-  if (dias < 20) return "rgba(0, 109, 247 , 0.3)";
-  if (dias < 32) return "rgba(255, 219, 86, 0.3)";
+  if (dias < 16) return "rgba(86, 255, 158, 0.3)";
+  if (dias < 30) return "rgba(0, 109, 247 , 0.3)";
   return "rgba(255, 86, 106, 0.3)";
 }
 export function selectStylesByDateClientV2(movements) {
   let newList = movements?.filter((m) => m.pending == true);
   const fechaStr = newList[0]?.fecha;
-  if (newList.length == 0) return "rgba(86, 255, 158, 0.3)";
-  if (!fechaStr) return "rgba(86, 255, 158, 0.3)";
+  if (newList.length == 0) return "";
+  if (!fechaStr) return "";
   const fecha = new Date(fechaStr);
   const hoy = new Date();
   // Calcular la diferencia en milisegundos
   const diferenciaMs = hoy - fecha;
   // Convertir la diferencia a días
   const dias = Math.floor(diferenciaMs / (1000 * 60 * 60 * 24));
-  if (dias < 10) return "rgba(86, 255, 158, 0.3)";
-  if (dias < 20) return "rgba(0, 109, 247 , 0.3)";
-  if (dias < 32) return "rgba(255, 219, 86, 0.3)";
+  if (dias < 16) return "rgba(86, 255, 158, 0.3)";
+  if (dias < 30) return "rgba(0, 109, 247 , 0.3)";
+  // if (dias < 30) return "rgba(255, 219, 86, 0.3)";
   return "rgba(255, 86, 106, 0.3)";
 }

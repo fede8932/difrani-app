@@ -51,7 +51,7 @@ function EditBrandComponent(props) {
             icon="fa-solid fa-percent"
             validate={{ required: true }}
           />
-          <PutSelect
+          {/* <PutSelect
             text="Selecioná una opción"
             name="seFactura"
             validate={{ required: true }}
@@ -60,7 +60,7 @@ function EditBrandComponent(props) {
               { value: true, text: 'Facturar' },
               { value: false, text: 'No facturar' },
             ]}
-          />
+          /> */}
           <Button
             onClick={methods.handleSubmit(handleSubmit)}
             style={{
