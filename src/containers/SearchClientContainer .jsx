@@ -1,18 +1,19 @@
-import React, { useEffect, useRef, useState } from 'react';
-import SearchClientComponent from '../components/searchClient/SearchClientComponent';
-import { useDispatch, useSelector } from 'react-redux';
-import { getClientssByTextRequest } from '../redux/searchClient';
-import { useLocation, useNavigate } from 'react-router';
-import { getClientIdRequest, resetClientState } from '../redux/client';
+import React, { useEffect, useRef, useState } from "react";
+import SearchClientComponent from "../components/searchClient/SearchClientComponent";
+import { useDispatch, useSelector } from "react-redux";
+import { getClientssByTextRequest } from "../redux/searchClient";
+import { useLocation, useNavigate } from "react-router";
+import { getClientIdRequest, resetClientState } from "../redux/client";
 
 function SearchClientContainer(props) {
   const location = useLocation();
   const [sellerId, setSellerId] = useState(
-    location.pathname.split('/').filter(Boolean).pop()
+    location.pathname.split("/").filter(Boolean).pop()
   );
-  const [color, setColor] = useState('todos');
-  const [inputValue, setInputValue] = useState('');
+  const [color, setColor] = useState("todos");
+  const [inputValue, setInputValue] = useState("");
   const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
   // console.log(sellerId);
 
   const navigate = useNavigate();
@@ -31,8 +32,10 @@ function SearchClientContainer(props) {
   };
 
   const handleReset = () => {
-    setInputValue('');
-    setColor('todos');
+    setInputValue("");
+    setColor("todos");
+    setPage(1);
+    setPageSize(10);
   };
 
   const debounceTimeout = useRef(null);
@@ -47,14 +50,14 @@ function SearchClientContainer(props) {
           text: inputValue,
           color: color,
           page: page,
-          pageSize: 10,
-          orderByColumn: 'id',
+          pageSize: pageSize,
+          orderByColumn: "id",
           sellerId: isNaN(Number(sellerId)) ? null : sellerId,
         };
         dispatch(getClientssByTextRequest(data));
       }
     }, 800); // Espera 800 ms después de dejar de tipear
-  }, [inputValue, color, page]);
+  }, [inputValue, color, page, pageSize]);
 
   useEffect(() => {
     return () => {
@@ -73,6 +76,8 @@ function SearchClientContainer(props) {
       inputValue={inputValue}
       setInputValue={setInputValue}
       handleReset={handleReset}
+      pageSize={pageSize}
+      setPageSize={setPageSize}
     />
   );
 }

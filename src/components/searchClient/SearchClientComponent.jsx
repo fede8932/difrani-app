@@ -1,12 +1,7 @@
 import React from "react";
 import styles from "./searchClient.module.css";
-import Button from "react-bootstrap/esm/Button";
-import CustomInput from "../../commonds/input/CustomInput";
-import { FormProvider } from "react-hook-form";
-import Spinner from "react-bootstrap/esm/Spinner";
 import RoleTableContainer from "../../containers/RoleTableContainer";
 import CustomModal from "../../commonds/customModal/CustomModal";
-import { Popup, Select } from "semantic-ui-react";
 import BillReport from "../facturaReports/BillReport";
 import ProtectedComponent from "../../protected/protectedComponent/ProtectedComponent";
 import { getClientsId, getClientsMovements } from "../../request/sellerRequest";
@@ -22,6 +17,8 @@ function SearchClientComponent(props) {
     inputValue,
     setInputValue,
     handleReset,
+    pageSize,
+    setPageSize
   } = props;
 
   const listClientDownload = async () => {
@@ -128,6 +125,8 @@ function SearchClientComponent(props) {
       <div className={styles.tableContainer}>
         <span className={styles.subTitle}>Detalle de clientes</span>
         <RoleTableContainer
+          pageSize={pageSize}
+          setPageSize={setPageSize}
           colum={[
             { title: "ID Cliente", width: "10%" },
             { title: "Razon Social", width: "25%" },

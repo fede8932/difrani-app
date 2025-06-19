@@ -1070,7 +1070,7 @@ function RoleTableComponent(props) {
               : result.data.movements.totalRows
           } registros relacionados a la búsqueda.`}</span>
           <div>
-            {pageSize && false? (
+            {pageSize ? (
               <span style={{ width: "50px" }}>
                 <Select
                   placeholder="Tamaño de página"
