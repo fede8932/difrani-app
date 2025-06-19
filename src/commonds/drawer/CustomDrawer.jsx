@@ -25,6 +25,8 @@ const CustomDrawer = (props) => {
   const [filterList, setFilterList] = useState(listOrder);
   const [searchValue, setSearchValue] = useState('');
 
+  console.log(filterList)
+
   const dispatch = useDispatch();
 
   const [open, setOpen] = useState(false);
@@ -141,6 +143,7 @@ const CustomDrawer = (props) => {
                     fnDelete={fnDelete}
                     color="teal"
                     products={filterList}
+                    setFilterList={setFilterList}
                     fnUpdate={fnUpdate}
                     fnPrUpdate={fnPrUpdate}
                     colum={[

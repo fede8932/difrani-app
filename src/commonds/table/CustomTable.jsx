@@ -1,21 +1,21 @@
-import React from 'react';
-import styles from './customTable.module.css';
-import { Checkbox, Table } from 'semantic-ui-react';
-import IconButton from '../../commonds/iconButton/IconButon';
-import TableInput from '../tableInput/TableInput';
+import React, { useState } from "react";
+import styles from "./customTable.module.css";
+import { Checkbox, Table } from "semantic-ui-react";
+import IconButton from "../../commonds/iconButton/IconButon";
+import TableInput from "../tableInput/TableInput";
 import {
   discountApplication,
   numberToString,
   redondearADosDecimales,
-} from '../../utils';
-import CustomPopup from '../popup/CustomPopup';
-import IconButonUsersTable from '../iconButtonUsersTable/IconButonUsersTable';
-import { useDispatch, useSelector } from 'react-redux';
-import ProtectedComponent from '../../protected/protectedComponent/ProtectedComponent';
+} from "../../utils";
+import CustomPopup from "../popup/CustomPopup";
+import IconButonUsersTable from "../iconButtonUsersTable/IconButonUsersTable";
+import { useDispatch, useSelector } from "react-redux";
+import ProtectedComponent from "../../protected/protectedComponent/ProtectedComponent";
 import {
   deleteNoMarcOrderItemsRequest,
   toggleNoRemove,
-} from '../../redux/addOrderItems';
+} from "../../redux/addOrderItems";
 
 const CustomTable = (props) => {
   let {
@@ -32,6 +32,7 @@ const CustomTable = (props) => {
     addItemToBill,
     setEquivalenceId,
     equivalenceId,
+    setFilterList,
   } = props;
   // console.log(products);
 
@@ -49,13 +50,13 @@ const CustomTable = (props) => {
           ))}
         </Table.Row>
       </Table.Header>
-      {type === 'search' ? (
+      {type === "search" ? (
         <Table.Body>
           {products.length > 0
             ? products.map((p, i) => (
                 <Table.Row
                   key={i}
-                  style={{ height: '40px', maxHeight: '40px' }}
+                  style={{ height: "40px", maxHeight: "40px" }}
                 >
                   <Table.Cell>{p.article.toUpperCase()}</Table.Cell>
                   <Table.Cell>{p.description.toUpperCase()}</Table.Cell>
@@ -64,12 +65,12 @@ const CustomTable = (props) => {
                     <ProtectedComponent
                       listAccesss={[1, 2]}
                     >{`$ ${numberToString(
-                      process == 'sell'
+                      process == "sell"
                         ? p.price.price * (1 + p.brand.rentabilidad)
                         : p.price.price
                     )}`}</ProtectedComponent>
                   </Table.Cell>
-                  {process == 'sell' ? (
+                  {process == "sell" ? (
                     <Table.Cell>{`$ ${numberToString(
                       p.price.price * (1 + p.brand.rentabilidad) * 1.21
                     )}`}</Table.Cell>
@@ -88,7 +89,7 @@ const CustomTable = (props) => {
                         iconInitialStyle="iconStyleBlue"
                         fn={fnAdd}
                         product={{ product: p, brand: p.brand }}
-                        style={{ marginLeft: '5px' }}
+                        style={{ marginLeft: "5px" }}
                       />
                     </div>
                   </Table.Cell>
@@ -97,13 +98,13 @@ const CustomTable = (props) => {
             : null}
         </Table.Body>
       ) : null}
-      {type === 'search-sell' ? (
+      {type === "search-sell" ? (
         <Table.Body>
           {products.length > 0
             ? products.map((p, k) => (
                 <Table.Row
                   key={k}
-                  style={{ height: '40px', maxHeight: '40px' }}
+                  style={{ height: "40px", maxHeight: "40px" }}
                 >
                   <Table.Cell>{p.article.toUpperCase()}</Table.Cell>
                   <Table.Cell>
@@ -139,15 +140,15 @@ const CustomTable = (props) => {
                         }}
                         icon={
                           equivalenceId
-                            ? 'fa-regular fa-eye-slash'
-                            : 'fa-regular fa-eye'
+                            ? "fa-regular fa-eye-slash"
+                            : "fa-regular fa-eye"
                         }
                         iconInitialStyle={
                           !p.equivalenceId
-                            ? 'iconStyleGrey'
+                            ? "iconStyleGrey"
                             : equivalenceId
-                              ? 'iconStyleRed'
-                              : 'iconStyleBlue'
+                              ? "iconStyleRed"
+                              : "iconStyleBlue"
                         }
                       />
                       <IconButton
@@ -155,7 +156,7 @@ const CustomTable = (props) => {
                         iconInitialStyle="iconStyleBlue"
                         fn={fnAdd}
                         product={{ product: p, brand: p.brand }}
-                        style={{ marginLeft: '5px' }}
+                        style={{ marginLeft: "5px" }}
                       />
                     </div>
                   </Table.Cell>
@@ -164,12 +165,12 @@ const CustomTable = (props) => {
             : null}
         </Table.Body>
       ) : null}
-      {type === 'list' ? (
+      {type === "list" ? (
         <Table.Body>
           {products.map((p, i) => {
             const precio = p.product.price;
             return (
-              <Table.Row key={i} style={{ height: '40px', maxHeight: '40px' }}>
+              <Table.Row key={i} style={{ height: "40px", maxHeight: "40px" }}>
                 <Table.Cell>
                   {
                     <Checkbox
@@ -182,9 +183,9 @@ const CustomTable = (props) => {
                 <Table.Cell>{p?.product?.brand?.name}</Table.Cell>
                 <Table.Cell>
                   <ProtectedComponent listAccesss={[1, 2]}>
-                    <span style={{ display: 'flex', alignItems: 'center' }}>
+                    <span style={{ display: "flex", alignItems: "center" }}>
                       {`$ ${numberToString(
-                        process != 'sell'
+                        process != "sell"
                           ? precio.price
                           : precio.price *
                               (1 + p.product.brand.rentabilidad) *
@@ -216,7 +217,7 @@ const CustomTable = (props) => {
                 </Table.Cell>
                 <Table.Cell>
                   <ProtectedComponent listAccesss={[1, 2]}>{`$ ${numberToString(
-                    process != 'sell'
+                    process != "sell"
                       ? p.amount * precio.price
                       : p.amount *
                           (precio.price *
@@ -230,7 +231,7 @@ const CustomTable = (props) => {
                       key={i}
                       type="delete"
                       icon="fa-regular fa-trash-can"
-                      iconInitialStyle={'iconStyleRed'}
+                      iconInitialStyle={"iconStyleRed"}
                       fn={fnDelete}
                       itemId={p.id}
                     />
@@ -241,37 +242,36 @@ const CustomTable = (props) => {
           })}
         </Table.Body>
       ) : null}
-      {type === 'list-sell' ? (
+      {type === "list-sell" ? (
         <Table.Body>
           {
             /*listSellOrder*/ products?.map((p, i) => {
-              // console.log(p);
               return (
                 <Table.Row
                   key={i}
-                  style={{ height: '40px', maxHeight: '40px' }}
+                  style={{ height: "40px", maxHeight: "40px" }}
                 >
                   <Table.Cell>{<Checkbox checked={p.noRemove} />}</Table.Cell>
                   <Table.Cell
                     style={
-                      p.amount > p.product.stock.stock ? { color: 'red' } : null
+                      p.amount > p.product.stock.stock ? { color: "red" } : null
                     }
                   >
                     {p.product.article}
                   </Table.Cell>
                   <Table.Cell
                     style={
-                      p.amount > p.product.stock.stock ? { color: 'red' } : null
+                      p.amount > p.product.stock.stock ? { color: "red" } : null
                     }
                   >
                     {p.product.brand?.name}
                   </Table.Cell>
                   <Table.Cell
                     style={
-                      p.amount > p.product.stock.stock ? { color: 'red' } : null
+                      p.amount > p.product.stock.stock ? { color: "red" } : null
                     }
                   >
-                    <span style={{ display: 'flex', alignItems: 'center' }}>
+                    <span style={{ display: "flex", alignItems: "center" }}>
                       {`$ ${numberToString(p?.sellPrice /* * 1.21*/)}`}
                     </span>
                   </Table.Cell>
@@ -282,10 +282,19 @@ const CustomTable = (props) => {
                         type="number"
                         key={i}
                         step="1"
-                        defaultValue={p.amount}
+                        value={p.amount}
                         onChange={(e) => {
-                          if (e.target.value != 0)
+                          const newList = products.map((item) =>
+                            item.id === p.id
+                              ? { ...item, amount: Number(e.target.value) } // 👈 copiás el objeto y modificás solo `amount`
+                              : item
+                          );
+                          setFilterList(newList); // 👈 actualizás el nuevo array copiado
+                        }}
+                        onBlur={(e) => {
+                          if (e.target.value != "0" && e.target.value != "") {
                             fnUpdate({ id: p.id, editCamp: e.target.value });
+                          }
                         }}
                       />
                       {/* <button
@@ -303,8 +312,8 @@ const CustomTable = (props) => {
                   <Table.Cell
                     style={
                       p.amount > p.product.stock.stock
-                        ? { color: 'red', fontSize: '11px' }
-                        : { fontSize: '10px' }
+                        ? { color: "red", fontSize: "11px" }
+                        : { fontSize: "10px" }
                     }
                   >{`$ ${numberToString(
                     p.amount * p.sellPrice /* * 1.21*/
@@ -315,7 +324,7 @@ const CustomTable = (props) => {
                         key={i}
                         type="delete"
                         icon="fa-regular fa-trash-can"
-                        iconInitialStyle={'iconStyleRed'}
+                        iconInitialStyle={"iconStyleRed"}
                         fn={fnDelete}
                         itemId={p.id}
                         product={{ product: p, brand: p.brand }}
@@ -328,10 +337,10 @@ const CustomTable = (props) => {
           }
         </Table.Body>
       ) : null}
-      {type === 'fact' ? (
+      {type === "fact" ? (
         <Table.Body>
           {products.map((poi, i) => (
-            <Table.Row key={i} style={{ height: '40px', maxHeight: '40px' }}>
+            <Table.Row key={i} style={{ height: "40px", maxHeight: "40px" }}>
               <Table.Cell>{poi.product.article}</Table.Cell>
               <Table.Cell>{poi.product.brand.name}</Table.Cell>
               <Table.Cell>{poi.amount}</Table.Cell>

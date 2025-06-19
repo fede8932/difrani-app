@@ -5,11 +5,11 @@ export const blaseNContr = (controlOrder, pag, pages, items) => {
   const itemsHtml = items
     .map(
       (item) => `
-    <tr class="tBody">
+    <tr class="descrip">
       <td class="descrip">${item.product.article}</td>
-      <td>${item.product.location}</td>
-      <td>${item.amount}</td>
-      <td class="tdBody">${item.product.brand.name.substring(0, 12)}</td>
+      <td class="descrip">${item.product.location}</td>
+      <td class="tBody descrip">${item.amount}</td>
+      <td class="descrip">${item.product.brand.name.substring(0, 12)}</td>
       <td class="descrip"> ${item.product.description.substring(0, 82)}</td>
     </tr>
   `

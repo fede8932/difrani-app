@@ -1,59 +1,27 @@
-import React, { useEffect, useState } from "react";
-import SearchClientComponent from "../components/searchClient/SearchClientComponent";
-import { useForm } from "react-hook-form";
-import { useDispatch, useSelector } from "react-redux";
-import { getClientssByTextRequest } from "../redux/searchClient";
-import { useLocation, useNavigate } from "react-router";
-import { getClientIdRequest, resetAllClientRequest } from "../redux/client";
+import React, { useEffect, useRef, useState } from 'react';
+import SearchClientComponent from '../components/searchClient/SearchClientComponent';
+import { useDispatch, useSelector } from 'react-redux';
+import { getClientssByTextRequest } from '../redux/searchClient';
+import { useLocation, useNavigate } from 'react-router';
+import { getClientIdRequest, resetClientState } from '../redux/client';
 
 function SearchClientContainer(props) {
   const location = useLocation();
   const [sellerId, setSellerId] = useState(
-    location.pathname.split("/").filter(Boolean).pop()
+    location.pathname.split('/').filter(Boolean).pop()
   );
+  const [color, setColor] = useState('todos');
+  const [inputValue, setInputValue] = useState('');
+  const [page, setPage] = useState(1);
   // console.log(sellerId);
 
-  const methods = useForm();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [pageSize, setPageSize] = useState(10);
-  const [searchData, setSearchData] = useState({
-    text: "null",
-    page: 1,
-    pageSize: pageSize,
-    orderByColumn: "id",
-  });
-  const searchClient = (data) => {
-    data.page = 1;
-    data.pageSize = pageSize;
-    data.orderByColumn = "id";
-    data.text = data.campo;
-    (data.sellerId = isNaN(Number(sellerId)) ? null : sellerId),
-      setSearchData(data);
-    dispatch(getClientssByTextRequest(data));
-  };
+
   const result = useSelector((state) => state.searchClients);
-  useEffect(() => {
-    const data = {
-      text: "null",
-      page: 1,
-      pageSize: pageSize,
-      orderByColumn: "id",
-      sellerId: isNaN(Number(sellerId)) ? null : sellerId,
-    };
-    dispatch(getClientssByTextRequest(data));
-    return () => {
-      dispatch(resetAllClientRequest());
-    };
-  }, [sellerId, pageSize]);
 
   const changePage = (page) => {
-    let data = { ...searchData };
-    data.page = page;
-    (data.sellerId = isNaN(Number(sellerId)) ? null : sellerId),
-      setSearchData(data);
-    console.log(data);
-    dispatch(getClientssByTextRequest(data));
+    setPage(page);
   };
 
   const redirectEditPercents = (clientId) => {
@@ -62,30 +30,49 @@ function SearchClientContainer(props) {
     });
   };
 
-  const resetSearch = () => {
-    setPageSize(10)
-    const data = {
-      text: "null",
-      page: 1,
-      pageSize: 10,
-      orderByColumn: "id",
-      sellerId: isNaN(Number(sellerId)) ? null : sellerId,
-    };
-    setSearchData(data);
-    dispatch(getClientssByTextRequest(data));
+  const handleReset = () => {
+    setInputValue('');
+    setColor('todos');
   };
+
+  const debounceTimeout = useRef(null);
+
+  useEffect(() => {
+    if (debounceTimeout.current) clearTimeout(debounceTimeout.current);
+
+    debounceTimeout.current = setTimeout(() => {
+      if (inputValue.trim() !== null) {
+        // console.log('Buscando:', inputValue); // Aquí va tu lógica de búsqueda
+        const data = {
+          text: inputValue,
+          color: color,
+          page: page,
+          pageSize: 10,
+          orderByColumn: 'id',
+          sellerId: isNaN(Number(sellerId)) ? null : sellerId,
+        };
+        dispatch(getClientssByTextRequest(data));
+      }
+    }, 800); // Espera 800 ms después de dejar de tipear
+  }, [inputValue, color, page]);
+
+  useEffect(() => {
+    return () => {
+      dispatch(resetClientState());
+    };
+  }, [sellerId]);
 
   return (
     <SearchClientComponent
-      pageSize={pageSize}
-      setPageSize={setPageSize}
       sellerId={isNaN(Number(sellerId)) ? null : sellerId}
-      methods={methods}
-      onSubmit={searchClient}
       result={result}
       redirectEditPercents={redirectEditPercents}
-      resetSearch={resetSearch}
       changePageFn={changePage}
+      color={color}
+      setColor={setColor}
+      inputValue={inputValue}
+      setInputValue={setInputValue}
+      handleReset={handleReset}
     />
   );
 }

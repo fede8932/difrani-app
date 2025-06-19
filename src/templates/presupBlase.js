@@ -23,14 +23,14 @@ export const presupHtml = (
 
   const lista = pageItems.map((item) => {
     return `<tr>
-              <td>${item?.product?.article}</td>
+              <td class="descrip">${item?.product?.article}</td>
               <td class="descrip">${item?.amount}</td>
               <td class="descrip">${item?.product?.description.substring(
                 0,
                 75
               )}</td>
-              <td>$${numberToString(item?.sellPrice)}</td>
-              <td>$${numberToString(
+              <td class="descrip">$${numberToString(item?.sellPrice)}</td>
+              <td class="descrip">$${numberToString(
                 item?.amount * item?.sellPrice
               )}</td>
             </tr>`;
