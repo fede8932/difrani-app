@@ -58,7 +58,7 @@
 .tableContainer {
   width: 100%;
   min-height: 530px;
-  max-height: 630px;
+  max-height: 680px;
   padding: 0px 16px;
   display: flex;
   flex-direction: column;
@@ -120,4 +120,19 @@
 }
 .iconB:hover{
   color: #1d76bc;
+}
+.refColor{
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin: 0px 5px;
+}
+.colorGreen{
+  background-color: green;
+}
+.colorBlue{
+  background-color: blue;
+}
+.colorRed{
+  background-color: red;
 }

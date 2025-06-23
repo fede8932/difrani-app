@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Pagination } from 'semantic-ui-react';
+import React, { useState } from "react";
+import { Pagination } from "semantic-ui-react";
 
 const CustomPagination = (props) => {
   const { pages, changeFn, initPage } = props;
@@ -11,11 +11,12 @@ const CustomPagination = (props) => {
   };
   return (
     <Pagination
+      boundaryRange={0}
       activePage={activePage}
+      ellipsisItem={null}
       firstItem={null}
       lastItem={null}
-      pointing
-      secondary
+      siblingRange={1}
       totalPages={pages}
       onPageChange={onPageChange}
     />

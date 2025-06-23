@@ -52,7 +52,7 @@ function RoleTableComponent(props) {
 
   const navigate = useNavigate();
   return (
-    <div className={!slim ? styles.container : styles.containerSlim}>
+    <div className={!slim ? styles.container : styles.containerSlim} style={{position: "relative"}}>
       <Table className={`table ${styles.table}`} color="teal">
         <Table.Header>
           <Table.Row>
@@ -174,7 +174,7 @@ function RoleTableComponent(props) {
                             }}
                           >
                             <IconButonUsersTable
-                              popupText="Desactivar"
+                              popupText={!obj.user.status ? "Activar" : "Desactivar"}
                               fn={() => {
                                 statusToogle(obj.user.id, "seller");
                               }}
@@ -1069,23 +1069,7 @@ function RoleTableComponent(props) {
               ? result.data.totalRows
               : result.data.movements.totalRows
           } registros relacionados a la búsqueda.`}</span>
-          <div>
-            {pageSize ? (
-              <span style={{ width: "50px" }}>
-                <Select
-                  placeholder="Tamaño de página"
-                  value={pageSize}
-                  onChange={(e, data) => setPageSize(data.value)}
-                  options={[
-                    { key: 10, value: 10, text: "10" },
-                    { key: 20, value: 20, text: "20" },
-                    { key: 50, value: 50, text: "50" },
-                    { key: 100, value: 100, text: "100" },
-                    { key: 500, value: 500, text: "500" },
-                  ]}
-                />
-              </span>
-            ) : null}
+          <div style={{width: "400px", display: "flex"}}>
             {omitPaginator ? null : (
               <CustomPagination
                 changeFn={
@@ -1103,6 +1087,23 @@ function RoleTableComponent(props) {
                 }
               />
             )}
+            {pageSize ? (
+              <span style={{ width: "50px", marginLeft: "10px" }}>
+                <Select
+                  style={{position: "absolute"}}
+                  placeholder="Tamaño de página"
+                  value={pageSize}
+                  onChange={(e, data) => setPageSize(data.value)}
+                  options={[
+                    { key: 10, value: 10, text: "10" },
+                    { key: 20, value: 20, text: "20" },
+                    { key: 50, value: 50, text: "50" },
+                    { key: 100, value: 100, text: "100" },
+                    { key: 500, value: 500, text: "500" },
+                  ]}
+                />
+              </span>
+            ) : null}
           </div>
         </div>
       ) : null}

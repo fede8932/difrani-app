@@ -67,8 +67,8 @@ function SearchClientComponent(props) {
                   onChange={(e) => setColor(e.target.value)}
                 >
                   <option value="todos">Todos</option>
-                  <option value="azul">Azul</option>
                   <option value="verde">Verde</option>
+                  <option value="azul">Azul</option>
                   <option value="rojo">Rojo</option>
                 </select>
               </div>
@@ -81,6 +81,11 @@ function SearchClientComponent(props) {
                 Reset
               </button>
             </form>
+            <div style={{display: "flex", alignItems: "center"}}>
+              <div className={`${styles.refColor} ${styles.colorGreen}`}></div>16 días-
+              <div className={`${styles.refColor} ${styles.colorBlue}`}></div>30 días-
+              <div className={`${styles.refColor} ${styles.colorRed}`}></div>+30 días
+            </div>
             <div>
               {sellerId ? (
                 <div style={{ marginRight: "10px", display: "inline-block" }}>
