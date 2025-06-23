@@ -27,8 +27,6 @@ export const billRHtml = async (
                 0,
                 75
               )}</td>
-              <td>-</td>
-              <td>-</td>
             </tr>`;
   });
   return `<!DOCTYPE html>
@@ -314,8 +312,6 @@ export const billRHtml = async (
                   <th>CODIGO</th>
                   <th>CANT.</th>
                   <th>DESCRIPCION</th>
-                  <th>-</th>
-                  <th>-</th>
               </tr>
               ${lista}
        </table>
