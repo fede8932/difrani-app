@@ -96,6 +96,7 @@ function NewBillContainer(props) {
           nuevaVentana.document.createElement("div")
         ).style.pageBreakBefore = "always";
       }
+      console.log("facturaOK");
 
       for (let i = 0; i < factItems.length; i += itemsPerPage) {
         const pageNumber = Math.floor(i / itemsPerPage) + 1;
@@ -120,6 +121,8 @@ function NewBillContainer(props) {
           nuevaVentana.document.createElement("div")
         ).style.pageBreakBefore = "always";
       }
+
+      console.log("RemfacturaOK");
     }
     if (totalNoFacturado > 0) {
       numRemito = totalFacturado > 0 ? numRemito : order.id;
@@ -157,15 +160,13 @@ function NewBillContainer(props) {
           nuevaVentana.document.createElement("div")
         ).style.pageBreakBefore = "always";
       }
-    }
-    if (totalFacturado > 0) {
-      const itemsPerPage = 14;
-      const totalPages = Math.ceil(
-        order.purchaseOrderItems.length / itemsPerPage
+      const itemsPerPageR = 14;
+      const totalPagesR = Math.ceil(
+        order.purchaseOrderItems.length / itemsPerPageR
       );
-      for (let i = 0; i < order.purchaseOrderItems.length; i += itemsPerPage) {
-        const pageNumber = Math.floor(i / itemsPerPage) + 1;
-        const pageItems = order.purchaseOrderItems.slice(i, i + itemsPerPage);
+      for (let i = 0; i < order.purchaseOrderItems.length; i += itemsPerPageR) {
+        const pageNumber = Math.floor(i / itemsPerPageR) + 1;
+        const pageItems = order.purchaseOrderItems.slice(i, i + itemsPerPageR);
         const containerRem = nuevaVentana.document.createElement("div");
         nuevaVentana.document.body.appendChild(containerRem);
         containerRem.innerHTML = remitHtml(
@@ -173,15 +174,17 @@ function NewBillContainer(props) {
           numRemito,
           pageItems,
           pageNumber,
-          totalPages,
+          totalPagesR,
           logoBlaseBase64
         );
-        if (pageNumber < totalPages) {
+        if (pageNumber < totalPagesR) {
           const pageBreak = nuevaVentana.document.createElement("div");
           pageBreak.style.pageBreakBefore = "always";
           nuevaVentana.document.body.appendChild(pageBreak);
         }
       }
+
+      console.log("RemPresOK");
     }
     // Espera a que las imágenes se carguen antes de imprimir
     await waitForImagesToLoad(nuevaVentana);
