@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import NewBill from "../components/newBill/NewBill";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -29,6 +29,8 @@ function NewBillContainer(props) {
   const order = useSelector((state) => state.newBuyOrder.data);
   const searchOrderLoading = useSelector((state) => state.searchOrders.loading);
   const filterSellOrder = useSelector((state) => state.filterSellOrder);
+
+  const [f50p50, setF50p50] = useState(false)
 
   const listOrder = useSelector((state) => state.listOrderItems).data;
 
@@ -208,6 +210,7 @@ function NewBillContainer(props) {
       salePoint: 13,
       iva: 21,
       importe_no_facturado: totalNoFacturado,
+      f50p50: f50p50
     };
     dispatch(confirmSellOrderRequest(sendData)).then((res) => {
       closeModal();
@@ -229,6 +232,8 @@ function NewBillContainer(props) {
 
   return (
     <NewBill
+      f50p50={f50p50}
+      setF50p50={setF50p50}
       client={client}
       order={order}
       onSubmit={newBill}

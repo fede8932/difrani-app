@@ -25,6 +25,13 @@ export const addRepresentativeRequest = createAsyncThunk(
 const supplierSlice = createSlice({
   name: 'supplier',
   initialState: userState,
+  reducers:{
+    resetSupState: (state) => {
+      state.data = [];
+      state.error= "";
+      state.loading= false;
+    }
+  }, 
   extraReducers: {
     [supplierCreateRequest.pending]: (state, action) => {
       state.loading = true;
@@ -70,5 +77,7 @@ const supplierSlice = createSlice({
     },
   },
 });
+
+export const { resetSupState } = supplierSlice.actions;
 
 export default supplierSlice.reducer;

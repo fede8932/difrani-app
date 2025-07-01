@@ -4,7 +4,7 @@ import Modal from 'react-bootstrap/Modal';
 import { Button } from 'react-bootstrap';
 
 const VerticalModal = (props) => {
-  const { title, size, onHide, children, show } = props; //size: 'sm' | 'lg' | 'xl'
+  const { title, size, onHide, children, show, fullscreen } = props; //size: 'sm' | 'lg' | 'xl'
   // console.log("esto tiene que llegar a children", rest);
   return (
     <Modal
@@ -13,6 +13,7 @@ const VerticalModal = (props) => {
       aria-labelledby="contained-modal-title-vcenter"
       centered
       onHide={onHide}
+      fullscreen={fullscreen}
     >
       <Modal.Header closeButton>
         <Modal.Title

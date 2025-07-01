@@ -33,6 +33,7 @@ const CustomTable = (props) => {
     setEquivalenceId,
     equivalenceId,
     setFilterList,
+    f50p50,
   } = props;
   // console.log(products);
 
@@ -350,6 +351,7 @@ const CustomTable = (props) => {
               )}`}</Table.Cell>
               <Table.Cell>
                 <Checkbox
+                  disabled={f50p50}
                   checked={poi.fact}
                   onChange={() => {
                     addItemToBill(poi.id);

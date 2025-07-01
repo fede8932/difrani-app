@@ -1,24 +1,29 @@
-import React, { useEffect, useState } from 'react';
-import styles from './searchProduct.module.css';
-import Button from 'react-bootstrap/esm/Button';
-import Spinner from 'react-bootstrap/esm/Spinner';
-import { useDispatch, useSelector } from 'react-redux';
-import { getFileProducts } from '../../request/productRequest';
-import ProductsTable from '../tables/productsTable/ProductsTable';
-import { resetFilterProduct } from '../../redux/filtersProducts';
-import { AutoComplete } from 'antd';
+import React, { useEffect, useState } from "react";
+import styles from "./searchProduct.module.css";
+import Button from "react-bootstrap/esm/Button";
+import Spinner from "react-bootstrap/esm/Spinner";
+import { useDispatch, useSelector } from "react-redux";
+import { getFileProducts } from "../../request/productRequest";
+import ProductsTable from "../tables/productsTable/ProductsTable";
+import { resetFilterProduct } from "../../redux/filtersProducts";
+import { AutoComplete } from "antd";
 import {
   getClientIdRequestNew,
   getClientRequest,
   resetClientState,
   resetSelectClientState,
-} from '../../redux/client';
-import Swal from 'sweetalert2';
-import { addOrderItemSearchProd } from '../../request/orderRequest';
+} from "../../redux/client";
+import Swal from "sweetalert2";
+import { addOrderItemSearchProd } from "../../request/orderRequest";
+import CustomModal from "../../commonds/customModal/CustomModal";
+import AddProduct from "../../views/addProduct/AddProduct";
+import AddProductFormContainer from "../../containers/AddProductFormContainer";
+import AddProductModalContainer from "../../containers/AddProductModalContainer";
+import { getSupplierRequest, resetSupState } from "../../redux/supplier";
 
 function SearchProductComponent(props) {
   const { deleteProduct } = props;
-  const [textClient, setTextClient] = useState('');
+  const [textClient, setTextClient] = useState("");
   const [listClient, setListClient] = useState([]);
   const [selectClientId, setSelectClientId] = useState(null);
 
@@ -45,18 +50,18 @@ function SearchProductComponent(props) {
       const fileURL = URL.createObjectURL(new Blob([response.data]));
 
       // Extrae el nombre del archivo de la cabecera 'content-disposition'
-      const fileName = response.headers['content-disposition']
-        ? response.headers['content-disposition']
-            .split(';')
-            .find((n) => n.includes('filename='))
-            .replace('filename=', '')
-            .replace(/"/g, '') // Elimina las comillas del nombre del archivo
-        : 'products.xlsx'; // Nombre predeterminado del archivo
+      const fileName = response.headers["content-disposition"]
+        ? response.headers["content-disposition"]
+            .split(";")
+            .find((n) => n.includes("filename="))
+            .replace("filename=", "")
+            .replace(/"/g, "") // Elimina las comillas del nombre del archivo
+        : "products.xlsx"; // Nombre predeterminado del archivo
 
       // Crea un enlace (a) para descargar el archivo
-      const link = document.createElement('a');
+      const link = document.createElement("a");
       link.href = fileURL;
-      link.setAttribute('download', fileName); // Establece el nombre del archivo
+      link.setAttribute("download", fileName); // Establece el nombre del archivo
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
@@ -74,7 +79,7 @@ function SearchProductComponent(props) {
   };
 
   const onSelect = (value, options) => {
-    setTextClient(options?.label ?? '');
+    setTextClient(options?.label ?? "");
     setSelectClientId(value);
   };
 
@@ -88,22 +93,22 @@ function SearchProductComponent(props) {
       .then((res) => {
         if (res.error) {
           Swal.fire({
-            icon: 'error',
-            title: 'Error...',
+            icon: "error",
+            title: "Error...",
             text: `Error: ${res.error.message}`,
           });
           return;
         }
         Swal.fire({
-          title: 'Agregado',
-          icon: 'success',
+          title: "Agregado",
+          icon: "success",
           draggable: true,
         });
       })
       .catch((err) => {
         Swal.fire({
-          icon: 'error',
-          title: 'Error...',
+          icon: "error",
+          title: "Error...",
           text: `Error: ${err.message}`,
         });
       });
@@ -121,7 +126,7 @@ function SearchProductComponent(props) {
   }, [selectClientId]);
 
   useEffect(() => {
-    if (textClient == '' || !textClient) {
+    if (textClient == "" || !textClient) {
       setListClient(clients);
       setSelectClientId(null);
       dispatch(resetSelectClientState());
@@ -135,29 +140,64 @@ function SearchProductComponent(props) {
     setListClient(newClientsList);
   }, [textClient, clients]);
 
+  useEffect(() => {
+    dispatch(getSupplierRequest());
+    return () => {dispatch(resetSupState())}
+  }, []);
+
   return (
     <div className={styles.formContainer}>
-      <AutoComplete
-        value={textClient}
-        options={listClient}
-        style={{
-          width: 300,
-        }}
-        onSelect={onSelect}
-        // onSearch={(text) => setAnotherOptions(getPanelValue(text))}
-        onChange={onChange}
-        placeholder="Seleccionar cliente"
-      />
+      <div style={{ display: "flex" }}>
+        <AutoComplete
+          value={textClient}
+          options={listClient}
+          style={{
+            width: 300,
+          }}
+          onSelect={onSelect}
+          // onSearch={(text) => setAnotherOptions(getPanelValue(text))}
+          onChange={onChange}
+          placeholder="Seleccionar cliente"
+        />
+        <CustomModal
+          title="Nuevo producto"
+          size="xl"
+          actionButton={
+            <Button style={{ marginLeft: "10px", width: "150px" }}>
+              Nuevo
+            </Button>
+          }
+          actionProps={{
+            className: `${styles.buttonStyle} ${styles.buttonStyleNext}`,
+            variant: "primary",
+          }}
+          bodyModal={(props) => <AddProductModalContainer {...props} />}
+        />
+        <CustomModal
+          title="Nuevo producto"
+          size="xl"
+          actionButton={
+            <Button style={{ marginLeft: "10px", width: "150px" }}>
+              Archivo
+            </Button>
+          }
+          actionProps={{
+            className: `${styles.buttonStyle} ${styles.buttonStyleNext}`,
+            variant: "primary",
+          }}
+          bodyModal={(props) => <AddProductModalContainer {...props} view="group" />}
+        />
+      </div>
       <div className={styles.subFormContainer}>
         <Button
           disabled={listDownloadPending}
           type="button"
           style={{
-            backgroundColor: 'grey',
-            border: '1px solid grey',
-            height: '47px',
-            width: '100px',
-            marginLeft: '10px',
+            backgroundColor: "grey",
+            border: "1px solid grey",
+            height: "47px",
+            width: "100px",
+            marginLeft: "10px",
           }}
           onClick={() => {
             dispatch(resetFilterProduct(null));
@@ -169,15 +209,15 @@ function SearchProductComponent(props) {
           disabled={listDownloadPending}
           type="button"
           style={{
-            backgroundColor: 'grey',
-            border: '1px solid grey',
-            height: '47px',
-            width: '100px',
-            marginLeft: '10px',
+            backgroundColor: "grey",
+            border: "1px solid grey",
+            height: "47px",
+            width: "100px",
+            marginLeft: "10px",
           }}
           onClick={downloadFile}
         >
-          {listDownloadPending ? <Spinner /> : 'Exportar'}
+          {listDownloadPending ? <Spinner /> : "Exportar"}
         </Button>
       </div>
       <div className={styles.table}>

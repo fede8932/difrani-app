@@ -47,7 +47,7 @@ function SideBarComponent(props) {
           />
         </div>
       </ProtectedComponent>
-      <Separador props={{ clase: "sideSeparador" }} />
+      {/* <Separador props={{ clase: "sideSeparador" }} />
       <div className={styles.section}>
         <h5 className={styles.sideTitle}>Registrar</h5>
         <CustomAcordion
@@ -102,7 +102,7 @@ function SideBarComponent(props) {
             ],
           }}
         />
-      </div>
+      </div> */}
       <Separador props={{ clase: "sideSeparador" }} />
       <div className={styles.section}>
         <h5 className={styles.sideTitle}>Administración</h5>

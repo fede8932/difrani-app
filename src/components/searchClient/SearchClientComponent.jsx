@@ -5,6 +5,8 @@ import CustomModal from "../../commonds/customModal/CustomModal";
 import BillReport from "../facturaReports/BillReport";
 import ProtectedComponent from "../../protected/protectedComponent/ProtectedComponent";
 import { getClientsId, getClientsMovements } from "../../request/sellerRequest";
+import AddClient from "../../views/addClient/AddClient";
+import { Button } from "react-bootstrap";
 
 function SearchClientComponent(props) {
   const {
@@ -18,7 +20,7 @@ function SearchClientComponent(props) {
     setInputValue,
     handleReset,
     pageSize,
-    setPageSize
+    setPageSize,
   } = props;
 
   const listClientDownload = async () => {
@@ -49,14 +51,19 @@ function SearchClientComponent(props) {
             }}
           >
             {" "}
-            <form className={styles.formC}>
+            <form
+              className={styles.formC}
+              onSubmit={(e) => {
+                e.preventDefault();
+              }}
+            >
               <div className="mb-3">
                 <input
                   type="text"
                   className="form-control"
                   value={inputValue}
                   onChange={(e) => setInputValue(e.target.value)}
-                  placeholder="Escribí algo..."
+                  placeholder="Buscar cliente"
                 />
               </div>
 
@@ -80,11 +87,32 @@ function SearchClientComponent(props) {
               >
                 Reset
               </button>
+              <CustomModal
+                fullscreen
+                title="Nuevo cliente"
+                // size="xl"
+                actionButton={
+                  <Button
+                    type="button"
+                    style={{ height: "32px", marginLeft: "5px" }}
+                  >
+                    Nuevo
+                  </Button>
+                }
+                actionProps={{
+                  className: `${styles.buttonStyle} ${styles.buttonStyleNext}`,
+                  variant: "primary",
+                }}
+                bodyModal={(props) => <AddClient initView={0} {...props} />}
+              />
             </form>
-            <div style={{display: "flex", alignItems: "center"}}>
-              <div className={`${styles.refColor} ${styles.colorGreen}`}></div>16 días-
-              <div className={`${styles.refColor} ${styles.colorBlue}`}></div>30 días-
-              <div className={`${styles.refColor} ${styles.colorRed}`}></div>+30 días
+            <div style={{ display: "flex", alignItems: "center" }}>
+              <div className={`${styles.refColor} ${styles.colorGreen}`}></div>
+              16 días-
+              <div className={`${styles.refColor} ${styles.colorBlue}`}></div>30
+              días-
+              <div className={`${styles.refColor} ${styles.colorRed}`}></div>+30
+              días
             </div>
             <div>
               {sellerId ? (

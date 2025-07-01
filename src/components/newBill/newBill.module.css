@@ -13,6 +13,7 @@
   margin-top: 15px;
 }
 .message {
+  margin-top: -13px;
   width: 100%;
   display: flex;
   justify-content: center;
