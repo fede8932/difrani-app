@@ -7,6 +7,8 @@ import ProtectedComponent from "../../protected/protectedComponent/ProtectedComp
 import { getClientsId, getClientsMovements } from "../../request/sellerRequest";
 import AddClient from "../../views/addClient/AddClient";
 import { Button } from "react-bootstrap";
+import CustomPagination from "../../commonds/pagination/CustomPagination";
+import { Select } from "semantic-ui-react";
 
 function SearchClientComponent(props) {
   const {
@@ -174,6 +176,41 @@ function SearchClientComponent(props) {
           changePageFn={changePageFn}
           type="client"
         />
+      </div>
+      <div style={{ display: "flex", justifyContent: "space-between" }}>
+        <span className={styles.resultSpan}>{`Se encontraron ${
+          result.data.totalRows
+        } registros relacionados a la búsqueda.`}</span>
+        <div style={{ width: "400px", display: "flex" }}>
+          <CustomPagination
+            changeFn={
+              changePageFn
+                ? changePageFn
+                : () => {
+                    console.log("no llega la fn...");
+                  }
+            }
+            initPage={1}
+            pages={result.data.totalPages}
+          />
+          {pageSize ? (
+            <span style={{ width: "50px", marginLeft: "10px" }}>
+              <Select
+                style={{ position: "absolute" }}
+                placeholder="Tamaño de página"
+                value={pageSize}
+                onChange={(e, data) => setPageSize(data.value)}
+                options={[
+                  { key: 10, value: 10, text: "10" },
+                  { key: 20, value: 20, text: "20" },
+                  { key: 50, value: 50, text: "50" },
+                  { key: 100, value: 100, text: "100" },
+                  { key: 500, value: 500, text: "500" },
+                ]}
+              />
+            </span>
+          ) : null}
+        </div>
       </div>
     </div>
   );

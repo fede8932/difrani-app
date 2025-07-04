@@ -1062,7 +1062,7 @@ function RoleTableComponent(props) {
           )}
         </Table.Body>
       </Table>
-      {type != "sellerAcount" && type != "ncMod" && type != "noApply" ? (
+      {type != "sellerAcount" && type != "ncMod" && type != "noApply"  && type != "client" ? (
         <div className={styles.pagContainer}>
           <span className={styles.resultSpan}>{`Se encontraron ${
             type != "acount"
