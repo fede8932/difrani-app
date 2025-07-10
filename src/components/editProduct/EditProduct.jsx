@@ -1,12 +1,12 @@
-import CustomInput from '../../commonds/putInput/CustomInput';
-import { FormProvider } from 'react-hook-form';
-import styles from './editProduct.module.css';
-import { Button, Spinner } from 'react-bootstrap';
-import FileInput from '../../commonds/inputFile/InputFile';
-import ProtectedComponent from '../../protected/protectedComponent/ProtectedComponent';
+import CustomInput from "../../commonds/putInput/CustomInput";
+import { FormProvider } from "react-hook-form";
+import styles from "./editProduct.module.css";
+import { Button, Spinner } from "react-bootstrap";
+import FileInput from "../../commonds/inputFile/InputFile";
+import ProtectedComponent from "../../protected/protectedComponent/ProtectedComponent";
 
 function EditProduct(props) {
-  const { methods, product, update, files } = props;
+  const { methods, product, update, files, genMinStock, minStock } = props;
   // console.log(product);
   return (
     <FormProvider {...methods}>
@@ -40,18 +40,36 @@ function EditProduct(props) {
           </div>
         </div>
         <ProtectedComponent listAccesss={[1, 2, 5]}>
-          <div className={styles.medium}>
-            <label>Stock</label>
-            <CustomInput
-              readOnly={false}
-              name="stock"
-              type="text"
-              width="large"
-              placeholder="Stock"
-              icon="fa-solid fa-id-card"
-              validate={{ required: true }}
-              defaultValue={product?.data?.stock?.stock}
-            />
+          <div className={styles.inpFlex}>
+            <div className={styles.medium}>
+              <label>Stock</label>
+              <CustomInput
+                readOnly={false}
+                name="stock"
+                type="text"
+                width="large"
+                placeholder="Stock"
+                icon="fa-solid fa-id-card"
+                validate={{ required: true }}
+                defaultValue={product?.data?.stock?.stock}
+              />
+            </div>
+            <div className={styles.medium}>
+              <label>Stock mínimo</label>
+              <div style={{display: "flex"}}>
+                <CustomInput
+                  readOnly={false}
+                  name="minStock"
+                  type="text"
+                  width="medium"
+                  placeholder="Stock mínimo"
+                  icon="fa-solid fa-id-card"
+                  validate={{ required: true }}
+                  defaultValue={minStock}
+                />
+                <Button onClick={() => {genMinStock(product.data.id)}} variant="warning" style={{height: "40px", margin: "3px 0px 0px 5px"}}>Generar</Button>
+              </div>
+            </div>
           </div>
         </ProtectedComponent>
         <ProtectedComponent listAccesss={[1, 2]}>
@@ -82,7 +100,7 @@ function EditProduct(props) {
             defaultValue={product?.data?.description}
           />
         </div>
-        <div style={{ marginBottom: '10px' }}>
+        <div style={{ marginBottom: "10px" }}>
           <ProtectedComponent listAccesss={[1, 2, 5, 6]}>
             <FileInput
               selectedFiles={files.selectedFiles}
@@ -95,15 +113,15 @@ function EditProduct(props) {
             onClick={methods.handleSubmit(update)}
             type="button"
             style={{
-              backgroundColor: '#673ab7',
-              border: '1px solid #673ab7',
-              height: '35px',
-              width: '100px',
-              marginLeft: '10px',
+              backgroundColor: "#673ab7",
+              border: "1px solid #673ab7",
+              height: "35px",
+              width: "100px",
+              marginLeft: "10px",
             }}
           >
             {!false ? (
-              'Actualizar'
+              "Actualizar"
             ) : (
               <Spinner animation="border" variant="light" size="sm" />
             )}

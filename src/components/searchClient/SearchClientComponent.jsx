@@ -82,13 +82,13 @@ function SearchClientComponent(props) {
                 </select>
               </div>
 
-              <button
+              {/* <button
                 type="button"
                 className={`btn btn-secondary ${styles.resetBut}`}
                 onClick={handleReset}
               >
                 Reset
-              </button>
+              </button> */}
               <CustomModal
                 fullscreen
                 title="Nuevo cliente"
@@ -117,7 +117,7 @@ function SearchClientComponent(props) {
               días
             </div>
             <div>
-              {sellerId ? (
+              {sellerId || true? (
                 <div style={{ marginRight: "10px", display: "inline-block" }}>
                   <buton className={styles.iconB} onClick={listClientDownload}>
                     <i className="fa-solid fa-file-export"></i>

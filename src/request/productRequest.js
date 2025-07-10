@@ -246,6 +246,20 @@ export const getProductId = async (id) => {
   }
 };
 
+export const getMinStock = async (id) => {
+  try {
+    const { data } = await axios.get(`${apiUrl}/api/productos/gen/minstock/${id}`, {
+      withCredentials: true,
+    });
+    return data;
+  } catch (error) {
+    if (error.response?.status == 401) {
+      window.location.href = "/";
+    }
+    throw error;
+  }
+};
+
 export const getAllProduct = async () => {
   try {
     const products = await axios.get(`${apiUrl}/api/productos/pr`, {

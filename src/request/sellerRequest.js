@@ -167,7 +167,8 @@ export const createLiquidationRequest = async (sendInfo) => {
 
 export const getClientsId = async (id) => {
   try {
-    const response = await axios.get(`${apiUrl}/api/seller/get/clients/${id}`, {
+    const URL =  id ? `${apiUrl}/api/seller/get/clients/${id}` : `${apiUrl}/api/seller/get/clients/0`
+    const response = await axios.get(URL, {
       withCredentials: true,
       responseType: 'blob', // Importante: Configura la respuesta como blob para archivos
     });
