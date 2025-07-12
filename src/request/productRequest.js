@@ -312,6 +312,24 @@ export const CreateNews = async (sendData) => {
   }
 };
 
+export const CreateBanner = async (sendData) => {
+  try {
+    const { data } = await axios.post(
+      `${apiUrl}/api/productos/new/ban`,
+      sendData,
+      {
+        withCredentials: true,
+      }
+    );
+    return data;
+  } catch (error) {
+    if (error.response?.status === 401) {
+      window.location.href = "/";
+    }
+    throw error;
+  }
+};
+
 export const GetNewsByProductoId = async (productId) => {
   try {
     const { data } = await axios.get(
@@ -329,10 +347,78 @@ export const GetNewsByProductoId = async (productId) => {
   }
 };
 
+export const GetBanners = async () => {
+  try {
+    const { data } = await axios.get(
+      `${apiUrl}/api/productos/all/ban`,
+      {
+        withCredentials: true,
+      }
+    );
+    return data;
+  } catch (error) {
+    if (error.response?.status === 401) {
+      window.location.href = "/";
+    }
+    throw error;
+  }
+};
+
 export const DeleteNewsById = async (id) => {
   try {
     const { data } = await axios.delete(
       `${apiUrl}/api/productos/ad/${id}`,
+      {
+        withCredentials: true,
+      }
+    );
+    return data;
+  } catch (error) {
+    if (error.response?.status === 401) {
+      window.location.href = "/";
+    }
+    throw error;
+  }
+};
+
+export const DeleteBanById = async (id) => {
+  try {
+    const { data } = await axios.delete(
+      `${apiUrl}/api/productos/ban/${id}`,
+      {
+        withCredentials: true,
+      }
+    );
+    return data;
+  } catch (error) {
+    if (error.response?.status === 401) {
+      window.location.href = "/";
+    }
+    throw error;
+  }
+};
+
+export const ChangeViewMode = async (mode) => {
+  try {
+    const { data } = await axios.get(
+      `${apiUrl}/api/productos/change/view/mode?mode=${mode}`,
+      {
+        withCredentials: true,
+      }
+    );
+    return data;
+  } catch (error) {
+    if (error.response?.status === 401) {
+      window.location.href = "/";
+    }
+    throw error;
+  }
+};
+
+export const GetViewMode = async () => {
+  try {
+    const { data } = await axios.get(
+      `${apiUrl}/api/productos/view/mode`,
       {
         withCredentials: true,
       }

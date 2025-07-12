@@ -1,16 +1,10 @@
 import { useEffect, useState } from "react";
 import { Col, Row } from "react-bootstrap";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  getProductIdRequest,
-  resetSelectProduct,
-} from "../../redux/selectProduct";
-import { useLocation } from "react-router";
 import {
   ChangeViewMode,
-  CreateNews,
-  DeleteNewsById,
-  GetNewsByProductoId,
+  CreateBanner,
+  DeleteBanById,
+  GetBanners,
   GetViewMode,
 } from "../../request/productRequest";
 import Swal from "sweetalert2";
@@ -25,13 +19,10 @@ import {
   TableRow,
 } from "semantic-ui-react";
 
-function LanzamientosComponent(props) {
-  const dispatch = useDispatch();
-  const { pathname } = useLocation();
-  const id = Number(pathname.split("/")[3]);
-  const { data, loading } = useSelector((state) => state.selectProduct);
-  const [check, setCheck] = useState(false);
+function AvisosComponent(props) {
+  const [reference, setReference] = useState("");
   const [detalles, setDetalles] = useState("");
+  const [check, setCheck] = useState(false);
   const [imagen, setImagen] = useState(null);
   const [pending, setPending] = useState(null);
   const [newsList, setNewsList] = useState([]);
@@ -41,13 +32,13 @@ function LanzamientosComponent(props) {
     e.preventDefault();
 
     const formData = new FormData();
-    formData.append("productId", id);
+    formData.append("reference", reference);
     formData.append("detail", detalles);
 
     if (imagen) {
       formData.append("images", imagen);
     }
-    CreateNews(formData)
+    CreateBanner(formData)
       .then((res) => {
         if (res.error) {
           Swal.fire({
@@ -83,9 +74,9 @@ function LanzamientosComponent(props) {
       .finally(() => setPending(false));
   };
 
-  const deleteAd = (id) => {
+  const deleteBan = (id) => {
     setPending(true);
-    DeleteNewsById(id)
+    DeleteBanById(id)
       .then((res) => {
         if (res.error) {
           Swal.fire({
@@ -118,28 +109,21 @@ function LanzamientosComponent(props) {
   };
 
   useEffect(() => {
-    dispatch(getProductIdRequest(id));
-    return () => dispatch(resetSelectProduct());
-  }, []);
+    GetBanners().then((res) => setNewsList(res));
+  }, [pending]);
 
   useEffect(() => {
-    if (id) {
-      GetNewsByProductoId(id).then((res) => setNewsList(res));
-    }
-  }, [id, pending]);
-
-  useEffect(() => {
-    GetViewMode().then((res) => {
-      if (res?.mode == "OFE") {
-        setCheck(true);
+    GetViewMode().then(res => {
+      if(res?.mode == "BAN"){
+        setCheck(true)
       }
-    });
-  }, []);
+    })
+  }, [])
 
   const onCheckChange = (e, d) => {
     let mode = "NONE";
     if (d.checked) {
-      mode = "OFE";
+      mode = "BAN";
     }
     ChangeViewMode(mode).then((res) => setCheck(res));
   };
@@ -148,11 +132,7 @@ function LanzamientosComponent(props) {
     <>
       <Row style={{ margin: "15px 0px" }}>
         <Col>
-          <Checkbox
-            label="Ofertas y novedades activas"
-            onChange={onCheckChange}
-            checked={check}
-          />
+          <Checkbox label="Avisos activos" onChange={onCheckChange} checked={check} />
         </Col>
       </Row>
       <Row>
@@ -160,24 +140,16 @@ function LanzamientosComponent(props) {
           <form onSubmit={handleSubmit}>
             <div className="mb-3">
               <label htmlFor="detalles" className="form-label">
-                Artículo
+                Referencia
               </label>
               <input
-                disabled
                 type="text"
                 className="form-control"
-                value={data?.article ?? ""}
-              />
-            </div>
-            <div className="mb-3">
-              <label htmlFor="detalles" className="form-label">
-                Descripción
-              </label>
-              <input
-                disabled
-                type="text"
-                className="form-control"
-                value={data?.description ?? ""}
+                id="reference"
+                value={reference}
+                onChange={(e) => setReference(e.target.value)}
+                required
+                placeholder="Nombre o referencia del banner"
               />
             </div>
             <div className="mb-3">
@@ -191,7 +163,7 @@ function LanzamientosComponent(props) {
                 value={detalles}
                 onChange={(e) => setDetalles(e.target.value)}
                 required
-                placeholder="Detalle o referencia al lanzamiento"
+                placeholder="Detalle adicionales"
               />
             </div>
 
@@ -218,9 +190,7 @@ function LanzamientosComponent(props) {
           <Table celled striped>
             <TableHeader>
               <TableRow>
-                <TableHeaderCell colSpan="3">
-                  Lista de lanzamientos
-                </TableHeaderCell>
+                <TableHeaderCell colSpan="3">Lista de avisos</TableHeaderCell>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -231,21 +201,21 @@ function LanzamientosComponent(props) {
                   Acciones
                 </TableCell>
               </TableRow>
-              {newsList.map((ad) => (
+              {newsList.map((ban) => (
                 <TableRow>
                   <TableCell collapsing>
                     <a
-                      href={ad.image}
+                      href={ban.image}
                       target="_blank"
                       rel="noopener noreferrer"
                     >
                       Link
                     </a>
                   </TableCell>
-                  <TableCell>{ad.detail}</TableCell>
+                  <TableCell>{ban.reference}</TableCell>
                   <TableCell collapsing textAlign="right">
                     <div
-                      onClick={() => deleteAd(ad.id)}
+                      onClick={() => deleteBan(ban.id)}
                       style={{ cursor: "pointer" }}
                     >
                       <Icon name="trash" color="red" />
@@ -261,4 +231,4 @@ function LanzamientosComponent(props) {
   );
 }
 
-export default LanzamientosComponent;
+export default AvisosComponent;

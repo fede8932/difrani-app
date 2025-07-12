@@ -4,6 +4,7 @@ import BrandSaleContainer from "../../containers/BrandSaleContainer";
 import ProductSaleContainer from "../../containers/ProductSaleContainer";
 import { Tab, TabPane } from "semantic-ui-react";
 import LanzamientosComponent from "../../components/lanzamiento/LanzamientosComponent";
+import AvisosComponent from "../../components/avisos/AvisosComponent";
 
 function BrandSale(props) {
   const { type } = props;
@@ -19,6 +20,10 @@ function BrandSale(props) {
     {
       menuItem: "Lanzamientos",
       render: () => <LanzamientosComponent />,
+    },
+    {
+      menuItem: "Avisos",
+      render: () => <AvisosComponent />,
     },
   ];
   return (
