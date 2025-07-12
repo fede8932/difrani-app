@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styles from './editStock.module.css';
-import { controlOrderString, convertToDate, fechaConverter } from '../../utils';
+import { controlOrderString, dateConverter, fechaConverter } from '../../utils';
 import { Table } from 'semantic-ui-react';
 import CustomPagination from '../../commonds/pagination/CustomPagination';
 import { Button } from 'semantic-ui-react';
@@ -14,7 +14,7 @@ function EditStock({ order, onClick, updateAmount, loading }) {
         <span>
           Fecha:{' '}
           <span className={styles.spanData}>
-            {convertToDate(order.controlOrder.createdAt)}
+            {dateConverter(order.controlOrder.createdAt)}
           </span>
         </span>
         <span>
