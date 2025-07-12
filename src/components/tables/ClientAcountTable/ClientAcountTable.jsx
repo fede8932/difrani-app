@@ -128,7 +128,7 @@ const CustomActionComp = ({ data }) => {
         nuevaVentana.document.body.appendChild(containerFact);
 
         // Si no es la última página, agregar un salto de página
-        if (pageNumber < totalPages) {
+        if (pageNumber < totalPages || true) {
           const pageBreak = nuevaVentana.document.createElement("div");
           pageBreak.style.pageBreakAfter = "always"; // Salto de página después del contenido
           nuevaVentana.document.body.appendChild(pageBreak);
