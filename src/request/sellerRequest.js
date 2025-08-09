@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from "axios";
 const apiUrl = import.meta.env.VITE_API_URL;
 
 export const getSellers = async () => {
@@ -19,7 +19,7 @@ export const getSellers = async () => {
     return ans;
   } catch (error) {
     if (error.response?.status == 401) {
-      window.location.href = '/';
+      window.location.href = "/";
     }
     throw error;
   }
@@ -36,7 +36,7 @@ export const getSellerResume = async (info) => {
   } catch (error) {
     console.log(error);
     if (error.response?.status == 401) {
-      window.location.href = '/';
+      window.location.href = "/";
     }
     throw error;
   }
@@ -52,7 +52,7 @@ export const getSellerLiquidation = async (info) => {
   } catch (error) {
     console.log(error);
     if (error.response?.status == 401) {
-      window.location.href = '/';
+      window.location.href = "/";
     }
     throw error;
   }
@@ -68,7 +68,7 @@ export const getResumeLiquidation = async (info) => {
   } catch (error) {
     console.log(error);
     if (error.response?.status == 401) {
-      window.location.href = '/';
+      window.location.href = "/";
     }
     throw error;
   }
@@ -96,10 +96,10 @@ export const createSellers = async (objData) => {
     await axios.post(`${apiUrl}/api/seller`, dataSeller, {
       withCredentials: true,
     });
-    return 'Registrado';
+    return "Registrado";
   } catch (error) {
     if (error.response?.status == 401) {
-      window.location.href = '/';
+      window.location.href = "/";
     }
     throw error;
   }
@@ -114,7 +114,7 @@ export const getSellersByText = async (dataSearch) => {
     return data;
   } catch (error) {
     if (error.response?.status == 401) {
-      window.location.href = '/';
+      window.location.href = "/";
     }
     throw error;
   }
@@ -128,7 +128,7 @@ export const getSellerId = async (id) => {
     return data;
   } catch (error) {
     if (error.response?.status == 401) {
-      window.location.href = '/';
+      window.location.href = "/";
     }
     throw error;
   }
@@ -145,7 +145,7 @@ export const updateSellerById = async (dataUpdate) => {
     return data;
   } catch (error) {
     if (error.response?.status == 401) {
-      window.location.href = '/';
+      window.location.href = "/";
     }
     throw error;
   }
@@ -159,29 +159,32 @@ export const createLiquidationRequest = async (sendInfo) => {
     return data;
   } catch (error) {
     if (error.response?.status == 401) {
-      window.location.href = '/';
+      window.location.href = "/";
     }
     throw error;
   }
 };
 
-export const getClientsId = async (id) => {
+export const getClientsId = async (d) => {
   try {
-    const URL =  id ? `${apiUrl}/api/seller/get/clients/${id}` : `${apiUrl}/api/seller/get/clients/0`
-    const response = await axios.get(URL, {
+    const { sellerId, ...sendData } = d;
+    const URL = sellerId
+      ? `${apiUrl}/api/seller/get/clients/${sellerId}`
+      : `${apiUrl}/api/seller/get/clients/0`;
+    const response = await axios.post(URL, sendData, {
       withCredentials: true,
-      responseType: 'blob', // Importante: Configura la respuesta como blob para archivos
+      responseType: "blob", // Importante: Configura la respuesta como blob para archivos
     });
 
     // Crear una URL para el archivo descargado
     const url = window.URL.createObjectURL(new Blob([response.data]));
 
     // Crear un enlace para descargar el archivo
-    const link = document.createElement('a');
+    const link = document.createElement("a");
     link.href = url;
 
     // Configurar el nombre del archivo (puedes personalizar esto según sea necesario)
-    link.setAttribute('download', `clients_${id}.xlsx`);
+    link.setAttribute("download", `clients_${sellerId}.xlsx`);
     document.body.appendChild(link);
     link.click();
 
@@ -191,7 +194,7 @@ export const getClientsId = async (id) => {
     return true; // Indica éxito
   } catch (error) {
     if (error.response?.status === 401) {
-      window.location.href = '/';
+      window.location.href = "/";
     }
     throw error;
   }
@@ -201,18 +204,18 @@ export const getClientsMovements = async () => {
   try {
     const response = await axios.get(`${apiUrl}/api/movement/pending/clients`, {
       withCredentials: true,
-      responseType: 'blob', // Importante: Configura la respuesta como blob para archivos
+      responseType: "blob", // Importante: Configura la respuesta como blob para archivos
     });
 
     // Crear una URL para el archivo descargado
     const url = window.URL.createObjectURL(new Blob([response.data]));
 
     // Crear un enlace para descargar el archivo
-    const link = document.createElement('a');
+    const link = document.createElement("a");
     link.href = url;
 
     // Configurar el nombre del archivo (puedes personalizar esto según sea necesario)
-    link.setAttribute('download', `client_movements.xlsx`);
+    link.setAttribute("download", `client_movements.xlsx`);
     document.body.appendChild(link);
     link.click();
 
@@ -222,7 +225,7 @@ export const getClientsMovements = async () => {
     return true; // Indica éxito
   } catch (error) {
     if (error.response?.status === 401) {
-      window.location.href = '/';
+      window.location.href = "/";
     }
     throw error;
   }

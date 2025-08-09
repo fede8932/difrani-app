@@ -23,15 +23,9 @@ function SearchClientComponent(props) {
     handleReset,
     pageSize,
     setPageSize,
+    listClientDownload
   } = props;
 
-  const listClientDownload = async () => {
-    try {
-      getClientsId(sellerId);
-    } catch (err) {
-      console.log(err);
-    }
-  };
   const listClientMovementsDownload = async () => {
     try {
       getClientsMovements();

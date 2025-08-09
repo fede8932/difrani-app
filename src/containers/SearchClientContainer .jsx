@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getClientssByTextRequest } from "../redux/searchClient";
 import { useLocation, useNavigate } from "react-router";
 import { getClientIdRequest, resetClientState } from "../redux/client";
+import { getClientsId } from "../request/sellerRequest";
 
 function SearchClientContainer(props) {
   const location = useLocation();
@@ -39,6 +40,19 @@ function SearchClientContainer(props) {
   };
 
   const debounceTimeout = useRef(null);
+
+  const listClientDownload = async () => {
+    try {
+      const data = {
+        text: inputValue,
+        color: color,
+        sellerId: isNaN(Number(sellerId)) ? null : sellerId,
+      };
+      getClientsId(data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   useEffect(() => {
     if (debounceTimeout.current) clearTimeout(debounceTimeout.current);
@@ -78,6 +92,7 @@ function SearchClientContainer(props) {
       handleReset={handleReset}
       pageSize={pageSize}
       setPageSize={setPageSize}
+      listClientDownload={listClientDownload}
     />
   );
 }
