@@ -12,7 +12,7 @@ import {
   searchSellOrderRequest,
 } from "../redux/searchOrders";
 import { useNavigate } from "react-router";
-import { factItemToggleRequest } from "../redux/addOrderItems";
+import { factItemToggleRequest, marcAllOficial } from "../redux/addOrderItems";
 import Swal from "sweetalert2";
 import { printBillRequest, printPresRequest } from "../request/orderRequest";
 import { billHtml } from "../templates/bill.js";
@@ -230,6 +230,11 @@ function NewBillContainer(props) {
     });
   };
 
+  const facturarTotal = () => {
+    console.log(order.id)
+    dispatch(marcAllOficial(order.id))
+  }
+
   return (
     <NewBill
       f50p50={f50p50}
@@ -242,6 +247,7 @@ function NewBillContainer(props) {
       totalFac={totalFacturado}
       totalNoFac={totalNoFacturado}
       loading={searchOrderLoading}
+      facturarTotal={facturarTotal}
     />
   );
 }

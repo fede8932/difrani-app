@@ -21,6 +21,7 @@ function NewBill(props) {
     loading,
     f50p50,
     setF50p50,
+    facturarTotal,
   } = props;
   return (
     <div className={styles.facContainer}>
@@ -63,12 +64,15 @@ function NewBill(props) {
           Seleccioná aquellos items que deben incluirse en la factura oficial
         </div>
       </div>
-      <div style={{ margin: "10px 0px" }}>
+      <div style={{ margin: "5px 0px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
         <Checkbox
           label="Facturar 50/50"
           checked={f50p50}
           onChange={() => setF50p50(!f50p50)}
         />
+        <div>
+          <Button type="button" onClick={() => facturarTotal()}>Facturar total</Button>
+        </div>
       </div>
       <div className={styles.tableContainer}>
         <CustomTable
