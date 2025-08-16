@@ -10,6 +10,7 @@ const initialState = {
   page: 1,
   equivalenceId: null,
   supplierId: null,
+  sinImagen: false,
 };
 
 const filtersProductsSlice = createSlice({
@@ -39,6 +40,7 @@ const filtersProductsSlice = createSlice({
       state.page = 1;
       state.equivalenceId = null;
       state.supplierId = null;
+      state.sinImagen = false;
     },
   },
 });

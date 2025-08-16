@@ -250,8 +250,8 @@ export const remitHtml = (
           <span class="clientInfoText">Condición de venta:<span class="clientInfoTextDos">Productos</span></span>
         </div>
         <div class="ivaClient">
-          <span class="clientInfoText">IVA:<span class="clientInfoTextDos">${
-            order.client.iva
+          <span class="clientInfoText">Vendedor:<span class="clientInfoTextDos">${
+            `${order.client.seller?.user?.lastName} ${order.client.seller?.user?.firstName || "---"}` || '---'
           }</span></span>
           <span class="clientInfoText">CUIT:<span class="clientInfoTextDos">${
             order.client.cuit

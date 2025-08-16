@@ -15,12 +15,12 @@ function SellReport() {
     <div className={styles.addUserContainer}>
       <div className={styles.titleContainer}>
         <h6 className={styles.formTitle}>Reporte de ventas</h6>
-        <span className={styles.actualizacion}>
+        {/* <span className={styles.actualizacion}>
           Último pedido:{' '}
           <span style={{ fontWeight: '500' }}>
             {dateConverter(dateReport.data?.date)}
           </span>
-        </span>
+        </span> */}
       </div>
       <div>
         <SellReportContainer />

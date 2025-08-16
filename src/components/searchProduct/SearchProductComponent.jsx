@@ -5,7 +5,7 @@ import Spinner from "react-bootstrap/esm/Spinner";
 import { useDispatch, useSelector } from "react-redux";
 import { getFileProducts } from "../../request/productRequest";
 import ProductsTable from "../tables/productsTable/ProductsTable";
-import { resetFilterProduct } from "../../redux/filtersProducts";
+import { resetFilterProduct, setFilterProduct } from "../../redux/filtersProducts";
 import { AutoComplete } from "antd";
 import {
   getClientIdRequestNew,
@@ -20,6 +20,7 @@ import AddProduct from "../../views/addProduct/AddProduct";
 import AddProductFormContainer from "../../containers/AddProductFormContainer";
 import AddProductModalContainer from "../../containers/AddProductModalContainer";
 import { getSupplierRequest, resetSupState } from "../../redux/supplier";
+import { Checkbox } from "semantic-ui-react";
 
 function SearchProductComponent(props) {
   const { deleteProduct } = props;
@@ -142,8 +143,21 @@ function SearchProductComponent(props) {
 
   useEffect(() => {
     dispatch(getSupplierRequest());
-    return () => {dispatch(resetSupState())}
+    return () => {
+      dispatch(resetSupState());
+    };
   }, []);
+
+  const { sinImagen } = useSelector((state) => state.filterProduct);
+
+  const onCheckSinImagen = (e, data) => {
+    dispatch(
+      setFilterProduct({
+        name: "sinImagen",
+        value: data.checked,
+      })
+    );
+  }
 
   return (
     <div className={styles.formContainer}>
@@ -185,8 +199,13 @@ function SearchProductComponent(props) {
             className: `${styles.buttonStyle} ${styles.buttonStyleNext}`,
             variant: "primary",
           }}
-          bodyModal={(props) => <AddProductModalContainer {...props} view="group" />}
+          bodyModal={(props) => (
+            <AddProductModalContainer {...props} view="group" />
+          )}
         />
+        <div style={{ margin: "5px 0 0 10px" }}>
+          <Checkbox toggle label="Sin imagen" checked={sinImagen} onChange={onCheckSinImagen} />
+        </div>
       </div>
       <div className={styles.subFormContainer}>
         <Button

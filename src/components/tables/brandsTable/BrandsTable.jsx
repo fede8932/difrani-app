@@ -16,6 +16,7 @@ import { useNavigate } from 'react-router';
 const CustomComp = (props) => {
   const { brand } = props;
   const navigate = useNavigate();
+  console.log(brand)
   return (
     <div className={styles.buttonContainer}>
       <CustomModal
@@ -36,7 +37,7 @@ const CustomComp = (props) => {
             navigate(`/brand/sale/${brand.id}`);
           }}
           icon="fa-solid fa-piggy-bank"
-          iconInitialStyle={brand.sales?.length>0 ? "iconStyleTeal" : "iconStyleBlack"}
+          iconInitialStyle={brand.sales?.some(s => s.status) ? "iconStyleTeal" : "iconStyleBlack"}
         />
       </ProtectedComponent>
     </div>

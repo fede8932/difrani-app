@@ -21,6 +21,7 @@ import {
 import AddManualPendingContainer from '../../../containers/AddManualPendingContainer';
 
 const CustomComp = ({ data, props }) => {
+  console.log(data)
   const { deleteProduct, selectClientId, addProduct } = props;
   const navigate = useNavigate();
   return (
@@ -52,8 +53,8 @@ const CustomComp = ({ data, props }) => {
           fn={() => navigate(`/product/sale/${data.id}`)}
           icon="fa-solid fa-piggy-bank"
           iconInitialStyle={
-            data.sales?.findIndex((s) => s.status) > -1 ||
-            data.brand.sales?.findIndex((s) => s.status) > -1
+            data.sales?.findIndex((s) => s.status) > -1/* ||
+            data.brand.sales?.findIndex((s) => s.status) > -1*/
               ? 'iconStyleTeal'
               : 'iconStyleBlack'
           }
