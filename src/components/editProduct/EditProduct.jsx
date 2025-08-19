@@ -6,7 +6,7 @@ import FileInput from "../../commonds/inputFile/InputFile";
 import ProtectedComponent from "../../protected/protectedComponent/ProtectedComponent";
 
 function EditProduct(props) {
-  const { methods, product, update, files, genMinStock, minStock } = props;
+  const { methods, product, update, files, genMinStock, minStock, maxStock } = props;
   // console.log(product);
   return (
     <FormProvider {...methods}>
@@ -56,7 +56,7 @@ function EditProduct(props) {
             </div>
             <div className={styles.medium}>
               <label>Stock mínimo</label>
-              <div style={{display: "flex"}}>
+              <div style={{ display: "flex" }}>
                 <CustomInput
                   readOnly={false}
                   name="minStock"
@@ -67,24 +67,49 @@ function EditProduct(props) {
                   validate={{ required: true }}
                   defaultValue={minStock}
                 />
-                <Button onClick={() => {genMinStock(product.data.id)}} variant="warning" style={{height: "40px", margin: "3px 0px 0px 5px"}}>Generar</Button>
+                <Button
+                  onClick={() => {
+                    genMinStock(product.data.id);
+                  }}
+                  variant="warning"
+                  style={{ height: "40px", margin: "3px 0px 0px 5px" }}
+                >
+                  Generar
+                </Button>
               </div>
             </div>
           </div>
         </ProtectedComponent>
         <ProtectedComponent listAccesss={[1, 2]}>
-          <div className={styles.medium}>
-            <label>Precio</label>
-            <CustomInput
-              readOnly={false}
-              name="price"
-              type="text"
-              width="large"
-              placeholder="Precio"
-              icon="fa-solid fa-id-card"
-              validate={{ required: true }}
-              defaultValue={product?.data?.price?.price}
-            />
+          <div className={styles.inpFlex}>
+            <div className={styles.medium}>
+              <label>Precio</label>
+              <CustomInput
+                readOnly={false}
+                name="price"
+                type="text"
+                width="large"
+                placeholder="Precio"
+                icon="fa-solid fa-id-card"
+                validate={{ required: true }}
+                defaultValue={product?.data?.price?.price}
+              />
+            </div>
+            <div className={styles.medium}>
+              <label>Stock máximo</label>
+              <div style={{ display: "flex" }}>
+                <CustomInput
+                  readOnly={false}
+                  name="maxStock"
+                  type="text"
+                  width="medium"
+                  placeholder="Stock máximo"
+                  icon="fa-solid fa-id-card"
+                  validate={{ required: true }}
+                  defaultValue={maxStock}
+                />
+              </div>
+            </div>
           </div>
         </ProtectedComponent>
         <div>

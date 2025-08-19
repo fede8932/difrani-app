@@ -18,6 +18,7 @@ function EditProductContainer(props) {
   const { id, closeModal } = props;
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [minStock, setMinStock] = useState(0);
+  const [maxStock, setMaxStock] = useState(0);
   // console.log(selectedFiles);
   const selectProduct = useSelector((state) => state.selectProduct);
   const methods = useForm();
@@ -56,6 +57,7 @@ function EditProductContainer(props) {
   useEffect(() => {
     if (selectProduct) {
       setMinStock(selectProduct.data?.stock?.minStock ?? 0);
+      setMaxStock(selectProduct.data?.stock?.maxStock ?? 0);
     }
   }, [selectProduct]);
 
@@ -72,6 +74,7 @@ function EditProductContainer(props) {
       update={productUpdate}
       genMinStock={genMinStock}
       minStock={minStock}
+      maxStock={maxStock}
     />
   );
 }
