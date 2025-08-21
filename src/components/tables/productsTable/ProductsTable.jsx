@@ -1,27 +1,28 @@
-import { AgGridReact } from 'ag-grid-react';
-import 'ag-grid-community/styles/ag-grid.css';
-import 'ag-grid-community/styles/ag-theme-quartz.css';
-import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { searchProductsExtraRequest } from '../../../redux/product';
-import { discountApplicationV2, numberToString } from '../../../utils';
-import { Pagination, Select } from 'semantic-ui-react';
-import styles from './productsTables.module.css';
-import ActionModalContainer from '../../../containers/ActionModalContainer';
-import ProtectedComponent from '../../../protected/protectedComponent/ProtectedComponent';
-import CustomModal from '../../../commonds/customModal/CustomModal';
-import EditProductContainer from '../../../containers/EditProductContainer';
-import IconButonUsersTable from '../../../commonds/iconButtonUsersTable/IconButonUsersTable';
-import { useNavigate } from 'react-router';
+import { AgGridReact } from "ag-grid-react";
+import "ag-grid-community/styles/ag-grid.css";
+import "ag-grid-community/styles/ag-theme-quartz.css";
+import React, { useEffect, useMemo, useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { searchProductsExtraRequest } from "../../../redux/product";
+import { discountApplicationV2, numberToString } from "../../../utils";
+import { Pagination, Select } from "semantic-ui-react";
+import styles from "./productsTables.module.css";
+import ActionModalContainer from "../../../containers/ActionModalContainer";
+import ProtectedComponent from "../../../protected/protectedComponent/ProtectedComponent";
+import CustomModal from "../../../commonds/customModal/CustomModal";
+import EditProductContainer from "../../../containers/EditProductContainer";
+import IconButonUsersTable from "../../../commonds/iconButtonUsersTable/IconButonUsersTable";
+import { useNavigate } from "react-router";
 import {
   resetEquivFilter,
   setEquivFilter,
   setFilterProduct,
-} from '../../../redux/filtersProducts';
-import AddManualPendingContainer from '../../../containers/AddManualPendingContainer';
+  setOrderBy,
+} from "../../../redux/filtersProducts";
+import AddManualPendingContainer from "../../../containers/AddManualPendingContainer";
 
 const CustomComp = ({ data, props }) => {
-  console.log(data)
+  // console.log(data);
   const { deleteProduct, selectClientId, addProduct } = props;
   const navigate = useNavigate();
   return (
@@ -53,10 +54,10 @@ const CustomComp = ({ data, props }) => {
           fn={() => navigate(`/product/sale/${data.id}`)}
           icon="fa-solid fa-piggy-bank"
           iconInitialStyle={
-            data.sales?.findIndex((s) => s.status) > -1/* ||
+            data.sales?.findIndex((s) => s.status) > -1 /* ||
             data.brand.sales?.findIndex((s) => s.status) > -1*/
-              ? 'iconStyleTeal'
-              : 'iconStyleBlack'
+              ? "iconStyleTeal"
+              : "iconStyleBlack"
           }
         />
       </ProtectedComponent>
@@ -81,7 +82,7 @@ const CustomComp = ({ data, props }) => {
           fn={() => addProduct(data.id, data.brand.id)}
           icon="fa-solid fa-cart-plus"
           iconInitialStyle={
-            !selectClientId ? 'iconStyleGrey' : 'iconStyleGreen'
+            !selectClientId ? "iconStyleGrey" : "iconStyleGreen"
           }
         />
       </ProtectedComponent>
@@ -106,19 +107,19 @@ const Equivalences = ({ data, props }) => {
     <div className={styles.buttonContainer}>
       <IconButonUsersTable
         disabled={!data.equivalenceId}
-        popupText={equivalenceId ? 'Quitar filtro' : 'Ver equivalencias'}
+        popupText={equivalenceId ? "Quitar filtro" : "Ver equivalencias"}
         fn={() => {
           equivalenceId
             ? dispatch(resetEquivFilter())
             : dispatch(setEquivFilter(data.equivalenceId));
         }}
-        icon={equivalenceId ? 'fa-regular fa-eye-slash' : 'fa-regular fa-eye'}
+        icon={equivalenceId ? "fa-regular fa-eye-slash" : "fa-regular fa-eye"}
         iconInitialStyle={
           !data.equivalenceId
-            ? 'iconStyleGrey'
+            ? "iconStyleGrey"
             : equivalenceId
-              ? 'iconStyleRed'
-              : 'iconStyleBlue'
+              ? "iconStyleRed"
+              : "iconStyleBlue"
         }
       />
       <ProtectedComponent listAccesss={[1, 2, 5, 6]}>
@@ -157,8 +158,8 @@ const HeaderInput = (props) => {
     }
 
     debounceTimeoutRef.current = setTimeout(() => {
-      dispatch(setFilterProduct({ name: 'equivalenceId', value: null }));
-      dispatch(setFilterProduct({ name: 'page', value: 1 }));
+      dispatch(setFilterProduct({ name: "equivalenceId", value: null }));
+      dispatch(setFilterProduct({ name: "page", value: 1 }));
       dispatch(setFilterProduct({ name, value }));
       // if (value === '') {
       //   setInp(false);
@@ -180,10 +181,10 @@ const HeaderInput = (props) => {
 
   useEffect(() => {
     if (inp) {
-      document.addEventListener('mousedown', handleClickOutside);
+      document.addEventListener("mousedown", handleClickOutside);
     }
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [filterProducts, inp]);
 
@@ -210,62 +211,62 @@ function ProductsTable(props) {
 
   const [columnDefs, setColumnDefs] = useState([
     {
-      headerName: 'Artículo',
-      field: 'article',
-      headerComponent: () => <HeaderInput title="Artículo" name={'article'} />,
+      headerName: "Artículo",
+      field: "article",
+      headerComponent: () => <HeaderInput title="Artículo" name={"article"} />,
       width: 150,
       filterParams: {
-        filterOptions: ['contains'], // Solo opción 'contains'
+        filterOptions: ["contains"], // Solo opción 'contains'
         suppressFilterButton: true, // Ocultar el botón del menú del filtro
       },
     },
     {
-      headerName: 'Descripción',
-      field: 'description',
+      headerName: "Descripción",
+      field: "description",
       headerComponent: () => (
-        <HeaderInput title="Descripción" name={'description'} />
+        <HeaderInput title="Descripción" name={"description"} />
       ),
       width: 650,
       filterParams: {
-        filterOptions: ['contains'], // Solo opción 'contains'
+        filterOptions: ["contains"], // Solo opción 'contains'
         suppressFilterButton: true, // Ocultar el botón del menú del filtro
       },
     },
     {
-      headerName: 'Marca',
-      field: 'brand',
-      headerComponent: () => <HeaderInput title="Marca" name={'brand'} />,
+      headerName: "Marca",
+      field: "brand",
+      headerComponent: () => <HeaderInput title="Marca" name={"brand"} />,
       valueGetter: (params) =>
-        params.data.brand ? params.data.brand.name : '',
+        params.data.brand ? params.data.brand.name : "",
       filterParams: {
-        filterOptions: ['contains'], // Solo opción 'contains'
+        filterOptions: ["contains"], // Solo opción 'contains'
         suppressFilterButton: true, // Ocultar el botón del menú del filtro
       },
     },
     {
-      headerName: 'Ubicación',
-      field: 'location',
+      headerName: "Ubicación",
+      field: "location",
       sortable: false,
       filter: false,
       width: 90,
     },
     {
-      headerName: 'Equivalencias',
+      headerName: "Equivalencias",
       cellRenderer: (params) => <Equivalences data={params.data} />,
-      field: 'equiv',
+      field: "equiv",
       sortable: false,
       filter: false,
       width: 125,
     },
     {
-      headerName: 'Costo',
-      field: 'price',
+      headerName: "Costo",
+      field: "price",
       cellRenderer: (params) => (
         <ProtectedComponent listAccesss={[1, 2]}>
           <span>
             {params.data.price
               ? `$ ${numberToString(params.data.price.price)}`
-              : ''}
+              : ""}
           </span>
         </ProtectedComponent>
       ),
@@ -274,15 +275,15 @@ function ProductsTable(props) {
       sortable: false,
     },
     {
-      headerName: 'Stock',
-      field: 'stock',
+      headerName: "Stock",
+      field: "stock",
       valueGetter: (params) =>
-        params.data.stock ? params.data.stock.stock : '',
+        params.data.stock ? params.data.stock.stock : "",
       filter: false,
       width: 70,
     },
     {
-      headerName: 'Acciones',
+      headerName: "Acciones",
       cellRenderer: (params) => (
         <CustomComp
           data={params.data}
@@ -293,14 +294,14 @@ function ProductsTable(props) {
           }}
         />
       ),
-      field: 'actions',
+      field: "actions",
       sortable: false,
       filter: false,
       width: 165,
     },
     {
-      headerName: 'Precio',
-      field: 'sellPrice',
+      headerName: "Precio",
+      field: "sellPrice",
       sortable: false,
       cellRenderer: (params) => (
         <ProtectedComponent listAccesss={[1, 2, 5, 6]}>
@@ -311,7 +312,7 @@ function ProductsTable(props) {
                     discountApplicationV2(customerDiscounts, params.data, true)
                       .initPrice
                   )}`
-                : ''}
+                : ""}
             </span>
           ) : (
             <span>
@@ -320,7 +321,7 @@ function ProductsTable(props) {
                     params.data.price.price *
                       (1 + params.data.brand.rentabilidad)
                   )}`
-                : ''}
+                : ""}
             </span>
           )}
         </ProtectedComponent>
@@ -329,8 +330,8 @@ function ProductsTable(props) {
       width: 125,
     },
     {
-      headerName: 'Precio cIva',
-      field: 'sellPriceIva',
+      headerName: "Precio cIva",
+      field: "sellPriceIva",
       sortable: false,
       cellRenderer: (params) => (
         <ProtectedComponent listAccesss={[1, 2, 3, 5, 6]}>
@@ -341,7 +342,7 @@ function ProductsTable(props) {
                     discountApplicationV2(customerDiscounts, params.data, true)
                       .endPrice
                   )}`
-                : ''}
+                : ""}
             </span>
           ) : (
             <span>
@@ -351,7 +352,7 @@ function ProductsTable(props) {
                       (1 + params.data.brand.rentabilidad) *
                       1.21
                   )}`
-                : ''}
+                : ""}
             </span>
           )}
         </ProtectedComponent>
@@ -377,16 +378,16 @@ function ProductsTable(props) {
   }, [filterProducts]);
 
   const selectChange = (e, d) => {
-    dispatch(setFilterProduct({ name: 'pageSize', value: d.value }));
+    dispatch(setFilterProduct({ name: "pageSize", value: d.value }));
   };
   const changePage = (e, d) => {
-    dispatch(setFilterProduct({ name: 'page', value: d.activePage }));
+    dispatch(setFilterProduct({ name: "page", value: d.activePage }));
   };
 
   useEffect(() => {
     setColumnDefs((prevColumnDefs) => {
       return prevColumnDefs?.map((colDef) => {
-        if (colDef.field === 'sellPrice') {
+        if (colDef.field === "sellPrice") {
           return {
             ...colDef,
             cellRenderer: (params) => (
@@ -395,7 +396,7 @@ function ProductsTable(props) {
                   <span>
                     {params.data.price && params.data.brand
                       ? `$ ${numberToString(discountApplicationV2(customerDiscounts, params.data, true).initPrice)}`
-                      : ''}
+                      : ""}
                   </span>
                 ) : (
                   <span>
@@ -404,14 +405,14 @@ function ProductsTable(props) {
                           params.data.price.price *
                             (1 + params.data.brand.rentabilidad)
                         )}`
-                      : ''}
+                      : ""}
                   </span>
                 )}
               </ProtectedComponent>
             ),
           };
         }
-        if (colDef.field === 'sellPriceIva') {
+        if (colDef.field === "sellPriceIva") {
           return {
             ...colDef,
             cellRenderer: (params) => (
@@ -420,7 +421,7 @@ function ProductsTable(props) {
                   <span>
                     {params.data.price && params.data.brand
                       ? `$ ${numberToString(discountApplicationV2(customerDiscounts, params.data, true).endPrice)}`
-                      : ''}
+                      : ""}
                   </span>
                 ) : (
                   <span>
@@ -430,14 +431,14 @@ function ProductsTable(props) {
                             (1 + params.data.brand.rentabilidad) *
                             1.21
                         )}`
-                      : ''}
+                      : ""}
                   </span>
                 )}
               </ProtectedComponent>
             ),
           };
         }
-        if (colDef.field === 'actions') {
+        if (colDef.field === "actions") {
           return {
             ...colDef,
             cellRenderer: (params) => (
@@ -457,17 +458,34 @@ function ProductsTable(props) {
     });
   }, [selectClientId, customerDiscounts]);
 
+  const onSortChanged = (params) => {
+    const sortModel = params.api
+      .getColumnState()
+      .map((col) => ({
+        colId: col.colId,
+        sort: col.sort, // puede ser 'asc', 'desc' o null
+      }))
+      .filter((col) => col.sort); // opcional, solo devuelve las que están ordenadas
+    dispatch(
+      setOrderBy({
+        column: sortModel[0]?.colId || "stock",
+        order: sortModel[0]?.sort || null,
+      })
+    );
+  };
+
   return (
-    <div className={'ag-theme-quartz'} style={{ height: 665 }}>
+    <div className={"ag-theme-quartz"} style={{ height: 665 }}>
       <AgGridReact
         rowData={products.data.list}
         columnDefs={columnDefs}
         defaultColDef={defaultColDef}
+        onSortChanged={onSortChanged}
       />
       <div className={styles.paginationContainer}>
         <span>{`Se encontraron ${products.data.totalPages} páginas con ${products.data.totalRows} resultados.`}</span>
         <div className={styles.pagination}>
-          <div style={{ marginRight: '10px' }}>
+          <div style={{ marginRight: "10px" }}>
             <Select
               width="10px"
               defaultValue={filterProducts.pageSize}
