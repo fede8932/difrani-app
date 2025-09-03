@@ -28,7 +28,7 @@ function AddClientComponent(props) {
                   width="small"
                   placeholder="Nombre"
                   icon="fa-solid fa-id-card"
-                  validate={{ required: true, maxLength: 25 }}
+                  validate={{ required: true, maxLength: 45 }}
                 />
                 <CustomInput
                   name="lastName"
@@ -36,7 +36,7 @@ function AddClientComponent(props) {
                   width="small"
                   placeholder="Apellido"
                   icon="fa-solid fa-id-card"
-                  validate={{ required: true, maxLength: 25 }}
+                  validate={{ required: true, maxLength: 45 }}
                 />
               </div>
               <CustomInput
