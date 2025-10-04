@@ -618,3 +618,26 @@ export function selectStylesByDateClientV2(movements) {
   // if (dias < 30) return "rgba(255, 219, 86, 0.3)";
   return "rgba(255, 86, 106, 0.3)";
 }
+
+// Función para convertir recursivamente todos los strings de un objeto/array a mayúsculas
+export function convertToUpperCase(data) {
+  if (typeof data === 'string') {
+    return data.toUpperCase();
+  }
+  
+  if (Array.isArray(data)) {
+    return data.map(item => convertToUpperCase(item));
+  }
+  
+  if (data !== null && typeof data === 'object') {
+    const result = {};
+    for (const key in data) {
+      if (data.hasOwnProperty(key)) {
+        result[key] = convertToUpperCase(data[key]);
+      }
+    }
+    return result;
+  }
+  
+  return data;
+}

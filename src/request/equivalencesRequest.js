@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { convertToUpperCase } from '../utils';
 const apiUrl = import.meta.env.VITE_API_URL;
 
 export const getEquivalennceByProductId = async (productId) => {
@@ -7,7 +8,7 @@ export const getEquivalennceByProductId = async (productId) => {
       `${apiUrl}/api/equivalences/${productId}`,
       { withCredentials: true }
     );
-    return data;
+    return convertToUpperCase(data);
   } catch (error) {
     if (error.response?.status == 401) {
       window.location.href = '/';
@@ -21,7 +22,7 @@ export const createEquivalence = async (dataEquiv) => {
     const { data } = await axios.post(`${apiUrl}/api/equivalences`, dataEquiv, {
       withCredentials: true,
     });
-    return data;
+    return convertToUpperCase(data);
   } catch (error) {
     if (error.response?.status == 401) {
       window.location.href = '/';
@@ -35,7 +36,7 @@ export const deleteEquivalence = async (id) => {
     const { data } = await axios.delete(`${apiUrl}/api/equivalences/${id}`, {
       withCredentials: true,
     });
-    return data;
+    return convertToUpperCase(data);
   } catch (error) {
     if (error.response?.status == 401) {
       window.location.href = '/';
@@ -73,7 +74,7 @@ export const editEquivalence = async (sendData) => {
       },
       { withCredentials: true }
     );
-    return data;
+    return convertToUpperCase(data);
   } catch (error) {
     if (error.response?.status == 401) {
       window.location.href = '/';

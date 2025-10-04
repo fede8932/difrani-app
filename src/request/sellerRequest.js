@@ -1,4 +1,5 @@
 import axios from "axios";
+import { convertToUpperCase } from '../utils';
 const apiUrl = import.meta.env.VITE_API_URL;
 
 export const getSellers = async () => {
@@ -6,8 +7,9 @@ export const getSellers = async () => {
     const { data } = await axios.get(`${apiUrl}/api/seller`, {
       withCredentials: true,
     });
+    const upperData = convertToUpperCase(data);
     let ans = [];
-    const arraySeller = data.map((seller) => {
+    const arraySeller = upperData.map((seller) => {
       if (seller.user.roleId === 3) {
         const sel = {
           text: `${seller.user.name} ${seller.user.lastName}`,
@@ -32,7 +34,7 @@ export const getSellerResume = async (info) => {
       ? `${apiUrl}/api/seller/resume/${id}?pageSize=${pageSize}&page=${page}&pending=${pending}`
       : `${apiUrl}/api/seller/resume/${id}?pageSize=${pageSize}&page=${page}`;
     const { data } = await axios.get(url, { withCredentials: true });
-    return data;
+    return convertToUpperCase(data);
   } catch (error) {
     console.log(error);
     if (error.response?.status == 401) {
@@ -48,7 +50,7 @@ export const getSellerLiquidation = async (info) => {
       `${apiUrl}/api/liquidations?sellerId=${sellerId}&pageSize=${pageSize}&page=${page}`,
       { withCredentials: true }
     );
-    return data;
+    return convertToUpperCase(data);
   } catch (error) {
     console.log(error);
     if (error.response?.status == 401) {
@@ -64,7 +66,7 @@ export const getResumeLiquidation = async (info) => {
       `${apiUrl}/api/liquidations/resume/${liqId}`,
       { withCredentials: true }
     );
-    return data;
+    return convertToUpperCase(data);
   } catch (error) {
     console.log(error);
     if (error.response?.status == 401) {
@@ -111,7 +113,7 @@ export const getSellersByText = async (dataSearch) => {
       `${apiUrl}/api/seller/data?text=${dataSearch.text}&by=${dataSearch.by}&page=${dataSearch.page}&pageSize=${dataSearch.pageSize}&orderByColumn=${dataSearch.orderByColumn}`,
       { withCredentials: true }
     );
-    return data;
+    return convertToUpperCase(data);
   } catch (error) {
     if (error.response?.status == 401) {
       window.location.href = "/";
@@ -125,7 +127,7 @@ export const getSellerId = async (id) => {
     const { data } = await axios.get(`${apiUrl}/api/seller/search/${id}`, {
       withCredentials: true,
     });
-    return data;
+    return convertToUpperCase(data);
   } catch (error) {
     if (error.response?.status == 401) {
       window.location.href = "/";

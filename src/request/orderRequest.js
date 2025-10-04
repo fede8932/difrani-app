@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { convertToUpperCase } from '../utils';
 const apiUrl = import.meta.env.VITE_API_URL;
 
 export const createBuyOrder = async (objInfo) => {
@@ -8,7 +9,7 @@ export const createBuyOrder = async (objInfo) => {
       null,
       { withCredentials: true }
     );
-    return data;
+    return convertToUpperCase(data);
   } catch (error) {
     if (error.response?.status == 401) {
       window.location.href = '/';
@@ -30,7 +31,7 @@ export const addOrderItem = async (dataOrder) => {
 
     // console.log(url);
     const { data } = await axios.post(url, null, { withCredentials: true });
-    return data;
+    return convertToUpperCase(data);
   } catch (error) {
     if (error.response?.status == 401) {
       window.location.href = '/';
@@ -46,7 +47,7 @@ export const addOrderItemSearchProd = async (dataOrder) => {
 
     // console.log(url);
     const { data } = await axios.post(url, null, { withCredentials: true });
-    return data;
+    return convertToUpperCase(data);
   } catch (error) {
     if (error.response?.status == 401) {
       window.location.href = '/';
@@ -60,7 +61,7 @@ export const deleteOrderItem = async (id) => {
       `${apiUrl}/api/purchase/order/items/${id}`,
       { withCredentials: true }
     );
-    return data;
+    return convertToUpperCase(data);
   } catch (error) {
     if (error.response?.status == 401) {
       window.location.href = '/';
@@ -77,7 +78,7 @@ export const deleteSellOrderItem = async (id) => {
       `${apiUrl}/api/purchase/order/items/sell/${id}`,
       { withCredentials: true }
     );
-    return data;
+    return convertToUpperCase(data);
   } catch (error) {
     if (error.response?.status == 401) {
       window.location.href = '/';
@@ -93,7 +94,7 @@ export const getBuyOrder = async (id) => {
     const { data } = await axios.get(`${apiUrl}/api/purchase/order/${id}`, {
       withCredentials: true,
     });
-    return data;
+    return convertToUpperCase(data);
   } catch (error) {
     if (error.response?.status == 401) {
       window.location.href = '/';
@@ -138,7 +139,7 @@ export const getOrderItems = async (orderId) => {
       { withCredentials: true }
     );
     // console.log(data);
-    return data;
+    return convertToUpperCase(data);
   } catch (error) {
     if (error.response?.status == 401) {
       window.location.href = '/';
@@ -155,7 +156,7 @@ export const updateOrderItem = async (dataItem) => {
     let url = `${apiUrl}/api/purchase/order/items/${id}?cantidad=${editCamp}`;
     url = sell ? `${url}&sell=${true}` : url;
     const { data } = await axios.put(url, null, { withCredentials: true });
-    return data;
+    return convertToUpperCase(data);
   } catch (error) {
     if (error.response?.status == 401) {
       window.location.href = '/';
@@ -174,7 +175,7 @@ export const updatePriceOrderItem = async (dataItem) => {
       null,
       { withCredentials: true }
     );
-    return data;
+    return convertToUpperCase(data);
   } catch (error) {
     if (error.response?.status == 401) {
       window.location.href = '/';
@@ -193,7 +194,7 @@ export const updateStatusOrder = async (dataItem) => {
       null,
       { withCredentials: true }
     );
-    return data;
+    return convertToUpperCase(data);
   } catch (error) {
     if (error.response?.status == 401) {
       window.location.href = '/';
@@ -211,7 +212,7 @@ export const updateClientStatusOrder = async (dataItem) => {
       ? `${apiUrl}/api/purchase/order/status/client/${id}?status=${status}&clientId=${clientId}`
       : `${apiUrl}/api/purchase/order/status/client/${id}?status=${status}`;
     const { data } = await axios.put(url, null, { withCredentials: true });
-    return data;
+    return convertToUpperCase(data);
   } catch (error) {
     if (error.response?.status == 401) {
       window.location.href = '/';
@@ -226,7 +227,7 @@ export const confirmBuyOrder = async (id) => {
   try {
     const url = `${apiUrl}/api/purchase/order/status/confirm/buy/${id}`;
     const { data } = await axios.patch(url, null, { withCredentials: true });
-    return data;
+    return convertToUpperCase(data);
   } catch (error) {
     if (error.response?.status == 401) {
       window.location.href = '/';
@@ -240,7 +241,7 @@ export const deleteSellOrder = async (orderId) => {
       `${apiUrl}/api/purchase/order/delete/${orderId}`,
       { withCredentials: true }
     );
-    return data;
+    return convertToUpperCase(data);
   } catch (error) {
     if (error.response?.status == 401) {
       window.location.href = '/';
@@ -284,7 +285,7 @@ export const deleteOrder = async (orderId) => {
       `${apiUrl}/api/purchase/order/delete/${orderId}`,
       { withCredentials: true }
     );
-    return data;
+    return convertToUpperCase(data);
   } catch (error) {
     if (error.response?.status == 401) {
       window.location.href = '/';
@@ -303,7 +304,7 @@ export const cancelOrder = async (sendInfo) => {
       null,
       { withCredentials: true }
     );
-    return data;
+    return convertToUpperCase(data);
   } catch (error) {
     if (error.response?.status == 401) {
       window.location.href = '/';
@@ -324,7 +325,7 @@ export const updateStatusOrderConfirm = async (sendInfo) => {
       fact,
       { withCredentials: true }
     );
-    return data;
+    return convertToUpperCase(data);
   } catch (error) {
     if (error.response?.status == 401) {
       window.location.href = '/';
@@ -343,7 +344,7 @@ export const addRemToOrderConfirm = async (sendInfo) => {
       null,
       { withCredentials: true }
     );
-    return data;
+    return convertToUpperCase(data);
   } catch (error) {
     if (error.response?.status == 401) {
       window.location.href = '/';
@@ -363,7 +364,7 @@ export const addFacToOrderConfirm = async (sendInfo) => {
       factura,
       { withCredentials: true }
     );
-    return data;
+    return convertToUpperCase(data);
   } catch (error) {
     console.log(error);
 
@@ -381,7 +382,7 @@ export const getOrderByIdRequest = async (id) => {
     const { data } = await axios.get(`${apiUrl}/api/purchase/order/${id}`, {
       withCredentials: true,
     });
-    return data;
+    return convertToUpperCase(data);
   } catch (error) {
     if (error.response?.status == 401) {
       window.location.href = '/';
@@ -399,7 +400,7 @@ export const createSellOrderRequest = async (clientId) => {
       null,
       { withCredentials: true }
     );
-    return data;
+    return convertToUpperCase(data);
   } catch (error) {
     if (error.response?.status == 401) {
       window.location.href = '/';
@@ -420,7 +421,7 @@ export const confirmSellOrder = async (sendData) => {
       send,
       { withCredentials: true }
     );
-    return data;
+    return convertToUpperCase(data);
   } catch (error) {
     if (error.response?.status == 401) {
       window.location.href = '/';
@@ -439,7 +440,7 @@ export const confirmSelectSellOrder = async (sendData) => {
       sendData,
       { withCredentials: true }
     );
-    return data;
+    return convertToUpperCase(data);
   } catch (error) {
     if (error.response?.status == 401) {
       window.location.href = '/';
@@ -489,7 +490,7 @@ export const NewNCForOrder = async (sendData) => {
       send,
       { withCredentials: true }
     );
-    return data;
+    return convertToUpperCase(data);
   } catch (error) {
     if (error.response?.status == 401) {
       window.location.href = '/';
@@ -508,7 +509,7 @@ export const confirmSellOrderWBill = async (sendData) => {
       send,
       { withCredentials: true }
     );
-    return data;
+    return convertToUpperCase(data);
   } catch (error) {
     if (error.response?.status == 401) {
       window.location.href = '/';
@@ -526,7 +527,7 @@ export const deleteMarcOrderItems = async (sendData) => {
       sendData,
       { withCredentials: true }
     );
-    return data;
+    return convertToUpperCase(data);
   } catch (error) {
     if (error.response?.status == 401) {
       window.location.href = '/';
@@ -544,7 +545,7 @@ export const factItemToggle = async (itemId) => {
       null,
       { withCredentials: true }
     );
-    return data;
+    return convertToUpperCase(data);
   } catch (error) {
     if (error.response?.status == 401) {
       window.location.href = '/';
@@ -558,7 +559,7 @@ export const printBillRequest = async (orderId) => {
       `${apiUrl}/api/movement/bill/data/${orderId}`,
       { withCredentials: true }
     );
-    return data;
+    return convertToUpperCase(data);
   } catch (error) {
     if (error.response?.status == 401) {
       window.location.href = '/';
@@ -577,7 +578,7 @@ export const getBillDataRequest = async (cbte, billType, ptoVta) => {
       },
       { withCredentials: true }
     );
-    return data;
+    return convertToUpperCase(data);
   } catch (error) {
     if (error.response?.status == 401) {
       window.location.href = '/';
@@ -592,7 +593,7 @@ export const printNCRequest = async (orderId, ncNum) => {
       { withCredentials: true }
     );
     // console.log("verdata", data);
-    return data;
+    return convertToUpperCase(data);
   } catch (error) {
     if (error.response?.status == 401) {
       window.location.href = '/';
@@ -606,7 +607,7 @@ export const printNCByNumRequest = async (ncNum, currentAcountId, ptoVta) => {
     url = ptoVta ? `${url}?ptoVta=${ptoVta}` : url;
     const { data } = await axios.get(url, { withCredentials: true });
     // console.log("verdata", data);
-    return data;
+    return convertToUpperCase(data);
   } catch (error) {
     if (error.response?.status == 401) {
       window.location.href = '/';
@@ -620,7 +621,7 @@ export const printPresRequest = async (orderId) => {
       `${apiUrl}/api/movement/pres/data/${orderId}`,
       { withCredentials: true }
     );
-    return data;
+    return convertToUpperCase(data);
   } catch (error) {
     if (error.response?.status == 401) {
       window.location.href = '/';
@@ -634,7 +635,7 @@ export const rePrintPresRequest = async (id) => {
       `${apiUrl}/api/movement/pres/get/data/${id}`,
       { withCredentials: true }
     );
-    return data;
+    return convertToUpperCase(data);
   } catch (error) {
     if (error.response?.status == 401) {
       window.location.href = '/';
@@ -648,7 +649,7 @@ export const printNCPresRequest = async (orderId) => {
       `${apiUrl}/api/movement/pres/data/nc/${orderId}`,
       { withCredentials: true }
     );
-    return data;
+    return convertToUpperCase(data);
   } catch (error) {
     if (error.response?.status == 401) {
       window.location.href = '/';
@@ -662,7 +663,7 @@ export const printNCPresByNumRequest = async (compNum) => {
       `${apiUrl}/api/movement/pres/data/nc/comp/${compNum}`,
       { withCredentials: true }
     );
-    return data;
+    return convertToUpperCase(data);
   } catch (error) {
     if (error.response?.status == 401) {
       window.location.href = '/';
@@ -674,7 +675,7 @@ export const getReport = async (sendData) => {
   try {
     let url = `${apiUrl}/api/purchase/order/report/getlist`;
     const { data } = await axios.post(url, sendData, { withCredentials: true });
-    return data;
+    return convertToUpperCase(data);
   } catch (error) {
     if (error.response?.status == 401) {
       window.location.href = '/';
@@ -686,7 +687,7 @@ export const getDateReport = async () => {
   try {
     const url = `${apiUrl}/api/purchase/order/date`;
     const { data } = await axios.get(url, { withCredentials: true });
-    return data;
+    return convertToUpperCase(data);
   } catch (error) {
     if (error.response?.status == 401) {
       window.location.href = '/';
@@ -729,7 +730,7 @@ export const genBuyOrdersByReportImport = async (sendData) => {
         },
       }
     );
-    return data;
+    return convertToUpperCase(data);
   } catch (error) {
     if (error.response?.status == 401) {
       window.location.href = '/';
@@ -743,7 +744,22 @@ export const genOrderReport = async () => {
     const url = `${apiUrl}/api/purchase/order/gen/order`;
     const { data } = await axios.get(url, { withCredentials: true });
     // console.log(data);
-    return data;
+    return convertToUpperCase(data);
+  } catch (error) {
+    if (error.response?.status == 401) {
+      window.location.href = '/';
+    }
+    throw error;
+  }
+};
+export const editOrderItem = async (dataOrder) => {
+  try {
+    const { currentAcountId, text } = dataOrder;
+    const url = text
+      ? `${apiUrl}/api/purchase/order/list/buy/products/${currentAcountId}?text=${text}`
+      : `${apiUrl}/api/purchase/order/list/buy/products/${currentAcountId}`;
+    const { data } = await axios.get(url, { withCredentials: true });
+    return convertToUpperCase(data);
   } catch (error) {
     if (error.response?.status == 401) {
       window.location.href = '/';
@@ -758,7 +774,7 @@ export const getListProductsClient = async (send) => {
       ? `${apiUrl}/api/purchase/order/list/buy/products/${currentAcountId}?text=${text}`
       : `${apiUrl}/api/purchase/order/list/buy/products/${currentAcountId}`;
     const { data } = await axios.get(url, { withCredentials: true });
-    return data;
+    return convertToUpperCase(data);
   } catch (error) {
     if (error.response?.status == 401) {
       window.location.href = '/';
@@ -778,7 +794,7 @@ export const addOrderItemsByFile = async (sendData) => {
         'Content-Type': 'multipart/form-data', // Asegurar que el servidor lo interprete correctamente
       },
     });
-    return data;
+    return convertToUpperCase(data);
   } catch (error) {
     if (error.response?.status == 401) {
       window.location.href = '/';
@@ -790,7 +806,7 @@ export const searchPendings = async (sendFilters) => {
   try {
     const url = `${apiUrl}/api/pending/search`;
     const { data } = await axios.post(url, sendFilters);
-    return data;
+    return convertToUpperCase(data);
   } catch (error) {
     if (error.response?.status == 401) {
       window.location.href = '/';

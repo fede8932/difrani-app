@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { convertToUpperCase } from '../utils';
 const apiUrl = import.meta.env.VITE_API_URL;
 
 export const getAllMovNoApply = async (currentAcountId) => {
@@ -7,7 +8,7 @@ export const getAllMovNoApply = async (currentAcountId) => {
       `${apiUrl}/api/movement/nc/list/${currentAcountId}`,
       { withCredentials: true }
     );
-    return data;
+    return convertToUpperCase(data);
   } catch (error) {
     if (error.response?.status == 401) {
       window.location.href = '/';
@@ -22,7 +23,7 @@ export const getPendingReq = async (currentAcountId) => {
       `${apiUrl}/api/movement/pending/${currentAcountId}`,
       { withCredentials: true }
     );
-    return data;
+    return convertToUpperCase(data);
   } catch (error) {
     if (error.response?.status == 401) {
       window.location.href = '/';
@@ -38,7 +39,7 @@ export const getPendingByRangeReq = async (sData) => {
       `${apiUrl}/api/movement/pending/${currentAcountId}?initDate=${range[0]}&endDate=${range[1]}&filter=${filter}`,
       { withCredentials: true }
     );
-    return data;
+    return convertToUpperCase(data);
   } catch (error) {
     if (error.response?.status == 401) {
       window.location.href = '/';
@@ -53,7 +54,7 @@ export const getPendingBySellerReq = async (sellerId) => {
       `${apiUrl}/api/movement/pending/seller/${sellerId}`,
       { withCredentials: true }
     );
-    return data;
+    return convertToUpperCase(data);
   } catch (error) {
     if (error.response?.status == 401) {
       window.location.href = '/';

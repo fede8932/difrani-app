@@ -12,7 +12,9 @@ function EditUserViewContainer(props) {
   const useSeller = sellerId
     ? useSelector((state) => state.seller.data)[0]
     : seller;
-  const methods = useForm();
+  const methods = useForm({
+    mode: 'onTouched',
+  });
   const dispatch = useDispatch();
   const updateSeller = (data) => {
     const { ...sellerData } = data;
@@ -32,6 +34,24 @@ function EditUserViewContainer(props) {
       dispatch(resetSellerStatus());
     };
   }, []);
+
+  useEffect(() => {
+    if (useSeller) {
+      methods.reset({
+        name: useSeller.user?.name || '',
+        lastName: useSeller.user?.lastName || '',
+        email: useSeller.user?.email || '',
+        cuil: useSeller.cuil || '',
+        calle: useSeller.calle || '',
+        altura: useSeller.altura || '',
+        codigoPostal: useSeller.codigoPostal || '',
+        localidad: useSeller.localidad || '',
+        telefono: useSeller.telefono || '',
+        comisionBase: useSeller.comisionBase ? useSeller.comisionBase * 100 : 0,
+        comisionOferta: useSeller.comisionOferta ? useSeller.comisionOferta * 100 : 0,
+      });
+    }
+  }, [useSeller, methods]);
 
   return (
     <EditUserViewComponent

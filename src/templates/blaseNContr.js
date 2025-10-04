@@ -1,15 +1,14 @@
 import { fechaConverter } from '../utils';
 
 export const blaseNContr = (controlOrder, pag, pages, items) => {
-  console.log(controlOrder)
   const itemsHtml = items
     .map(
       (item) => `
-    <tr class="descrip">
-      <td class="descrip">${item.product.article}</td>
-      <td class="descrip">${item.product.location}</td>
-      <td class="tBody descrip">${item.amount}</td>
-      <td class="descrip">${item.product.brand.name.substring(0, 12)}</td>
+    <tr class="tBody">
+      <td>${item.product.article}</td>
+      <td>${item.product.location}</td>
+      <td>${item.amount}</td>
+      <td class="tdBody">${item.product.brand.name.substring(0, 12)}</td>
       <td class="descrip"> ${item.product.description.substring(0, 82)}</td>
     </tr>
   `
@@ -23,10 +22,11 @@ export const blaseNContr = (controlOrder, pag, pages, items) => {
     <head>
       <meta charset="UTF-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      <title>Pedido</title>
+      <title>Nota de Control</title>
       <style type="text/css">
         * {
           box-sizing: border-box;
+          font-family: Arial, Helvetica, sans-serif;
           -webkit-user-select: none; /* Chrome, Opera, Safari */
           -moz-user-select: none; /* Firefox 2+ */
           -ms-user-select: none; /* IE 10+ */
@@ -41,6 +41,8 @@ export const blaseNContr = (controlOrder, pag, pages, items) => {
         body {
           width: 800px;
           height: 1100px;
+          margin: 0;
+          padding: 15px;
         }
         .encabezado {
           display: flex;
@@ -205,7 +207,9 @@ export const blaseNContr = (controlOrder, pag, pages, items) => {
           text-align: center;
       }
       .header{
-        font-size: 9px;
+        font-size: 11px;
+        font-weight: 600;
+        background-color: #f0f0f0;
       }
       .headerCode{
         width: 10%;
@@ -223,14 +227,16 @@ export const blaseNContr = (controlOrder, pag, pages, items) => {
         width: 15%;
       }
       .tBody{
-        font-size: 13px;
-        height: 7px;
+        font-size: 11px;
+        height: auto;
       }
       .tdBody{
-        font-size: 9px;
+        font-size: 10px;
       }
       .descrip{
-        font-size: 9px;
+        font-size: 10px;
+        text-align: left;
+        padding-left: 8px;
       }
       </style>
     </head>
@@ -275,7 +281,6 @@ export const blaseNContr = (controlOrder, pag, pages, items) => {
           <span class="clientInfoText">Responsable de pedido:<span class="clientInfoTextDos">________________________________</span></span>
         </div>
       </div>
-      </div>
       <div class="tableContainer">
           <table class="table">
               <tr class="header">
@@ -299,8 +304,7 @@ export const blaseNContr = (controlOrder, pag, pages, items) => {
               </div>
             </div>
           </div>
-          <span class="libreDeResp"
-          >
+          <span class="libreDeResp"></span>
         </div>
         <div class="totalCont">
           <span class="pesosSpanCont"

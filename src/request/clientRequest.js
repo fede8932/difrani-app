@@ -1,4 +1,5 @@
 import axios from "axios";
+import { convertToUpperCase } from '../utils';
 const apiUrl = import.meta.env.VITE_API_URL;
 
 export const clientRegister = async (datos) => {
@@ -11,7 +12,7 @@ export const clientRegister = async (datos) => {
     const client = await axios.post(`${apiUrl}/api/client/add`, dataClient, {
       withCredentials: true,
     });
-    return client.data;
+    return convertToUpperCase(client.data);
   } catch (error) {
     if (error.response?.status == 401) {
       window.location.href = "/";
@@ -25,10 +26,11 @@ export const getClients = async (idReq) => {
     const { data } = await axios.get(`${apiUrl}/api/client`, {
       withCredentials: true,
     });
-    const arrayClients = data.map((client) => {
+    const upperData = convertToUpperCase(data);
+    const arrayClients = upperData.map((client) => {
       return {
-        label: client.razonSocial.toUpperCase(),
-        text: client.razonSocial.toUpperCase(),
+        label: client.razonSocial,
+        text: client.razonSocial,
         value: idReq ? client.id : client.razonSocial,
         id: client.id,
       };
@@ -56,7 +58,7 @@ export const getAllClients = async () => {
     const { data } = await axios.get(`${apiUrl}/api/client?ext=true`, {
       withCredentials: true,
     });
-    return data;
+    return convertToUpperCase(data);
   } catch (error) {
     if (error.response?.status == 401) {
       window.location.href = "/";
@@ -71,7 +73,7 @@ export const getClientsByData = async (dataSearch) => {
     let url = `${apiUrl}/api/client/data?page=${page}&pageSize=${pageSize}&orderByColumn=${orderByColumn}&sellerId=${sellerId}&color=${color}`;
     url = text != "" ? `${url}&text=${text}` : url;
     const { data } = await axios.get(url, { withCredentials: true });
-    return data;
+    return convertToUpperCase(data);
   } catch (error) {
     if (error.response?.status == 401) {
       window.location.href = "/";
@@ -86,7 +88,7 @@ export const getClientByData = async (dataSearch) => {
       `${apiUrl}/api/client/dataclient?text=${dataSearch}`,
       { withCredentials: true }
     );
-    return data;
+    return convertToUpperCase(data);
   } catch (error) {
     if (error.response?.status == 401) {
       window.location.href = "/";
@@ -118,7 +120,7 @@ export const getAllClientByData = async (text) => {
     const { data } = await axios.get(`${apiUrl}/api/client/all?text=${text}`, {
       withCredentials: true,
     });
-    return data;
+    return convertToUpperCase(data);
   } catch (error) {
     if (error.response?.status == 401) {
       window.location.href = "/";
@@ -132,7 +134,7 @@ export const getClientById = async (id) => {
     const { data } = await axios.get(`${apiUrl}/api/client/id?id=${id}`, {
       withCredentials: true,
     });
-    return data;
+    return convertToUpperCase(data);
   } catch (error) {
     if (error.response?.status == 401) {
       window.location.href = "/";
@@ -148,7 +150,7 @@ export const getPickingOrder = async (filterData) => {
       `${apiUrl}/api/order/picking?order=${order}&rows=${rows}&page=${page}`,
       { withCredentials: true }
     );
-    return data;
+    return convertToUpperCase(data);
   } catch (error) {
     if (error.response?.status == 401) {
       window.location.href = "/";
@@ -164,7 +166,7 @@ export const searchPickingOrder = async (filterData) => {
       filterData,
       { withCredentials: true }
     );
-    return data;
+    return convertToUpperCase(data);
   } catch (error) {
     if (error.response?.status == 401) {
       window.location.href = "/";
@@ -178,7 +180,7 @@ export const selectPickingOrder = async (id) => {
     const { data } = await axios.get(`${apiUrl}/api/order/picking/${id}`, {
       withCredentials: true,
     });
-    return data;
+    return convertToUpperCase(data);
   } catch (error) {
     if (error.response?.status == 401) {
       window.location.href = "/";

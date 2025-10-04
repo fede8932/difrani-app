@@ -1,4 +1,5 @@
 import axios from "axios";
+import { convertToUpperCase } from '../utils';
 const apiUrl = import.meta.env.VITE_API_URL;
 
 export const sendLoginRequest = async (data) => {
@@ -6,7 +7,7 @@ export const sendLoginRequest = async (data) => {
     const loginUser = await axios.post(`${apiUrl}/api/users/login`, data, {
       withCredentials: true, // incluir cookies en la solicitud
     });
-    return loginUser.data;
+    return convertToUpperCase(loginUser.data);
   } catch (error) {
     throw error;
   }
@@ -16,7 +17,7 @@ export const updateUserStatusRequest = async (id) => {
     const { data } = await axios.put(`${apiUrl}/api/users/status/${id}`, null, {
       withCredentials: true, // incluir cookies en la solicitud
     });
-    return data;
+    return convertToUpperCase(data);
   } catch (error) {
     throw error;
   }
@@ -30,7 +31,7 @@ export const resetPassRequest = async (id) => {
         withCredentials: true, // incluir cookies en la solicitud
       }
     );
-    return data;
+    return convertToUpperCase(data);
   } catch (error) {
     throw error;
   }
@@ -51,7 +52,7 @@ export const persistUserRequest = async () => {
     const url = `${apiUrl}/api/users/login/me`;
     const { data } = await axios.get(url, { withCredentials: true });
     // console.log(data);
-    return data;
+    return convertToUpperCase(data);
   } catch (error) {
     if (error.response && error.response.status === 401) {
       console.log("No autorizado: El token es inválido o ha expirado.");
@@ -66,7 +67,7 @@ export const searchUserRequest = async (sendInfo) => {
   try {
     const url = `${apiUrl}/api/users/search`;
     const { data } = await axios.post(url, sendInfo, { withCredentials: true });
-    return data;
+    return convertToUpperCase(data);
   } catch (error) {
     if (error.response?.status == 401) {
       window.location.href = "/";
@@ -79,7 +80,7 @@ export const changeUserPass = async (sendInfo) => {
   try {
     const url = `${apiUrl}/api/users/login/update/pass`;
     const { data } = await axios.post(url, sendInfo, { withCredentials: true });
-    return data;
+    return convertToUpperCase(data);
   } catch (error) {
     if (error.response?.status == 401) {
       window.location.href = "/";
@@ -92,7 +93,7 @@ export const logOutCookiesRequest = async () => {
   try {
     const url = `${apiUrl}/api/users/login/logout`;
     const { data } = await axios.get(url, { withCredentials: true });
-    return data;
+    return convertToUpperCase(data);
   } catch (error) {
     if (error.response?.status == 401) {
       window.location.href = "/";

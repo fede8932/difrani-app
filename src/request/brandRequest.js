@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { convertToUpperCase } from '../utils';
 const apiUrl = import.meta.env.VITE_API_URL;
 
 export const createBrand = async (brandData) => {
@@ -29,7 +30,7 @@ export const getBrands = async () => {
     const { data } = await axios.get(`${apiUrl}/api/brand`, {
       withCredentials: true,
     });
-    const brands = data.map((brand) => {
+    const brands = convertToUpperCase(data).map((brand) => {
       return { text: brand.name, value: brand.id };
     });
     return brands;
@@ -46,7 +47,7 @@ export const getBrandsByData = async (text) => {
       ? `${apiUrl}/api/brand/search?data=${text}`
       : `${apiUrl}/api/brand/search`;
     const { data } = await axios.get(url, { withCredentials: true });
-    return data;
+    return convertToUpperCase(data);
   } catch (error) {
     if (error.response?.status == 401) {
       window.location.href = '/';
@@ -58,7 +59,7 @@ export const searchBrandsExtra = async (filters) => {
   try {
     const url = `${apiUrl}/api/brand/search/extra`;
     const { data } = await axios.post(url, filters, { withCredentials: true });
-    return data;
+    return convertToUpperCase(data);
   } catch (error) {
     if (error.response?.status == 401) {
       window.location.href = '/';
@@ -85,7 +86,7 @@ export const getBrandsBySupplier = async (supplierId) => {
       `${apiUrl}/api/brand/search/supplier?supplierId=${supplierId}`,
       { withCredentials: true }
     );
-    const brands = data.map((brand) => {
+    const brands = convertToUpperCase(data).map((brand) => {
       return { text: brand.name, value: brand.id };
     });
     return brands;
@@ -151,7 +152,7 @@ export const addBrandToTable = async (datos) => {
     const { data } = await axios.post(`${apiUrl}/api/discounts`, datos, {
       withCredentials: true,
     });
-    return data.customerDiscounts;
+    return convertToUpperCase(data.customerDiscounts);
   } catch (error) {
     if (error.response?.status == 401) {
       window.location.href = '/';
@@ -166,7 +167,7 @@ export const delBrandToTable = async (ids) => {
       `${apiUrl}/api/discounts/${brandId}/${clientId}`,
       { withCredentials: true }
     );
-    return data.customerDiscounts;
+    return convertToUpperCase(data.customerDiscounts);
   } catch (error) {
     if (error.response?.status == 401) {
       window.location.href = '/';
@@ -185,7 +186,7 @@ export const getAllBrandToTable = async (clientId) => {
       `${apiUrl}/api/discounts?clientId=${clientId}`,
       { withCredentials: true }
     );
-    return data;
+    return convertToUpperCase(data);
   } catch (error) {
     if (error.response?.status == 401) {
       window.location.href = '/';
@@ -199,7 +200,7 @@ export const getBrandById = async (id) => {
     const { data } = await axios.get(`${apiUrl}/api/brand/get/unique/${id}`, {
       withCredentials: true,
     });
-    return data;
+    return convertToUpperCase(data);
   } catch (error) {
     if (error.response?.status == 401) {
       window.location.href = '/';

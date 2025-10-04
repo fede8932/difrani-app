@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { convertToUpperCase } from '../utils';
 const apiUrl = import.meta.env.VITE_API_URL;
 
 export const addOrderAjust = async (orderId) => {
@@ -8,7 +9,7 @@ export const addOrderAjust = async (orderId) => {
       null,
       { withCredentials: true }
     );
-    return data;
+    return convertToUpperCase(data);
   } catch (error) {
     if (error.response?.status == 401) {
       window.location.href = '/';
@@ -21,7 +22,7 @@ export const getOrderAjust = async (orderId) => {
     const { data } = await axios.get(`${apiUrl}/api/order/ajust/${orderId}`, {
       withCredentials: true,
     });
-    return data;
+    return convertToUpperCase(data);
   } catch (error) {
     if (error.response?.status == 401) {
       window.location.href = '/';
@@ -34,7 +35,7 @@ export const getAjustOrder = async (id) => {
     const { data } = await axios.get(`${apiUrl}/api/order/ajust/id/${id}`, {
       withCredentials: true,
     });
-    return data;
+    return convertToUpperCase(data);
   } catch (error) {
     if (error.response?.status == 401) {
       window.location.href = '/';
@@ -45,7 +46,7 @@ export const getAjustOrder = async (id) => {
 export const deleteOrderAjust = async (orderId) => {
   try {
     const { data } = await axios.delete(`${apiUrl}/api/order/ajust/${orderId}`);
-    return data;
+    return convertToUpperCase(data);
   } catch (error) {
     if (error.response?.status == 401) {
       window.location.href = '/';
@@ -75,7 +76,7 @@ export const addOrderAjustItem = async (obj) => {
         null,
         { withCredentials: true }
       );
-      return data;
+      return convertToUpperCase(data);
     }
   } catch (error) {
     if (error.response?.status == 401) {
@@ -91,7 +92,7 @@ export const deleteAjustItem = async (item) => {
       `${apiUrl}/api/order/ajust/items/${orderItemId}`,
       { withCredentials: true }
     );
-    return data;
+    return convertToUpperCase(data);
   } catch (error) {
     if (error.response?.status == 401) {
       window.location.href = '/';
@@ -107,7 +108,7 @@ export const updateCantAjustItem = async (dataItem) => {
       null,
       { withCredentials: true }
     );
-    return data;
+    return convertToUpperCase(data);
   } catch (error) {
     if (error.response?.status == 401) {
       window.location.href = '/';
@@ -123,7 +124,7 @@ export const updatePriceAjustItem = async (dataItem) => {
       null,
       { withCredentials: true }
     );
-    return data;
+    return convertToUpperCase(data);
   } catch (error) {
     if (error.response?.status == 401) {
       window.location.href = '/';
@@ -139,7 +140,7 @@ export const updateStatusAjust = async (ajust) => {
       null,
       { withCredentials: true }
     );
-    return data;
+    return convertToUpperCase(data);
   } catch (error) {
     if (error.response?.status == 401) {
       window.location.href = '/';

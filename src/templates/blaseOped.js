@@ -22,10 +22,11 @@ export const nPedHtml = (pickingOrder, pag, pages, items, type) => {
     <head>
       <meta charset="UTF-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      <title>Pedido</title>
+      <title>Nota de Pedido</title>
       <style type="text/css">
         * {
           box-sizing: border-box;
+          font-family: Arial, Helvetica, sans-serif;
           -webkit-user-select: none; /* Chrome, Opera, Safari */
           -moz-user-select: none; /* Firefox 2+ */
           -ms-user-select: none; /* IE 10+ */
@@ -40,6 +41,8 @@ export const nPedHtml = (pickingOrder, pag, pages, items, type) => {
         body {
           width: 800px;
           height: 1100px;
+          margin: 0;
+          padding: 15px;
         }
         .encabezado {
           display: flex;
@@ -65,6 +68,7 @@ export const nPedHtml = (pickingOrder, pag, pages, items, type) => {
           justify-content: center;
           width: 70px;
           height: 70px;
+          border: 2px solid black;
           font-size: 50px;
           font-weight: 600;
         }
@@ -203,7 +207,9 @@ export const nPedHtml = (pickingOrder, pag, pages, items, type) => {
           text-align: center;
       }
       .header{
-        font-size: 9px;
+        font-size: 11px;
+        font-weight: 600;
+        background-color: #f0f0f0;
       }
       .headerCode{
         width: 10%;
@@ -221,14 +227,16 @@ export const nPedHtml = (pickingOrder, pag, pages, items, type) => {
         width: 15%;
       }
       .tBody{
-        font-size: 13px;
-        height: 7px;
+        font-size: 11px;
+        height: auto;
       }
       .tdBody{
-        font-size: 9px;
+        font-size: 10px;
       }
       .descrip{
-        font-size: 9px;
+        font-size: 10px;
+        text-align: left;
+        padding-left: 8px;
       }
       </style>
     </head>
@@ -236,10 +244,10 @@ export const nPedHtml = (pickingOrder, pag, pages, items, type) => {
       <div class="encabezado">
         <div class="leftCont">
           <div class="dataEmisor">
-            <img class="logo" src="../assets//logo/logoBlase.png" alt="logo" />
+            <img class="logo" src="../assets/logo/logoBlase.png" alt="logo" />
             <div class="infoEminContainer">
-              <span class="infoEmisTex">"-</span>
-              <span class="infoEmisTex">"-</span>
+              <span class="infoEmisTex">Ruta 28 396, Gral Rodriguez. CP: 1748</span>
+              <span class="infoEmisTex">4460-5972</span>
             </div>
           </div>
           <div class="factCode">
@@ -273,7 +281,6 @@ export const nPedHtml = (pickingOrder, pag, pages, items, type) => {
           <span class="clientInfoText">Responsable de pedido:<span class="clientInfoTextDos">________________________________</span></span>
         </div>
       </div>
-      </div>
       <div class="tableContainer">
           <table class="table">
               <tr class="header">
@@ -297,8 +304,7 @@ export const nPedHtml = (pickingOrder, pag, pages, items, type) => {
               </div>
             </div>
           </div>
-          <span class="libreDeResp"
-          >
+          <span class="libreDeResp"></span>
         </div>
         <div class="totalCont">
           <span class="pesosSpanCont"

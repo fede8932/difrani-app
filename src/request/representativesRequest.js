@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { convertToUpperCase } from '../utils';
 const apiUrl = import.meta.env.VITE_API_URL;
 
 export const getRepresentativesBySupplier = async (id) => {
@@ -6,7 +7,8 @@ export const getRepresentativesBySupplier = async (id) => {
     const { data } = await axios.get(`${apiUrl}/api/representative/${id}`, {
       withCredentials: true,
     });
-    const representatives = data.map((rep) => {
+    const upperData = convertToUpperCase(data);
+    const representatives = upperData.map((rep) => {
       return { text: `${rep.name} ${rep.apellido}`, value: rep.id };
     });
     return representatives;
@@ -25,7 +27,8 @@ export const searchRepresentativesBySupplier = async (date) => {
       ? `${apiUrl}/api/representative/search?rows=10&page=${page}&text=${text}`
       : `${apiUrl}/api/representative/search?rows=10&page=${page}`;
     const { data } = await axios.get(url, { withCredentials: true });
-    const representatives = data.map((rep) => {
+    const upperData = convertToUpperCase(data);
+    const representatives = upperData.map((rep) => {
       return { text: `${rep.name} ${rep.apellido}`, value: rep.id };
     });
     return representatives;

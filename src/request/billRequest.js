@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { convertToUpperCase } from '../utils';
 const apiUrl = import.meta.env.VITE_API_URL;
 
 export const getBillByIdRequest = async (id) => {
@@ -6,7 +7,7 @@ export const getBillByIdRequest = async (id) => {
     const { data } = await axios.get(`${apiUrl}/api/movement/detail/${id}`, {
       withCredentials: true,
     });
-    return data;
+    return convertToUpperCase(data);
   } catch (error) {
     if (error.response?.status == 401) {
       window.location.href = '/';
@@ -27,7 +28,7 @@ export const getBillItemsRequest = async (info) => {
         withCredentials: true,
       }
     );
-    return data;
+    return convertToUpperCase(data);
   } catch (error) {
     if (error.response?.status == 401) {
       window.location.href = '/';
@@ -112,7 +113,7 @@ export const getBillsByProductRequest = async (filter) => {
         withCredentials: true,
       }
     );
-    return data;
+    return convertToUpperCase(data);
   } catch (error) {
     if (error.response?.status == 401) {
       window.location.href = '/';

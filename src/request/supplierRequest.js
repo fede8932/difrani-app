@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { convertToUpperCase } from '../utils';
 const apiUrl = import.meta.env.VITE_API_URL;
 
 export const suplierRegister = async (datos) => {
@@ -35,7 +36,8 @@ export const getSuppliers = async () => {
     const { data } = await axios.get(`${apiUrl}/api/supplier`, {
       withCredentials: true,
     });
-    const arraySupplier = data.map((supplier) => {
+    const upperData = convertToUpperCase(data);
+    const arraySupplier = upperData.map((supplier) => {
       return { text: supplier.razonSocial, value: supplier.id };
     });
     return arraySupplier;
@@ -52,7 +54,7 @@ export const getSuppliersInfo = async () => {
     const { data } = await axios.get(`${apiUrl}/api/supplier`, {
       withCredentials: true,
     });
-    return data;
+    return convertToUpperCase(data);
   } catch (error) {
     if (error.response?.status == 401) {
       window.location.href = '/';
@@ -67,7 +69,7 @@ export const getInfoSuppliers = async (razonSocial) => {
       `${apiUrl}/api/supplier/supplier?id=${razonSocial}`,
       { withCredentials: true }
     );
-    return data;
+    return convertToUpperCase(data);
   } catch (error) {
     if (error.response?.status == 401) {
       window.location.href = '/';
@@ -83,7 +85,7 @@ export const getSuppliersByData = async (searchData) => {
       `${apiUrl}/api/supplier/data?text=${text}&page=${page}&pageSize=${pageSize}&orderByColumn=${orderByColumn}`,
       { withCredentials: true }
     );
-    return data;
+    return convertToUpperCase(data);
   } catch (error) {
     if (error.response?.status == 401) {
       window.location.href = '/';
@@ -179,7 +181,7 @@ export const getControlOrder = async (filterData) => {
       `${apiUrl}/api/supplier/picking?order=${order}&rows=${rows}&page=${page}`,
       { withCredentials: true }
     );
-    return data;
+    return convertToUpperCase(data);
   } catch (error) {
     if (error.response?.status == 401) {
       window.location.href = '/';
@@ -194,7 +196,7 @@ export const selectControlOrder = async (id) => {
       `${apiUrl}/api/supplier/picking/select?id=${id}`,
       { withCredentials: true }
     );
-    return data;
+    return convertToUpperCase(data);
   } catch (error) {
     if (error.response?.status == 401) {
       window.location.href = '/';
@@ -210,7 +212,7 @@ export const selectControlOrderItems = async (data) => {
       `${apiUrl}/api/supplier/picking/select/order?id=${id}`,
       { withCredentials: true }
     );
-    return data;
+    return convertToUpperCase(data);
   } catch (error) {
     if (error.response?.status == 401) {
       window.location.href = '/';

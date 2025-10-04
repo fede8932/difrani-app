@@ -1,4 +1,5 @@
 import axios from "axios";
+import { convertToUpperCase } from '../utils';
 const apiUrl = import.meta.env.VITE_API_URL;
 
 let cancelTokenSource = null;
@@ -72,7 +73,7 @@ export const searchProduct = async (productData) => {
       `${apiUrl}/api/productos/search?data=${productData.dataSearch}&supplierId=${productData.supplierId}`,
       { withCredentials: true }
     );
-    return products.data;
+    return convertToUpperCase(products.data);
   } catch (error) {
     if (error.response?.status == 401) {
       window.location.href = "/";
@@ -88,7 +89,7 @@ export const searchProducts = async (productData) => {
       : `${apiUrl}/api/productos?rows=100&page=${page}`;
     url = equivalenceId ? url + `&equivalenceId=${equivalenceId}` : url;
     const products = await axios.get(url, { withCredentials: true });
-    return products.data;
+    return convertToUpperCase(products.data);
   } catch (error) {
     if (error.response?.status == 401) {
       window.location.href = "/";
@@ -115,7 +116,7 @@ export const searchExtraProducts = async (productData) => {
     // Restablecer el token después de una solicitud exitosa
     cancelTokenSource = null;
 
-    return response.data;
+    return convertToUpperCase(response.data);
   } catch (error) {
     if (axios.isCancel(error)) {
       console.log("Solicitud cancelada:", error.message);
@@ -133,7 +134,7 @@ export const searchProductPage = async (productData) => {
       `${apiUrl}/api/productos/search/prod?data=${productData.dataSearch}&cant=${productData.cant}&page=${productData.page}`,
       { withCredentials: true }
     );
-    return data;
+    return convertToUpperCase(data);
   } catch (error) {
     if (error.response?.status == 401) {
       window.location.href = "/";
@@ -147,7 +148,7 @@ export const searchOneProduct = async (productData) => {
       `${apiUrl}/api/productos/search/prod?data=${productData.dataSearch}&cant=${productData.cant}&page=${productData.page}`,
       { withCredentials: true }
     );
-    return data;
+    return convertToUpperCase(data);
   } catch (error) {
     if (error.response?.status == 401) {
       window.location.href = "/";
@@ -237,7 +238,7 @@ export const getProductId = async (id) => {
     const { data } = await axios.get(`${apiUrl}/api/productos/detail/${id}`, {
       withCredentials: true,
     });
-    return data;
+    return convertToUpperCase(data);
   } catch (error) {
     if (error.response?.status == 401) {
       window.location.href = "/";
@@ -265,7 +266,7 @@ export const getAllProduct = async () => {
     const products = await axios.get(`${apiUrl}/api/productos/pr`, {
       withCredentials: true,
     });
-    return products.data;
+    return convertToUpperCase(products.data);
   } catch (error) {
     if (error.response?.status == 401) {
       window.location.href = "/";
@@ -338,7 +339,7 @@ export const GetNewsByProductoId = async (productId) => {
         withCredentials: true,
       }
     );
-    return data;
+    return convertToUpperCase(data);
   } catch (error) {
     if (error.response?.status === 401) {
       window.location.href = "/";
@@ -355,7 +356,7 @@ export const GetBanners = async () => {
         withCredentials: true,
       }
     );
-    return data;
+    return convertToUpperCase(data);
   } catch (error) {
     if (error.response?.status === 401) {
       window.location.href = "/";
