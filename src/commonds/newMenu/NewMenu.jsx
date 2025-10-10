@@ -47,8 +47,8 @@ function NewMenu(props) {
         {entorno !== 'ALOSPITS' ? (
           <ProtectedComponent listAccesss={[1]}>
             <DropdownItem
-              text="Ir a Alospits"
-              onClick={() => redirectToGoogle('https://admin.alospits.com')}
+              text="Ir a Tauro"
+              onClick={() => redirectToGoogle('https://admin.tauroparts.shop')}
             />
           </ProtectedComponent>
         ) : null}
