@@ -32,7 +32,7 @@ function SearchPickingOrderContainer(props) {
         inicio,
         fin
       );
-      const type = pickingOrder.purchaseOrder?.oferta ? 'NPO' : 'NP';
+      const type = pickingOrder.purchaseOrder?.oferta ? /*'NPO'*/ 'NP' : 'NP';
       const htmlContent = nPedHtml(
         pickingOrder,
         i + 1,
