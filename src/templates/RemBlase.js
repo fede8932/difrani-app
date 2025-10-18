@@ -25,6 +25,7 @@ export const remitHtml = (
       <style type="text/css">
         * {
           box-sizing: border-box;
+          font-family: 'Helvetica', 'Arial', sans-serif;
           -webkit-user-select: none; /* Chrome, Opera, Safari */
           -moz-user-select: none; /* Firefox 2+ */
           -ms-user-select: none; /* IE 10+ */
@@ -33,6 +34,10 @@ export const remitHtml = (
         body {
           width: 800px;
           height: 1100px;
+        }
+        td, th, span, p {
+          word-wrap: break-word;
+          overflow-wrap: break-word;
         }
         .encabezado {
           display: flex;
@@ -73,7 +78,7 @@ export const remitHtml = (
           align-items: center;
         }
         .descrip{
-          font-size: 9px;
+          font-size: 10px;
         }
         .dataFact {
           width: 310px;

@@ -53,6 +53,7 @@ export const payDetail = (client, payData, logo) => {
       <style type="text/css">
         * {
           box-sizing: border-box;
+          font-family: 'Helvetica', 'Arial', sans-serif;
           -webkit-user-select: none; /* Chrome, Opera, Safari */
           -moz-user-select: none; /* Firefox 2+ */
           -ms-user-select: none; /* IE 10+ */
@@ -61,6 +62,10 @@ export const payDetail = (client, payData, logo) => {
         body {
           width: 800px;
           height: 610px;
+        }
+        td, th, span, p {
+          word-wrap: break-word;
+          overflow-wrap: break-word;
         }
         .encabezado {
           display: flex;
@@ -114,7 +119,7 @@ export const payDetail = (client, payData, logo) => {
           border-bottom: 2px solid black;
         }
         .hojaCont {
-          font-size: 20px;
+          font-size: 22px;
           font-weight: 600;
           display: flex;
           justify-content: space-between;

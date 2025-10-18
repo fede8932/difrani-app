@@ -207,7 +207,7 @@ export const blaseNContr = (controlOrder, pag, pages, items) => {
           text-align: center;
       }
       .header{
-        font-size: 11px;
+        font-size: 12px;
         font-weight: 600;
         background-color: #f0f0f0;
       }
@@ -227,7 +227,7 @@ export const blaseNContr = (controlOrder, pag, pages, items) => {
         width: 15%;
       }
       .tBody{
-        font-size: 11px;
+        font-size: 12px;
         height: auto;
       }
       .tdBody{
