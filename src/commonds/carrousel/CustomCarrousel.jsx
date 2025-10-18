@@ -29,7 +29,7 @@ const CustomCarrousel = (props) => {
         images.map((image, i) => (
           <div style={contentStyle}>
             <img
-              src={image.url}
+              src={image.url?.toLowerCase()}
               alt={`Imagen ${i}`}
               style={{ height: '600px', maxWidth: '790px' }}
             />
