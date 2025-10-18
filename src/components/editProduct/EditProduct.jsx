@@ -22,7 +22,7 @@ function EditProduct(props) {
               placeholder="Artículo"
               icon="fa-solid fa-id-card"
               validate={{ required: true }}
-              defaultValue={product?.data?.article}
+              value={product?.data?.article}
             />
           </div>
           <div className={styles.medium}>
@@ -35,7 +35,7 @@ function EditProduct(props) {
               placeholder="Localización"
               icon="fa-solid fa-id-card"
               validate={{ required: false }}
-              defaultValue={product?.data?.location}
+              value={product?.data?.location}
             />
           </div>
         </div>
@@ -51,7 +51,7 @@ function EditProduct(props) {
                 placeholder="Stock"
                 icon="fa-solid fa-id-card"
                 validate={{ required: true }}
-                defaultValue={product?.data?.stock?.stock}
+                value={product?.data?.stock?.stock}
               />
             </div>
             <div className={styles.medium}>
@@ -65,7 +65,7 @@ function EditProduct(props) {
                   placeholder="Stock mínimo"
                   icon="fa-solid fa-id-card"
                   validate={{ required: true }}
-                  defaultValue={minStock}
+                  value={minStock}
                 />
                 <Button
                   onClick={() => {
@@ -92,7 +92,7 @@ function EditProduct(props) {
                 placeholder="Precio"
                 icon="fa-solid fa-id-card"
                 validate={{ required: true }}
-                defaultValue={product?.data?.price?.price}
+                value={product?.data?.price?.price}
               />
             </div>
             <div className={styles.medium}>
@@ -106,7 +106,7 @@ function EditProduct(props) {
                   placeholder="Stock máximo"
                   icon="fa-solid fa-id-card"
                   validate={{ required: true }}
-                  defaultValue={maxStock}
+                  value={maxStock}
                 />
               </div>
             </div>
@@ -122,7 +122,7 @@ function EditProduct(props) {
             placeholder="Artículo"
             icon="fa-solid fa-id-card"
             validate={{ required: true }}
-            defaultValue={product?.data?.description}
+            value={product?.data?.description}
           />
         </div>
         <div style={{ marginBottom: "10px" }}>

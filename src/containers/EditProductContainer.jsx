@@ -55,9 +55,22 @@ function EditProductContainer(props) {
     };
   }, []);
   useEffect(() => {
-    if (selectProduct) {
-      setMinStock(selectProduct.data?.stock?.minStock ?? 0);
-      setMaxStock(selectProduct.data?.stock?.maxStock ?? 0);
+    if (selectProduct?.data) {
+      const minStockValue = selectProduct.data?.stock?.minStock ?? 0;
+      const maxStockValue = selectProduct.data?.stock?.maxStock ?? 0;
+      setMinStock(minStockValue);
+      setMaxStock(maxStockValue);
+      
+      // Resetear el formulario con los valores del producto
+      methods.reset({
+        article: selectProduct.data?.article || '',
+        location: selectProduct.data?.location || '',
+        stock: selectProduct.data?.stock?.stock || '',
+        minStock: minStockValue,
+        maxStock: maxStockValue,
+        price: selectProduct.data?.price?.price || '',
+        description: selectProduct.data?.description || '',
+      });
     }
   }, [selectProduct]);
 

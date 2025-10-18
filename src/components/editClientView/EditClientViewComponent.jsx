@@ -47,7 +47,7 @@ function EditClientViewComponent(props) {
           Vendedor Asigando:
           <span
             className={styles.dataUser}
-          >{`${client?.seller.user.name} ${client?.seller.user.lastName}`}</span>
+          >{client?.seller?.user ? `${client.seller.user.name} ${client.seller.user.lastName}` : 'Sin asignar'}</span>
         </span>
         <span>
           IVA:<span className={styles.dataUser}>{client?.iva}</span>
