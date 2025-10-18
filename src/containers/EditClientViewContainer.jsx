@@ -42,11 +42,15 @@ function EditClientViewContainer(props) {
       dispatch(resetAllClientRequest());
     };
   }, []);
+
+  // Filtrar vendedores activos (user.status === true)
+  const activeSellers = sellers.data?.filter(seller => seller.user?.status === true) || [];
+
   return (
     <EditClientViewComponent
       {...props}
       client={sendClient}
-      sellers={sellers.data}
+      sellers={activeSellers}
       update={updateClient}
       methods={methods}
       loading={loading}
