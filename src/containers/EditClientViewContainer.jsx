@@ -17,7 +17,7 @@ function EditClientViewContainer(props) {
 
   const sellers = useSelector((state) => state.seller);
 
-  // console.log(sellers)
+  //console.log(sellers)
   const methods = useForm();
   const dispatch = useDispatch();
   const updateClient = (data) => {
@@ -44,13 +44,12 @@ function EditClientViewContainer(props) {
   }, []);
 
   // Filtrar vendedores activos (user.status === true)
-  const activeSellers = sellers.data?.filter(seller => seller.user?.status === true) || [];
 
   return (
     <EditClientViewComponent
       {...props}
       client={sendClient}
-      sellers={activeSellers}
+      sellers={sellers.data}
       update={updateClient}
       methods={methods}
       loading={loading}

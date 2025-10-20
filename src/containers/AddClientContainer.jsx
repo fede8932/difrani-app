@@ -40,8 +40,6 @@ function AddClientContainer(props) {
     dispatch(getSellersRequest());
     dispatch(getBrandRequest());
   }, []);
-  // Filtrar vendedores activos (user.status === true)
-  const activeSellers = sellers.data?.filter(seller => seller.user?.status === true) || [];
 
   return (
     <>
@@ -53,7 +51,7 @@ function AddClientContainer(props) {
           onSubmit={addClient}
           status={createClientStatus}
           methods={methods}
-          sellers={activeSellers}
+          sellers={sellers.data}
         />
       )}
     </>

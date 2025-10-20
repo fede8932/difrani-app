@@ -10,7 +10,7 @@ export const getSellers = async () => {
     const upperData = convertToUpperCase(data);
     let ans = [];
     const arraySeller = upperData.map((seller) => {
-      if (seller.user.roleId === 3) {
+      if (seller.user.roleId === 3 && seller.user.status === true) {
         const sel = {
           text: `${seller.user.name} ${seller.user.lastName}`,
           value: seller.id,
