@@ -717,7 +717,7 @@ function RoleTableComponent(props) {
             <></>
           )}
           {type == "controlOrder" ? (
-            result.data.controlOrders.map((obj, i) => (
+            result.data.controlOrders.map((obj, i) => {console.log(obj);return(
               <Table.Row key={i}>
                 <Table.Cell
                   style={{ padding: "6px 10px", verticalAlign: "middle" }}
@@ -742,7 +742,7 @@ function RoleTableComponent(props) {
                 <Table.Cell
                   style={{ padding: "6px 10px", verticalAlign: "middle" }}
                 >
-                  {obj.status !== "NoControlado" ? (
+                  {obj.status.toUpperCase() !== "NOCONTROLADO" ? (
                     <Label color="green" horizontal>
                       Controlado
                     </Label>
@@ -755,7 +755,7 @@ function RoleTableComponent(props) {
                 <Table.Cell
                   style={{ padding: "6px 10px", verticalAlign: "middle" }}
                 >
-                  {obj.status !== "NoControlado"
+                  {obj.status.toUpperCase() !== "NOCONTROLADO"
                     ? dateConverter(obj.updatedAt)
                     : ""}
                 </Table.Cell>
@@ -784,7 +784,7 @@ function RoleTableComponent(props) {
                         iconInitialStyle={"iconStyleBlue"}
                       />
                     </div>
-                    {obj.status == "NoControlado" ? (
+                    {obj.status.toUpperCase() === "NOCONTROLADO" ? (
                       <div
                         style={{
                           margin: "1px 0px 0px 8px",
@@ -806,7 +806,7 @@ function RoleTableComponent(props) {
                   </div>
                 </Table.Cell>
               </Table.Row>
-            ))
+            )})
           ) : (
             <></>
           )}
