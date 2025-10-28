@@ -21,6 +21,7 @@ function CustomInput(props) {
     readOnly,
     defaultValue,
     formatNum,
+    value,
     ...rest
   } = props;
   const [classDivContainer, setClassDivContainer] = useState('inputContainer');
@@ -36,10 +37,10 @@ function CustomInput(props) {
     setValue(name, formattedValue); // Actualiza el valor en el formulario
   };
   useEffect(() => {
-    if (rest.value !== undefined) {
-      setValue(name, rest.value); // Actualiza el valor en react-hook-form
+    if (value !== undefined) {
+      setValue(name, value); // Actualiza el valor en react-hook-form
     }
-  }, [rest.value, name, setValue]);
+  }, [value, name, setValue]);
 
   return (
     <div style={{ marginBottom: '15px' }} className={`${styles[width]}`}>
@@ -58,7 +59,7 @@ function CustomInput(props) {
             setClassDivContainer('inputContainerActive');
           }}
           className={styles.input}
-          onChange={formatNum ? handleChange : () => {}}
+          onChange={formatNum ? handleChange : undefined}
           {...rest}
         />
       </div>
