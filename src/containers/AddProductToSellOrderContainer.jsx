@@ -15,7 +15,7 @@ import {
   resetAddOrderItems,
   updateCantItemsRequest,
 } from '../redux/addOrderItems';
-import { useNavigate } from 'react-router';
+import { useNavigate, useLocation } from 'react-router';
 import Swal from 'sweetalert2';
 import { updateClientStatusOrder } from '../request/orderRequest';
 import { resetPendingSave, setPendingSave } from '../redux/pendingSave';
@@ -29,6 +29,7 @@ function AddProductToSellOrderContainer(props) {
   
   const client = useSelector((state) => state.client);
   const navigate = useNavigate();
+  const location = useLocation();
   const productPages = useSelector((state) => state.product);
   
   const dispatch = useDispatch();
@@ -36,6 +37,12 @@ function AddProductToSellOrderContainer(props) {
     setText(data.dataSearch);
     dispatch(searchProductsRequest({ page: 1, text: data.dataSearch }));
   };
+
+  useEffect(() => {
+    if (location.pathname === '/new/sell' && type === 'sale' && actualOrder?.data?.id) {
+      dispatch(setPendingSave({ pending: true, orderId: actualOrder.data.id }));
+    }
+  }, [location.pathname, type, actualOrder?.data?.id]);
   const changeFn = (page) => {
     dispatch(searchProductsRequest({ page: page, text: text }));
   };
@@ -50,7 +57,6 @@ function AddProductToSellOrderContainer(props) {
     };
     dispatch(addOrderItemsRequest(objSend)).then(() => {
       dispatch(getBuyOrderRequest(actualOrder.data.id));
-      dispatch(setPendingSave({ pending: false, orderId: null }));
     });
   };
   const infoProduct = (product) => {};
