@@ -11,7 +11,7 @@ import OrderViewContainer from '../../containers/OrderViewContainer';
 import EditStockContainer from '../../containers/EditStockContainer';
 
 const MyVerticallyCenteredModal = (props) => {
-  const { title, type, data, size, repindex, images } = props;
+  const { title, type, data, size, repindex, images, filterProducts } = props;
   //size es: 'sm' | 'lg' | 'xl'
   return (
     <Modal
@@ -33,7 +33,7 @@ const MyVerticallyCenteredModal = (props) => {
         <></>
       )}
       <Modal.Body style={type === 'infoProduct' ? { padding: '4px' } : {}}>
-        {type == 'infoProduct' ? <CustomCarrousel images={images} /> : null}
+        {type == 'infoProduct' ? <CustomCarrousel images={images} filterProducts={filterProducts} /> : null}
         {type == 'add' ? <AddProductViewModalContainer /> : null}
         {type == 'brand' ? (
           <AddSupplierToBrandContainer brand={data} close={props.onHide} />

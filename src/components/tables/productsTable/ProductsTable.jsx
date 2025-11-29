@@ -23,7 +23,7 @@ import AddManualPendingContainer from "../../../containers/AddManualPendingConta
 
 const CustomComp = ({ data, props }) => {
   // console.log(data);
-  const { deleteProduct, selectClientId, addProduct } = props;
+  const { deleteProduct, selectClientId, addProduct, filterProducts } = props;
   const navigate = useNavigate();
   return (
     <div className={styles.buttonContainer}>
@@ -33,6 +33,7 @@ const CustomComp = ({ data, props }) => {
         size="lg"
         popupText="Ver imágenes"
         images={data.images}
+        filterProducts={filterProducts}
       />
       <ProtectedComponent listAccesss={[1, 2, 5, 6]}>
         <CustomModal
@@ -291,6 +292,7 @@ function ProductsTable(props) {
             deleteProduct: deleteProduct,
             selectClientId: selectClientId,
             addProduct: addProduct,
+            filterProducts: filterProducts,
           }}
         />
       ),
@@ -309,18 +311,18 @@ function ProductsTable(props) {
             <span>
               {params.data.price && params.data.brand
                 ? `$ ${numberToString(
-                    discountApplicationV2(customerDiscounts, params.data, true)
-                      .initPrice
-                  )}`
+                  discountApplicationV2(customerDiscounts, params.data, true)
+                    .initPrice
+                )}`
                 : ""}
             </span>
           ) : (
             <span>
               {params.data.price && params.data.brand
                 ? `$ ${numberToString(
-                    params.data.price.price *
-                      (1 + params.data.brand.rentabilidad)
-                  )}`
+                  params.data.price.price *
+                  (1 + params.data.brand.rentabilidad)
+                )}`
                 : ""}
             </span>
           )}
@@ -339,19 +341,19 @@ function ProductsTable(props) {
             <span>
               {params.data.price && params.data.brand
                 ? `$ ${numberToString(
-                    discountApplicationV2(customerDiscounts, params.data, true)
-                      .endPrice
-                  )}`
+                  discountApplicationV2(customerDiscounts, params.data, true)
+                    .endPrice
+                )}`
                 : ""}
             </span>
           ) : (
             <span>
               {params.data.price && params.data.brand
                 ? `$ ${numberToString(
-                    params.data.price.price *
-                      (1 + params.data.brand.rentabilidad) *
-                      1.21
-                  )}`
+                  params.data.price.price *
+                  (1 + params.data.brand.rentabilidad) *
+                  1.21
+                )}`
                 : ""}
             </span>
           )}
@@ -402,9 +404,9 @@ function ProductsTable(props) {
                   <span>
                     {params.data.price && params.data.brand
                       ? `$ ${numberToString(
-                          params.data.price.price *
-                            (1 + params.data.brand.rentabilidad)
-                        )}`
+                        params.data.price.price *
+                        (1 + params.data.brand.rentabilidad)
+                      )}`
                       : ""}
                   </span>
                 )}
@@ -427,10 +429,10 @@ function ProductsTable(props) {
                   <span>
                     {params.data.price && params.data.brand
                       ? `$ ${numberToString(
-                          params.data.price.price *
-                            (1 + params.data.brand.rentabilidad) *
-                            1.21
-                        )}`
+                        params.data.price.price *
+                        (1 + params.data.brand.rentabilidad) *
+                        1.21
+                      )}`
                       : ""}
                   </span>
                 )}
@@ -448,6 +450,7 @@ function ProductsTable(props) {
                   deleteProduct: deleteProduct,
                   selectClientId: selectClientId,
                   addProduct: addProduct,
+                  filterProducts: filterProducts,
                 }}
               />
             ),

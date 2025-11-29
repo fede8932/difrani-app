@@ -432,3 +432,18 @@ export const GetViewMode = async () => {
     throw error;
   }
 };
+
+export const deleteProductImage = async (imageId) => {
+  try {
+    const { data } = await axios.delete(
+      `${apiUrl}/api/productos/image/${imageId}`,
+      { withCredentials: true }
+    );
+    return data;
+  } catch (error) {
+    if (error.response?.status == 401) {
+      window.location.href = "/";
+    }
+    throw error;
+  }
+};
