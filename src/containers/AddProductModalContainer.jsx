@@ -19,6 +19,8 @@ function AddProductModalContainer(props) {
     description: false,
     location: false,
     stock: false,
+    minStock: false,
+    maxStock: false,
   });
   const [selectStatus, setSelectStatus] = useState(true);
   const [selectedFiles, setSelectedFiles] = useState([]);

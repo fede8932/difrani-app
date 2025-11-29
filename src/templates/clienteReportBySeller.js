@@ -18,37 +18,40 @@ export const clienteReportBySeller = async (cuil, name, lastName, clients) => {
 
   const lista = clients.map((c) => {
     if (c?.currentAcount?.resume < -0.5) {
+      let totalFacturas = 0;
+      let totalNotasCredito = 0;
+
       const items = c.currentAcount.movements?.map((i) => {
-        let concep = '';
+        // Monto base que se muestra en el reporte
+        const tieneSaldoPendiente = i?.saldoPend != null && i?.saldoPend !== undefined;
+        const monto = tieneSaldoPendiente ? i.saldoPend : i.total;
+
+        // Indicador de saldo pendiente (P) cuando corresponde, como estaba antes
+        const indicadorPendiente = tieneSaldoPendiente && i.saldoPend !== i.total ? ' (P)' : '';
+
+        let facturaCol = '';
+        let notaCreditoCol = '';
+
+        // type = 0 es factura o presupuesto (va a columna Factura)
         if (i.type == 0) {
-          //type = 0 es factura o presupuesto
-          if (i.billType == 0) {
-            //billType = 0 es presupuesto
-            concep = 'Presupuesto';
-          }
+          totalFacturas += monto;
+          facturaCol = `$${formatoNumero(monto)}${indicadorPendiente}`;
         }
-        if (i.type == 0) {
-          //type = 0 es factura o presupuesto
-          if (i.billType != 0) {
-            //billType = 0 es presupuesto
-            concep = 'Factura';
-          }
+
+        // type = 1 es NC oficial, type = 3 es NC X (van a columna Nota de crédito)
+        if (i.type == 1 || i.type == 3) {
+          totalNotasCredito += monto;
+          notaCreditoCol = `$${formatoNumero(monto)}`;
         }
-        if (i.type == 1) {
-          //type = 1 es nc oficial
-          concep = 'Nota de crédito';
-        }
-        if (i.type == 3) {
-          //type = 1 es nc oficial
-          concep = 'Nota de crédito X';
-        }
+
         return `<tr>
         <td>${convertirFecha(i?.fecha)}</td>
         <td>${i?.numComprobante}</td>
-        <td>${concep}</td>
-        <td>$${i?.saldoPend ? `${formatoNumero(i?.saldoPend)} ${i?.saldoPend == i?.total ? '' : '(P)'}` : formatoNumero(i?.total)}</td>
+        <td>${facturaCol}</td>
+        <td>${notaCreditoCol}</td>
       </tr>`;
       });
+
       return `<div>
           <h3>Cliente: ${c?.razonSocial}</h3>
           <table>
@@ -56,8 +59,8 @@ export const clienteReportBySeller = async (cuil, name, lastName, clients) => {
               <tr>
                 <th>Fecha</th>
                 <th>Comprobante</th>
-                <th>Concepto</th>
-                <th>Total</th>
+                <th>Factura</th>
+                <th>Nota de crédito</th>
               </tr>
             </thead>
             <tbody>
@@ -65,7 +68,12 @@ export const clienteReportBySeller = async (cuil, name, lastName, clients) => {
             </tbody>
             <tfoot>
               <tr>
-                <td colspan="3" class="total">Total:</td>
+                <td colspan="2" class="total">Totales:</td>
+                <td>$${formatoNumero(totalFacturas)}</td>
+                <td>$${formatoNumero(totalNotasCredito)}</td>
+              </tr>
+              <tr>
+                <td colspan="3" class="total">Total general:</td>
                 <td>$${formatoNumero(c?.currentAcount?.resume)}</td>
               </tr>
             </tfoot>

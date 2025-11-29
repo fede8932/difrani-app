@@ -54,6 +54,18 @@ function AddProductsFormComponent(props) {
           checked={checks.stock}
           onClick={changeCheck}
         />
+        <Checkbox
+          label="Stock mínimo"
+          name="minStock"
+          checked={checks.minStock}
+          onClick={changeCheck}
+        />
+        <Checkbox
+          label="Stock máximo"
+          name="maxStock"
+          checked={checks.maxStock}
+          onClick={changeCheck}
+        />
       </div>
       <form className={styles.formContainer}>
         <div className={styles.subFormContainer}>
