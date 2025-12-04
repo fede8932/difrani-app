@@ -447,3 +447,32 @@ export const deleteProductImage = async (imageId) => {
     throw error;
   }
 };
+
+export const downloadProductTemplate = async () => {
+  try {
+    const response = await axios.get(
+      `${apiUrl}/api/productos/download/template`,
+      {
+        withCredentials: true,
+        responseType: "blob",
+      }
+    );
+    
+    // Crear un enlace temporal para descargar el archivo
+    const url = window.URL.createObjectURL(new Blob([response.data]));
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', 'cargar_productos_template.xlsx');
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    window.URL.revokeObjectURL(url);
+    
+    return response;
+  } catch (error) {
+    if (error.response?.status == 401) {
+      window.location.href = "/";
+    }
+    throw error;
+  }
+};

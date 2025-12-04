@@ -5,6 +5,7 @@ import Button from 'react-bootstrap/esm/Button';
 import Spinner from 'react-bootstrap/esm/Spinner';
 import ExcelUpload from '../../commonds/upload/ExcelUpload';
 import { Checkbox } from 'semantic-ui-react';
+import { downloadProductTemplate } from '../../request/productRequest';
 
 function AddProductsFormComponent(props) {
   const {
@@ -16,6 +17,15 @@ function AddProductsFormComponent(props) {
     checks,
     setChecks,
   } = props;
+
+  const handleDownloadTemplate = async () => {
+    try {
+      await downloadProductTemplate();
+    } catch (error) {
+      console.error('Error al descargar la plantilla:', error);
+    }
+  };
+
   const changeCheck = (e, d) => {
     let newChecks = { ...checks };
     newChecks[d.name] = d.checked;
@@ -70,7 +80,30 @@ function AddProductsFormComponent(props) {
       <form className={styles.formContainer}>
         <div className={styles.subFormContainer}>
           <div className={styles.infoInputContainer}></div>
-          <div className={styles.subUploadContainer}>
+          <div className={styles.subUploadContainer} style={{ position: 'relative' }}>
+            <div style={{ 
+              position: 'absolute', 
+              top: '0', 
+              right: '0', 
+              zIndex: 1 
+            }}>
+              <Button
+                variant="outline-secondary"
+                size="sm"
+                onClick={handleDownloadTemplate}
+                style={{
+                  merginTop: '10px',
+                  fontSize: '12px',
+                  padding: '4px 8px',
+                  border: '1px solid #dee2e6',
+                  backgroundColor: '#f8f9fa',
+                  color: '#6c757d',
+                }}
+                title="Descargar plantilla"
+              >
+                Plantilla
+              </Button>
+            </div>
             <span className={styles.subTitle}>Subir productos</span>
             <div className={styles.uploadContainer}>
               <ExcelUpload
