@@ -119,3 +119,13 @@
   display: flex;
   justify-content: flex-end;
 }
+
+.buttonStyle {
+  cursor: pointer !important;
+  pointer-events: auto !important;
+}
+
+.buttonStyleNext {
+  position: relative;
+  display: inline-block;
+}

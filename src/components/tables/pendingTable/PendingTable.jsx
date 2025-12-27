@@ -5,7 +5,6 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Pagination, Select } from 'semantic-ui-react';
 import styles from './pendingTable.module.css';
-import { setFilterReport } from '../../../redux/filtersSellReports';
 import {
   resetFilterPending,
   setFilterPending,
@@ -68,10 +67,16 @@ const HeaderInput = (props) => {
 
     debounceTimeoutRef.current = setTimeout(() => {
       dispatch(
-        setFilterReport([
-          { name: 'page', value: 1 },
-          { name, value },
-        ])
+        setFilterPending({
+          name,
+          value,
+        })
+      );
+      dispatch(
+        setFilterPending({
+          name: 'page',
+          value: 1,
+        })
       );
       // if (value === '') {
       //   setInp(false);
@@ -131,7 +136,7 @@ function PendingTable(porps) {
 
   let columnInitialState = [
     {
-      headerComponent: () => <HeaderInput title="Código" name={'code'} />,
+      headerComponent: () => <HeaderInput title="Código" name={'article'} />,
       valueGetter: ({ data }) => data.product?.article,
       flex: 1,
       filterParams: {
@@ -193,10 +198,26 @@ function PendingTable(porps) {
   }, []);
 
   const selectChange = (e, d) => {
-    dispatch(setFilterPending([{ name: 'pageSize', value: d.value }]));
+    dispatch(
+      setFilterPending({
+        name: 'pageSize',
+        value: d.value,
+      })
+    );
+    dispatch(
+      setFilterPending({
+        name: 'page',
+        value: 1,
+      })
+    );
   };
   const changePage = (e, d) => {
-    dispatch(setFilterPending([{ name: 'page', value: d.activePage }]));
+    dispatch(
+      setFilterPending({
+        name: 'page',
+        value: d.activePage,
+      })
+    );
   };
 
   useEffect(() => {
