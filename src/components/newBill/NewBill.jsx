@@ -118,6 +118,7 @@ function NewBill(props) {
           onClick={() => {
             onSubmit();
           }}
+          disabled={loading}
           style={{
             backgroundColor: "#673ab7",
             border: "1px solid #673ab7",
