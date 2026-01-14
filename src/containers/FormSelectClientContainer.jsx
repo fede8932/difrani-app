@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import FormSelectClientSellOrder from '../components/formSelectSellOrder/FormSelectClientSellOrder';
 import { useDispatch, useSelector } from 'react-redux';
 import { getClientByTextRequest } from '../redux/searchClient';
@@ -14,6 +14,7 @@ function FormSelectClientContainer(props) {
   const {selectClient} = useSelector((state) => state.client);
   const order = useSelector((state) => state.newBuyOrder);
   const dispatch = useDispatch();
+  const [isCreatingOrder, setIsCreatingOrder] = useState(false);
   const searchClient = (text) => {
     dispatch(getClientByTextRequest(text.campo));
   };
@@ -46,9 +47,14 @@ function FormSelectClientContainer(props) {
         }
       });
     } else {
+      if (isCreatingOrder) return;
+      setIsCreatingOrder(true);
       dispatch(newSellOrderRequest(selectClient?.id)).then(({ payload }) => {
         dispatch(setPendingSave({ pending: true, orderId: payload.id }));
         nextFn(1);
+      }).catch((error) => {
+        console.error('Error creating order:', error);
+        setIsCreatingOrder(false);
       });
     }
   };
@@ -58,6 +64,7 @@ function FormSelectClientContainer(props) {
       {...props}
       searchClient={searchClient}
       confirmFn={confirm}
+      isCreatingOrder={isCreatingOrder}
     />
   );
 }

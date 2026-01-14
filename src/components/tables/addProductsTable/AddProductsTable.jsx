@@ -4,7 +4,7 @@ import "ag-grid-community/styles/ag-theme-quartz.css";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { searchProductsExtraRequest } from "../../../redux/product";
-import { discountApplication, numberToString } from "../../../utils";
+import { discountApplicationV2, numberToString } from "../../../utils";
 import { Pagination, Select } from "semantic-ui-react";
 import styles from "./productsTables.module.css";
 import ProtectedComponent from "../../../protected/protectedComponent/ProtectedComponent";
@@ -226,7 +226,7 @@ function AddProductsTable(props) {
           ) : (
             <span>
               {`$ ${numberToString(
-                discountApplication(customerDiscounts, params.data).initPrice
+                discountApplicationV2(customerDiscounts, params.data).initPrice
               )}`}
             </span>
           )}

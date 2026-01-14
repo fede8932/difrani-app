@@ -22,10 +22,9 @@ function AddProductToSellOrder(props) {
     confirmFn,
   } = props;
 
-  const customerDiscounts = useSelector((state) => state.client)?.data
-    ?.customerDiscounts; // Se usa para renderizar el precio cuando es una venta
-
   const client = useSelector((state) => state.client);
+  
+  const customerDiscounts = client?.selectClient?.customerDiscounts; // Se usa para renderizar el precio cuando es una venta
   const listOrder = useSelector((state) => state.listOrderItems).data;
   // console.log(client);
   return (

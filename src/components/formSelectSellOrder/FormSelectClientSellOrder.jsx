@@ -15,7 +15,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AutoComplete } from 'antd';
 
 function FormSelectClientSellOrder(props) {
-  const { setView, confirmFn, type } = props;
+  const { setView, confirmFn, type, isCreatingOrder } = props;
   const [textClient, setTextClient] = useState('');
   const [listClient, setListClient] = useState([]);
   const [selectClientId, setSelectClientId] = useState(null);
@@ -199,11 +199,11 @@ function FormSelectClientSellOrder(props) {
             {type == 'sale' ? 'Cancelar' : 'Atras'}
           </Button>
           <Button
-            disabled={selectClient ? false : true}
+            disabled={!selectClient || isCreatingOrder}
             className={`${styles.buttonStyle} ${styles.buttonStyleNext}`}
             onClick={confirmFn}
           >
-            {type == 'sale' ? 'Siguiente' : 'Confirmar'}
+            {isCreatingOrder ? 'Creando orden...' : (type == 'sale' ? 'Siguiente' : 'Confirmar')}
           </Button>
         </div>
       </div>
