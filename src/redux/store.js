@@ -54,6 +54,7 @@ import brandResultsReducers from './searchBrandsExtra'
 import filterPendingReducers from './filtersPending'
 import pendingReducers from './pending'
 import billsProductsReducers from './bilssByProducts'
+import brandPaymentDiscountReducer from './brandPaymentDiscount'
 
 const store = configureStore({
   middleware: (getDefaultMiddleware) =>
@@ -93,7 +94,6 @@ const store = configureStore({
     selectProduct: selectProductReducer,
     productsByClient: productClientReducer,
     movNoApply: ncNoApplyReducer,
-    movNoApply: ncNoApplyReducer,
     equivalences: equivalencesReducers,
     otherUsers: otherUsersReducers,
     filterProduct: filtersProductsSlice,
@@ -114,6 +114,7 @@ const store = configureStore({
     filterPending: filterPendingReducers,
     pendings: pendingReducers,
     billsByProducts: billsProductsReducers,
+    brandPaymentDiscount: brandPaymentDiscountReducer,
   },
 });
 
