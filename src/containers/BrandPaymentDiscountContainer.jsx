@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router';
 import Swal from 'sweetalert2';
 import { useForm } from 'react-hook-form';
-import store from '../redux/store';
 import BrandPaymentDiscountComponent from '../components/brandSale/BrandPaymentDiscountComponent';
 import {
   deleteBrandPaymentDiscountRequest,
@@ -31,28 +30,13 @@ function BrandPaymentDiscountContainer() {
         Swal.fire({
           icon: 'error',
           title: 'Error',
-          text: `No es posible guardar el descuento: ${res.error}`,
+          text: `No es posible guardar el descuento: ${res.error.message}`,
         });
         return;
       }
-      // Check for backend validation errors in Redux state
-      setTimeout(() => {
-        const state = store.getState();
-        const currentError = state.brandPaymentDiscount.error;
-        if (currentError) {
-          Swal.fire({
-            icon: 'warning',
-            title: 'Atención',
-            text: currentError,
-          });
-          // Clear error after showing
-          dispatch(resetBrandPaymentDiscount());
-          return;
-        }
-        methods.reset();
-        // Refresh list after creation
-        dispatch(getBrandPaymentDiscountsRequest(id));
-      }, 200);
+      methods.reset();
+      // Refresh list after creation
+      dispatch(getBrandPaymentDiscountsRequest(id));
     });
   };
 
