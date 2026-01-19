@@ -14,28 +14,47 @@ export const ncPresupHtml = (
   logoBlaseBase64,
   descrip
 ) => {
-  const des = descrip
-    ? {
-        product: { article: '0001', description: descrip },
-        amount: '1',
-        sellPrice: '-',
-      }
-    : {};
-  const list = products.length > 0 ? products : [des];
+  // For discount credit notes, use the concept/description
+  // For regular credit notes with items, use the products
+  let list = [];
+  
+  if (descrip && descrip.trim()) {
+    // Create a single item for discount description
+    list = [{
+      product: { 
+        article: 'DESCUENTO', 
+        description: descrip.trim() 
+      },
+      amount: 1,
+      sellPrice: movimentData.total || 0,
+    }];
+  } else if (products && products.length > 0) {
+    // Use actual products if they exist
+    list = products;
+  } else {
+    // Fallback: create a generic description item for discount
+    const discountDescription = `Nota de crédito por descuento aplicado - Comprobante: ${movimentData.numComprobante || 'N/A'}`;
+    list = [{
+      product: { 
+        article: 'DESCUENTO', 
+        description: discountDescription
+      },
+      amount: 1,
+      sellPrice: movimentData.total || 0,
+    }];
+  }
+  
   const lista = list.map((item) => {
+    const sellPrice = item?.sellPrice || 0;
+    const amount = item?.amount || 1;
+    const total = sellPrice * amount;
+    
     return `<tr>
-              <td>${item?.product?.article}</td>
-              <td class="descrip">${item?.amount}</td>
-              <td class="descrip">${item?.product?.description?.substring(
-                0,
-                45
-              )}</td>
-              <td>$${item?.sellPrice != '-' ? redondearADosDecimales(item?.sellPrice) : ""}</td>
-              <td>$${
-                item?.sellPrice != '-'
-                  ? redondearADosDecimales(item?.amount * item?.sellPrice)
-                  : redondearADosDecimales(movimentData.total)
-              }</td>
+              <td>${item?.product?.article || 'DESCUENTO'}</td>
+              <td class="descrip">${amount}</td>
+              <td class="descrip">${(item?.product?.description || 'Sin descripción').substring(0, 45)}</td>
+              <td>$${sellPrice !== 0 ? redondearADosDecimales(sellPrice) : ''}</td>
+              <td>$${redondearADosDecimales(total)}</td>
             </tr>`;
   });
   // console.log("orden-->", order);

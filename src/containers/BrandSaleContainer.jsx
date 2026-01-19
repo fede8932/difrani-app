@@ -4,7 +4,6 @@ import { useLocation } from 'react-router';
 import Swal from 'sweetalert2';
 import BrandSaleComponent from '../components/brandSale/BrandSaleComponent';
 import {
-  changePrioriSaleRequest,
   deleteSaleRequest,
   getBrandByIdRequest,
   newSaleRequest,
@@ -64,10 +63,6 @@ function BrandSaleContainer(props) {
     dispatch(toggleStatusSaleRequest(id));
   };
 
-  const changePriori = (id, mode) => {
-    dispatch(changePrioriSaleRequest({ id: id, mode: mode }));
-  };
-
   useEffect(() => {
     dispatch(getBrandByIdRequest(id));
     return () => dispatch(resetSelectBrand());
@@ -79,7 +74,6 @@ function BrandSaleContainer(props) {
       newSale={newSale}
       deleterSale={deleterSale}
       toogleStatusSale={toogleStatusSale}
-      changePriori={changePriori}
     />
   );
 }

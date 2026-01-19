@@ -433,6 +433,22 @@ export const confirmSellOrder = async (sendData) => {
   }
 };
 
+export const confirmSellOrderFull = async (sendData) => {
+  try {
+    const { data } = await axios.post(
+      `${apiUrl}/api/movement/facturar/orden`,
+      sendData,
+      { withCredentials: true }
+    );
+    return convertToUpperCase(data);
+  } catch (error) {
+    if (error.response?.status == 401) {
+      window.location.href = '/';
+    }
+    throw error;
+  }
+};
+
 export const confirmSelectSellOrder = async (sendData) => {
   try {
     const { data } = await axios.put(

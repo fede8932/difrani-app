@@ -37,6 +37,10 @@ export const confirmSellOrderRequest = createAsyncThunk(
   'ORDER_UPDATE_SELL_ORDER',
   orderRequest.confirmSellOrder
 );
+export const confirmSellOrderFullRequest = createAsyncThunk(
+  'ORDER_UPDATE_SELL_ORDER_FULL',
+  orderRequest.confirmSellOrderFull
+);
 export const NewNCSellOrderRequest = createAsyncThunk(
   'ORDER_NC_SELL_ORDER',
   orderRequest.NewNCForOrder

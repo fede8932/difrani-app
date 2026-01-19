@@ -18,8 +18,7 @@ import CustomTextArea from '../../commonds/textarea/CustomTextArea';
 import IconButonUsersTable from '../../commonds/iconButtonUsersTable/IconButonUsersTable';
 
 function BrandSaleComponent(props) {
-  const { methods, newSale, deleterSale, toogleStatusSale, changePriori } =
-    props;
+  const { methods, newSale, deleterSale, toogleStatusSale } = props;
   const { selectBrand, loading } = useSelector((state) => state.brandResults);
   // console.log(selectBrand);
 
@@ -146,7 +145,7 @@ function BrandSaleComponent(props) {
                     <TableCell>
                       <div
                         style={{
-                          width: '75%',
+                          width: '50%',
                           display: 'flex',
                           justifyContent: 'space-between',
                         }}
@@ -158,30 +157,6 @@ function BrandSaleComponent(props) {
                           }}
                           icon={'fa-solid fa-xmark'}
                           iconInitialStyle={'iconStyleRedSale'}
-                        />
-                        <IconButonUsersTable
-                          disabled={i === 0}
-                          popupText="Subir prioridad"
-                          fn={() => {
-                            changePriori(s.id, 0);
-                          }}
-                          icon={'fa-solid fa-circle-arrow-up'}
-                          iconInitialStyle={
-                            i !== 0 ? 'iconStyleGreenSale' : 'iconStyleGreySale'
-                          }
-                        />
-                        <IconButonUsersTable
-                          popupText="Bajar prioridad"
-                          disabled={i === selectBrand.sales.length - 1}
-                          fn={() => {
-                            changePriori(s.id, 1);
-                          }}
-                          icon={'fa-solid fa-circle-arrow-down'}
-                          iconInitialStyle={
-                            i !== selectBrand.sales.length - 1
-                              ? 'iconStyleRedSale'
-                              : 'iconStyleGreySale'
-                          }
                         />
                       </div>
                     </TableCell>

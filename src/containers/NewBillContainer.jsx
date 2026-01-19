@@ -9,6 +9,7 @@ import {
 } from "../utils";
 import {
   confirmSellOrderRequest,
+  confirmSellOrderFullRequest,
   searchSellOrderRequest,
 } from "../redux/searchOrders";
 import { useNavigate } from "react-router";
@@ -203,16 +204,10 @@ function NewBillContainer(props) {
       tipo_de_factura: facturaType,
       tipo_de_documento: "CUIT",
       numero_de_documento: cuitTransformToNumber(client.cuit),
-      importe_gravado: redondearADosDecimales(totalFacturado / 1.21),
-      importe_excento: 0,
-      // ivaCalculado: redondearADosDecimales((totalFacturado / 1.21) * 0.21),
       purchaseOrderId: order.id,
-      salePoint: 13,
-      iva: 21,
-      importe_no_facturado: totalNoFacturado,
       f50p50: f50p50
     };
-    dispatch(confirmSellOrderRequest(sendData)).then((res) => {
+    dispatch(confirmSellOrderFullRequest(sendData)).then((res) => {
       closeModal();
       if (res.error) {
         Swal.fire({
