@@ -114,7 +114,7 @@ function NewMoviment(props) {
                 />
                 <div className={styles.seisCont}>
                   <Checkbox
-                    label="Aplicar descuento del 6% por pago en término"
+                    label="Aplicar descuento por medio de pago"
                     onClick={() => setChecked(!checked)}
                     checked={checked}
                   />

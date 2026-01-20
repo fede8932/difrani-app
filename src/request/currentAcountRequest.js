@@ -109,7 +109,7 @@ export const addPayToCurrentAcount = async (sendData) => {
     // console.log(sendData);
     // return;
     const { data } = await axios.post(
-      `${apiUrl}/api/movement/new/pay`,
+      `${apiUrl}/api/movement/new/pay/modular`,
       sendData,
       { withCredentials: true }
     );
