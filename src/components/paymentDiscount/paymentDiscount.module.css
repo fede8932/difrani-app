@@ -1,0 +1,28 @@
+.addUserContainer {
+  display: flex;
+  flex-direction: row;
+  padding: 20px;
+  gap: 20px;
+}
+
+.leftCont {
+  flex: 1;
+  max-width: 400px;
+}
+
+.rigthCont {
+  flex: 2;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.tableOneContainer {
+  width: 100%;
+  max-width: 800px;
+  overflow-x: auto;
+}
+
+.button {
+  width: 100%;
+}

@@ -221,6 +221,12 @@ function SideBarComponent(props) {
                   fnNavigate("/report/sell");
                 },
               },
+              {
+                textButton: "DESCUENTOS POR MEDIO DE PAGO",
+                fn: () => {
+                  fnNavigate("/sales/payment-discounts");
+                },
+              },
             ],
           }}
         />

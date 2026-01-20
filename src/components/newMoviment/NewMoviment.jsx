@@ -20,8 +20,6 @@ function NewMoviment(props) {
     methods,
     onSubmit,
     listMov,
-    checked,
-    setChecked,
     listNcNoApply,
     payMethod,
     marcToggle,
@@ -63,12 +61,8 @@ function NewMoviment(props) {
             <span style={{ marginLeft: '5px' }}>
               Saldo máximo: $
               {numberToString(
-                checked
-                  ? (listMov?.reduce((acum, mov) => acum + mov.saldoPend, 0) -
-                      listNcNoApply.montoTotal) *
-                      (1 - 0.06)
-                  : listMov?.reduce((acum, mov) => acum + mov.saldoPend, 0) -
-                      listNcNoApply.montoTotal
+                listMov?.reduce((acum, mov) => acum + mov.saldoPend, 0) -
+                  listNcNoApply.montoTotal
               )}
             </span>
           </div>
@@ -112,13 +106,6 @@ function NewMoviment(props) {
                     changePayMethod('transferencia');
                   }}
                 />
-                <div className={styles.seisCont}>
-                  <Checkbox
-                    label="Aplicar descuento por medio de pago"
-                    onClick={() => setChecked(!checked)}
-                    checked={checked}
-                  />
-                </div>
                 <div>
                   <Checkbox
                     style={{ marginBottom: '10px' }}
@@ -155,7 +142,6 @@ function NewMoviment(props) {
                       marcToggle={marcToggle}
                       result={listNcNoApply.data}
                       type="noApply"
-                      checked={checked}
                       omitPaginator={true}
                     />
                   </div>

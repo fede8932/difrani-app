@@ -23,6 +23,7 @@ import {
 import { payDetail } from '../templates/payDetail';
 import logoBlase from '../assets/logo/logoBlase.png';
 import { addCancelToCurrentAcount } from '../request/currentAcountRequest';
+import { getPaymentDiscountsRequest } from '../redux/paymentDiscount';
 
 function NewMovimientContainer(props) {
   const [inactive, setInactive] = useState(false);
@@ -57,18 +58,83 @@ function NewMovimientContainer(props) {
   const { currentAcountId, acountState, ...rest } = props;
   // console.log(acountState);
   const listNcNoApply = useSelector((state) => state.movNoApply);
-  // console.log(listNcNoApply);
+  const paymentDiscounts = useSelector((state) => state.paymentDiscount.list);
 
   const listMov = acountState.data.movements.list.filter((mov) => mov.marc);
   const listNoApplyMarc = listNcNoApply.data.filter((noApply) => noApply.marc);
   const dispatch = useDispatch();
   const methods = useForm();
-  const [checked, setChecked] = useState(false);
   const marcToggle = (movId) => {
-    // console.log(movId);
     dispatch(marcToggleNoApplyRequest(movId));
   };
-  const saveMoviment = (data) => {
+
+  const calculateDiscountDetails = (data) => {
+    const details = [];
+    let totalDiscount = 0;
+
+    const getDiscountForMethod = (methodName) => {
+      const discount = paymentDiscounts.find(
+        (d) => d.paymentMethod.toLowerCase() === methodName.toLowerCase() && d.active
+      );
+      return discount ? discount.percentage : 0;
+    };
+
+    if (payMethod.efectivo && data.efImporte) {
+      const amount = convertirStringANumero(data.efImporte);
+      const discountPercentage = getDiscountForMethod('Cash');
+      const discountAmount = amount * discountPercentage;
+      if (discountPercentage > 0) {
+        details.push({
+          method: 'Efectivo',
+          amount,
+          percentage: discountPercentage * 100,
+          discount: discountAmount,
+        });
+        totalDiscount += discountAmount;
+      }
+    }
+
+    if (payMethod.transferencia) {
+      for (let i = 0; i < cantTransf; i++) {
+        if (data[`trImporte-${i}`]) {
+          const amount = convertirStringANumero(data[`trImporte-${i}`]);
+          const discountPercentage = getDiscountForMethod('Transfer');
+          const discountAmount = amount * discountPercentage;
+          if (discountPercentage > 0) {
+            details.push({
+              method: `Transferencia ${i + 1}`,
+              amount,
+              percentage: discountPercentage * 100,
+              discount: discountAmount,
+            });
+            totalDiscount += discountAmount;
+          }
+        }
+      }
+    }
+
+    if (payMethod.cheque) {
+      for (let i = 0; i < payChDate.length; i++) {
+        if (data[`chImporte-${i}`]) {
+          const amount = convertirStringANumero(data[`chImporte-${i}`]);
+          const discountPercentage = getDiscountForMethod('Cheque');
+          const discountAmount = amount * discountPercentage;
+          if (discountPercentage > 0) {
+            details.push({
+              method: `Cheque ${i + 1}`,
+              amount,
+              percentage: discountPercentage * 100,
+              discount: discountAmount,
+            });
+            totalDiscount += discountAmount;
+          }
+        }
+      }
+    }
+
+    return { details, totalDiscount };
+  };
+  const saveMoviment = async (data) => {
     let pcdLap = 0;
     //Acá lanzamos error cuando hay problemas con las fechas
     while (pcdLap < payChDate.length) {
@@ -122,17 +188,12 @@ function NewMovimientContainer(props) {
     totalPay = dataTran.active ? dataTran.trans.reduce((acum, tran) => acum + tran.importe, totalPay) : totalPay;
     totalPay = dataCheque.active ? dataCheque.cheques.reduce((acum, cheque) => acum + cheque.importe, totalPay) : totalPay;
 
-    // console.log(totalPay)
-
-    let saldoPend =
+    const saldoPend =
       redondearADosDecimales(
         listMov?.reduce((acum, mov) => acum + mov.saldoPend, 0)
       ) - listNcNoApply.montoTotal;
-    // return;
-    saldoPend = checked ? saldoPend * (1 - 0.06) : saldoPend;
-    if (
-      saldoPend < totalPay
-    ) {
+
+    if (saldoPend < totalPay) {
       Swal.fire({
         icon: 'error',
         title: 'Oops...',
@@ -141,6 +202,99 @@ function NewMovimientContainer(props) {
       setInactive(false);
       return;
     }
+
+    const { details, totalDiscount } = calculateDiscountDetails(data);
+    let applyDiscount = false;
+    let finalDiscountAmount = 0;
+
+    if (details.length > 0) {
+      const discountHtml = `
+        <div style="text-align: left; margin: 20px 0;">
+          <p style="font-weight: bold; margin-bottom: 15px;">Descuentos disponibles por medio de pago:</p>
+          <table style="width: 100%; border-collapse: collapse;">
+            <thead>
+              <tr style="background-color: #f5f5f5;">
+                <th style="padding: 8px; text-align: left; border: 1px solid #ddd;">Medio de pago</th>
+                <th style="padding: 8px; text-align: right; border: 1px solid #ddd;">Monto</th>
+                <th style="padding: 8px; text-align: right; border: 1px solid #ddd;">Descuento</th>
+                <th style="padding: 8px; text-align: right; border: 1px solid #ddd;">Total desc.</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${details.map(d => `
+                <tr>
+                  <td style="padding: 8px; border: 1px solid #ddd;">${d.method}</td>
+                  <td style="padding: 8px; text-align: right; border: 1px solid #ddd;">$${d.amount.toFixed(2)}</td>
+                  <td style="padding: 8px; text-align: right; border: 1px solid #ddd;">${d.percentage.toFixed(2)}%</td>
+                  <td style="padding: 8px; text-align: right; border: 1px solid #ddd;">$${d.discount.toFixed(2)}</td>
+                </tr>
+              `).join('')}
+            </tbody>
+            <tfoot>
+              <tr style="background-color: #f0f8ff; font-weight: bold;">
+                <td colspan="3" style="padding: 8px; text-align: right; border: 1px solid #ddd;">Total descuento:</td>
+                <td style="padding: 8px; text-align: right; border: 1px solid #ddd;">$${totalDiscount.toFixed(2)}</td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      `;
+
+      const firstResult = await Swal.fire({
+        title: '¿Aplicar descuentos por medio de pago?',
+        html: discountHtml,
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonText: 'Sí, aplicar descuentos',
+        cancelButtonText: 'No, continuar sin descuentos',
+        confirmButtonColor: '#28a745',
+        cancelButtonColor: '#6c757d',
+        width: '600px',
+      });
+
+      if (firstResult.isConfirmed) {
+        const confirmationHtml = `
+          <div style="text-align: left; margin: 20px 0;">
+            <p style="margin-bottom: 15px;">Se va a registrar el siguiente pago:</p>
+            <table style="width: 100%; border-collapse: collapse; margin-bottom: 15px;">
+              <tr>
+                <td style="padding: 8px; font-weight: bold; border: 1px solid #ddd;">Monto total del pago:</td>
+                <td style="padding: 8px; text-align: right; border: 1px solid #ddd;">$${totalPay.toFixed(2)}</td>
+              </tr>
+              <tr style="background-color: #d4edda;">
+                <td style="padding: 8px; font-weight: bold; border: 1px solid #ddd;">Descuento aplicado:</td>
+                <td style="padding: 8px; text-align: right; border: 1px solid #ddd; color: #155724;">-$${totalDiscount.toFixed(2)}</td>
+              </tr>
+              <tr style="background-color: #f0f8ff;">
+                <td style="padding: 8px; font-weight: bold; border: 1px solid #ddd;">Total a descontar de deuda:</td>
+                <td style="padding: 8px; text-align: right; border: 1px solid #ddd; font-size: 18px;">$${(totalPay + totalDiscount).toFixed(2)}</td>
+              </tr>
+            </table>
+            <p style="font-weight: bold; color: #856404; background-color: #fff3cd; padding: 10px; border-radius: 5px;">¿Confirmás el registro del pago con estos descuentos?</p>
+          </div>
+        `;
+
+        const secondResult = await Swal.fire({
+          title: 'Confirmación final',
+          html: confirmationHtml,
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonText: 'Sí, confirmar pago',
+          cancelButtonText: 'Cancelar',
+          confirmButtonColor: '#007bff',
+          cancelButtonColor: '#dc3545',
+          width: '600px',
+        });
+
+        if (secondResult.isConfirmed) {
+          applyDiscount = true;
+          finalDiscountAmount = totalDiscount;
+        } else {
+          setInactive(false);
+          return;
+        }
+      }
+    }
     const payData = {
       pay: {
         dataTran: dataTran.active ? dataTran.trans : [],
@@ -148,7 +302,8 @@ function NewMovimientContainer(props) {
         dataEfective: efectiveData.active ? efectiveData.importe : 0,
       },
       billIdList: filterMovsId(listMov),
-      discount: checked,
+      discount: applyDiscount,
+      discountAmount: finalDiscountAmount,
       ncIdList: obtenerIds(listNoApplyMarc),
       comprobanteVendedor: data.comprobanteVendedor,
     };
@@ -217,6 +372,7 @@ function NewMovimientContainer(props) {
 
   useEffect(() => {
     dispatch(getAllMovNoApplyRequest(currentAcountId));
+    dispatch(getPaymentDiscountsRequest());
     return () => {
       dispatch(resetMovNoApplyRequest());
     };
@@ -230,8 +386,6 @@ function NewMovimientContainer(props) {
       listNcNoApply={listNcNoApply}
       methods={methods}
       onSubmit={saveMoviment}
-      setChecked={setChecked}
-      checked={checked}
       itemList={itemList}
       marcToggle={marcToggle}
       cancelFactFn={cancelFactFn}

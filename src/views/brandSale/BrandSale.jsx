@@ -2,7 +2,6 @@ import React from "react";
 import styles from "./sale.module.css";
 import BrandSaleContainer from "../../containers/BrandSaleContainer";
 import ProductSaleContainer from "../../containers/ProductSaleContainer";
-import BrandPaymentDiscountContainer from "../../containers/BrandPaymentDiscountContainer";
 import { Tab, TabPane } from "semantic-ui-react";
 import LanzamientosComponent from "../../components/lanzamiento/LanzamientosComponent";
 import AvisosComponent from "../../components/avisos/AvisosComponent";
@@ -41,14 +40,6 @@ function BrandSale(props) {
                 render: () => (
                   <TabPane>
                     <BrandSaleContainer />
-                  </TabPane>
-                ),
-              },
-              {
-                menuItem: "Descuentos por medio de pago",
-                render: () => (
-                  <TabPane>
-                    <BrandPaymentDiscountContainer />
                   </TabPane>
                 ),
               },

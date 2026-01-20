@@ -39,6 +39,7 @@ import AddOtherUser from './views/addOtherUser/AddUser';
 import notifSound from './assets/notif/ding-126626.mp3';
 import SearchUsers from './views/searchUsers/SearchUsers';
 import BrandSale from './views/brandSale/BrandSale';
+import PaymentDiscountView from './views/paymentDiscount/PaymentDiscountView';
 import BloquedModal from './components/bloquedModal/BloquedModal';
 import ChangePass from './components/changePass/ChangePass';
 import SellPending from './views/sellPending/SellPending';
@@ -371,6 +372,14 @@ function App() {
                       element={
                         <ProtectedView listAccesss={[1, 2, 5]}>
                           <SellReport />
+                        </ProtectedView>
+                      }
+                    />
+                    <Route
+                      path="sales/payment-discounts"
+                      element={
+                        <ProtectedView listAccesss={[1, 2]}>
+                          <PaymentDiscountView />
                         </ProtectedView>
                       }
                     />

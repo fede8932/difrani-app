@@ -55,6 +55,7 @@ import filterPendingReducers from './filtersPending'
 import pendingReducers from './pending'
 import billsProductsReducers from './bilssByProducts'
 import brandPaymentDiscountReducer from './brandPaymentDiscount'
+import paymentDiscountReducer from './paymentDiscount'
 
 const store = configureStore({
   middleware: (getDefaultMiddleware) =>
@@ -115,6 +116,7 @@ const store = configureStore({
     pendings: pendingReducers,
     billsByProducts: billsProductsReducers,
     brandPaymentDiscount: brandPaymentDiscountReducer,
+    paymentDiscount: paymentDiscountReducer,
   },
 });
 
