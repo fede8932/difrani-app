@@ -207,6 +207,7 @@ function NewMovimientContainer(props) {
     let applyDiscount = false;
     let finalDiscountAmount = 0;
 
+    
     if (details.length > 0) {
       const discountHtml = `
         <div style="text-align: left; margin: 20px 0;">
@@ -253,45 +254,100 @@ function NewMovimientContainer(props) {
       });
 
       if (firstResult.isConfirmed) {
-        const confirmationHtml = `
-          <div style="text-align: left; margin: 20px 0;">
-            <p style="margin-bottom: 15px;">Se va a registrar el siguiente pago:</p>
-            <table style="width: 100%; border-collapse: collapse; margin-bottom: 15px;">
-              <tr>
-                <td style="padding: 8px; font-weight: bold; border: 1px solid #ddd;">Monto total del pago:</td>
-                <td style="padding: 8px; text-align: right; border: 1px solid #ddd;">$${totalPay.toFixed(2)}</td>
-              </tr>
-              <tr style="background-color: #d4edda;">
-                <td style="padding: 8px; font-weight: bold; border: 1px solid #ddd;">Descuento aplicado:</td>
-                <td style="padding: 8px; text-align: right; border: 1px solid #ddd; color: #155724;">-$${totalDiscount.toFixed(2)}</td>
-              </tr>
-              <tr style="background-color: #f0f8ff;">
-                <td style="padding: 8px; font-weight: bold; border: 1px solid #ddd;">Total a descontar de deuda:</td>
-                <td style="padding: 8px; text-align: right; border: 1px solid #ddd; font-size: 18px;">$${(totalPay + totalDiscount).toFixed(2)}</td>
-              </tr>
-            </table>
-            <p style="font-weight: bold; color: #856404; background-color: #fff3cd; padding: 10px; border-radius: 5px;">¿Confirmás el registro del pago con estos descuentos?</p>
-          </div>
-        `;
-
-        const secondResult = await Swal.fire({
-          title: 'Confirmación final',
-          html: confirmationHtml,
-          icon: 'warning',
-          showCancelButton: true,
-          confirmButtonText: 'Sí, confirmar pago',
-          cancelButtonText: 'Cancelar',
-          confirmButtonColor: '#007bff',
-          cancelButtonColor: '#dc3545',
-          width: '600px',
-        });
-
-        if (secondResult.isConfirmed) {
-          applyDiscount = true;
-          finalDiscountAmount = totalDiscount;
+        const totalACancelar = totalPay + totalDiscount;
+        
+        // Validar que el total a cancelar no exceda el saldo máximo
+        if (totalACancelar > saldoPend) {
+          const pagoMaximoPermitido = saldoPend / (1 + (totalDiscount / totalPay));
+          const resultado = await Swal.fire({
+            icon: 'warning',
+            title: 'El descuento excede el saldo máximo',
+            html: `
+              <div style="text-align: left;">
+                <p><strong>Saldo máximo a cancelar:</strong> $${saldoPend.toFixed(2)}</p>
+                <p><strong>Monto del pago ingresado:</strong> $${totalPay.toFixed(2)}</p>
+                <p><strong>Descuento a aplicar:</strong> $${totalDiscount.toFixed(2)}</p>
+                <p><strong>Total a cancelar:</strong> $${totalACancelar.toFixed(2)}</p>
+                <hr>
+                <p style="color: #dc3545; font-weight: bold;">El total a cancelar excede el saldo máximo disponible.</p>
+                <p style="margin-top: 15px;">Tenés dos opciones:</p>
+                <div style="background-color: #e7f3ff; padding: 10px; border-radius: 5px; margin: 10px 0;">
+                  <p style="margin: 5px 0;"><strong>Opción 1:</strong> Pagar el monto ajustado con descuento</p>
+                  <p style="margin: 5px 0;">Monto a pagar: <strong style="background-color: #fff; padding: 4px 8px; border-radius: 4px; cursor: pointer; user-select: all;" onclick="this.select(); navigator.clipboard.writeText('${pagoMaximoPermitido.toFixed(2)}');">$${pagoMaximoPermitido.toFixed(2)}</strong></p>
+                  <p style="font-size: 11px; color: #6c757d; margin: 5px 0;">💡 Clic para copiar</p>
+                </div>
+                <div style="background-color: #fff3cd; padding: 10px; border-radius: 5px; margin: 10px 0;">
+                  <p style="margin: 5px 0;"><strong>Opción 2:</strong> Continuar sin descuentos</p>
+                  <p style="margin: 5px 0;">Pagás el monto completo ($${totalPay.toFixed(2)}) sin aplicar descuentos</p>
+                </div>
+              </div>
+            `,
+            showCancelButton: true,
+            showDenyButton: true,
+            confirmButtonText: 'Continuar sin descuentos',
+            denyButtonText: 'Volver a ajustar el monto',
+            cancelButtonText: 'Cancelar',
+            confirmButtonColor: '#ffc107',
+            denyButtonColor: '#007bff',
+            cancelButtonColor: '#6c757d',
+            width: '650px',
+          });
+          
+          if (resultado.isConfirmed) {
+            // Continuar sin descuentos
+            applyDiscount = false;
+            finalDiscountAmount = 0;
+          } else {
+            // Cancelar o volver
+            setInactive(false);
+            return;
+          }
         } else {
-          setInactive(false);
-          return;
+          // Si no excede, mostrar confirmación normal
+          const confirmationHtml = `
+            <div style="text-align: left; margin: 20px 0;">
+              <p style="margin-bottom: 15px;">Se va a registrar el siguiente pago:</p>
+              <table style="width: 100%; border-collapse: collapse; margin-bottom: 15px;">
+                <tr>
+                  <td style="padding: 8px; border: 1px solid #ddd;">Saldo máximo a cancelar:</td>
+                  <td style="padding: 8px; text-align: right; border: 1px solid #ddd;">$${saldoPend.toFixed(2)}</td>
+                </tr>
+                <tr>
+                  <td style="padding: 8px; font-weight: bold; border: 1px solid #ddd;">Monto del pago:</td>
+                  <td style="padding: 8px; text-align: right; border: 1px solid #ddd;">$${totalPay.toFixed(2)}</td>
+                </tr>
+                <tr style="background-color: #d4edda;">
+                  <td style="padding: 8px; font-weight: bold; border: 1px solid #ddd;">Descuento aplicado (NC):</td>
+                  <td style="padding: 8px; text-align: right; border: 1px solid #ddd; color: #155724;">+$${totalDiscount.toFixed(2)}</td>
+                </tr>
+                <tr style="background-color: #f0f8ff;">
+                  <td style="padding: 8px; font-weight: bold; border: 1px solid #ddd;">Total a descontar de deuda:</td>
+                  <td style="padding: 8px; text-align: right; border: 1px solid #ddd; font-size: 18px; font-weight: bold;">$${totalACancelar.toFixed(2)}</td>
+                </tr>
+              </table>
+              <p style="font-weight: bold; color: #856404; background-color: #fff3cd; padding: 10px; border-radius: 5px;">¿Confirmás el registro del pago con estos descuentos?</p>
+            </div>
+          `;
+
+          const secondResult = await Swal.fire({
+            title: 'Confirmación final',
+            html: confirmationHtml,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Sí, confirmar pago',
+            cancelButtonText: 'Cancelar',
+            confirmButtonColor: '#007bff',
+            cancelButtonColor: '#dc3545',
+            width: '600px',
+          });
+
+          if (secondResult.isConfirmed) {
+            applyDiscount = true;
+            finalDiscountAmount = totalDiscount;
+          } else {
+            setInactive(false);
+            return;
+          }
         }
       }
     }
