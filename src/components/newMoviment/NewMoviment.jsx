@@ -283,7 +283,6 @@ function NewMoviment(props) {
                   marcToggle={marcToggle}
                   result={listNcNoApply.data}
                   type="noApply"
-                  checked={checked}
                   omitPaginator={true}
                 />
               </div>
