@@ -84,22 +84,28 @@ const CustomActionComp = ({ data }) => {
     const { billType, numComprobante, id } = bill;
 
     let nuevaVentana;
-    //FACTURA A
+    // FACTURA A/B
     if (billType == 1 || billType == 6) {
       const billData = await getBillDataRequest(
         numComprobante,
         billType,
         data.ptoVta
       );
+      console.log("[PRINT] billData raw:", billData);
       numRemito = billData.billData.ResultGet.CbteDesde;
       billRemDate.type = "f";
       billRemDate.date = billDateTostringDate(
         billData.billData.ResultGet.CbteFch
       );
       const billInfo = await getBillByIdRequest(id);
+      console.log("[PRINT] billInfo detail:", billInfo);
       const { fItems } = billInfo;
       purchaseOrder = billInfo.purchaseOrder;
+      console.log("[PRINT] fItems:", fItems);
+      console.log("[PRINT] purchaseOrder:", purchaseOrder);
       const codigoQR = await QRCode.toDataURL(billData.url);
+      console.log("[PRINT] QR url:", billData.url);
+      console.log("[PRINT] QR dataURI (length):", codigoQR?.length);
 
       const factItems = fItems;
       const itemsPerPage = 10; // Número de ítems por página
@@ -110,6 +116,7 @@ const CustomActionComp = ({ data }) => {
       for (let i = 0; i < factItems.length; i += itemsPerPage) {
         const pageNumber = Math.floor(i / itemsPerPage) + 1;
         const pageItems = factItems.slice(i, i + itemsPerPage);
+        console.log("[PRINT] page", pageNumber, "of", totalPages, "items:", pageItems);
 
         const render = await billHtml(
           billData.billData.ResultGet,
