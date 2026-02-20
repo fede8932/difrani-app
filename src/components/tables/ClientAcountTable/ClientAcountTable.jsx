@@ -101,13 +101,15 @@ const CustomActionComp = ({ data }) => {
       console.log("[PRINT] billInfo detail:", billInfo);
       const { fItems } = billInfo;
       purchaseOrder = billInfo.purchaseOrder;
+      // Fallback: si fItems viene vacío, usar los items de la orden de compra
+      const factItems = fItems?.length ? fItems : purchaseOrder?.purchaseOrderItems || [];
       console.log("[PRINT] fItems:", fItems);
       console.log("[PRINT] purchaseOrder:", purchaseOrder);
+      console.log("[PRINT] factItems (fallback applied):", factItems);
       const codigoQR = await QRCode.toDataURL(billData.url);
       console.log("[PRINT] QR url:", billData.url);
       console.log("[PRINT] QR dataURI (length):", codigoQR?.length);
 
-      const factItems = fItems;
       const itemsPerPage = 10; // Número de ítems por página
       const totalPages = Math.ceil(factItems.length / itemsPerPage);
       nuevaVentana = window.open("", "", "width=900,height=1250");
