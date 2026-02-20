@@ -594,7 +594,12 @@ export const getBillDataRequest = async (cbte, billType, ptoVta) => {
       },
       { withCredentials: true }
     );
-    return convertToUpperCase(data);
+
+    // La API devuelve un string con JSON; no usar convertToUpperCase para no romper las claves
+    if (typeof data === 'string') {
+      return JSON.parse(data);
+    }
+    return data;
   } catch (error) {
     if (error.response?.status == 401) {
       window.location.href = '/';
