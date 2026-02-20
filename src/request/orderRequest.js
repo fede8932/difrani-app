@@ -627,8 +627,11 @@ export const printNCByNumRequest = async (ncNum, currentAcountId, ptoVta) => {
     let url = `${apiUrl}/api/movement/nc/data/num/${ncNum}/${currentAcountId}`;
     url = ptoVta ? `${url}?ptoVta=${ptoVta}` : url;
     const { data } = await axios.get(url, { withCredentials: true });
-    // console.log("verdata", data);
-    return convertToUpperCase(data);
+    // La API devuelve un string con JSON; no usar convertToUpperCase para no romper las claves
+    if (typeof data === 'string') {
+      return JSON.parse(data);
+    }
+    return data;
   } catch (error) {
     if (error.response?.status == 401) {
       window.location.href = '/';
