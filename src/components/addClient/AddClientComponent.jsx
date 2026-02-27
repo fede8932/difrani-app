@@ -107,6 +107,8 @@ function AddClientComponent(props) {
                   display: "flex",
                   width: "100%",
                   justifyContent: "space-between",
+                  gap: "12px",
+                  flexWrap: "wrap",
                 }}
               >
                 <CustomInput
@@ -133,6 +135,23 @@ function AddClientComponent(props) {
                     },*/
                   }}
                 />
+                <CustomInput
+                  name="telefonoAlternativo"
+                  type="text"
+                  width="extraSmall"
+                  placeholder="Teléfono alternativo"
+                  icon="fa-solid fa-phone"
+                  validate={{ required: false }}
+                />
+              </div>
+              <div
+                style={{
+                  display: "flex",
+                  width: "100%",
+                  justifyContent: "flex-start",
+                  marginTop: "10px",
+                }}
+              >
                 <CustomInput
                   name="coordenadas"
                   type="text"

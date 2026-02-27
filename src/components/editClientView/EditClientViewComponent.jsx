@@ -168,6 +168,29 @@ function EditClientViewComponent(props) {
                   />
                 </div>
               </div>
+              <div
+                style={{
+                  display: "flex",
+                  width: "100%",
+                  justifyContent: "space-between",
+                }}
+              >
+                <div style={{ width: "50%", padding: "0px 0px 0px 5px" }}>
+                  <span className={styles.inputLabel}>Teléfono alternativo</span>
+                  <CustomInput
+                    readOnly={readOnly}
+                    name="telefonoAlternativo"
+                    type="text"
+                    width="complete"
+                    placeholder="Teléfono alternativo"
+                    icon="fa-solid fa-phone"
+                    validate={{
+                      required: false,
+                    }}
+                    value={client?.telefonoAlternativo}
+                  />
+                </div>
+              </div>
               <div style={{ display: "flex", width: "100%" }}>
                 <div style={{ width: "50%", padding: "0px 0px 0px 5px" }}>
                   <span className={styles.inputLabel}>Localidad</span>

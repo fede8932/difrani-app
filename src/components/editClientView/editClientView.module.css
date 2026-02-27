@@ -1,11 +1,12 @@
 .editContainer {
-  height: 550px;
-  padding: 0px 15px;
+  min-height: 640px;
+  padding: 0px 20px;
 }
 .formContainer {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  gap: 16px;
 }
 .dataContainer {
   display: flex;
@@ -21,17 +22,16 @@
 }
 .inputContainer {
   display: flex;
-  justify-content: space-around;
-  height: 450px;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 18px;
   margin-bottom: 15px;
 }
 .leftInputContainer {
-  width: 49%;
-  height: 99%;
+  width: 50%;
 }
 .rigthInputContainer {
-  width: 45%;
-  height: 99%;
+  width: 48%;
 }
 .buttonContainer {
   width: 100%;
