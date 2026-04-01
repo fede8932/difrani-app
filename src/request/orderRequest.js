@@ -695,6 +695,20 @@ export const printNCPresByNumRequest = async (compNum) => {
     throw error;
   }
 };
+export const getNCNumsByOrderRequest = async (purchaseOrderId) => {
+  try {
+    const { data } = await axios.get(
+      `${apiUrl}/api/movement/nc/nums/${purchaseOrderId}`,
+      { withCredentials: true }
+    );
+    return data;
+  } catch (error) {
+    if (error.response?.status == 401) {
+      window.location.href = '/';
+    }
+    throw error;
+  }
+};
 export const getReport = async (sendData) => {
   try {
     let url = `${apiUrl}/api/purchase/order/report/getlist`;

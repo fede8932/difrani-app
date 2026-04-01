@@ -15,7 +15,7 @@ import {
 import { useNavigate } from "react-router";
 import { factItemToggleRequest, marcAllOficial } from "../redux/addOrderItems";
 import Swal from "sweetalert2";
-import { printBillRequest, printPresRequest } from "../request/orderRequest";
+import { printBillRequest, printPresRequest, getNCNumsByOrderRequest, printNCByNumRequest, printNCPresByNumRequest } from "../request/orderRequest";
 import { billHtml } from "../templates/bill.js";
 import QRCode from "qrcode";
 import { presupHtml } from "../templates/presupBlase.js";
@@ -23,6 +23,8 @@ import { remitHtml } from "../templates/RemBlase.js";
 import logoAfip from "../assets/afip/logo-vector-afip.jpg";
 import logoBlase from "../assets/logo/logoBlase.png";
 import { billRHtml } from "../templates/billRProvis.js";
+import { ncAHtml } from "../templates/ncA.js";
+import { ncPresupHtml } from "../templates/ncPresupBlase.js";
 
 function NewBillContainer(props) {
   const { closeModal /*, listOrder*/ } = props;
@@ -195,6 +197,40 @@ function NewBillContainer(props) {
       nuevaVentana.close();
     });
     nuevaVentana.print();
+
+    // Imprimir NC si existen (generadas por descuentos)
+    const ncNums = await getNCNumsByOrderRequest(order.id);
+    if (ncNums && ncNums.length > 0) {
+      const logoBlaseBase64NC = await convertImageToBase64(logoBlase);
+      const ventanaNC = window.open('', '', 'width=900,height=1250');
+      for (const nc of ncNums) {
+        const billTypeNC = nc.billType ?? nc.BILLTYPE ?? nc.BillType;
+        const numComp = nc.numComprobante ?? nc.NUMCOMPROBANTE ?? nc.NumComprobante;
+        const currentAcountId = nc.currentAcountId ?? nc.CURRENTACOUNTID ?? nc.CurrentAcountId;
+        // NC oficial (NCA=1, NCB=8, NCC=3)
+        if (billTypeNC === 1 || billTypeNC === 8 || billTypeNC === 3) {
+          const ncData = await printNCByNumRequest(numComp, currentAcountId);
+          const codigoQR = await QRCode.toDataURL(ncData.url);
+          const render = ncAHtml(ncData.billData.ResultGet, order.client, codigoQR, [], 1, 1, "Descuentos varios");
+          const container = ventanaNC.document.createElement('div');
+          ventanaNC.document.body.appendChild(container);
+          container.innerHTML = render;
+          ventanaNC.document.body.appendChild(ventanaNC.document.createElement('div')).style.pageBreakBefore = 'always';
+        }
+        // NC presupuesto (NCP=2)
+        if (billTypeNC === 2) {
+          const presData = await printNCPresByNumRequest(numComp);
+          const render = ncPresupHtml(presData, presData.currentAcount?.client, [], 1, 1, logoBlaseBase64NC, "Descuentos varios");
+          const container = ventanaNC.document.createElement('div');
+          ventanaNC.document.body.appendChild(container);
+          container.innerHTML = render;
+          ventanaNC.document.body.appendChild(ventanaNC.document.createElement('div')).style.pageBreakBefore = 'always';
+        }
+      }
+      await waitForImagesToLoad(ventanaNC);
+      ventanaNC.addEventListener('afterprint', () => ventanaNC.close());
+      ventanaNC.print();
+    }
   };
   const newBill = () => {
     const facturaType = client.iva == "Monotributista" ? "A" : "A";
