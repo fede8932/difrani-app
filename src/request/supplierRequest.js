@@ -37,9 +37,11 @@ export const getSuppliers = async () => {
       withCredentials: true,
     });
     const upperData = convertToUpperCase(data);
-    const arraySupplier = upperData.map((supplier) => {
-      return { text: supplier.razonSocial, value: supplier.id };
-    });
+    const arraySupplier = upperData
+      .filter((supplier) => supplier.user?.status === true)
+      .map((supplier) => {
+        return { text: supplier.razonSocial, value: supplier.id };
+      });
     return arraySupplier;
   } catch (error) {
     if (error.response?.status == 401) {
@@ -54,7 +56,8 @@ export const getSuppliersInfo = async () => {
     const { data } = await axios.get(`${apiUrl}/api/supplier`, {
       withCredentials: true,
     });
-    return convertToUpperCase(data);
+    const upperData = convertToUpperCase(data);
+    return upperData.filter((supplier) => supplier.user?.status === true);
   } catch (error) {
     if (error.response?.status == 401) {
       window.location.href = '/';

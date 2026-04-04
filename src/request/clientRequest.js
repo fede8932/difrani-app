@@ -27,14 +27,16 @@ export const getClients = async (idReq) => {
       withCredentials: true,
     });
     const upperData = convertToUpperCase(data);
-    const arrayClients = upperData.map((client) => {
-      return {
-        label: client.razonSocial,
-        text: client.razonSocial,
-        value: idReq ? client.id : client.razonSocial,
-        id: client.id,
-      };
-    });
+    const arrayClients = upperData
+      .filter((client) => client.user?.status === true)
+      .map((client) => {
+        return {
+          label: client.razonSocial,
+          text: client.razonSocial,
+          value: idReq ? client.id : client.razonSocial,
+          id: client.id,
+        };
+      });
     arrayClients.sort((a, b) => {
       if (a.text < b.text) {
         return -1;
@@ -58,7 +60,8 @@ export const getAllClients = async () => {
     const { data } = await axios.get(`${apiUrl}/api/client?ext=true`, {
       withCredentials: true,
     });
-    return convertToUpperCase(data);
+    const upperData = convertToUpperCase(data);
+    return upperData.filter((client) => client.user?.status === true);
   } catch (error) {
     if (error.response?.status == 401) {
       window.location.href = "/";

@@ -3,11 +3,11 @@ import styles from './confirmSellOrder.module.css';
 import { FormProvider } from 'react-hook-form';
 import CustomSelect from '../../commonds/select/CustomSelect';
 import CustomInput from '../../commonds/input/CustomInput';
-import { Button } from 'react-bootstrap';
+import { Button, Spinner } from 'react-bootstrap';
 import { dateConverter } from '../../utils';
 
 function ConfirmSellOrder(props) {
-  const { methods, order, onSubmit } = props;
+  const { methods, order, onSubmit, isLoading } = props;
   const [viewNoFac, setViewNoFac] = useState(false);
   return (
     <div className={styles.facContainer}>
@@ -63,6 +63,7 @@ function ConfirmSellOrder(props) {
                       ]}
                       validate={{ required: true }}
                       extraFn={setViewNoFac}
+                      disabled={isLoading}
                     />
                   </div>
                   {viewNoFac ? (
@@ -84,6 +85,7 @@ function ConfirmSellOrder(props) {
                               'Debes ingresar un número entero o decimal con . (punto)',
                           },
                         }}
+                        disabled={isLoading}
                       />
                     </div>
                   ) : null}
@@ -105,6 +107,7 @@ function ConfirmSellOrder(props) {
                             'Debes ingresar un número entero o decimal con . (punto)',
                         },
                       }}
+                      disabled={isLoading}
                     />
                   </>
                 ) : null}
@@ -124,6 +127,7 @@ function ConfirmSellOrder(props) {
                           'Debes ingresar un número entero o decimal con . (punto)',
                       },
                     }}
+                    disabled={isLoading}
                   />
                 </>
               </div>
@@ -132,15 +136,33 @@ function ConfirmSellOrder(props) {
               <div className={styles.buttonSubContainer}>
                 <Button
                   onClick={methods.handleSubmit(onSubmit)}
+                  disabled={isLoading}
                   style={{
                     backgroundColor: '#673ab7',
                     border: '1px solid #673ab7',
                     height: '35px',
                     width: '100px',
                     marginLeft: '10px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '8px',
                   }}
                 >
-                  Confirmar
+                  {isLoading ? (
+                    <>
+                      <Spinner
+                        as="span"
+                        animation="border"
+                        size="sm"
+                        role="status"
+                        aria-hidden="true"
+                      />
+                      <span>Procesando...</span>
+                    </>
+                  ) : (
+                    'Confirmar'
+                  )}
                 </Button>
               </div>
             </div>

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import ConfirmSellOrder from '../components/confirmSellOrder/ConfirmSellOrder';
 import { useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
@@ -12,6 +12,7 @@ function ConfirmSellOrderContainer(props) {
   const dispatch = useDispatch();
   const methods = useForm();
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
 
   const confirmOrder = (data) => {
     const totalFacturado = data.code == 'P' ? 0 : Number(data.subtotal);
@@ -26,6 +27,7 @@ function ConfirmSellOrderContainer(props) {
       });
     } else {
       if (totalFacturado > 0) {
+        setIsLoading(true);
         let sendData = {
           type: 'Factura',
           numero_factura: facturaNumber,
@@ -45,15 +47,19 @@ function ConfirmSellOrderContainer(props) {
         };
         dispatch(confirmSellOrderWBillRequest(sendData)).then((res) => {
           console.log(res);
+          setIsLoading(false);
           closeModal();
           navigate('/picking/orden');
+        }).catch((err) => {
+          setIsLoading(false);
+          console.error(err);
         });
       }
     }
   };
 
   return (
-    <ConfirmSellOrder methods={methods} {...rest} onSubmit={confirmOrder} />
+    <ConfirmSellOrder methods={methods} {...rest} onSubmit={confirmOrder} isLoading={isLoading} />
   );
 }
 

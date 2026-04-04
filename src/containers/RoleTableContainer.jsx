@@ -50,11 +50,26 @@ function RoleTableContainer(props) {
       if (result.isConfirmed) {
         switch (type) {
           case 'seller':
-            dispatch(UpdateStatusSellerRequest(id)).then(() => {
+            dispatch(UpdateStatusSellerRequest(id)).then((res) => {
+              if (res?.error) {
+                Swal.fire(
+                  'Error!',
+                  res.error.message || 'No se pudo cambiar el estado del vendedor',
+                  'error'
+                );
+              } else {
+                Swal.fire(
+                  'Actualizado!',
+                  'Has cambiado el estado exitosamente',
+                  'success'
+                );
+              }
+            }).catch((err) => {
+              const errorMessage = err?.message || 'Ocurrió un error al cambiar el estado';
               Swal.fire(
-                'Actualizado!',
-                'Has cambiado el estado exitosamente',
-                'success'
+                'Error!',
+                errorMessage,
+                'error'
               );
             });
             break;
