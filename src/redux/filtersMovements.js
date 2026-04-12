@@ -6,6 +6,7 @@ const initialState = {
   notasCredito: true,
   devoluciones: true,
   descuentos: true,
+  notasDebito: true,
   pageSize: 50,
   pending: true,
   page: 1,
@@ -27,6 +28,7 @@ const filterMovementsSlice = createSlice({
       state.notasCredito = true;
       state.devoluciones = true;
       state.descuentos = true;
+      state.notasDebito = true;
       state.pageSize = 50;
       state.pending = true;
       state.page = 1;

@@ -5,6 +5,7 @@ import CustomModal from '../../commonds/customModal/CustomModal';
 import NewMovimientContainer from '../../containers/NewMovimentContainer';
 import CustomMenu from '../customMenu/CustomMenu';
 import NewNCContainer from '../../containers/NewNCContainer';
+import NewDebitNoteContainer from '../../containers/NewDebitNoteContainer';
 import { newPayButtonActive, numberToString } from '../../utils';
 import ProtectedComponent from '../../protected/protectedComponent/ProtectedComponent';
 import { Spinner } from 'react-bootstrap';
@@ -239,6 +240,16 @@ function SearchCurrentAcount(props) {
                   type: 'nc',
                 }}
               />
+              <CustomModal
+                title={`Crear nota de débito`}
+                size="lg"
+                actionButton={<Button style={{ backgroundColor: '#dc3545', borderColor: '#dc3545', color: 'white' }}>Nueva nota de débito</Button>}
+                bodyModal={(props) => <NewDebitNoteContainer {...props} />}
+                bodyProps={{
+                  currentAcountId: currentAcount?.id,
+                  acountState: acountState,
+                }}
+              />
               <div>
                 <CustomMenu>
                   <div className={styles.radCont}>
@@ -312,6 +323,21 @@ function SearchCurrentAcount(props) {
                             setFilterMovements({
                               name: 'descuentos',
                               value: !filterMovements.descuentos,
+                            })
+                          );
+                        }}
+                      />
+                    </div>
+                    <div className={styles.labTogCont}>
+                      <label>Notas de débito</label>
+                      <Radio
+                        toggle
+                        defaultChecked={filterMovements.notasDebito}
+                        onChange={() => {
+                          dispatch(
+                            setFilterMovements({
+                              name: 'notasDebito',
+                              value: !filterMovements.notasDebito,
                             })
                           );
                         }}
