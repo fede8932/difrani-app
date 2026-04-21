@@ -23,7 +23,7 @@ export const clientRegister = async (datos) => {
 
 export const getClients = async (idReq) => {
   try {
-    const { data } = await axios.get(`${apiUrl}/api/client`, {
+    const { data } = await axios.get(`${apiUrl}/api/client?ext=true`, {
       withCredentials: true,
     });
     const upperData = convertToUpperCase(data);

@@ -77,8 +77,8 @@ function FormSelectClientSellOrder(props) {
                 width: 300,
               }}
               onSelect={onSelect}
-              // onSearch={(text) => setAnotherOptions(getPanelValue(text))}
               onChange={onChange}
+              filterOption={false}
               placeholder="Seleccionar cliente"
             />
             <div>
