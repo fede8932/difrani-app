@@ -38,7 +38,7 @@ export const getSuppliers = async () => {
     });
     const upperData = convertToUpperCase(data);
     const arraySupplier = upperData
-      .filter((supplier) => supplier.user?.status === true)
+      .filter((supplier) => supplier.status === true)
       .map((supplier) => {
         return { text: supplier.razonSocial, value: supplier.id };
       });
@@ -57,7 +57,7 @@ export const getSuppliersInfo = async () => {
       withCredentials: true,
     });
     const upperData = convertToUpperCase(data);
-    return upperData.filter((supplier) => supplier.user?.status === true);
+    return upperData.filter((supplier) => supplier.status === true);
   } catch (error) {
     if (error.response?.status == 401) {
       window.location.href = '/';
