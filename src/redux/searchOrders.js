@@ -200,6 +200,17 @@ const orderListSlice = createSlice({
       state.loading = false;
       state.error = '';
     },
+    [confirmSellOrderFullRequest.pending]: (state, action) => {
+      state.loading = true;
+    },
+    [confirmSellOrderFullRequest.rejected]: (state, action) => {
+      state.loading = false;
+      state.error = action.error.message;
+    },
+    [confirmSellOrderFullRequest.fulfilled]: (state, action) => {
+      state.loading = false;
+      state.error = '';
+    },
     [confirmSellOrderWBillRequest.pending]: (state, action) => {
       state.loading = true;
     },
