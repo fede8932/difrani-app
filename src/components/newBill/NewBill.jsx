@@ -22,6 +22,9 @@ function NewBill(props) {
     f50p50,
     setF50p50,
     facturarTotal,
+    ptoVentaOptions,
+    selectedConfigKey,
+    setSelectedConfigKey,
   } = props;
   return (
     <div className={styles.facContainer}>
@@ -65,11 +68,26 @@ function NewBill(props) {
         </div>
       </div>
       <div style={{ margin: "5px 0px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-        <Checkbox
-          label="Facturar 50/50"
-          checked={f50p50}
-          onChange={() => setF50p50(!f50p50)}
-        />
+        <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+          <Checkbox
+            label="Facturar 50/50"
+            checked={f50p50}
+            onChange={() => setF50p50(!f50p50)}
+          />
+          {ptoVentaOptions.length > 0 && (
+            <select
+              value={selectedConfigKey}
+              onChange={(e) => setSelectedConfigKey(e.target.value)}
+              style={{ padding: "4px 8px", borderRadius: "4px", border: "1px solid #ccc" }}
+            >
+              {ptoVentaOptions.map((opt) => (
+                <option key={opt.key} value={opt.key}>
+                  {opt.detail} (Pto. Vta. {opt.salesPoint})
+                </option>
+              ))}
+            </select>
+          )}
+        </div>
         <div>
           <Button type="button" onClick={() => facturarTotal()}>Facturar total</Button>
         </div>

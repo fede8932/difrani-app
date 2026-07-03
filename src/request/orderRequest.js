@@ -916,3 +916,18 @@ export const allFactMarcReq = async (id) => {
     throw error;
   }
 };
+
+export const getPtoVentaOptions = async () => {
+  try {
+    const { data } = await axios.get(
+      `${apiUrl}/api/movement/pto-venta`,
+      { withCredentials: true }
+    );
+    return data;
+  } catch (error) {
+    if (error.response?.status == 401) {
+      window.location.href = '/';
+    }
+    throw error;
+  }
+};

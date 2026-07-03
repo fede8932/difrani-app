@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import NewBill from "../components/newBill/NewBill";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -15,7 +15,7 @@ import {
 import { useNavigate } from "react-router";
 import { factItemToggleRequest, marcAllOficial } from "../redux/addOrderItems";
 import Swal from "sweetalert2";
-import { printBillRequest, printPresRequest, getNCNumsByOrderRequest, printNCByNumRequest, printNCPresByNumRequest } from "../request/orderRequest";
+import { printBillRequest, printPresRequest, getNCNumsByOrderRequest, printNCByNumRequest, printNCPresByNumRequest, getPtoVentaOptions } from "../request/orderRequest";
 import { billHtml } from "../templates/bill.js";
 import QRCode from "qrcode";
 import { presupHtml } from "../templates/presupBlase.js";
@@ -34,6 +34,12 @@ function NewBillContainer(props) {
   const filterSellOrder = useSelector((state) => state.filterSellOrder);
 
   const [f50p50, setF50p50] = useState(false)
+  const [ptoVentaOptions, setPtoVentaOptions] = useState([])
+  const [selectedConfigKey, setSelectedConfigKey] = useState("FacturasCentralConfig")
+
+  useEffect(() => {
+    getPtoVentaOptions().then(setPtoVentaOptions).catch(() => {})
+  }, [])
 
   const listOrder = useSelector((state) => state.listOrderItems).data;
 
@@ -233,7 +239,8 @@ function NewBillContainer(props) {
     }
   };
   const newBill = () => {
-    const facturaType = client.iva == "Monotributista" ? "A" : "A";
+    const isExport = selectedConfigKey === "FacturasCentralConfigExport";
+    const facturaType = isExport ? "E" : "A";
     let sendData = {
       concepto: "Productos",
       type: "Factura",
@@ -241,7 +248,8 @@ function NewBillContainer(props) {
       tipo_de_documento: "CUIT",
       numero_de_documento: cuitTransformToNumber(client.cuit),
       purchaseOrderId: order.id,
-      f50p50: f50p50
+      f50p50: f50p50,
+      configKey: selectedConfigKey
     };
     dispatch(confirmSellOrderFullRequest(sendData)).then((res) => {
       closeModal();
@@ -279,6 +287,9 @@ function NewBillContainer(props) {
       totalNoFac={totalNoFacturado}
       loading={searchOrderLoading}
       facturarTotal={facturarTotal}
+      ptoVentaOptions={ptoVentaOptions}
+      selectedConfigKey={selectedConfigKey}
+      setSelectedConfigKey={setSelectedConfigKey}
     />
   );
 }
